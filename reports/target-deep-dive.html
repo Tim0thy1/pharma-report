@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>创新药靶点深度解析 · 2026.08 五大领域·深度评估版</title>
+<style>
+:root {
+  --bg: #f5f6fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --accent4: #7c3aed; --accent5: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+header { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 40%, #2563eb 100%); color: #fff; padding: 3.5rem 0 2.5rem; position: relative; overflow: hidden; }
+header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent3), var(--accent), var(--accent4), var(--accent5)); }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+header .subtitle { opacity: 0.85; font-size: 1rem; margin-bottom: 0.8rem; }
+header .meta { opacity: 0.7; font-size: 0.82rem; }
+header .meta span { margin-right: 1.2rem; }
+
+/* Sidebar */
+.sidebar { position: fixed; top: 0; left: 0; width: 280px; height: 100vh; z-index: 999; background: #1e293b; color: #cbd5e1; overflow-y: auto; transform: translateX(-280px); transition: transform 0.25s ease; box-shadow: 2px 0 12px rgba(0,0,0,0.15); }
+.sidebar:hover { transform: translateX(0); }
+.sidebar-header { padding: 1.2rem 1rem; background: #0f172a; border-bottom: 1px solid #334155; }
+.sidebar-header h3 { color: #fff; font-size: 0.95rem; font-weight: 700; }
+.sidebar-header p { color: #94a3b8; font-size: 0.72rem; margin-top: 0.2rem; }
+.sidebar ul { list-style: none; padding: 0.5rem 0; }
+.sidebar ul li a { display: block; padding: 0.5rem 1rem 0.5rem 1.2rem; color: #94a3b8; text-decoration: none; font-size: 0.82rem; border-left: 3px solid transparent; transition: all 0.15s; }
+.sidebar ul li a:hover { background: #334155; color: #fff; border-left-color: var(--accent); }
+.sidebar ul li a.chapter { font-weight: 700; color: #e2e8f0; padding-top: 0.7rem; }
+.sidebar ul li a.sub { padding-left: 2rem; font-size: 0.78rem; }
+.sidebar ul li a.active { background: #334155; color: #fff; border-left-color: var(--accent); }
+
+section { background: var(--bg2); border: 1px solid var(--rule); border-radius: 10px; margin: 2rem 0; padding: 2rem 2.2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+section h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+section h2 .num { display: inline-block; width: 2rem; height: 2rem; line-height: 2rem; text-align: center; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.85rem; margin-right: 0.6rem; vertical-align: middle; }
+section h3 { font-size: 1.05rem; font-weight: 700; margin: 1.5rem 0 0.6rem; color: var(--ink); border-left: 3px solid var(--accent); padding-left: 0.8rem; }
+section h4 { font-size: 0.95rem; font-weight: 700; margin: 1.2rem 0 0.4rem; color: #374151; }
+section h5 { font-size: 0.9rem; font-weight: 700; margin: 1rem 0 0.3rem; color: #4b5563; }
+section p { font-size: 0.92rem; line-height: 1.85; margin-bottom: 0.8rem; color: #374151; }
+section p strong { color: var(--ink); }
+.lead { font-size: 0.95rem; color: #4b5563; margin-bottom: 1.2rem; padding: 0.8rem 1rem; background: #f9fafb; border-radius: 6px; border-left: 3px solid var(--accent3); }
+.tag { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.7rem; border-radius: 12px; margin-bottom: 0.6rem; letter-spacing: 0.03em; }
+.tag-onc { background: #fce7f3; color: #be185d; }
+.tag-met { background: #dbeafe; color: #1d4ed8; }
+.tag-cv { background: #fef3c7; color: #b45309; }
+.tag-hem { background: #e0e7ff; color: #5b21b6; }
+.tag-gene { background: #d1fae5; color: #047857; }
+.tag-eye { background: #f3e8ff; color: #7c3aed; }
+.tag-neuro { background: #fff7ed; color: #c2410c; }
+.tag-auto { background: #fef2f2; color: #dc2626; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.info-card { background: #f9fafb; border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; }
+.info-card .label { font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+.info-card .value { font-size: 0.9rem; color: var(--ink); font-weight: 600; }
+.info-card .desc { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.6; }
+.pipeline-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+.pipeline-table th { background: #f3f4f6; padding: 0.6rem 0.8rem; text-align: left; font-weight: 700; color: var(--ink); border-bottom: 2px solid var(--rule); font-size: 0.8rem; }
+.pipeline-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--rule); color: #374151; vertical-align: top; }
+.pipeline-table tr:hover { background: #f9fafb; }
+.stage { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 10px; font-size: 0.72rem; font-weight: 700; }
+.stage-approved { background: #d1fae5; color: #047857; }
+.stage-3 { background: #dbeafe; color: #1d4ed8; }
+.stage-2 { background: #fef3c7; color: #b45309; }
+.stage-1 { background: #fce7f3; color: #be185d; }
+.stage-pre { background: #f3f4f6; color: #6b7280; }
+.stage-nda { background: #e0e7ff; color: #5b21b6; }
+.callout { border-radius: 8px; padding: 1rem 1.3rem; margin: 1rem 0; font-size: 0.88rem; }
+.callout-key { background: #eff6ff; border-left: 4px solid var(--accent); }
+.callout-warn { background: #fef2f2; border-left: 4px solid var(--accent2); }
+.callout-eval { background: #f0fdf4; border-left: 4px solid var(--accent3); }
+.callout-deep { background: #f5f3ff; border-left: 4px solid var(--accent4); }
+.callout .label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+.bd-card { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 1rem 1.2rem; margin: 0.8rem 0; }
+.bd-card .bd-title { font-size: 0.85rem; font-weight: 700; color: #166534; }
+.bd-card .bd-detail { font-size: 0.82rem; color: #374151; margin-top: 0.3rem; line-height: 1.75; }
+.bd-card .bd-amount { font-size: 1rem; font-weight: 800; color: #059669; }
+footer { text-align: center; padding: 2rem 0; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--rule); margin-top: 2rem; }
+.hamburger { display: none; position: fixed; top: 12px; left: 12px; z-index: 1000; background: #1e293b; color: #fff; border: none; border-radius: 6px; padding: 8px 12px; font-size: 1.2rem; cursor: pointer; }
+@media (max-width: 900px) { .hamburger { display: block; } .sidebar { transform: translateX(-280px); } .sidebar.open { transform: translateX(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+section { animation: fadeInUp 0.4s ease-out; }
+.table-wrap { overflow-x: auto; overflow-y: auto; max-height: 600px; }
+
+/* Chapter entry cards */
+.chapter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.chapter-card { display: block; background: var(--bg2); border: 1px solid var(--rule); border-radius: 12px; padding: 1.2rem 1rem; text-decoration: none; color: var(--ink); transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.04); position: relative; overflow: hidden; }
+.chapter-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-color: var(--accent); }
+.chapter-card .card-icon { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.4rem; }
+.chapter-card .card-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem; }
+.chapter-card .card-count { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.5rem; }
+.chapter-card .card-desc { font-size: 0.8rem; color: #4b5563; line-height: 1.5; }
+.chapter-card .card-bar { position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
+.chapter-card .card-bar-onc { background: linear-gradient(90deg, #be185d, #fce7f3); }
+.chapter-card .card-bar-met { background: linear-gradient(90deg, #1d4ed8, #dbeafe); }
+.chapter-card .card-bar-eye { background: linear-gradient(90deg, #7c3aed, #f3e8ff); }
+.chapter-card .card-bar-neuro { background: linear-gradient(90deg, #c2410c, #fff7ed); }
+.chapter-card .card-bar-auto { background: linear-gradient(90deg, #dc2626, #fef2f2); }
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header"><h3>创新药靶点深度解析</h3><p>五大领域·深度评估版·80+靶点</p></div>
+  <ul>
+    <li><a href="#tldr" class="chapter" onclick="closeSidebar()">00 核心结论</a></li>
+    <li><a href="#nav-cards" class="chapter" onclick="closeSidebar()">章节入口导航</a></li>
+    <li><a href="#ch1" class="chapter" onclick="closeSidebar()">01 肿瘤·癌症</a></li>
+    <li><a href="#adc" class="sub" onclick="closeSidebar()">ADC药物</a></li>
+    <li><a href="#kras" class="sub" onclick="closeSidebar()">KRAS抑制剂</a></li>
+    <li><a href="#bispecific" class="sub" onclick="closeSidebar()">双特异性抗体</a></li>
+    <li><a href="#cldn18" class="sub" onclick="closeSidebar()">CLDN18.2</a></li>
+    <li><a href="#cart" class="sub" onclick="closeSidebar()">CAR-T疗法</a></li>
+    <li><a href="#immune" class="sub" onclick="closeSidebar()">免疫检查点</a></li>
+    <li><a href="#ch2" class="chapter" onclick="closeSidebar()">02 慢病·代谢</a></li>
+    <li><a href="#glp1" class="sub" onclick="closeSidebar()">GLP-1减重/降糖</a></li>
+    <li><a href="#pcsk9" class="sub" onclick="closeSidebar()">PCSK9/Lp(a)</a></li>
+    <li><a href="#ch3" class="chapter" onclick="closeSidebar()">03 眼科</a></li>
+    <li><a href="#amd" class="sub" onclick="closeSidebar()">AMD/抗VEGF</a></li>
+    <li><a href="#dryeye" class="sub" onclick="closeSidebar()">干眼症/近视防控</a></li>
+    <li><a href="#ch4" class="chapter" onclick="closeSidebar()">04 阿尔兹海默</a></li>
+    <li><a href="#abeta" class="sub" onclick="closeSidebar()">Aβ抗体</a></li>
+    <li><a href="#ad2" class="sub" onclick="closeSidebar()">下一代AD疗法</a></li>
+    <li><a href="#ch5" class="chapter" onclick="closeSidebar()">05 自身免疫</a></li>
+    <li><a href="#il17" class="sub" onclick="closeSidebar()">IL-17/IL-23</a></li>
+    <li><a href="#jak" class="sub" onclick="closeSidebar()">JAK抑制剂</a></li>
+    <li><a href="#btk" class="sub" onclick="closeSidebar()">BTK入自免</a></li>
+    <li><a href="#biosimilar" class="sub" onclick="closeSidebar()">生物类似药</a></li>
+    <li><a href="#catalyst" class="chapter" onclick="closeSidebar()">06 催化剂时间线</a></li>
+    <li><a href="#sources" class="chapter" onclick="closeSidebar()">07 数据来源</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+
+<header style="margin:0 -1.5rem;padding:3.5rem 1.5rem 2.5rem;border-radius:0;">
+  <div>
+    <h1>创新药靶点深度解析 · 五大领域全谱系·深度评估版</h1>
+    <p class="subtitle">肿瘤·慢病·眼科·阿尔兹海默·自身免疫——80+靶点/管线·深度评估·临床数据·BD交易·催化剂时间线</p>
+    <div class="meta"><span>数据截至 2026.08.19</span><span>覆盖靶点/药物: 80+</span><span>更新周期: 3个月滚动</span></div>
+  </div>
+</header>
+
+<section id="tldr" style="margin-top:2rem;">
+  <h2><span class="num">T</span>核心结论</h2>
+  <div class="lead">本报告系统梳理五大治疗领域80+重要靶点/药物的管线进展、临床数据、BD交易、审批状态、深度评估意见和催化剂时间线。数据截至2026年8月19日，按3个月滚动窗口管理，FIC/BIC级突破优先更新。每个靶点包含具体临床数据、深度评估、同类比较和下一次数据读出时间。点击下方导航卡可快速跳转到感兴趣的章节。</div>
+  <ul style="padding-left:1.2rem;margin-bottom:0.5rem;">
+    <li><strong>肿瘤</strong>：ADC领域持续爆发。Enhertu DB系列确立HER2全线标准治疗，BL-B01D1全球首个双抗ADC获批，Trodelvy + Keytruda获批1L TNBC。KRAS G12D成为新热点。康方生物双抗ASCO 2026发布40+研究。中国ADC BD交易总额超400亿美元，但赛道拥挤度已引发估值泡沫担忧。</li>
+    <li><strong>慢病</strong>：GLP-1市场规模空前。替尔泊肽H1收入277亿美元(+88%)，司美格鲁肽组合~175亿美元。口服GLP-1竞赛白热化。Retatrutide三靶点80周减重28.3%可能成为best-in-class。中国GLP-1竞争惨烈，10+仿制药候场，预计价格战将大幅压缩利润空间。</li>
+    <li><strong>眼科</strong>：法瑞西单抗H1收入~24亿美元，全球眼科增长最快单品。基因治疗KH631 II期完成入组，可能改变AMD治疗范式。恒瑞SHR8028 2026.6获批打破兴齐独家格局。</li>
+    <li><strong>阿尔兹海默</strong>：Leqembi皮下剂型2026.5获批是关键放量催化剂。复星AR1001 III期2026.11 CTAD公布顶线结果是2026年AD领域最重要事件。GLP-1在AD III期失败（EVOKE/EVOKE+）提示脑穿透率瓶颈。Tau ASO/单抗有标志物下降信号但临床获益待验证。</li>
+    <li><strong>自身免疫</strong>：Skyrizi H1收入~100亿美元(+27.3%)已超越Humira峰值。IL-17A在中国4家上市，赛道拥挤。BTKi跨入自免新时代：Remibrutinib CSU已获批，Tolebrutinib nrSPMS获欧盟批准。乌司奴单抗2026.5三款国产类似药集中获批，标志中国自免生物类似药全面爆发。</li>
+  </ul>
+</section>
+
+<!-- ====== 章节入口导航 ====== -->
+<section id="nav-cards">
+  <h2><span class="num">N</span>章节入口导航</h2>
+  <p class="lead">点击下方卡片快速跳转到感兴趣的领域。每个章节包含靶点背景、管线数据、深度评估和催化剂时间线。</p>
+  <div class="chapter-grid">
+    <a href="#ch1" class="chapter-card">
+      <div class="card-bar card-bar-onc"></div>
+      <div class="card-icon">01</div>
+      <div class="card-title">肿瘤·癌症</div>
+      <div class="card-count">ADC · KRAS · 双抗 · CLDN18.2 · CAR-T · 免疫检查点</div>
+      <div class="card-desc">ADC全球爆发，Enhertu全线推进，BL-B01D1全球首个双抗ADC获批，KRAS G12D千亿赛道开启。中国双抗全球领跑。BD交易总额超400亿美元。</div>
+    </a>
+    <a href="#ch2" class="chapter-card">
+      <div class="card-bar card-bar-met"></div>
+      <div class="card-icon">02</div>
+      <div class="card-title">慢病·代谢</div>
+      <div class="card-count">GLP-1 · PCSK9 · Lp(a)</div>
+      <div class="card-desc">GLP-1市场700亿美元，替尔泊肽vs司美格鲁肽双雄争霸。口服GLP-1竞赛白热化。Retatrutide三靶点80周减重28.3%。Lp(a)千亿赛道开启。</div>
+    </a>
+    <a href="#ch3" class="chapter-card">
+      <div class="card-bar card-bar-eye"></div>
+      <div class="card-icon">03</div>
+      <div class="card-title">眼科</div>
+      <div class="card-count">AMD/抗VEGF · 干眼症 · 近视防控</div>
+      <div class="card-desc">法瑞西单抗双抗H1收入24亿美元，延长间隔至4个月。基因治疗KH631可能改变AMD治疗范式。恒瑞SHR8028无水环孢素获批。</div>
+    </a>
+    <a href="#ch4" class="chapter-card">
+      <div class="card-bar card-bar-neuro"></div>
+      <div class="card-icon">04</div>
+      <div class="card-title">阿尔兹海默</div>
+      <div class="card-count">Aβ抗体 · Tau · 下一代AD疗法</div>
+      <div class="card-desc">Leqembi皮下剂型获批放量关键。AR1001 III期2026.11 CTAD读出是今年最重要AD事件。GLP-1 in AD III期失败。Tau ASO/单抗有信号待验证。</div>
+    </a>
+    <a href="#ch5" class="chapter-card">
+      <div class="card-bar card-bar-auto"></div>
+      <div class="card-icon">05</div>
+      <div class="card-title">自身免疫</div>
+      <div class="card-count">IL-17/IL-23 · JAK · BTK · 生物类似药</div>
+      <div class="card-desc">Skyrizi H1 100亿美元超越Humira。BTKi跨入自免新时代。中国IL-17A四家上市。乌司奴单抗2026.5三款国产类似药获批。</div>
+    </a>
+  </div>
+</section>
+
+<!-- ====== 01 肿瘤 ====== -->
+<section id="ch1">
+  <h2><span class="num">01</span>肿瘤·癌症</h2>
+  <p class="lead">肿瘤是创新药研发最活跃领域。ADC、双抗、KRAS抑制剂、CAR-T四大技术方向并行发展。中国企业在ADC和双抗领域已具备全球竞争力，2026年License-out交易总额超400亿美元。2026年全球ADC市场规模预计超200亿美元。</p>
+
+  <div class="callout callout-deep">
+    <div class="label">肿瘤领域深度评估</div>
+    <strong>整体格局</strong>：肿瘤治疗正经历从"广谱化疗"到"精准靶向"再到"免疫联合"的三次范式转变。ADC和双抗是当前最确定的两大技术趋势。中国企业在ADC payload/Linker创新和双抗平台方面已具备全球竞争力，BD交易总额超400亿美元反映了MNC对中国创新能力的认可。<br><br>
+    <strong>技术路线比较</strong>：ADC在实体瘤中优势明显（已获批>10款），双抗在血液瘤和实体瘤均有突破（T-cell engager和免疫检查点双抗），CAR-T在血液瘤中疗效最佳但实体瘤受限（TME抑制/抗原异质性），KRAS抑制剂打开了"不可成药"靶点的大门但单药疗效有限需联合方案。<br><br>
+    <strong>竞争格局评估</strong>：ADC赛道正从"蓝海"转向"红海"。HER2 ADC已有5款以上在研，CLDN18.2 ADC全球超50条管线，Trop-2 ADC三强争霸。未来2年大量ADC III期数据读出将导致剧烈分化——只有差异化设计（新靶点/新payload/双抗ADC）或拥有全球临床能力的公司才能胜出。中国ADC领域的"Me Too"泡沫风险值得警惕。<br><br>
+    <strong>BD估值评估</strong>：2026年中国ADC BD交易总额超400亿美元，但大部分为里程碑付款，首付比例仅10-15%。高额总价背后是MNC的"期权价值"思维（以小首付锁定未来选择权）。真正能兑现的BD价值取决于后续临床数据。百利天恒-BMS 84亿美元交易中首付8亿美元（~10%），荣昌-艾伯维56亿美元中首付6.5亿美元（~12%），比例合理但后续里程碑兑现风险需关注。
+  </div>
+
+  <h3 id="adc">1.1 ADC药物——生物导弹，2025-2026最确定技术趋势</h3>
+  <span class="tag tag-onc">肿瘤·ADC</span>
+  <p>ADC由抗体+连接子+毒素三部分组成。2026年迎来多个里程碑：Enhertu在乳腺癌各线全线推进，BL-B01D1成为全球首个获批的双抗ADC，Trodelvy获批1L TNBC覆盖所有PD-L1状态。中国企业ADC BD交易总额超400亿美元。</p>
+
+  <div class="callout callout-key">
+    <div class="label">2026年ADC关键里程碑</div>
+    <strong>2026.8.12</strong> Enhertu+帕妥珠单抗在华获批HER2+乳腺癌一线（DB-09 PFS超3年，HR=0.56）<br>
+    <strong>2026.8.17</strong> DESTINY-Lung04：Enhertu在HER2m NSCLC一线对比化疗PFS阳性<br>
+    <strong>2026.7</strong> 荣昌RC148授权艾伯维56亿美元（首付6.5亿美元）<br>
+    <strong>2026.6</strong> BL-B01D1 NMPA批准鼻咽癌（全球首个双抗ADC获批）；Iza-bren NMPA批准食管鳞癌<br>
+    <strong>2026.6</strong> Trodelvy FDA批准1L mTNBC（单药+联合Keytruda）<br>
+    <strong>2026.6</strong> 信达IBI343全球首个CLDN18.2 ADC申报NDA<br>
+    <strong>2026.5</strong> Enhertu FDA批准HER2+早期乳腺癌新辅助/辅助适应症<br>
+    <strong>2026.3</strong> SHR-A1811 NMPA批准HER2+乳腺癌
+  </div>
+
+  <h4>1.1.1 Enhertu (DS-8201/T-DXd) — 史上最强ADC，HER2全线标准治疗</h4>
+  <span class="tag tag-onc">HER2 ADC</span>
+  <div class="table-wrap">
+  <table class="pipeline-table">
+    <thead><tr><th>试验</th><th>适应症</th><th>阶段</th><th>关键数据</th><th>评估/催化剂</th></tr></thead>
+    <tbody>
+      <tr><td>DESTINY-Breast09</td><td>HER2+ mBC 1L</td><td><span class="stage stage-approved">已获批</span></td><td>mPFS >3年 vs 1.5年(THP), HR=0.56; 2026.8.12中国获批</td><td><strong>评估</strong>: 确立1L标准治疗地位<br><strong>催化剂</strong>: 2026Q4 DB-09 OS最终分析</td></tr>
+      <tr><td>DESTINY-Breast05</td><td>HER2+ EBC 辅助</td><td><span class="stage stage-approved">已获批</span></td><td>iDFS HR 0.47(降低53%); 3年iDFS 92.4% vs 83.7%; 脑转移降36%</td><td>辅助治疗突破，复发风险减半</td></tr>
+      <tr><td>DESTINY-Breast11</td><td>HER2+ EBC 新辅助</td><td><span class="stage stage-approved">已获批</span></td><td>pCR 67.3% vs 56.3%(p=0.003); HR-亚组pCR 83.1%</td><td>新辅助pCR提升11%，安全性更优</td></tr>
+      <tr><td>DESTINY-Breast03</td><td>HER2+ mBC 2L+</td><td><span class="stage stage-approved">已获批</span></td><td>mOS 52.6m vs 42.7m(HR 0.73); ORR 79%</td><td>长期OS更新确认获益</td></tr>
+      <tr><td>DESTINY-Breast06</td><td>HER2低表达/超低表达</td><td><span class="stage stage-approved">已获批</span></td><td>PFS/OS双优效; HER2超低表达获益验证</td><td>HER2低表达打开2倍市场空间</td></tr>
+      <tr><td>DESTINY-Lung04</td><td>HER2m NSCLC 1L</td><td><span class="stage stage-3">III期阳性</span></td><td>2026.8.17公布: 对比标准治疗PFS达到统计学显著和临床意义改善</td><td>首个HER2m NSCLC 1L III期</td></tr>
+      <tr><td>DESTINY-PanTumor02</td><td>HER2+泛实体瘤</td><td><span class="stage stage-approved">EU推荐</span></td><td>支持EU CHMP推荐HER2 IHC 3+泛实体瘤</td><td>适应症拓展至泛瘤种</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout callout-deep">
+    <div class="label">Enhertu深度评估</div>
+    <strong>临床价值评估</strong>：Enhertu是ADC领域的历史性标杆，其DXd payload（拓扑异构酶I抑制剂）具有高渗透性、强旁观者效应和独特的内吞释放机制，在技术层面定义了"新一代ADC"的标准。DB-05的iDFS HR 0.47（复发风险降低53%）和DB-11的pCR 67.3%数据将HER2阳性乳腺癌的治疗标准从"双重化疗"提升至"ADC为主体"的新范式。<br><br>
+    <strong>市场空间评估</strong>：Enhertu的适应症已从4L+乳腺癌推进至1L/辅助/新辅助，覆盖乳腺癌/胃癌/肺癌/泛瘤种，可治疗患者群体扩大了3-5倍。HER2低表达/超低表达的获批使HER2可治疗人群从~20%的乳腺癌患者扩大至~60%。2026年全球销售额预计超150亿美元，峰值可达200-250亿美元。<br><br>
+    <strong>竞争壁垒评估</strong>：Enhertu的竞争壁垒包括：(1) DXd payload专利保护至2030+年；(2) DB系列临床数据积累的循证医学优势（7个III期阳性数据）；(3) 第一三共+阿斯利康的全球商业化能力；(4) 医生处方习惯的锁定效应。但HER2 ADC赛道已有多款跟进者（SHR-A1811、iza-bren、ARX788等），虽然短期内难以撼动Enhertu的地位，但长期面临定价压力和差异化适应症竞争。<br><br>
+    <strong>风险因素</strong>：间质性肺炎(ILD)是Enhertu最需要关注的安全性信号，总发生率约10-15%，Grade≥3约2-3%。虽然临床管理经验已逐步积累，但ILD仍是处方壁垒之一。此外，Enhertu在辅助治疗中可能带来过度治疗风险（部分患者已被T-DM1治愈），需要更好的生物标志物来筛选获益人群。
+  </div>
+
+  <h4>1.1.2 BL-B01D1 (Iza-bren/伦康依隆妥单抗) — 全球首个双抗ADC</h4>
+  <span class="tag tag-onc">EGFR×HER3 双抗ADC</span>
+  <p>百利天恒开发，BMS以84亿美元（首付8亿美元）获得全球权益（除中国外）。2026年6月成为全球首个获批的双抗ADC。</p>
+  <div class="table-wrap">
+  <table class="pipeline-table">
+    <thead><tr><th>试验</th><th>适应症</th><th>关键数据</th><th>评估/催化剂</th></tr></thead>
+    <tbody>
+      <tr><td>BL-B01D1-303 (NPC III期)</td><td>鼻咽癌</td><td>ORR 54.6% vs 27.0%(OR 3.3); 2026.6 NMPA获批</td><td>全球首个双抗ADC获批</td></tr>
+      <tr><td>BL-B01D1-305 (ESCC III期)</td><td>食管鳞癌</td><td>mOS 9.8m vs 7.2m(HR 0.64); mPFS 4.2m vs 2.0m(HR 0.50); ORR 35.3% vs 13.1%; 2026.7 NMPA获批</td><td>OS/PFS双获益，安全性可接受</td></tr>
+      <tr><td>PANKU-Breast02 (TNBC III期)</td><td>三阴性乳腺癌</td><td>mOS 15.9m vs 12.5m(HR 0.60); mPFS 8.5m vs 3.1m(HR 0.29); ORR 51.7% vs 20.5%</td><td>首个双抗ADC在TNBC中OS/PFS双主要终点均达</td></tr>
+      <tr><td>BL-B01D1-307 (NSCLC I/II期)</td><td>NSCLC多线</td><td>2026 ASCO多数据发布</td><td>2026H2 NSCLC III期中期分析</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout callout-deep">
+    <div class="label">BL-B01D1深度评估</div>
+    <strong>FIC价值评估</strong>：BL-B01D1是全球首创的EGFR×HER3双抗ADC，在技术路线上开创了"双抗ADC"新品类。其设计理念是：EGFR在多种上皮肿瘤中高表达，HER3在EGFR-TKI耐药后上调，双靶点同时结合可扩大治疗窗口并克服耐药。这一设计思路在理论上优于单靶点ADC，但同时也带来了更高的毒性风险（PANKU-Breast02中Grade≥3 TRAE 85.1%）。<br><br>
+    <strong>临床数据评估</strong>：TNBC III期数据（OS 15.9m vs 12.5m, HR 0.60）虽然具有统计学意义，但绝对获益仅3.4个月，在Trop-2 ADC三强争霸的背景下，BL-B01D1在TNBC中的定位需要进一步明确。ESCC的OS HR 0.64和PFS HR 0.50是实质性获益，但85.1%的Grade≥3 TRAE（主要为血液学毒性）提示该药的毒性管理需要重视。ILD发生率1.4%低于Enhertu的10-15%，是安全性优势。<br><br>
+    <strong>BD估值评估</strong>：BMS以84亿美元（首付8亿）获得全球权益，是2023年BD交易中的标志性事件。但需要注意：BMS在2024-2025年面临严重的专利悬崖（Opdivo/Eliquis到期），BD策略更偏向于"补管线"而非"抢赛道"。BL-B01D1的峰值销售额预期取决于其在NSCLC这一最大适应症中的表现。如果NSCLC III期数据优异，峰值可达50-100亿美元；如果数据一般，则可能仅停留在10-30亿美元。<br><br>
+    <strong>风险因素</strong>：(1) 血液学毒性较高（中性粒细胞减少36%），需要G-CSF支持和剂量调整；(2) 双抗ADC的MOA复杂性导致PK/PD关系不明确，剂量优化难度大；(3) BMS的临床执行能力在2024-2025年受到质疑，BL-B01D1的全球III期推进速度是关键观察指标。
+  </div>
+
+  <h4>1.1.3 SHR-A1811 (瑞康曲妥珠单抗) — 恒瑞ADC差异化突围</h4>
+  <span class="tag tag-onc">HER2 ADC</span>
+  <p>恒瑞医药自主研发的HER2 ADC，已获批3个适应症：HER2突变NSCLC(2025.5)、HER2+乳腺癌(2026.3)、HER2+结直肠癌(2026.8.6)。</p>
+  <div class="callout callout-deep">
+    <div class="label">SHR-A1811深度评估</div>
+    <strong>差异化策略评估</strong>：SHR-A1811是中国HER2 ADC中适应症布局最广泛的品种。恒瑞采取了"避开Enhertu乳腺癌主战场，从NSCLC/CRC等差异化适应症切入"的策略。CRC III期（HORIZON-CRC01）的PFS HR 0.33和ORR 40.7%数据在数值上非常亮眼，但样本量较小（n=86 vs 44），且CRC市场在HER2阳性患者中仅占~3%的CRC人群，绝对市场空间有限。NSCLC适应症（HER2突变）是更重要的市场，但Enhertu的DESTINY-Lung04已在该适应症中取得III期阳性数据。<br><br>
+    <strong>竞争定位评估</strong>：SHR-A1811的定位是"中国Enhertu跟随者+差异化适应症拓展者"。在HER2 ADC赛道中，Enhertu占据绝对领先地位（全球市场），iza-bren（百利天恒）在食管鳞癌有先发优势，SHR-A1811的核心竞争力在于：(1) 恒瑞强大的国内商业化渠道（肿瘤团队>5000人）；(2) 差异化适应症（CRC/胃癌/肺癌）；(3) 价格优势（预计定价为Enhertu的50-60%）。国内峰值预期30-50亿元。<br><br>
+    <strong>风险因素</strong>：(1) HER2 ADC市场已有多款产品，Enhertu在中国已获批多个适应症并进入医保，定价竞争激烈；(2) HORIZON-CRC01的CRL面临CRC小适应症市场天花板低的问题；(3) 全球权益尚未授权，国际化路径不明确。
+  </div>
+
+  <h4>1.1.4 Trop-2 ADC三强争霸</h4>
+  <span class="tag tag-onc">Trop-2 ADC</span>
+  <p>Trop-2 ADC是继HER2之后最拥挤的ADC赛道。Trodelvy(Gilead)、Dato-DXd(第一三共/AZ)、SKB264(科伦博泰/默沙东)三强争霸。</p>
+
+  <div class="callout callout-deep">
+    <div class="label">Trop-2 ADC深度评估</div>
+    <strong>技术路线比较</strong>：三款Trop-2 ADC在payload和DAR上存在显著差异：(1) Trodelvy使用SN-38（伊立替康活性代谢物，DAR 7.6），具有独特的pH敏感释放机制，但腹泻和中性粒细胞减少管理负担较重；(2) Dato-DXd使用DXd（拓扑异构酶I抑制剂，DAR 4），继承了Enhertu的payload优势，安全性相对更好，但Trop-2表达水平对疗效的影响更显著；(3) SKB264使用sac-TMT（新型拓扑异构酶I抑制剂，DAR 7.4），兼顾了高DAR和良好的安全性。<br><br>
+    <strong>临床数据比较</strong>：在TNBC 1L中，Dato-DXd的OS 23.7个月（TROPION-Breast02）在数值上领先，Trodelvy有Keytruda联合方案的优势（ASCENT-04），SKB264在HR+/HER2-乳腺癌中PFS HR 0.35表现最好。在NSCLC中，SKB264联合Keytruda的1L数据（PFS HR 0.35）非常亮眼，但Dato-DXd在非鳞癌亚组中也有获益，Trodelvy在EVOKE-01中未达OS终点。总体来看，三款产品各有优劣，尚无一款产品在所有适应症中全面领先。<br><br>
+    <strong>市场格局评估</strong>：Trop-2 ADC的全球市场规模预计2030年超200亿美元。Trodelvy全球上市最早（2020年），积累了大量真实世界数据和处方经验，但Gilead的肿瘤商业化能力弱于第一三共/AZ。Dato-DXd有第一三共/AZ的全球渠道优势和Enhertu的协同效应。SKB264在中国有4个适应症获批（适应症最全），但全球权益在默沙东手中，推进速度取决于默沙东的战略优先级。预计2027-2028年三强格局将基本确定，关键变量是NSCLC适应症中的数据表现和OS获益。<br><br>
+    <strong>风险评估</strong>：Trop-2在正常组织（皮肤、胃肠道、肾脏）中广泛表达，导致Trop-2 ADC的on-target off-tumor毒性是核心技术挑战。口腔炎（Dato-DXd）、腹泻（Trodelvy）、血液学毒性（SKB264）是各产品的主要限制因素。此外，Trop-2表达水平与疗效的相关性尚未完全明确，缺乏预测性生物标志物是精准用药的瓶颈。
+  </div>
+
+  <!-- KRAS -->
+  <h3 id="kras">1.2 KRAS抑制剂——攻克"不可成药"靶点</h3>
+  <span class="tag tag-onc">肿瘤·KRAS</span>
+  <p>KRAS突变存在于约25%的癌症。G12C已获批但疗效有限，G12D是下一个千亿级赛道。胰腺癌是KRAS最大未满足需求。</p>
+
+  <div class="callout callout-deep">
+    <div class="label">KRAS领域深度评估</div>
+    <strong>历史回顾</strong>：KRAS曾被科学界视为"不可成药"靶点长达40年，直到2013年Shokat团队发现switch II区的可成药口袋，才打开了KRAS G12C抑制剂的大门。Sotorasib于2021年获批，是KRAS靶向治疗的里程碑事件。但G12C抑制剂的临床数据（ORR 28-43%, mPFS ~6.5m）远未达到"颠覆性"预期，核心原因包括：(1) KRAS G12C仅占NSCLC的~12%，患者群体有限；(2) 单药治疗很快产生耐药（旁路信号激活，如EGFR/SHP2/FGFR等）；(3) 共价结合效率有限，无法完全抑制KRAS信号。<br><br>
+    <strong>G12D vs G12C市场评估</strong>：G12D的市场潜力远大于G12C。胰腺癌>90%为G12D突变，NSCLC~50%为G12D，结直肠癌~40%为G12D/G12V。胰腺癌每年新增>6万例(US)+>12万例(China)，5年生存率<10%，是KRAS领域最大的未满足临床需求。G12D抑制剂的开发难度更大（GDP结合亲和力低，需要更高效的抑制剂设计），但一旦成功，市场空间可达G12C的3-5倍（预计峰值200-300亿美元）。<br><br>
+    <strong>竞争格局评估</strong>：全球G12D管线10+条，RMC-9805（Revolution Medicines）全球领跑，GFH375（劲方/Verastem）中国进度最快。G12D赛道的核心看点：(1) 胰腺癌数据——如果G12D抑制剂在胰腺癌中实现mPFS >6个月，将是数十亿美元级别的突破；(2) 联合方案——G12D + EGFR/SHP2/PD-1的联合治疗可能比单药更有效；(3) 泛KRAS抑制剂——RMC-6236（RAS Multi）等泛突变抑制剂可能绕过G12D/G12C的靶点限制，是更长期的竞争威胁。<br><br>
+    <strong>风险评估</strong>：(1) G12D抑制剂的临床开发风险高（胰腺癌患者体能状态差，临床试验失败率高）；(2) 即使G12D抑制剂获批，单药疗效可能同样有限，需要联合方案；(3) 泛KRAS抑制剂（如RMC-6236）如果成功，可能直接取代G12D/G12C特异性抑制剂。
+  </div>
+
+  <!-- 双抗 -->
+  <h3 id="bispecific">1.3 双特异性抗体——中国企业全球领跑</h3>
+  <span class="tag tag-onc">肿瘤·双抗</span>
+  <p>双特异性抗体可同时结合两个不同靶点。康方生物是全球双抗赛道最前沿公司，2026 ASCO发布40+研究。</p>
+
+  <div class="callout callout-deep">
+    <div class="label">双抗领域深度评估</div>
+    <strong>技术路线评估</strong>：双特异性抗体是抗体工程领域的重大突破，其核心价值在于：(1) 同时阻断两个免疫抑制通路（如PD-1/VEGF、PD-1/CTLA-4），实现"1+1>2"的免疫激活效果；(2) T-cell engager（如CD3/CLDN18.2、CD3/BCMA）将T细胞重定向至肿瘤细胞，不依赖MHC限制；(3) 双抗ADC（如BL-B01D1的EGFR×HER3）通过双靶点内吞提高毒素递送效率。康方生物的TETRABODY平台（四价双抗）和信达生物的PD-1/IL-2双抗是技术创新的代表。<br><br>
+    <strong>康方生物评估</strong>：康方生物是全球双抗赛道的领跑者，2026 ASCO 40+研究发布展现了其临床开发能力。依沃西（AK112, PD-1/VEGF）是全球唯一进入III期的PD-1/VEGF双抗，FIC属性明确，在NSCLC一线对比替雷利珠的数据优异。卡度尼利（AK104, PD-1/CTLA-4）是全球首款肿瘤免疫双抗，胰腺癌mOS 23.4个月是重大亮点（胰腺癌标准治疗mOS ~11个月）。康方的核心风险：(1) 双抗的CMC（生产工艺）复杂性远高于单抗，产能和质量控制是挑战；(2) 全球商业化能力尚未验证，国际合作（如Summit Therapeutics）的执行力待观察。<br><br>
+    <strong>信达IBI363评估</strong>：IBI363（PD-1/IL-2）是FIC设计，获武田114亿美元合作是2026年BD的亮点。PD-1/IL-2双抗的设计理念是：IL-2的Fc融合增强了PD-1阳性T细胞的活化和扩增，同时PD-1臂的阻断效应解除了免疫抑制。I期数据显示PD-1耐药后ORR~20%，在这一难治人群中具有临床意义。通过武田的全球临床推进，IBI363有望成为下一代免疫治疗的核心药物。<br><br>
+    <strong>风险评估</strong>：(1) 双抗的免疫相关不良事件（irAE）管理比单抗更复杂，特别是PD-1/CTLA-4双抗的免疫毒性叠加；(2) T-cell engager双抗的CRS（细胞因子释放综合征）管理需要经验；(3) 双抗赛道的MNC竞争（罗氏、强生、安进等）正在加剧，中国企业需要加速全球临床推进。
+  </div>
+
+  <!-- CLDN18.2 -->
+  <h3 id="cldn18">1.4 CLDN18.2——胃癌精准治疗新靶点</h3>
+  <span class="tag tag-onc">肿瘤·CLDN18.2</span>
+  <p>CLDN18.2在胃癌(~60%)、胰腺癌(~50%)中高表达，全球在研管线超50条，ADC和双抗为主要技术路线。竞争极度激烈。</p>
+
+  <div class="callout callout-deep">
+    <div class="label">CLDN18.2深度评估</div>
+    <strong>靶点验证评估</strong>：Zolbetuximab（安斯泰来）是首个CLDN18.2靶向药物，SPOTLIGHT III期数据显示mPFS 10.6m vs 8.7m(HR 0.75)和mOS 18.2m vs 15.5m，虽然疗效有限（PFS改善仅1.9个月），但验证了CLDN18.2作为药物靶点的可行性。CLDN18.2在胃癌中表达率~60%，在胰腺癌中~50%，患者群体庞大。<br><br>
+    <strong>竞争格局评估</strong>：CLDN18.2全球超50条管线，大多是ADC和双抗，是中国Biotech最拥挤的赛道之一。信达IBI343（ADC）进度最快（全球首个NDA），康诺亚CMG901（ADC）有阿斯利康全球资源。荣昌RC118的ORR 57%在数值上最好但样本量小。核心问题：CLDN18.2的表达异质性（IHC 2+ vs 3+, 不同抗体检测标准不统一）导致患者筛选困难，这也是Zolbetuximab获批后商业化不达预期的原因之一。未来2年CLDN18.2 ADC将进入数据密集读出期，分化将在此阶段发生——只有具备最佳疗效/安全性平衡的产品才能胜出。
+  </div>
+
+  <!-- CAR-T -->
+  <h3 id="cart">1.5 CAR-T疗法——通用型/体内CAR-T新纪元</h3>
+  <span class="tag tag-hem">血液肿瘤·CAR-T</span>
+  <p>全球已9款CAR-T上市。中国在通用型CAR-T和体内CAR-T领域从"陪跑"跃升至"领跑"。</p>
+
+  <div class="callout callout-deep">
+    <div class="label">CAR-T深度评估</div>
+    <strong>技术路线评估</strong>：CAR-T行业正经历从"自体CAR-T"到"通用型CAR-T"再到"体内CAR-T"的三代技术演进。自体CAR-T（如Yescarta/Kymriah）的个体化制备流程复杂、成本高昂（~40万美元/例）、等待时间长（2-4周），严重限制了商业化规模。通用型CAR-T通过敲除TCR（避免GvHD）和B2M（避免排异）实现"现货型"供应，成本可降至自体CAR-T的1/5-1/10。体内CAR-T通过慢病毒或LNP-mRNA在体内直接转导T细胞，如果成功将省去体外制备的全部流程，成本降至1/10以下，彻底改变CAR-T的商业化模式。<br><br>
+    <strong>中国竞争力评估</strong>：中国在通用型CAR-T和体内CAR-T领域全球领先。科济药业的THANK-u Plus平台（敲除TCR+B2M+引入NKG2A CAR+NK抑制信号）是技术最全面的通用型CAR-T平台之一。亘喜生物GC012F（CD19/BCMA双靶）被阿斯利康收购后加速全球开发，ORR 100%是天花板级数据，2026年7月已启动一线MM全球III期（DURGA-6）。体内CAR-T方面，济因生物和邦耀生物代表了中国在该领域的先发优势。<br><br>
+    <strong>风险评估</strong>：(1) 通用型CAR-T的持久性不如自体CAR-T（体内存留时间短），需要多次输注；(2) 体内CAR-T的转导效率和靶向特异性是核心挑战，脱靶风险不容忽视；(3) CAR-T的CRS/ICANS管理仍是临床难题；(4) 实体瘤CAR-T的疗效远不如血液瘤，需更多创新（如装甲CAR-T/逻辑门控CAR-T）。
+  </div>
+</section>
+
+<!-- ====== 02 慢病 ====== -->
+<section id="ch2">
+  <h2><span class="num">02</span>慢病·代谢</h2>
+  <p class="lead">GLP-1受体激动剂是2025-2026年全球制药业最爆炸性增长赛道。替尔泊肽和司美格鲁肽双雄争霸，口服GLP-1是下一波浪潮。Lp(a)是下一个千亿级心血管靶点。</p>
+
+  <div class="callout callout-deep">
+    <div class="label">慢病领域深度评估</div>
+    <strong>GLP-1市场历史性评估</strong>：GLP-1受体激动剂市场是制药业历史上增长最快的治疗领域。替尔泊肽H1 2026收入277亿美元（+88% YoY）和司美格鲁肽组合~175亿美元，合计~452亿美元，两个公司两款药物半年收入接近全球药物市场的5%。这一增长规模在制药业历史上空前——超越了K药（Keytruda）在PD-1时代的增长速度。GLP-1不仅改变了糖尿病和肥胖的治疗格局，更通过CVOT数据（SELECT: CV风险降低20%）证明了其心血管保护作用，正在向MASH、睡眠呼吸暂停、PAD、CKD等适应症拓展。<br><br>
+    <strong>技术路线比较</strong>：GLP-1的技术演进经历了四个阶段：(1) 短效GLP-1（艾塞那肽BID，2005年）；(2) 长效GLP-1（司美格鲁肽QW，2017年）；(3) 双靶点/三靶点（替尔泊肽GIP/GLP-1, 2022年；Retatrutide三靶点，III期）；(4) 口服GLP-1（口服司美格鲁肽，2019年糖尿病；Orforglipron口服小分子，2026年肥胖）。核心趋势：从注射到口服、从单靶到多靶、从降糖到减重到全身获益。<br><br>
+    <strong>中国市场竞争评估</strong>：中国GLP-1市场2026年预计47亿美元，但面临"专利悬崖+价格战"的双重冲击。司美格鲁肽中国专利2026.3.20到期，10+仿制药企提交上市申请。玛仕度肽（信达）2026Q1线上药店2.6亿元，全年预计18亿元，但面临定价压力。奥莱泊肽（翰森）减重19.3%是国产最高数据。中国GLP-1市场将进入"价格战+差异化"双轨竞争——真正的赢家是那些能在口服、MASH、双周给药等差异化方向上建立壁垒的公司，而非单纯的仿制药企。
+  </div>
+
+  <h3 id="glp1">2.1 GLP-1减重/降糖——千亿美元赛道</h3>
+  <span class="tag tag-met">代谢·GLP-1</span>
+
+  <div class="info-grid">
+    <div class="info-card"><div class="label">全球市场规模(2026E)</div><div class="value">~700亿美元</div><div class="desc">GLP-1市场预计2034年达2570亿美元(CAGR 13%)</div></div>
+    <div class="info-card"><div class="label">替尔泊肽H1收入</div><div class="value">277亿美元</div><div class="desc">Mounjaro 186亿+Zepbound 91亿，同比+88%</div></div>
+    <div class="info-card"><div class="label">司美格鲁肽组合H1</div><div class="value">~175亿美元</div><div class="desc">Ozempic 91.5亿+Wegovy 58.3亿+口服Wegovy 8.55亿</div></div>
+    <div class="info-card"><div class="label">礼来FY2026指引</div><div class="value">850-870亿美元</div><div class="desc">上调自82-85亿，替尔泊肽贡献~65%</div></div>
+  </div>
+
+  <div class="callout callout-deep">
+    <div class="label">GLP-1双雄争霸深度评估</div>
+    <strong>替尔泊肽 vs 司美格鲁肽</strong>：替尔泊肽在减重疗效上全面优于司美格鲁肽（SURMOUNT-5: 20.2% vs 13.7%减重，47%更高相对减重），但司美格鲁肽拥有心血管获益的差异化优势（SELECT: CV风险降低20%，非致死性MI HR 0.72）。两者的竞争已从"疗效比拼"进入"适应症拓展+给药便利性+医保覆盖"的综合竞争。2026年关键变量是口服GLP-1的放量速度——Wegovy口服版H1处方超200万超预期，但Orforglipron（Foundayo）的"无需空腹不须冷藏"优势可能后来居上。<br><br>
+    <strong>Retatrutide评估</strong>：Retatrutide（GIP/GLP-1/GCG三靶点）是礼来的下一代重磅产品，TRIUMPH-1数据显示80周减重28.3%（104周30.3%），在数值上超越了替尔泊肽的22.5%。三靶点设计通过GCG的额外能量消耗效应可能实现更高的减重效果。但三靶点的安全性数据尚不完整，心率增快和胃肠道不良事件的管理是关键。预计Q4 2026提交BLA，Q1 2027获批，有望成为best-in-class。<br><br>
+    <strong>CagriSema评估</strong>：CagriSema（GLP-1+Amylin）在REDEFINE 4头对头替尔泊肽中未达非劣效终点（23.0% vs 15.8mg替尔泊肽），是诺和诺德的重大挫折。Amylin受体激动剂虽然在理论上可通过不同机制增强减重效果，但实际数据未能超越替尔泊肽。CagriSema的FDA决策（2026Q4）将是关键，如果获批，可能作为二线选择，但峰值预期已大幅下调。<br><br>
+    <strong>口服GLP-1评估</strong>：口服GLP-1是2026-2027年最重要的竞争战场。Orforglipron（Foundayo）作为首个非肽口服GLP-1小分子，具有"无需空腹、不须冷藏、50天最快获批"三大优势，可能成为口服GLP-1的最终赢家。Wegovy口服版虽然先发上市，但食物限制（空腹服用）是处方壁垒。口服GLP-1的放量能力可能远超注射剂型——如果患者依从性从~50%（注射）提升至~80%（口服），整体市场可能扩大2-3倍。
+  </div>
+
+  <h3 id="pcsk9">2.2 PCSK9/Lp(a)——降脂新纪元</h3>
+  <span class="tag tag-cv">心血管·降脂</span>
+  <p>PCSK9抑制剂是继他汀之后降脂领域最大突破。Lp(a)是下一个千亿级心血管靶点，目前全球尚无获批药物。</p>
+
+  <div class="callout callout-deep">
+    <div class="label">Lp(a)领域深度评估</div>
+    <strong>临床价值评估</strong>：Lp(a)升高影响全球>14亿人，是冠状动脉疾病（CAD）的独立遗传风险因素，但目前尚无获批药物。Lp(a)水平主要由遗传决定，不受生活方式干预影响，因此药物干预是唯一选择。Lp(a)降低药物的核心验证点是：Lp(a)降低能否转化为MACE（主要不良心血管事件）减少。目前所有III期CVOT（Lepodisiran/Olapasiran/Pelacarsen）均在进行中，预计2028-2029年读出。<br><br>
+    <strong>技术路线评估</strong>：Lp(a)靶向药物的技术路线包括：(1) siRNA（Lepodisiran/礼来, Olpasiran/安进）——Lp(a)降低>90%，给药间隔1-6个月，疗效和持久性最优；(2) ASO（Pelacarsen/诺华）——Lp(a)降低~80%，给药间隔月注射；(3) 口服小分子（HRS-5346/恒瑞→默沙东）——给药便利性最优，但早期数据尚不完整。siRNA和ASO需要注射，患者依从性可能受限，但Lp(a)检测人群本身是"高危人群"（已有心血管疾病或家族史），对注射的接受度可能高于普通人群。<br><br>
+    <strong>BD估值评估</strong>：恒瑞HRS-5346授权默沙东17.7亿美元是中国心血管BD里程碑，也是中国口服Lp(a)抑制剂的全球价值验证。口服小分子在Lp(a)赛道中具有独特的给药便利性优势，但也面临疗效（降低幅度可能不及siRNA的>90%）和安全性（长期口服对肝脏/肾脏的影响）的挑战。<br><br>
+    <strong>市场预测</strong>：全球Lp(a)市场预计2030年超200亿美元。核心假设是CVOT数据能证明Lp(a)降低→MACE减少的因果关系。如果CVOT成功，Lp(a)检测将从目前的~1%覆盖率提升至30-50%，释放巨大市场潜力。预计2028-2029年首个Lp(a)药物获批，2025年达到峰值。
+  </div>
+</section>
+
+<!-- ====== 阿尔兹海默AD ====== -->
+<section id="ch4">
+  <h2><span class="num">04</span>阿尔兹海默</h2>
+  <p class="lead">AD是全球最大未满足医疗需求之一。Anti-amyloid抗体已获FDA完全批准但商业化低于预期。2026年关键事件：Leqembi皮下剂型获批、复星AR1001 III期读出、GLP-1 in AD III期失败。</p>
+
+  <div class="callout callout-deep">
+    <div class="label">AD领域深度评估</div>
+    <strong>Anti-amyloid假说验证评估</strong>：经过20年的争议，Leqembi和Kisunla的获批为"淀粉样蛋白假说"提供了最终的临床验证——清除Aβ确实可以延缓AD的认知衰退。但临床获益的幅度（CDR-SB减缓27-35%）远低于早期预期，引发了关于"治疗价值vs治疗成本"的讨论。Leqembi年治疗费用~2.65万美元（美国），Kisunla~3.2万美元，在缺乏疾病修饰证据（逆转认知功能）的情况下，支付方和患者对性价比的质疑是商业化不达预期的核心原因。<br><br>
+    <strong>商业化瓶颈深度分析</strong>：AD治疗的商业化困境是制药业历史上最复杂的挑战之一，核心瓶颈包括：(1) <strong>诊断瓶颈</strong>——PET检测费用高（~$5000/次）、可及性差（中国年PET确诊仅~1万人次），CSF检测虽便宜但有创。血液Aβ检测（p-tau217等）是2026年最具变革潜力的诊断突破，如果获批并进入临床常规，AD确诊率可能从<10%提升至30-50%；(2) <strong>给药负担</strong>——IV输注每2-4周一次，每次2-4小时，患者和家属负担极重。皮下剂型（Leqembi IQLIK和Remternetug）是解决给药便利性的关键，但不能解决诊断瓶颈；(3) <strong>ARIA管理</strong>——ARIA-E（血管源性水肿）和ARIA-H（微出血）需要MRI监测，增加了治疗负担和成本。Kisunla的ARIA-E发生率24%高于Leqembi的12.5%，是处方壁垒之一；(4) <strong>医保覆盖</strong>——美国CMS对AD药物的覆盖限制（要求参与注册研究）是放量限制因素。<br><br>
+    <strong>AR1001评估</strong>：复星AR1001（PDE5抑制剂）是2026年AD领域最重要的数据读出。该药物通过多模式机制（神经元信号、脑血流、突触功能、炎症、tau病理）发挥作用，不同于Aβ抗体。如果成功，将是全球首个非Aβ机制的口服DMT，将证明AD治疗可以绕过Aβ假说，从下游信号通路入手。但PDE5抑制剂的AD开发历史充满失败（如西地那非在AD中的观察性数据与RCT结果不一致），III期不确定性大。复星支付6000万美元期权费获得全球权益，证明其对该管线的信心，但也反映了III期数据的高风险溢价。核心观察点：2026.11 CTAD公布的详细数据，特别是CDR-SB和ADAS-Cog13的变化。<br><br>
+    <strong>Tau靶向评估</strong>：BIIB080（tau ASO）的II期数据是双刃剑——初级终点未达但多个次级终点显示信号（CSF tau降50-65%，认知减缓）。渤健计划推进III期，但市场反应（股价跌8.4%）说明投资者对"数据矛盾"的悲观解读。E2814（tau单抗）的MTBR-tau243降幅（CSF 89%）在标志物水平上非常显著，但临床获益待验证。Tau靶向治疗的核心挑战是：tau病理在AD中更下游，干预时机可能已经太晚——在tau PET阳性时，神经损伤可能已不可逆。<br><br>
+    <strong>GLP-1 in AD评估</strong>：EVOKE/EVOKE+的III期失败是2026年AD领域的重要教训。口服司美格鲁肽在AD中未显示出任何认知获益（CDR-SB无差异），尽管CSF亚组显示了p-tau等标志物的统计学显著降低（~10%）。核心原因可能是口服司美格鲁肽的脑穿透率仅~0.4%，远低于治疗所需的浓度。观察性数据中GLP-1类药物降低40-70%AD风险的效果，可能反映了代谢健康改善（糖尿病控制、心血管保护）对认知功能的间接影响，而非直接的神经保护作用。这一失败提醒我们：从流行病学观察到RCT验证之间存在巨大鸿沟。
+  </div>
+</section>
+
+<!-- ====== 05 自身免疫 ====== -->
+<section id="ch5">
+  <h2><span class="num">05</span>自身免疫</h2>
+  <p class="lead">自免是仅次于肿瘤的第二大治疗领域。IL-17/IL-23在中国进入密集获批期，JAK抑制剂竞争白热化，BTKi跨入自免新时代。</p>
+
+  <div class="callout callout-deep">
+    <div class="label">自免领域深度评估</div>
+    <strong>IL-23 vs IL-17 vs TNF：自免治疗的格局重塑</strong>：自免治疗正经历从"TNF主导"到"IL-23/IL-17主导"的范式转变。Skyrizi（IL-23p19）H1 2026收入~100亿美元（+27.3%），已超越Humira（阿达木单抗，TNF）在巅峰期的峰值，标志着IL-23成为自免治疗的基石。Tremfya（IL-23p19）Q2 2026首次超20亿美元（+72.5%），在IBD（克罗恩病/UC）中的强劲表现是增长引擎。IL-23相对于TNF的优势在于：(1) 靶点更特异性（IL-23仅作用于Th17通路，而非TNF的广谱炎症抑制），安全性更好；(2) 注射频率更低（每8-12周 vs 每1-2周）；(3) 在IBD中疗效更优（Skyrizi在克罗恩病中诱导缓解率高于Humira）。<br><br>
+    <strong>中国IL-17A竞争评估</strong>：2026年中国已有4家IL-17A上市（诺华Cosentyx + 恒瑞夫那奇珠单抗 + 智翔赛立奇单抗 + 康方古莫奇单抗），赛道已显拥挤。中国银屑病~700万患者，强直~400万患者，但IL-17A的医保覆盖率和基层渗透率仍有限。核心看点：(1) 医保准入——赛立奇单抗已进入2026年NRDL，夫那奇珠单抗和古莫奇单抗的医保谈判是关键；(2) 渠道下沉——恒瑞的肿瘤渠道优势能否转化为自免渠道优势；(3) 差异化——康方古莫奇单抗作为第三家入局者，需要强直性脊柱炎的数据亮点或定价策略来争取份额。预计2027年IL-17A在中国将进入"价格战"阶段，峰值销售额前三家合计可能仅50-80亿元，远低于早期预期。<br><br>
+    <strong>BTKi跨入自免的范式转变</strong>：BTK抑制剂从肿瘤到自免的跨越是2026年最重要的事件之一。Remibrutinib CSU获批（2025.9 FDA, 2026.4 EU, 2025.11中国）是里程碑事件，证明BTKi在自免领域的安全性和有效性。中国企业中，诺诚健华奥布替尼在SLE/ITP/MS三线推进，ITP NDA已受理，是中国BTKi自免进度最快的管线。Tolebrutinib nrSPMS获欧盟批准（2026.6.23）但FDA拒绝（肝毒性+疗效不确定性），说明了透脑性BTKi的安全性挑战。BTKi在自免领域的核心优势是口服给药（vs注射的生物制剂），但长期安全性数据（特别是感染和出血风险）是商业化的关键变量。<br><br>
+    <strong>中国生物类似药密集兑现评估</strong>：2026年是中国自免生物类似药的"兑现年"。乌司奴单抗2026.5三天内三款国产类似药获批（华东医药、百奥泰、石药），彻底终结Stelara在中国的高价垄断。百奥泰在中美欧英四地同步获批的能力，证明中国生物类似药已具备全球竞争力。阿达木单抗类似药CR5达82.3%说明市场已进入稳态。司库奇尤单抗类似药（百奥泰首家申报）和度普利尤单抗类似药（2026-2028专利到期）是下一波浪潮。中国生物类似药的竞争模式已从"首仿红利"转向"价格战+渠道优势"，预计2027-2028年将出现第一轮行业整合。
+  </div>
+</section>
+
+<!-- ====== 催化剂时间线 ====== -->
+<section id="catalyst">
+  <h2><span class="num">06</span>催化剂时间线 (2026H2-2028)</h2>
+  <p class="lead">未来18个月核心数据读出/审批事件汇总，按时间排列。⭐⭐⭐=最高影响力，⭐⭐=高影响力，⭐=中等影响力。</p>
+
+  <h4>2026年8-12月</h4>
+  <div class="table-wrap">
+  <table class="pipeline-table">
+    <thead><tr><th>时间</th><th>事件</th><th>领域</th><th>影响评估</th></tr></thead>
+    <tbody>
+      <tr><td>2026.8.20</td><td>恒瑞医药中报披露</td><td>综合</td><td>关注创新药收入占比和BD进展</td></tr>
+      <tr><td>2026.9</td><td>ESMO大会</td><td>肿瘤</td><td>ADC/双抗数据密集发布⭐</td></tr>
+      <tr><td>2026.9-10</td><td><strong>复星AR1001 III期顶线结果</strong></td><td>AD</td><td>⭐⭐⭐全球首个口服PDE5i AD III期，若成功改变AD治疗格局</td></tr>
+      <tr><td>2026.10</td><td><strong>礼来Remternetug III期数据</strong></td><td>AD</td><td>⭐⭐皮下注射anti-Aβ的best-in-class验证</td></tr>
+      <tr><td>2026.10</td><td>劲方GFH375 I期数据</td><td>KRAS</td><td>⭐⭐G12D中国进度最快，胰腺癌数据关键</td></tr>
+      <tr><td>2026.10</td><td>CagriSema FDA决策</td><td>GLP-1</td><td>⭐⭐诺和诺德下一代GLP-1，头对头替尔泊肽未达非劣效</td></tr>
+      <tr><td>2026Q4</td><td><strong>Retatrutide BLA提交</strong></td><td>GLP-1</td><td>⭐⭐⭐三靶点80周减重28.3%，可能超越替尔泊肽</td></tr>
+      <tr><td>2026.11</td><td><strong>CTAD 2026 (AR1001详细数据)</strong></td><td>AD</td><td>⭐⭐⭐全球最重要的AD会议，AR1001完整数据公布</td></tr>
+      <tr><td>2026Q4</td><td>DB-06 OS最终分析</td><td>ADC</td><td>⭐Enhertu HER2低表达OS数据</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4>2027年</h4>
+  <div class="table-wrap">
+  <table class="pipeline-table">
+    <thead><tr><th>事件</th><th>领域</th><th>预期影响</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Retatrutide FDA批准预期</strong> (Q1 2027)</td><td>GLP-1</td><td>⭐⭐⭐三靶点可能超越替尔泊肽成为best-in-class</td></tr>
+      <tr><td>恒瑞HRS-7535中国NDA获批</td><td>GLP-1</td><td>⭐⭐国产首个口服GLP-1</td></tr>
+      <tr><td>翰森奥莱泊肽获批预期</td><td>GLP-1</td><td>⭐⭐减重19.3%的国产双靶</td></tr>
+      <tr><td>Remternetug FDA批准预期</td><td>AD</td><td>⭐⭐皮下注射anti-Aβ，改变AD治疗可及性</td></tr>
+      <tr><td>Leqembi 预计跨$100亿</td><td>AD</td><td>⭐⭐blockbuster+级别</td></tr>
+      <tr><td>诺诚健华奥布替尼 SLE III期数据</td><td>自免</td><td>⭐⭐中国BTKi自免最大验证点</td></tr>
+      <tr><td>信达玛仕度肽 MASH III期数据</td><td>GLP-1</td><td>⭐⭐MASH是GLP-1下一增长曲线</td></tr>
+      <tr><td><strong>BL-B01D1 NSCLC III期中期分析</strong></td><td>ADC</td><td>⭐⭐⭐双抗ADC最大市场验证</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4>2028年</h4>
+  <div class="table-wrap">
+  <table class="pipeline-table">
+    <thead><tr><th>事件</th><th>领域</th><th>预期影响</th></tr></thead>
+    <tbody>
+      <tr><td><strong>首个Lp(a)药物获批预期</strong></td><td>心血管</td><td>⭐⭐⭐千亿级新市场开放</td></tr>
+      <tr><td><strong>首个KRAS G12D抑制剂获批预期</strong></td><td>肿瘤</td><td>⭐⭐⭐胰腺癌治疗范式改变</td></tr>
+      <tr><td>康弘KH631 (基因治疗) 获批预期</td><td>眼科</td><td>⭐⭐AMD基因治疗时代开启</td></tr>
+      <tr><td>Kisunla 指引~$22亿</td><td>AD</td><td>⭐⭐有限疗程模式验证</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ====== 数据来源 ====== -->
+<section id="sources">
+  <h2><span class="num">07</span>数据来源</h2>
+  <p>本报告数据来源于以下渠道，数据截至2026年8月19日，覆盖80+靶点/药物的管线进展、临床数据和审批状态。</p>
+  <ul style="padding-left:1.2rem;line-height:2;">
+    <li><strong>公司公告</strong>：礼来/诺和诺德/艾伯维/强生/罗氏/阿斯利康/第一三共2026半年报，信达生物/荣昌生物/恒瑞医药/康方生物/科济药业/康弘药业/百济神州等</li>
+    <li><strong>学术会议</strong>：ASCO 2026、AACR 2026、EHA 2026、ADA 2026、EULAR 2026、ACC 2026、AAIC 2026、ESMO 2026、CTAD 2026</li>
+    <li><strong>FDA/NMPA审批数据库</strong>、ClinicalTrials.gov</li>
+    <li><strong>券商研报</strong>：高盛、花旗、Jefferies、招商证券、中邮证券、华泰证券、银河证券等</li>
+    <li><strong>行业媒体</strong>：米内网、摩熵医药、证券之星、21世纪经济报道、新浪财经、医药魔方、Endpoints News、Fierce Pharma</li>
+    <li><strong>全球市场数据</strong>：Frost &amp; Sullivan、Fortune Business Insights、Polaris Market Research</li>
+  </ul>
+  <div class="callout callout-key" style="margin-top:1rem;">
+    <div class="label">更新说明</div>
+    <strong>更新周期</strong>：普通管线每3个月滚动更新（下次更新：2026.11.19）<br>
+    <strong>优先更新</strong>：FIC/BIC级突破、改变临床指南、引起行业进步/医疗格局变化的重磅药物<br>
+    <strong>保留历史</strong>：每次更新保留之前结果，新增而不是替换，可追溯数据变化轨迹<br>
+    <strong>覆盖范围</strong>：中国和美国市场的重要管线（>80个靶点/药物），五大治疗领域
+  </div>
+  <p style="margin-top:1rem;color:var(--muted);font-size:0.82rem;">
+    <strong>声明</strong>：本报告仅供研究参考，不构成投资建议。数据来源为公开信息，可能存在遗漏或错误。评估意见基于公开数据和行业评论，仅供参考，不构成投资决策依据。
+  </p>
+</section>
+
+</div>
+
+<footer>
+  <div class="container">
+    <p>创新药靶点深度解析·五大领域全谱系·深度评估版 | 数据截至 2026.08.19 | 覆盖80+靶点/药物</p>
+    <p>FIC/BIC级突破优先更新·普通管线每季度刷新·3个月滚动窗口</p>
+  </div>
+</footer>
+
+<script>
+function closeSidebar() {
+  if (window.innerWidth <= 900) {
+    document.querySelector('.sidebar').classList.remove('open');
+  }
+}
+document.addEventListener('scroll', function() {
+  var links = document.querySelectorAll('.sidebar ul li a');
+  var sections = [];
+  links.forEach(function(a) {
+    var href = a.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      var el = document.getElementById(href.slice(1));
+      if (el) sections.push({el: el, a: a});
+    }
+  });
+  var scrollY = window.scrollY + 100;
+  var active = null;
+  sections.forEach(function(s) {
+    if (s.el.offsetTop <= scrollY) active = s.a;
+  });
+  sections.forEach(function(s) { s.a.classList.remove('active'); });
+  if (active) active.classList.add('active');
+});
+</script>
+</body>
+</html>

@@ -40,28 +40,15 @@ footer { text-align: center; padding: 2rem 0; color: var(--muted); font-size: 0.
 <div class="container">
   <header>
     <h1>📊 医药行业研究报告</h1>
-    <p>靶点深度解析 · 产业链分析 · 创新药管线跟踪 · 持续更新</p>
+    <p>靶点原理（MoA）· 靶点调研（管线）· 产业链分析 · 持续更新</p>
   </header>
 
   <div class="report-list">
     <h2>📁 研究报告总览</h2>
 
-    <div class="repo-card" style="margin-bottom: 1rem;" onclick="window.location.href='reports/target-deep-dive.html'">
-      <div class="repo-title">创新药靶点深度解析 · 五大领域全谱系</div>
-      <div class="repo-desc">肿瘤·慢病·眼科·阿尔兹海默·自身免疫——80+靶点/管线深度评估，包含具体临床数据、BD交易、评估意见和催化剂时间线</div>
-      <div class="repo-meta">
-        <span class="repo-tag tag-onc">肿瘤</span>
-        <span class="repo-tag tag-met">慢病</span>
-        <span class="repo-tag tag-neuro">AD</span>
-        <span class="repo-tag tag-auto">自免</span>
-        <span class="repo-tag tag-eye">眼科</span>
-        | 数据截至 2026.08.19 | 3个月滚动更新
-      </div>
-    </div>
-
     <div class="repo-card" style="margin-bottom: 1rem;" onclick="window.location.href='reports/pharma-chain.html'">
       <div class="repo-title">医药产业链分析 · 从原料药到创新药</div>
-      <div class="repo-desc">覆盖制药装备、CXO、原料药、创新药、中药、医药商业等全产业链分析，含28家核心公司深度卡片</div>
+      <div class="repo-desc">覆盖制药装备、CXO、原料药、创新药、中药、医药商业等全产业链分析，含28家核心公司深度卡片、药物研发流程图与产业链关系图</div>
       <div class="repo-meta">
         <span class="repo-tag tag-pharma">产业链</span>
         <span class="repo-tag tag-pharma">CXO</span>
@@ -70,9 +57,34 @@ footer { text-align: center; padding: 2rem 0; color: var(--muted); font-size: 0.
       </div>
     </div>
 
+    <div class="repo-card" style="margin-bottom: 1rem;" onclick="window.location.href='reports/target-deep-dive.html'">
+      <div class="repo-title">靶点作用机制原理（MoA）· 优势与局限</div>
+      <div class="repo-desc">ADC/KRAS/双抗/CLDN18.2/CAR-T、免疫检查点、TKI、核酸药物、创新疗法、IO 2.0 十大靶点方向的作用机制深度解析与优势·局限对比，与靶点调研报告靶点级双向联动跳转</div>
+      <div class="repo-meta">
+        <span class="repo-tag tag-pharma">靶点原理</span>
+        <span class="repo-tag tag-pharma">MoA机制</span>
+        <span class="repo-tag tag-onc">肿瘤10大方向</span>
+        | 与靶点调研双向联动
+      </div>
+    </div>
+
+    <div class="repo-card" style="margin-bottom: 1rem;" onclick="window.location.href='reports/oncology-pipeline.html'">
+      <div class="repo-title">创新药靶点调研 · 肿瘤（癌症）领域全谱系</div>
+      <div class="repo-desc">肺癌·乳腺癌·消化道肿瘤·血液肿瘤·胰腺癌等癌种全覆盖——200+靶点/管线深度评估，含ADC/双抗/CAR-T/PD-1/PD-L1/TKI/核酸药物/IO 2.0，附临床数据、BD交易、评估意见和催化剂时间线</div>
+      <div class="repo-meta">
+        <span class="repo-tag tag-onc">肿瘤</span>
+        <span class="repo-tag tag-onc">ADC</span>
+        <span class="repo-tag tag-onc">双抗</span>
+        <span class="repo-tag tag-onc">CAR-T</span>
+        <span class="repo-tag tag-onc">PD-1/PD-L1</span>
+        <span class="repo-tag tag-onc">TKI</span>
+        | 数据截至 2026.08.19 | 3个月滚动更新
+      </div>
+    </div>
+
     <div class="repo-card" style="margin-bottom: 1rem; opacity: 0.6; cursor: default;">
       <div class="repo-title">🔄 更多报告即将上线</div>
-      <div class="repo-desc">生物类似药竞争格局、CAR-T商业化分析、GLP-1市场专题等报告正在制作中</div>
+      <div class="repo-desc">生物类似药竞争格局、新一代KRAS抑制剂专题、TIGIT/新免疫检查点专题等报告正在制作中</div>
       <div class="repo-meta">预计2026Q4更新</div>
     </div>
   </div>
@@ -81,8 +93,20 @@ footer { text-align: center; padding: 2rem 0; color: var(--muted); font-size: 0.
     <h2>📋 更新日志</h2>
     <div class="report-item">
       <div class="ri-left">
-        <div class="ri-title">2026.08.19 · 靶点深度解析深度评估版</div>
-        <div class="ri-desc">新增五大领域深度评估、章节入口导航卡、扩展评估意见</div>
+        <div class="ri-title">2026.08.19 · 靶点原理页重构 + 与调研报告双向联动</div>
+        <div class="ri-desc">原理页精简为「作用机制 + 优势与局限」十大肿瘤靶点方向，与靶点调研报告建立靶点级双向跳转入口</div>
+      </div>
+    </div>
+    <div class="report-item">
+      <div class="ri-left">
+        <div class="ri-title">2026.08.19 · 修复靶点原理入口 + 图表失效</div>
+        <div class="ri-desc">恢复「靶点原理」独立页面（MoA机制可视化），靶点调研报告单列，产业链报告图表改用自包含版</div>
+      </div>
+    </div>
+    <div class="report-item">
+      <div class="ri-left">
+        <div class="ri-title">2026.08.19 · 靶点调研全面扩展版</div>
+        <div class="ri-desc">肿瘤领域全谱系覆盖200+靶点/管线，新增PD-1/PD-L1/TKI/核酸药物/IO 2.0深度评估</div>
       </div>
     </div>
     <div class="report-item">

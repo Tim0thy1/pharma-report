@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新产业生物 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">新产业生物<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">化学发光免疫诊断 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch5">回产业链报告</a></div>
+    <h1>新产业生物<span class="code">300832.SZ</span></h1>
+    <p class="subtitle">体外诊断(IVD)· 国产化学发光免疫分析龙头 · 海外收入占比约44%</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+    <a href="jianfan.html">上一家 · 健帆生物</a>
+    <a href="autobio.html">下一家 · 安图生物</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈425-429亿元</div><div class="k-sub">2026-08-21(A股·7.86亿股)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈25x(PE-TTM)</div><div class="k-sub">PE-TTM 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PE/PB均处上市以来低位区;PB约4.7x</div><div class="k-sub">过去5年中位 历史PE中位约40x(估)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+12%~15%</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>国产化学发光免疫分析(CLIA)绝对龙头，主打高端全自动化学发光仪(MAGLUMI X系列)+高粘性试剂(肿瘤标志物/甲状腺/心标/激素)，高端仪器与海外市场双轮驱动。2025年国内受"安徽联盟集采+DRG+DIP+检验套餐解绑"多重压制拖累(国内免疫诊断市场同比-20%、整体营收仅+0.9%)，但2026H1经营已强力回正：营收24.20亿(+10.78%)、归母净利8.68亿(+12.53%)、Q2营收同比+约21%显著提速，海外试剂高增(+35%)成为核心引擎。当前PE-TTM约25x处于上市以来历史低位。风险核心是2026-07-06实控人翁先定被监察委实施留置这一治理黑天鹅尚未出清。</li>
+      <li><strong>基本面：</strong>2025营收45.77亿(+0.91%)、归母净利16.20亿(-11.39%)、扣非15.64亿(-9.12%)。毛利率69.46%(-2.8pct)、ROE加权18.43%、经营现金流净额15.22亿(OCF/净利约94%)、资产负债率仅8.01%。海外20.07亿(+19.16%创占比~44%)，海外试剂收入+34.96%、发光试剂销量+43.57%。</li>
+      <li><strong>估值：</strong>A股约54元、总市值约425-429亿元，PE-TTM约25x(处上市以来低位)、PB约4.7x、PS约8.9x。对应2026E一致预期EPS 2.36元约23x、2027E约19.5x、2028E约16.6x。高盛维持"买入"12个月目标价67元(较现价隐含上行，早期首覆曾给91元)。</li>
+      <li><strong>市场隐含预期：</strong>现价54元对应2028E一致预期EPS约3.2元约16.6-17x，隐含市场只对2026-2028归母净利给约+12~15%复合增速、并要求"海外试剂高增+高端装机转试剂+国内集采逐步出清"如期兑现。换言之市场并未为"爆发式成长"或"集采彻底退出"定价，当前买的是"估值历史低位+经营拐点已现的中国化学发光龙头"。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-10月底三季报(Q3营收能否延续20%+、国内试剂是否转正)、2026年安徽联盟IVD集采二轮及全国扩面结果与份额、海外市场大单与装机节奏、实控人翁先定留置案后续进展(是否涉及公司主体/是否解押减持)。</li>
+      <li><strong>情景结论：</strong>Bull 约86元(+60%) / Base 约64元(+19%) / Bear 约39元(-27%)，收益风险比约2:1，基本面占优但治理黑天鹅压制上限，宜分批布局而非一次性重仓。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>国产化学发光免疫分析(CLIA)绝对龙头、高端生化与流水线新军</strong>：新产业生物(Snibe)1995年成立于深圳、2020-05-12创业板上市(SZ300832)，专注体外诊断(IVD)，核心产品为"全自动化学发光免疫分析仪(MAGLUMI X8/X10系列)+配套高粘性试剂(肿瘤标志物/甲状腺功能/心脏标志物/激素/传染病/ToRCH等)"及全实验室自动化流水线(SATLARS T8)、高端生化(Biosays C10)。化学发光免疫为体外诊断份额最大、壁垒最高的细分，公司为国内市占领先的国产厂商、仅次于外资(罗氏/雅培/西门子/贝克曼)，海外收入占比约44%并持续提升。2026H1营收24.20亿(+10.78%)、归母8.68亿(+12.53%)，经营重回两位数增长。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>39.30</td><td>45.35</td><td>45.77</td><td>~51E(一致~50.6~51)</td><td>~58E(一致~57.3~58)</td></tr>
+        <tr><td>归母净利润</td><td>16.54</td><td>18.28</td><td>16.20</td><td>~18.5E(一致)</td><td>~21.5E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>~16.3(估)</td><td>~17.2(估)</td><td>15.64</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>72.93%</td><td>72.07%</td><td>69.25%</td><td>~70E%</td><td>~70-71E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>23.72%</td><td>22.85%</td><td>18.43%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~14.2(估)</td><td>~13.6(估)</td><td>15.22</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分产品(2025年报)：</strong>试剂类收入32.90亿(+0.67%)、仪器类收入12.81亿(+1.72%)、体外诊断主营45.71亿(+0.96%)；试剂占主营约72%，"仪器装机—试剂放量"高粘性复用为商业模式核心。<br><br><strong>分地区(2025)：</strong>国内25.64亿(-9.82%)、海外20.07亿(+19.16%)，海外占比约44%；海外试剂收入+34.96%、发光试剂销量+43.57%，2025海外销售化学发光仪3357台、中大型机型占比75.34%(+8.18pct)。<br><br><strong>主要产品线：</strong>高端化学发光MAGLUMI X8累计装机/销售4545台(至2025Q3末)、旗舰超高速X10于2025Q3上市并获国内注册证；SATLARS T8全实验室自动化流水线累计装机309条(2025新增222条)；高端生化Biosays C10获批上市；小分子夹心法(track)等创新平台布局中。<br><br><strong>医院覆盖(国内)：</strong>三级医院覆盖率46.95%、三甲医院覆盖率63.38%；2026Q1国内试剂收入已转正(+9%+)、国内经营回暖。<br><br><strong>客户/竞争：</strong>全球医院与检验实验室客户；竞争对手=外资(罗氏/雅培/西门子/贝克曼)与国产(迈瑞/安图/亚辉龙)，公司为国产化学发光市占领先。<br><br><strong>管理层/治理：</strong>实控人/董事长翁先定，大股东西藏新产业投资管理有限公司；注意2026-07-06实控人被监察委实施留置(治理黑天鹅)；公司随即推出1-2亿元回购方案(回购价上限60元/股)护盘，2026-07-10大股东质押428万股。<br><br><strong>资产负债：</strong>资产负债率仅8.01%(行业极低)、净现金充裕、经营现金流与净利比值约94%质优；2025研发投入4.78亿(+5.33%、占营收10.44%)。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>海外(+19.16%)与中国高端装机是真实引擎：海外试剂+34.96%、发光试剂销量+43.57%、中大型装机占比75%；2026H1国内经营已回正，Q2营收同比+约21%显著提速。</li><li><strong>会计/周期性拖累：</strong>2025国内-9.82%、国内试剂-13.77%主因"安徽牵头体外诊断试剂省际联盟集采落地压价+DRG/DIP按病种付费+2025-05检验套餐解绑与跨机构结果互认"引发检测量下滑，国内免疫诊断市场2025同比-20%(IQVIA)——属政策周期而非经营质量恶化。</li><li><strong>一次性因素：</strong>汇兑损益扰动利润表观(2026Q1剔除汇兑后利润总额同比+13.16% vs 表观归母+1.02%)；另有政府补助、非流动资产处置损益等小额非经常损益。</li><li><strong>结论：</strong>增长重心在"海外高增+国内高端装机后试剂上量"，国内表观被政策周期压制，表观利润还受汇兑扰动——评估以扣非(2025为15.64亿)+海外试剂增速+装机节奏为准绳。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈53-54元</strong></td><td>2026-08-21区间51.7-55.0；多个行情源52.3-54.6</td></tr><tr><td>A股总市值</td><td><strong>≈425-429亿元</strong></td><td>总股本7.86亿股；流通约373亿</td></tr><tr><td>EV</td><td><strong>≈380-420亿元(估)</strong></td><td>市值-净现金(负债率仅8%、货币资金充裕)</td></tr><tr><td>PE-TTM</td><td><strong>≈25x</strong></td><td>TTM归母约17.1-17.2亿(东财/理杏仁24.5-25x)</td></tr><tr><td>PE-2026E</td><td><strong>≈22.5-23x</strong></td><td>近六月一致预期EPS约2.36元</td></tr><tr><td>PE-2027E</td><td><strong>≈19.3-19.8x</strong></td><td>一致预期EPS约2.76元</td></tr><tr><td>PE-2028E</td><td><strong>≈16.6-17x</strong></td><td>一致预期EPS约3.2-3.23元</td></tr><tr><td>PB</td><td><strong>≈4.7x</strong></td><td>每股净资产约11.4元；处上市以来低位区</td></tr><tr><td>PS(TTM)</td><td><strong>≈8.9x</strong></td><td>市值约428亿/营收48亿(TTM)</td></tr><tr><td>EV/EBITDA</td><td><strong>≈15-16x(估)</strong></td><td>高毛利、CDX高，估</td></tr><tr><td>OCF/FCF Yield</td><td><strong>≈3.5-3.6%</strong></td><td>2025经营现金流15.22亿/市值约425亿</td></tr><tr><td>股息率</td><td><strong>≈2.2%</strong></td><td>2025年度10派12元(每股1.2元)@约54元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(东财428.77亿/PE-TTM24.97/PE静26.46/PB4.78、理杏仁PE-TTM24.56/PB4.7/股息率2.23%、新浪、同花顺)市值约407-429亿、股价约46.9-54.6元、PE-TTM约23.7-25x均于2026-08-20/21交叉核对，8-21取主流口径约425亿/25x(多处快照时点不同略有出入)。关键提醒：①50%以下为第三方"估值字段"，关键市值/股本/营收/净利已回财报口径；②PE受汇兑与集采扰动、近两年波动大，横向比用扣非口径更稳；③5年PE分位为AI估算(上市仅约6年、早期高估值典型)；④未来PE、Bull/Base/Bear、高盛目标价均为预测口径，须以实际披露为准。实控人留置为估值重估关键变量。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM(当前)</td><td><strong>约25x</strong></td><td>历史峰值约80-90x(2021初)、近5年中位约40x(估)——当前处上市以来低位区</td></tr><tr><td>PB(当前)</td><td><strong>约4.7x</strong></td><td>历史峰值约12-14x(2021)、中位约8-9x(估)——处历史低位</td></tr><tr><td>股息率</td><td><strong>约2.2%</strong></td><td>历史高分红、近5年中上水平，体现底部防守属性</td></tr>
+      </tbody>
+    </table></div>
+    <p>无论PE-TTM(~25x)还是PB(~4.7x)，新产业均处于上市以来(仅约6年)的历史低位区——这是"2025国内集采+DRG+套餐解绑拖累表观、2026-07实控人留置治理黑天鹅、高增长预期被下修"三重因素共振的结果。2021年为估值绝对高峰(市梦率区间)。当前低位区反映市场对"政策压制+治理不确定"的谨慎；若海外高增与国内拐点延续(2026H1已验证)，估值具备自底部修复的空间——但实控人留置能否出清是估值能否系统性抬升的前提。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>45.77</td><td>~51.0E(一致)</td><td>~58E(一致)</td><td>~66E(一致)</td></tr>
+        <tr><td>毛利率</td><td>69.25%</td><td>~70E%</td><td>~70-71E%</td><td>~70-71E%</td></tr>
+        <tr><td>净利润</td><td>16.20</td><td>~18.5E(一致)</td><td>~21.5E(一致)</td><td>~25E(一致)</td></tr>
+        <tr><td>EPS</td><td>2.06</td><td>~2.36E</td><td>~2.76E</td><td>~3.2E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：高端产品矩阵(MAGLUMI X8/X10、SATLARS T8流水线、Biosays C10)持续获市场验证、三级/三甲覆盖率提升驱动；海外"中大型装机+试剂放量"结构升级；国内随集采适应与检测量回补边际改善交替。(公司IR/业绩交流会纪要)（公司指引）/ <strong>市场一致预期(东财/同花顺近六月均值)：营收2026E 50.6-51亿(+11%)、2027E 57.3-58亿、2028E 66-66.5亿；归母2026E约17.9-18.7亿(EPS约2.28-2.38元，近六月平均2.36/PE23.1x)、2027E约20.4-21.6亿(EPS2.76/19.8x)、2028E约23.3-25.1亿(EPS3.23/16.6x)。兴业2026E归母18.13亿、方正18.68亿，内资预测偏中性。</strong>（市场一致预期）/ <strong>AI估算：营收2026E 50.5-52亿(+11%)、2027E 57-59亿(+13%)、2028E 65-68亿(+14%)；归母2026E 18-19亿(2026H1已+12.53%给支撑)、2027E 21-22亿、2028E 24-26亿；毛利率2026E约70%、2027-28E约70-71%；EPS约2.36/2.76/3.2元。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>化学发光/IVD型潜力指标</h3><ul><li><strong>装机→试剂放量(高粘性核心)：</strong>MAGLUMI X8累计装机/销售4545台、旗舰X10 2025Q3上市、SATLARS T8流水线累计309条(当年+222条)——装机持续抬高仪器保有量，试剂随用量复利放量(2025海外试剂+34.96%、销量+43.57%)。</li><li><strong>海外高增与结构升级：</strong>2025海外+19.16%、中大型机型占比75.34%(+8.18pct)；高盛测算海外收入占比到2033E升至约47%——海外是最确定、弹性最大的引擎。</li><li><strong>高端市场突破：</strong>X10超高速+流水线正面挑战外资垄断的三级医院核心阵地；国内三级医院覆盖46.95%、三甲63.38%，单点价值与份额双升。</li><li><strong>试剂菜单+创新平台：</strong>肿瘤/甲功/心标/激素/传染病等丰富菜单+小分子夹心法(track)等创新平台驱动单测试价值与复用率提升。</li><li><strong>国内拐点确认：</strong>2026H1国内试剂收入转正(+9%+)、Q2营收同比+约21%，集采与DRG边际冲击趋缓。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2025归母-11.39%≠经营恶化：下滑主因国内"安徽联盟IVD集采+DRG/DIP+检验套餐解绑"致检测量降(国内免疫市场-20%)，属政策周期；海外真实经营保持高增(试剂+35%)。2026H1归母+12.53%为经营拐点(剔除汇兑后利润总额+13.16%)。一次性因素主要为汇兑损益季节性扰动+小额政府补助/处置损益——评估以扣非(2025为15.64亿)+海外试剂增速+装机节奏为准。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>海外化学发光(占~44%)</td><td><strong>+约7-8pct</strong></td><td>海外试剂收入+34.96%、发光试剂销量+43.57%、中大型装机占比升至75%——最确定的量增与利润弹性引擎</td></tr><tr><td>国内高端装机→试剂上量</td><td><strong>+约4-5pct</strong></td><td>MAGLUMI X8/X10旗舰+SATLARS T8流水线累计309条装机放量→高粘性试剂复用；三级/三甲覆盖46.95%/63.38%</td></tr><tr><td>高端产品与菜单升级</td><td><strong>+约2-3pct</strong></td><td>X10超高速+高端生化Biosays C10+小分子夹心法平台，单测试价值与复用量提升、海外毛利率高于国内</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎由"海外市场高增(试剂+35%)+国内高端装机后试剂上量(2026H1国内转正)"双轮驱动，以"装机—试剂"高粘性复用为底层。最领先指标是海外试剂销量增速(+43%)与装机中大型占比；2026H1国内拐点(Q2营收+约21%、国内试剂+9%+)进一步确认。综合判断：营收中长期能维持高个位至低双位数(约+11~14%)增长，增长率主要由海外贡献；国内是"政策出清后的修复期权"。增长兑现的最大变量是实控人留置引发的治理与经营连续性。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价约54元(市值约425-429亿)对应2026E一致预期EPS 2.36元约23x、2027E约19.5x、2028E约16.6x(一致EPS约3.2元)。隐含市场对2026-2028归母净利给约+12~15%复合增速，并要求：①海外化学发光试剂维持高增(依赖海外市场景气与地缘稳定)；②国内集采/DRG冲击不再加深、检测量逐步回补；③实控人留置仅停留个人层面、不波及公司经营与资产。<br><br>换言之，当前价格买的是"估值历史低位+经营拐点已现"的中国化学发光龙头，但<strong>并未为爆发式成长或政策彻底转暖定价</strong>。若海外/国内量增兑现且治理黑天鹅出清，估值可自约25x低分位修复；若国内集采超预期深化或实控人留置横生波及，估值将继续压制在低分位——当前定价对"增长兑现"相对宽容、对"治理出清"相对保守，中枢偏Base。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>化学发光技术与仪器壁垒：</strong>高端全自动化学发光仪(MAGLUMI X8/X10)+流水线(SATLARS T8)为三大外资+极少数国产掌握的领域，仪器单机价值高、配试剂定制绑定，海外需过CE/FDA等多重认证。</li><li><strong>装机—试剂高粘性商业模式：</strong>仪器一旦入院，试剂随检测量持续复利放量、替换成本与认证成本高，为IVD最优商业模式的"现金牛"。</li><li><strong>海外渠道与本地化网络：</strong>海外收入占比约44%、覆盖广，中大型装机占比75%——国产同行短期难复制其海外装机与渠道。</li><li><strong>试剂菜单与研发：</strong>肿瘤/甲状腺/心标/激素等丰富菜单+小分子夹心平台，研发投入占营收10.44%(2025为4.78亿)，支撑化验菜单扩容。</li><li><strong>医院卡位：</strong>国内三级46.95%、三甲63.38%覆盖，先发装机形成切换壁垒。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>化学发光的"高端仪器+试剂绑定+海外认证+医院装机"组合壁垒很高，新进入者难以快速复制。主要威胁来自①外资(罗氏/雅培/西门子/贝克曼)的仪器与试剂全线压制与配套降价、②国产迈瑞(MT8000流水线)/安图/亚辉龙的正面竞争——它们可在单品类/流水线上复制产品并打价格战。新产业差异化在于化学发光细分市占领先+海外装机与渠道先发+试剂菜单深度，护城河评为"中上"，但2025国内集采已证明其定价权并非绝对，外资在三级医院高端与迈瑞在流水线装机两处是真实的竞争压力点。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>已披露</strong> · 2026-08-13/14半年度报告(营收+10.78%、归母+12.53%、Q2营收+约21%)——经营拐点确认 — 盈利/估值</p><p><strong>2026-10月底</strong> · 三季报(Q3营收能否延续20%+、国内试剂与海外试剂增速)——盈利</p><p><strong>2026H2-2027</strong> · 安徽牵头的体外诊断试剂省际联盟集采二轮/全国扩面与结果份额——国内量/价重构</p><p><strong>持续</strong> · 海外大额订单与装机(中大型占比提升)、SATLARS T8流水线与X10高端放量——收入</p><p><strong>持续监控</strong> · 实控人翁先定留置案(2026-07-06立案)后续处置/是否波及公司主体/解押减持——治理风险是否出清 — 估值</p><p><strong>持续</strong> · 高盛"买入"目标价67元(首覆曾给91元)及外资评级动向——估值锚</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>IVD集采/联盟压价</td><td>收入+毛利率</td><td>安徽牵头的省际联盟集采2025落地致价格下行、国内试剂-13.77%(销量仅+3.2%)；扩面或再压</td></tr><tr><td>DRG/DIP+检验套餐解绑</td><td>收入+检测量</td><td>2025-05《检验项目"套餐解绑"及结果互认》+按病种付费致国内免疫诊断市场-20%(IQVIA)</td></tr><tr><td>实控人被留置(治理)</td><td>估值+经营连续性</td><td>翁先定2026-07-06被监察委留置，属治理黑天鹅；是否涉公司主体/质押(2026-07-10大股东质押428万股)/减持待明确</td></tr><tr><td>海外地缘/准入/关税</td><td>收入+估值</td><td>海外占比约44%，高端市场准入限制、贸易摩擦与汇率波动放大业绩波动</td></tr><tr><td>竞争(外资+国产)</td><td>收入+份额</td><td>罗氏/雅培/西门子/贝克曼全线压制，迈瑞/安图/亚辉龙正面争夺装机与流水线市场</td></tr><tr><td>装机—试剂放量节奏</td><td>收入+增长</td><td>仪器降价促销/装机放量若未如期转化试剂复用，或稀释毛利率、拖累短期盈利</td></tr><tr><td>汇率</td><td>利润</td><td>2026Q1剔除汇兑后利润总额+13.16% vs 表观+1.02%，汇兑显著扰动表观净利</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>海外试剂持续高增+国内集采出清+高端X10/流水线放量+实控人留置温和出清</td><td>~27亿E(2028)</td><td>~25x</td><td>~86元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>海外高增延续+国内温和修复、毛利率稳定约70%、治理黑天鹅不波及经营</td><td>~25亿E(一致EPS~3.2)</td><td>~20x</td><td>~64元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>集采/DRG超预期深化+海外地缘收紧+实控人留置波及公司或经营连续性</td><td>~19亿E</td><td>~16x</td><td>~39元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约54元为基准：上行到Bull约86元(+60%)、Base约64元(+19%)，下行到Bear约39元(-27%)；收益风险比约2:1(Bull视角)，估值低分位+经营拐点提供安全边际，但实控人留置这一治理黑天鹅压制上限并抬高下行尾部。底部价值优于追高，宜分批布局而非一次性重仓。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026Q3/全年营收或归母增速回落至个位数、归母增速长期低于10%未能兑现拐点；②安徽及全国IVD集采深化致国内试剂继续双位数下滑、毛利率持续跌破67%；③实控人留置进展不利——波及公司主体、出现超预期质押/减持或经营连续性受损；④海外高增中断(地缘/准入)致海外试剂增速跌破20%；⑤8.01%超低杠杆下仍有资产/减值问题暴露——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：体外诊断(IVD)/化学发光免疫——处于"2025集采+DRG+套餐解绑引发的国内政策阵痛期后、高端装机与海外驱动修复"的阶段。国内免疫诊断市场2025同比-20%、板块整体估值(尤其化学发光龙头)处历史低位；但化学发光凭"国产替代+装机后试剂放量+海外渗透"的高粘性商业模式，为IVD中确定性较优的细分。新产业所处景气：海外上行(试剂+35%)、国内筑底修复(2026H1转正)，属"行业底部反转初期+个股拐点已现"，但被实控人留置治理因素压制。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价约54元，7月实控人留置事件后自40.97元低点明显回升(换手温和、量能放大)，短期上方55-58压力、下方48-50平台、40-41留置后低点支撑</td><td><strong>底部回升趋势但已反弹较大乖离，追高性价比一般，等回踩48-50企稳再增</strong></td></tr><tr><td>基本面</td><td>2026H1营收+10.78%、归母+12.53%、扣非+13.60%，Q2营收+约21%显著提速；海外试剂+35%、国内试剂转正；毛利率约70%稳、OCF/净利约94%质优</td><td><strong>经营拐点已确认，基本面在政策周期出清+海外驱动下向上，验证点10月三季报</strong></td></tr><tr><td>情绪面</td><td>医药/IVD板块情绪回暖、估值处历史低分位、公司回购护盘(1-2亿)、高盛买入支撑；但实控人留置令部分资金谨慎</td><td><strong>情绪中性偏暖但受治理不确定压制，底部钝化、风险大体释放</strong></td></tr><tr><td>政策影响</td><td>安徽IVD联盟集采+DRG/DIP+检验套餐解绑为国内主要压制(2025充分反映)；全国扩面与结果份额待明朗——政策负面但边际冲击趋缓，治理(留置)为独立尾部变量</td><td><strong>政策偏负面但已充分预期，边际弱化看集采结果与留置处置</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(优先)：高盛维持"买入"评级、12个月目标价67元(2026-07-06交流要点，较当日42.39元隐含约58%上行；其DCF约64元+部分并购价值84元，早期首覆曾给91元)——认可"海外收入占比到2033E升~47%、海外毛利率更高可对冲国内集采"。其余外资(摩根士丹利/瑞银/美银/花旗/杰富瑞)对化学发光龙头覆盖信息有限未详查证。内资研报(光大/国信/开源/兴业/方正/中金/中泰等)多为"增持/买入"、目标价与盈利预测偏中性(如兴业2026E归母18.13亿)，内资普遍未充分定价留置风险、参考价值弱于外资——外资优先。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：估值历史低分位(PE-TTM约25x)+经营拐点已现(2026H1营收+10.78%/归母+12.53%、Q2+约21%)+海外高增(试剂+35%)+高盛买入支撑，是"国产化学发光龙头底部反转"候选；但实控人翁先定2026-07被留置这一治理黑天鹅未出清，构成显著尾部风险。判断为<b>分批布局/等企稳信号、现价不追高</b>：现价约54元可先建1-2成底仓；加仓触发——回落至约48-50元缩量企稳(留置后回升平台附近)、或2026-10三季报确认Q3延续增速、或实控人留置处置明朗(确权/解绑)则加至3-4成。止损：有效跌破约40元(7月留置后低点41元下方)离场，不盲目抄底。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>新产业生物2025年年度报告及摘要(深交所披露2026-04-28)、2026年一季度报告及半年度报告(2026-08-13/14)、公告(2026-07-06实控人被留置0.05-052、回购方案、大股东质押等)、业绩说明会/投资者关系活动记录(4-30)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(高盛/光大/国信/开源/兴业/方正/中金/中泰/太平洋/华创/国联民生等)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10(估值/盈利预测)、同花顺(PE/PB/股息)、新浪财经、证券之星、理杏仁(市值/PE/PB交叉验证)、雪球</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>股吧/公众号/中证智能财讯(仅线索，数据未直接采信)</p></div>
+    <p>高信心(90%·财报口径)：营收45.77亿/归母16.20亿/扣非15.64亿/毛利率69.25%(主营69.46%)/ROE18.43%/OCF15.22亿/海外20.07亿(+19.16%)/试剂32.9亿、仪器12.81亿、负债率8.01%、实控人留置事件均回2025年报、2026一季报/半年报、公告与IR纪要核对。中高信心(76%·估值)：市值407-429亿、股价47-55元、PE-TTM约23.7-25x、PB约4.5-4.8x来自第三方(8-20/21交叉比对)，EV/EBITDA与FCF为AI估、5年PE分位为估算。中低信心(45-55%·预测)：2026-28E一致预期与Bull/Base/Bear为主观推演；实控人留置"处置进展"、2026安徽II轮集采结果、2027海内外增速为待核实；2026三季报(10月底)前涉Q4及以后均为预测。未回源码均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>新产业生物2025年年度报告及摘要（深交所披露2026-04-28）</li>
+        <li>新产业生物2026年一季度报告（2026-04-28）与半年度报告（2026-08-13/14，深交所）</li>
+        <li>新产业生物公告2026-052《关于实际控制人被留置的公告》（2026-07-06）、回购方案与股东质押公告</li>
+        <li>高盛（Goldman Sachs）新产业(300832.SZ)评级与目标价研报（买入/67元，含首覆91元）</li>
+        <li>光大/国信/开源/兴业/方正/中金/中泰/太平洋等券商研报及盈利预测</li>
+        <li>东方财富F10 / 同花顺(iFind) / 新浪财经 / 证券之星 / 理杏仁 市值、PE、PB交叉验证（2026-08-20/21）</li>
+        <li>IQVIA艾昆纬行业报告（国内免疫诊断/生化诊断市场规模口径）</li>
+        <li>证券之星/中证智能财讯 报道（部分线索）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

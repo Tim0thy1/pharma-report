@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>华大基因 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">华大基因<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">基因测序/精准医疗 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch5">回产业链报告</a></div>
+    <h1>华大基因<span class="code">300676.SZ</span></h1>
+    <p class="subtitle">国内基因测序与精准医学服务龙头 · 华大集团核心上市平台 · 海外收入占比约30% · 新冠基数出清后迎扭亏修复</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+    <a href="autobio.html">上一家 · 安图生物</a>
+    <a href="kindstar.html">下一家 · 金域医学</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈176亿元</div><div class="k-sub">2026-08-21(A股,42.2元×4.18亿股)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">归母TTM仍为负(约-5.6亿)PE无意义;若看2028E一致EPS0.33元约128x</div><div class="k-sub">PE口径 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB约2.08x处近5年中低位(新冠高峰约9-10x);PS-TTM约4.75x亦低于2020-21高位6.5-7x</div><div class="k-sub">过去5年中位 PE/盈利被2024-25大额亏损失真,以PB+PS为准绳;PB 2020-2026区间约1.5-9.5x</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">2026E归母扭亏(一致预期约0)——公司经营口径全年归母1.8-2.6亿元(乐观);自-6.17亿(2025)大幅修复</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>国内基因测序与精准医学服务绝对龙头、华大集团核心上市平台。经历2020-2021新冠检测爆发(2020归母20.9亿、市值一度近800亿)后收入与利润大幅回落,2021-2023归母三连降(14.62亿→8.03亿→0.93亿),2024-2025连续大额亏损(2024归母-9.03亿、2025-6.17亿)。2026H1归母4740万元(+718%)、扣非843万元转正,正式进入"扭亏修复元年"。当前约42元、PB约2.1x处近5年中低位,交易的是"商业模式从新冠检测向精准医学海外本地化(tNGS/SIRO/沙特订单)升级后的盈利修复"预期;但盈利仍显微薄、生育健康NIPT受集采与需求下滑压制、毛利率仍在37.6%下行通道、华大系关联与海外地缘扰动密集,远期盈利(2028E一致EPS0.33元→前瞻PE约128x)仍偏贵,须等利润持续兑现。</li>
+      <li><strong>基本面：</strong>2025营收37.05亿(-4.18%)、归母-6.17亿(减亏31.69%)、扣非-6.36亿(减亏30.82%),毛利率37.6%(-约4pct),ROE为负,经营现金流-2.54亿。2026H1营收17.89亿(+9.59%)、归母4740万(+718%)、扣非843万(转正)、Q2归母约+0.57亿。分部(2025):精准医学综合解决方案15.88亿(+19.45%,占42.8%)、生育健康8.26亿(-28.06%,占22.3%)、多组学大数据与合成6.68亿(+0.08%)、肿瘤与慢病5.11亿(-18.28%)、感染0.95亿(+30.29%)。归母净资产84.94亿、货币资金32.86亿、商誉仅0.36亿、研发投入10.32亿(约占营收28%)。</li>
+      <li><strong>估值：</strong>约42.2元、总市值约176亿(4.18亿股);归母TTM约-5.6亿致PE无参考;PB约2.08x(每股净资产约20.3元)、PS(TTM)约4.75x。2026E一致归母接近打平、2027E约0.7亿、2028E约1.4亿(一致EPS0.33元→前瞻PE约128x)。华泰(内资)目标价48.30元(增持,4-30时点)。</li>
+      <li><strong>市场隐含预期：</strong>现价42.2元对应PB约2.1x(近5年中低位)、PS约4.75x,隐含市场已为"H1扭亏+商业模式升级(海外SIRO本地化+沙特9.5亿框架订单+AI产品)"给出修复定价,并要求远期(2028)归母转正成规模。按2028E一致EPS0.33元前瞻PE约128x,当前并未为"强劲爆发"定价——买的是"扭亏+确定性修复"而非成长爆发,需后续季度持续验证利润绝对额。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026Q3/Q4能否延续扭亏且归母绝对额环比改善、控本与回款及毛利率能否企稳;SIRO新增签约与沙特9.5亿订单确认节奏;NIPT集采是否再降价(毛利率37.6%能否企稳或回升);应收账款/信用减值与经营现金流能否转正;全年归母能否≥1.8亿(H1仅0.47亿);华大系关联交易与大股东质押情况。</li>
+      <li><strong>情景结论：</strong>Bull约50元(+19%) / Base约43元(≈现价) / Bear约30元(-29%)，收益风险比约0.7:1——盈利尚薄、远期PE仍贵,现价已反映中报扭亏,宜等回调或Q3/Q4利润确认再提高仓位,不追高。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>国内基因测序与精准医学服务绝对龙头、华大集团核心上市平台</strong>：华大基因2017年创业板上市(SZ300676)，主营基因测序与临床应用服务，覆盖生育健康(无创产前NIPT/携带者筛查/新生儿筛查/遗传病诊断)、肿瘤与慢病防控、感染防控、多组学大数据与科研服务(科研组学/时空组/类器官/合成生物学)、以及精准医学检测综合解决方案(依托SIRO本地化高通量测序方案,仪器+试剂+AI平台+检测服务打包,已与国内2600余家医疗机构合作、海外51国完成超170个技术转移项目)。华大体系:实控人/董事长汪建统领华大控股,华大智造(688114,测序仪硬件上游/关联采购)、华大研究院(技术与科研源头)、尹烨任华大集团CEO。海外收入占比约30%,依托SIRO本地化实验室主攻新兴市场生育健康与临床检测。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>43.50</td><td>38.67</td><td>37.05</td><td>~39E(一致)/公司乐观44-47</td><td>~41E(一致)/乐观45-47</td></tr>
+        <tr><td>归母净利润</td><td>0.93</td><td>-9.03</td><td>-6.17</td><td>~0E(一致)/公司乐观1.8-2.6</td><td>~0.7E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>0.93</td><td>-9.19</td><td>-6.36</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>49.9%</td><td>~41.5%</td><td>~37.6%</td><td>~38E%</td><td>~39E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~1%(估)</td><td>~-9.6%(估)</td><td>~-7%(估)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~5(估)</td><td>~-1(估)</td><td>-2.54</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(2025年报):</strong>精准医学检测综合解决方案15.88亿(+19.45%,占42.84%,含海外SIRO本地化仪器+试剂+服务与沙特项目——唯一增长引擎);生育健康基础研究和临床应用服务8.26亿(-28.06%,占22.30%,毛利率43.31%,其中无创产前检测NIPT同比-约38%,受需求下滑+集采降价;但携带者筛查/新生儿遗传病筛查2026H1同比+约35%/51%);多组学大数据服务与合成业务6.68亿(+0.08%,占18.02%,毛利率31.92%);肿瘤与慢病防控5.11亿(-18.28%);感染防控0.95亿(+30.29%,PTseq系列tNGS同比翻倍)。<br><br><strong>商业模式升级(2026H1):</strong>依托自研GeneT大模型推出华医系列智能终端/多组学智能健康终端/智慧医疗解决方案,覆盖生育、肿瘤、感染、慢病;推出SIRO高通量基因检测本地化方案(仪器+试剂+AI平台+检测服务打包),国内2600余家医疗机构合作、1500+深度本地化实验室;熵设C端健康(华大时空智惠健康中心/社区健康小屋)。<br><br><strong>海外(2026H1):</strong>海外收入占比约30%;SIRO方案51国170+技术转移项目,完成亚太首家医院SIRO本地化技术转移并启动欧/东亚试点;沙特合资公司Genalive中标9.5亿元沙特NUPCO外送检测集中采购订单(史上最大剂量与最大项目数);拉美生育健康(无创产前海外获证)增长明显,东南亚/中东欧精准医学快增、西欧稳健;与泰国卫生部/印度Lilac/巴西利亚天主教大学等战略合作。<br><br><strong>华大系关系/治理:</strong>实控人汪建(董事长,兼任华大控股/华大智造董事长)统领华大集团;总经理侯勇(原华大智造董事)。2026年日常关联交易在董事会额度内(含向华大智造等出租房屋/设备、销售等,涉及关联董事汪建/侯勇/李宁回避表决)。华大智造(688114)2025营收27.80亿(-7.73%)/归母-2.22亿(减亏63%),测序上游价格战激烈,构成华大体系硬件来源与关联采购。<br><br><strong>资产负债/质量:</strong>归母净资产84.94亿、资产负债率约26%、商誉仅0.36亿、研发投入10.32亿(约占营收28%);2025计提信用减值(应收账款坏账)2.85亿,下游医院/政府客户回款周期长致2025经营现金流-2.54亿、2026H1为-2.77亿(同比改善).大股东/私募2025-09曾增持约1673万股(占流通4.02%)。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营修复:</strong>2026H1扭亏(归母4740万+718%、扣非843万转正、Q2归母约+0.57亿),驱动力来自海外SIRO本地化+沙特9.5亿订单确认+降本控费+新产品(感染tNGS/质谱/遗传病)放量。</li><li><strong>会计/基数拖累:</strong>2024-2025连续大额亏损主要系新冠高基数退潮后的收入塌缩+应收账款坏账集中计提(2025信用减值2.85亿)+交付中心调整与资产减值+毛利率下行(50%→37.6%)。2026H1扣非仅843万/营收17.89亿,净利率不足1%,盈利仍显微薄、尚处"扭亏initialization"而非稳定盈利。</li><li><strong>一次性因素:</strong>历年非经常性损益含政府补助/投资收益/公允价值等(2021-2023归母与扣非接近、非经常占比总体不大),核心矛盾是经营层面增收困难与毛利率下行,而非一次性。扭亏主要靠体量修复与费用优化,弹性大但不稳。</li><li><strong>结论:</strong>看经营侧"海外增量+毛利率企稳+归母绝对额环比回升"为基准;归母扭亏(2026H1)是拐点信号但基数极低,须以Q3/Q4连续验证为准绳,勿以单季扭亏线性外推。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈42.2元</strong></td><td>2026-08-21中报发布日高开冲高43.77后收42.2,换手7.72%,当日量放大;8-20高中45后回落</td></tr><tr><td>A股总市值</td><td><strong>≈176亿元</strong></td><td>总股本4.18亿股(@42.2元);流通股本约4.16亿</td></tr><tr><td>EV</td><td><strong>≈150亿元(估)</strong></td><td>市值176亿扣净现金(货币资金32.86亿-有息负债约6.4亿≈净现金26亿)</td></tr><tr><td>PE-TTM</td><td><strong>亏损,无意义</strong></td><td>归母TTM约-5.6亿;PE口径不准</td></tr><tr><td>PE-2026E</td><td><strong>亏损/扭亏前夕</strong></td><td>一致预期2026归母约0(接近打平);公司乐观口径1.8-2.6亿</td></tr><tr><td>PE-2027E</td><td><strong>≈250x(估)</strong></td><td>一致预期归母约0.7亿</td></tr><tr><td>PE-2028E</td><td><strong>≈128x</strong></td><td>一致预期EPS 0.33元(归母约1.4亿)</td></tr><tr><td>PB</td><td><strong>≈2.08x</strong></td><td>每股净资产约20.3元(2025末归母净资产84.94亿);近5年中低位</td></tr><tr><td>PS(TTM)</td><td><strong>≈4.75x</strong></td><td>市值176亿/营收37.05亿;低于2020-21高位6.5-7x</td></tr><tr><td>EV/EBITDA</td><td><strong>亏损,缺乏参考</strong></td><td>EBITDA 2025为负</td></tr><tr><td>FCF Yield</td><td><strong>为负</strong></td><td>经营现金流2025-2.54亿/2026H1-2.77亿,扩展投资以海外实验室与研发为主</td></tr><tr><td>股息率</td><td><strong>≈0%</strong></td><td>2025亏损无派息;PEG失真(盈利未稳)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方口径(东财/同花顺/新浪/证券之星)总市值176-180亿、股价42元左右、PB约2.0-2.1x、PS约4.7x于2026-08-21交叉核对;总股本4.18亿股、流通4.16亿股与交易所/东财F10一致。关键口径提醒:①归母TTM仍为负,PE不具参考性,须用PB+PS+前瞻预期评估;②PB约2.1x处近5年中低位但仍高于2025年最惨区间(约1.4-1.6x),且对亏损/微利公司不能简单视为"便宜";③预测(2026-28E)/PE-Base-Bull-Bear均为一致预期/AI估算,公司全年口径(归母1.8-2.6亿)明显高于机构一致预期(打平),需以季报验证;④华大系关联采购与定价对盈利有影响,评估宜谨慎。预测一律标识口径,未回源码标"估/待核实"。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PB(当前)</td><td><strong>约2.08x</strong></td><td>每股净资产20.3元;历史峰值约9-10x(2020新冠巅峰,市值近800亿)、2021-22约5-7x、2023约3-4x、2024-25亏损期约1.4-2.5x——处近5年中低分位</td></tr><tr><td>PS/PE(当前)</td><td><strong>PS约4.75x · PE亏损失真</strong></td><td>PS低于2020-21高峰6.5-7x;PE因2024-25大额亏损被失真,2026H1扭亏后开始恢复意义</td></tr><tr><td>历史极端</td><td><strong>2020-07峰值市值约797.7亿(PB约9x)</strong></td><td>新冠检测红利高峰:2020归母20.9亿、2021归母14.62亿;此后股价累跌约85%(2021高点至2024),2024为上市以来首亏</td></tr>
+      </tbody>
+    </table></div>
+    <p>华大基因经历了典型的"新冠红利暴涨→疫情退潮估值崩塌"周期:2020PE高峰达约9-10x、市值近800亿,2021-2025盈利逐级塌缩至亏损,估值(尤其PB)随之下行至2025年1.4-2.5x的底部区。2026H1扭亏后PB修复至约2.1x,处于近5年中低位但已脱离最低点。当前估值位置反映市场对"扭亏修复"已开始买入,但并未真正相信远期高增长——这与2020年的"市梦率"截然相反,是对"盈利确定性"的右侧定价。能否进一步修复取决于利润率真实回升,否则2.1x对微利公司并不便宜。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>37.05</td><td>~38-44E(一致40/公司乐观44-47)</td><td>~41-47E(一致41.3)</td><td>~45-50E</td></tr>
+        <tr><td>毛利率</td><td>37.6%</td><td>~38E%</td><td>~39E%</td><td>~40-42E%</td></tr>
+        <tr><td>净利润</td><td>-6.17</td><td>~0E(一致)/1.8-2.6E(公司乐观)</td><td>~1E(一致)/乐观2-3</td><td>~1.4E(一致)/乐观4</td></tr>
+        <tr><td>EPS</td><td>-1.48</td><td>~0E(一致)</td><td>~0.16E</td><td>~0.33E(一致)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司口径(2026H1净中报/业绩沟通)：2026为业绩修复元年,全年期望经营层面继续"减亏→稳定盈利→利润抬升";国内SIRO打包方案持续签约为持续性收入与毛利率改善核心,沙特9.5亿框架订单分批确认;质谱(原醛症7月获批)与长短读长联合方案下半年贡献增量;统筹C端健康与GeneT大模型AI服务。管理层强调"小幅盈利、难有大爆,看拐点确认与逐年抬升"。（公司指引）/ <strong>市场一致预期(westockdata多机构/东财F10近六个月):2026E营收38.85亿(+4.85%)、归母约-0.01亿(基本打平);2027E营收41.30亿(+6.31%)、归母0.67亿(EPS0.16元);2028E营收44.76亿(+8.38%)、归母1.40亿(EPS0.33元)。目标价48.30元(华泰增持)。乐观第三方(东财财富号情景)给2026全年归母1.1-3.6亿区间、中性1.8-2.6亿——显著高于机构一致预期,需谨慎. 华大智造机构预测(中金/东吴/太平洋/银河)偏覆盖硬件。</strong>（市场一致预期）/ <strong>AI估算:营收2026E 40-44亿(+8-19%)、2027E 44-47亿、2028E 47-50亿;归母2026E 1.2-2.0亿、2027E 2-3亿、2028E 3-4亿(假设海外SIRO规模化+毛利率回升forces至42%+);毛利率2026E~38%、2027-28E逐步回升至40-42%。若沙特/新兴市场超预期放量,可更高;若NIPT集采续压/毛利率续降,则低于此。预测不确定性高。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>IVD/精准医学型潜力指标</h3><ul><li><strong>SIRO本地化方案订单(核心领先指标):</strong>国内2600+医疗机构合作、1500+深度本地化实验室;沙特合资Genalive 9.5亿元NUPCO集中采购订单(海外最大单)分批确认;51国170+技术转移项目进入商业变现期——"仪器+试剂+AI+服务"打包换持续性收入。</li><li><strong>海外/新兴市场:</strong>无创产前检测海外获证后拉美生育健康增长明显、东南亚/中东欧精准医学快增、西欧稳健;海外收入占比约30%,毛利率高于国内。</li><li><strong>新产品矩阵:</strong>感染防控tNGS(PTseq)2025收入翻倍(基数小)、原醛症质谱试剂盒2026-07获批后放量、长短读长联合测序打开复杂遗传病/肿瘤检测、多组学+GeneT大模型AI产品与C端健康。</li><li><strong>生育健康护城河修复:</strong>累计服务4327万(生育健康)人次,NIPT/NICS沉淀数据与渠道,携带者筛查(+35%)/新生儿筛查(+51%)2026H1快增对冲NIPT集采下滑。</li><li><strong>多组学科研/时空组:</strong>科研服务+多组学大数据+合成业务18%占比,受华大研究院技术与全球科研需求支撑。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2026H1"扭亏"(归母4740万+718%)=经营修复的信号,但扣非仅843万、净利率不足1%,反映的是新冠退潮后收入基数低+降本+海外增量,而非高盈利模式确立,盈利质量与持续性均弱。2024-2025大额亏损主因既有经营层面收入塌缩/毛利率下行,也含会计层面应收账款坏账集中计提(2025信用减值2.85亿)与交付中心/资产减值,评估须以"归母绝对额连续改善+毛利率企稳+经营现金流转正"为准绳,勿以单季扭亏线性外推。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>精准医学综合解决方案(海外SIRO仪器+试剂+服务,占42.8%)</td><td><strong>+约10pct</strong></td><td>2025 +19.45%、沙特9.5亿订单分批确认、51国170+技术转移项目转化、国内SIRO打包持续放量——最核心增长引擎</td></tr><tr><td>海外/新兴市场(生育健康+精准医学)</td><td><strong>+约6pct</strong></td><td>无创产前海外获证带动拉美生育健康增长、东南亚/中东欧精准医学快增、西欧稳健;海外毛利率高于国内</td></tr><tr><td>新产品矩阵(感染/质谱/遗传病/多组学AI)</td><td><strong>+约3-4pct</strong></td><td>感染tNGS(PTseq)2025翻倍、原醛症质谱2026-07获批、长短读长联合方案、GeneT大模型AI/华医终端</td></tr><tr><td>生育健康存量企稳(携带者筛查/新生儿筛查)</td><td><strong>+约2pct</strong></td><td>2026H1携带者筛查约+35%、新生儿遗传病筛查约+51%,对冲NIPT(-38%)集采与需求下滑</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎已从"新冠检测"切换到"精准医学海外本地化(SIRO/沙特)+新兴市场生育健康+新产品矩阵",以对冲传统NIPT的集采降价与需求下滑。最前瞻领先指标=SIRO新增签约+海外技术转移项目+沙特9.5亿订单确认节奏。但"增收容易、增利难"：整体毛利率仍在37.6%下行通道,传统生育健康(NIPT)继续价格承压,盈利兑现依赖海外高毛利摊薄+费用率优化+规模效应,2026属"扭亏修复元年",增长兑现度须盯季度毛利率与归母绝对额而非收入增速。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价42.2元对应PB约2.1x(近5年中低位)、PS约4.75x。隐含市场已经为"H1扭亏(归母+718%、扣非转正)+商业模式升级(海外SIRO本地化、沙特9.5亿订单、GeneT大模型AI)"给出了修复定价,并要求远期(2028)归母转正成规模(一致EPS0.33元)。<br><br>若按2028E一致EPS0.33元反推,前瞻PE约128x——明显不便宜,说明市场当前买的是"扭亏+盈利修复的确定性",而不是"成长爆发"。换句话说,当前价格并未为"海外规模化高增长+毛利率大幅跃升(如回到45%+)"充分定价,故上行依赖后续季度利润兑现;一旦Q3/Q4盈利不及或NIPT集采再压毛利,估值(尤其PB)将向1.6-1.8x下行。当前分歧核心是"这轮扭亏修复的斜率与可持续性",而非"会不会扭亏"。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>生育健康网络与数据壁垒:</strong>累计服务4327万人次、NIPT无创产前检测市占领先,渠道+数据库+民生项目捆绑,集采后仍具规模成本优势。</li><li><strong>多组学+华大研究院技术源头:</strong>背靠华大研究院(全球科研合作/时空组学),科研服务与多组学数据能力为核心壁垒,海外科研合作黏性强。</li><li><strong>一体化本地化(SIRO)能力:</strong>测序仪器上中下游+试剂+AI平台+检测服务打包,51国170+本地化实验室,技术转移模式降低海外准入门槛。</li><li><strong>华大体系协同:</strong>华大智造(硬件)+华大基因(服务)+华大研究院(科研)=全链条自主可控,关联协同带来成本与供给优势(亦为治理关切)。</li><li><strong>品牌与海外信任:</strong>泰国/沙特/拉美等政府机构合作,G20/APEC健康合作背书,海外本地化先发优势。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>华大在"生育健康规模+多组学科研+华大系全链条+海外本地化先发"上构筑了较强护城河,新进入者短期难以复制其测序规模、数据与海外政府合作网络。主要威胁来自:①贝瑞基因/安诺优达等NIPT本土玩家与海外厂商(Berry等)在常规检测的价格竞争;②测序上游(华大智造/illumina/E25等)通过降价挤压中游服务毛利;③海外本地化遭遇地缘政治与当地/跨国(illumina等)竞争。护城河评为"中—中上"：壁垒显性(规模/数据/体系),但变现能力当前受集采与价格战削弱,盈利修复仍处早期。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-21(已)</strong> · 2026年半年报:营收17.89亿(+9.59%)、归母4740万(+718%)、扣非843万转正 —— 扭亏拐点信号,当日股价冲高</p><p><strong>2026-03-12(已)</strong> · 沙特合资Genalive中标9.5亿元沙特NUPCO外送检测集中采购订单(采购金额与项目量规模之最)—— 海外大单确认,后续分批兑现</p><p><strong>2026-07(产品)</strong> · 原醛症质谱试剂盒获证并入院,下半年逐步贡献增量；长短读长联合测序方案打开复杂遗传病/肿瘤市场 —— 新品</p><p><strong>2026Q3-Q4</strong> · SIRO本地化实验室新增签约+沙特/东南亚/中东欧海外收入确认、民生筛查/季节集中下半年 —— 收入/利润</p><p><strong>2026-2027</strong> · 无创产前检测海外(拉美等)获证放量+GeneT大模型AI/华医智能终端C端健康商业化 —— 成长</p><p><strong>持续监控</strong> · 全国性医疗检测/无创产前集采是否扩大(压制NIPT毛利)、经营现金流能否转正、华大系关联与大股东质押 —— 风险</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>盈利基数极薄、波动大</td><td>利润</td><td>2024-2025连续大额亏损(归母-9.03/-6.17亿),2026H1扣非仅843万,扭亏"含金量"低、盈利极易随订单/费用/减值再摆动</td></tr><tr><td>传统生育健康NIPT集采降价</td><td>收入+利润</td><td>2025生育健康-28.06%、NIPT-约38%;集采常态化+需求下滑续压毛利,基本盘能否企稳取决新业务对冲</td></tr><tr><td>毛利率持续下行/增收不增利</td><td>利润</td><td>毛利率由2023约50%降至2025约37.6%,测序上游降价+价格战+产品结构变化,修复依赖海外高毛利与规模效应</td></tr><tr><td>应收账款/坏账与回款(现金流为负)</td><td>利润+现金流</td><td>2025计提信用减值(坏账)2.85亿、经营现金流-2.54亿,医院/政府客户回款周期长,2026H1经营现金流-2.77亿</td></tr><tr><td>华大系关联/治理</td><td>估值+治理</td><td>与华大控股/华大智造/华大研究院存在关联采购与交易(关联董事汪建/侯勇/李宁回避表决),前期大股东质押率曾高达67%(最新待核实),治理与定价公允性需跟踪</td></tr><tr><td>海外与地缘风险</td><td>收入+估值</td><td>海外收入占约30%、依赖沙特等新兴市场与本地化;"不可靠实体清单"/中美科技竞争、当地政治与经营环境扰动接单与回款</td></tr><tr><td>测序上游价格战传导</td><td>利润</td><td>华大智造等上游降价(2025测序行业价格承压),虽利好采购成本但加剧中游服务毛利竞争</td></tr><tr><td>资产减值/商誉与递延</td><td>利润</td><td>2024-2025集中大额减值(交付中心/应收/资产),后续若订单不及或回款恶化仍有减值压力</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>海外SIRO本地化规模化+沙特/新兴市场放量+生育健康企稳+毛利率回升至44%+质谱/感染/多组学AI放量</td><td>~4.0E(归母)</td><td>PS约4.2x/市值约210亿·PB约2.5x</td><td>≈50元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>稳步修复:海外增量+国内SIRO+降本控费对冲NIPT承压,毛利率缓升,2027-28盈利逐年抬升</td><td>~1.7E(一致EPS约0.41)</td><td>PS约4x/市值约180亿·PB约2.1x</td><td>≈43元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>修复不及/NIPT集采再压毛利/应收坏账放大/海外地缘受阻,2027-2028仍微利或反复亏损</td><td>~-0.8E(续亏或微利)</td><td>PB约1.5x/市值约127亿</td><td>≈30元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约42.2元为基准:上行到Bull约50元(+19%)、Base约43元(≈现价),下行到Bear约30元(-29%)；收益风险比约0.7:1,逊于盈利质量更扎实的同赛道标的。中报扭亏(H1归母+718%、扣非转正)是积极信号且已反映在当日冲高,当前价格买入的是"扭亏修复确定性+远期海外故事",但盈利尚微薄、前瞻PE近128x、PB约2.1x对微利公司不算便宜,叠加华大系治理/海外地缘/集采扰动,风报比一般。判断为<b>轻仓试仓或等回调分批、现价不追高</b>。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026Q3/Q4归母未延续改善或全年归母不足约1.5亿、再度转亏;②毛利率继续下滑(回不到38%)或NIPT集采再超预期;③经营现金流长期为负、应收账款坏账/减值放大;④海外(沙特/新兴市场)订单确认放缓或地缘事件阻断;⑤华大系关联/大股东质押或治理负面事件——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分:IVD/基因测序检测服务板块——经历2020-2021新冠红利崩落后,常规检测(生育健康/肿瘤/多组学/科研)进入"底部修复"初段;测序上游(华大智造等)2025仍处价格战(收入-7~8%),中游服务商盈利普遍承压后开始修复。板块估值(尤其PB)较2021年高位大幅收敛但仍高于2025年最惨区。华大基因为国内测序服务龙头,刚于2026-08-21确认H1扭亏,属"行业底部修复+个股右侧初确认";但盈利质量(扣非净利率<1%)仍弱,细分类景气回暖而"增利"待兑现。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>8-21中报发布日高开冲高43.77回落后收42.2、换手7.72%、量能放大,当日+约3%;8-20曾放量冲45后回落;短期进入高波动平台。上方压力45、下方支撑38-39</td><td><strong>中报扭亏已兑现短线冲高,追高风险大;等回踩38-39企稳或突破缩量回踩再介入</strong></td></tr><tr><td>基本面</td><td>2026H1营收17.89亿+9.59%、归母4740万+718%、扣非843万转正、Q2归母约+0.57亿;但扣非净利率<0.1%,盈利尚薄,全年需H2确认;沙特9.5亿订单+SIRO+海外为增量来源</td><td><strong>基本面沿"扭亏修复"改善、盈利拐点初确认,验证点Q3/Q4归母绝对额与毛利率</strong></td></tr><tr><td>情绪面</td><td>精准医疗/基因测序概念回暖+中报扭亏点燃资金关注(当日放量冲高),但盈利微弱、短线易遭获利回吐与波动</td><td><strong>情绪转热但承接性一般,等情绪降温/回踩企稳,忌追高</strong></td></tr><tr><td>政策影响</td><td>妇幼健康/新生儿筛查、精准医学与AI医疗获国家支持(利好);IVD/无创检测集采常态化、医保控费压制NIPT毛利(利空);海外科技管制与地缘扰动展业</td><td><strong>政策中性偏负(集采)为主,需跟踪集采范围与海外政策</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行对华大基因(300676)覆盖有限(未详查证瑞银/高盛等具体目标价)。内资:华泰证券"增持"评级、目标价48.30元(较其4-30时点股价+20.9%;较当前42.2元约+14%)——"提质增效驱动净利明显减亏";中金/东吴/太平洋/银河等更多覆盖同系华大智造(688114)。总体:华大基因自身分析师覆盖相对有限,目标价多为单笔(华泰48.3元),外资优先原则下外资大行未构成主力覆盖,须以公司季报盈利兑现为准,内资乐观预测(全年归母1.8-2.6亿)需打折看待。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合:2026-08-21中报扭亏(归母+718%、扣非843万转正)是盈利修复的右确认信号,但扣非净利率不足0.1%、远期PE近128x、PB约2.1x对微利公司不算便宜,且NIPT集采、应收坏账、华大系治理与海外地缘扰动密集。判断为<b>轻仓试仓(<1-2成)或等回调分批、现价不追高</b>:中报公布当日已冲高,追高风险大;回调至38-39元近期平台可分1-2成底仓。加仓触发:2026Q3/Q4归母环比改善且毛利率企稳回升、全年归母≥约1.5亿、经营现金流转正。止损:有效跌破37-38元(近期放量平台/2025底部上方)离场,不盲目抄底。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>深圳华大基因股份有限公司2025年年度报告及摘要(深交所披露2026-04-26)、2026年半年度报告及摘要(2026-08-21)、2026年一季报(2026-04-25)、2025年度计提信用减值/资产减值及核销公告、2026年度日常关联交易预计公告、质量回报双提升行动方案进展公告</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(华泰证券"增持"目标价48.30元等;中金/东吴/太平洋/银河等偏覆盖华大智造688114);外资大行对华大基因覆盖有限(未详查证瑞银/高盛具体目标价)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10/操盘必读、同花顺(iFind)、wind/中财网、新浪财经、证券之星、雪球、口径交叉验证(市值/PE/PB/股本/目标价/一致预期)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>东方财富财富号/股吧、公众号(雷递/长江商报/索罗菲特等,海外订单、集采、质押等仅作线索,财务数据未直接采信)</p></div>
+    <p>高信心(90%·财报口径):营收2025 37.05亿/2024 38.67亿/2023 43.50亿、归母2025 -6.17亿/2024 -9.03亿/2023 0.93亿、扣非2025 -6.36亿/2024 -9.19亿/2023 0.93亿、2026H1营收17.89亿/归母4740万/扣非843万、毛利率约37.6%,均回年报/半年报并交叉核对;分部营收、沙特9.5亿订单、SIRO 51国170+项目、累计4327万人次亦回年报/公告。中高信心(72%·估值):总市值176亿(42.2元)、PS约4.75x、PB约2.08x、总股本4.18亿股来自第三方(8-21)交叉核对并回交易所F10;EV/PB沿用净资产口径为AI估。中低信心(45-55%·预测):2026-28E一致预期与公司乐观口径差异大(EPS/归母),Bull/Base/Bear为主观推演,2027-28盈利及海外放量兑现高度不确定;海外收入占比约30%与应收账款/坏账细节、大股东质押最新状态为待核实,均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>深圳华大基因股份有限公司2025年年度报告及摘要(深交所披露2026-04-26)</li>
+        <li>华大基因2026年半年度报告及摘要(2026-08-21披露)</li>
+        <li>华大基因2026年一季报(2026-04-25)、2025年度减值/关联交易/质量回报行动公告</li>
+        <li>华泰证券研报(目标价48.30元,"增持");中金/东吴/太平洋/银河(华大智造688114覆盖)</li>
+        <li>东方财富F10/操盘必读 / 同花顺iFind / wind / 中财网 / 新浪财经 / 证券之星 / 雪球(市值/PE/PB/股本/一致预期交叉验证)</li>
+        <li>雷递·长江商报·索罗菲特/东方财富财富号(海外订单、集采、质押等线索,财务数据不采信)</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

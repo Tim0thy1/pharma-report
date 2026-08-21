@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>迪安诊断 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">迪安诊断<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">ICL诊断服务+IVD产品分销 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch5">回产业链报告</a></div>
+    <h1>迪安诊断<span class="code">300244.SZ</span></h1>
+    <p class="subtitle">第三方医学检验(ICL)+体外诊断产品分销双轮 · 全国连锁实验室+渠道代理+自有产品</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+    <a href="kindstar.html">上一家 · 金域医学</a>
+    <a href="huahai.html">下一家 · 华海药业</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈129亿元</div><div class="k-sub">2026-08-21(A股·总股本6.25亿股)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">PE-TTM≈48x(TTM归母约2.66亿、基数低)·PE-2026E≈27x</div><div class="k-sub">PE口径 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB≈1.9-2.0x·PS-2026E≈1.3x，处上市以来偏低分位</div><div class="k-sub">过去5年中位 新冠红利期(2020-21)业绩/估值峰值后深度出清，PE口径参考弱</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+约975%(归母口径)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>中国第三方医学检验(ICL)与体外诊断(IVD)产品分销双轮龙头之一。2020-2022新冠检测红利(2022归母约14.3亿级)后深度出清：2023年归母骤降78.6%至3.07亿、2024年转亏-3.57亿、2025年扭亏0.44亿，2026H1归母2.32亿/扣非2.39亿确认盈利拐点。公司以"医学诊断服务(ICL连锁实验室)+诊断产品(渠道代理+自有产品)"双轮驱动，产品分销占营收约六成但低毛利(拉低整体毛利率至约28.5%)，特检(基因/质谱/病理)与病理AI是高价值方向。现价20.65元、市值约129亿，处PB约2x历史低位，市场定价"盈利拐点+特检/AI转型期权+应收出清"。</li>
+      <li><strong>基本面：</strong>2025营收100.96亿(-17.22%)、归母0.44亿(扭亏)、扣非0.12亿(扭亏)；2026H1营收47.73亿(-3.3%)、归母2.32亿(+2160.87%)/扣非2.39亿(+2685.60%)大幅扭亏。2025毛利率约28.47%(TTM)、经营现金流20.28亿(+67.99%)、FY2025每10股派3.5元(股息率约1.7%)、2025 ROE极低(按归母0.44亿/权益约86亿仅约0.5%)。营收大头为低毛利产品分销，盈利弹性靠诊断服务业务。</li>
+      <li><strong>估值：</strong>A股20.65元、总市值约129亿(总股本6.25亿股)。PE-TTM约48x(TTM净利仅2.66亿、基数低)、PE-2026E约27x(一致EPS 0.76)、PE-2027E约25x(EPS 0.82)、PE-2028E约22x(EPS 0.92)；PB约1.9-2.0x(每股净资产约10.4元)；PS-2026E约1.3x。货币资金13.76亿<有息负债约22.1亿，微净有息负债约8亿，EV约137亿(估)。国内券商目标价普遍22-25元(中金24.46、东方19.24)；外资大行对A股ICL/IVD渠道覆盖稀少。</li>
+      <li><strong>市场隐含预期：</strong>现价20.65元对应2026E一致EPS 0.76元约27x、2027E 0.82元约25x、2028E 0.92元约22x。隐含市场只对迪安给"归母修复到约4.7→5.1→5.75亿、净利率回个位数、收入靠服务小幅增长对冲产品收缩"的存量恢复情景，并要求①诊断服务(特检/病理AI)补位、②应收账款两再不额计提、③渠道代理(分销)收缩企稳。换言之，买的是"扭亏+现金牛(OCF 20亿)+AI/特检转型期权"，并未按高成长(净利率大幅上行)给估值，也未充分定价"产品分销持续拖累+应收坏账反复"的情景化风险。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026下半年收入能否降幅收窄/企稳(Q2起服务恢复可持续性)、特检与病理AI收入占比提升、应收账款约60.4亿(2026H1占总资产43.65%)的回款与坏账计提、产品分销(渠道代理约六成营收)的收缩节奏、自有产品放量、渠道并购与AI产品商业化落地。</li>
+      <li><strong>情景结论：</strong>Bull 约26元(+26%) / Base 约22.5元(+9%) / Bear 约16元(-22%)，收益风险比约1.2:1(偏弱)。盈利拐点确认、现金牛，但收入仍降+净利规模小(PE绝对高)+应收大+外资覆盖缺位，成长叙事未立，宜轻仓等收入企稳信号而非追高。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>中国第三方医学检验(ICL)与体外诊断(IVD)产品分销双轮龙头之一</strong>：迪安诊断2001年成立于浙江杭州、2011-07-19深交所创业板上市(SZ300244)。围绕"医学诊断服务+诊断产品"双轮驱动：旗下全国连锁独立医学实验室(迪安诊断实验室)提供以分子诊断、病理诊断、特检(基因测序/质谱/血液病等)与普检为核心的医学诊断服务外包，同时布局体外诊断产品(渠道代理罗氏/雅培等主流IVD + 自有试剂与仪器)。2020-2022新冠检测红利(2022归母约14.3亿级)后深度出清——2023结构骤降、2024亏损、2025扭亏、2026H1盈利大幅回升，正处"盈利拐点确认真+诊断服务恢复+特检/病理AI转型"阶段。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>134.08</td><td>121.96</td><td>100.96</td><td>~94.5E(一致)</td><td>~94E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>3.07</td><td>-3.57</td><td>0.44</td><td>~4.7E(一致)</td><td>~5.1E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>2.95</td><td>-4.0E(待核实估)</td><td>0.12</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~29E%(估)</td><td>28.0%(估)</td><td>28.47%(TTM)</td><td>~30E%</td><td>~30E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~3E%(估)</td><td>亏损(负)</td><td>约0.5%(估)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>19.21</td><td>待核实</td><td>20.28</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>双轮业务结构(2025/2024)：</strong>2025营收100.96亿，核心由两轮构成：①<strong>诊断服务(ICL第三方连锁实验室)</strong>——以分子诊断、病理诊断、特检(基因测序/质谱/血液病/肿瘤)与普检为核心的检验外包，2024年约45亿(约37%)，为高毛利、差异化高价值方向；②<strong>诊断产品分销</strong>——代理罗氏/雅培等主流IVD产品的渠道代理业务，2024年约78亿(约64%)，低毛利，是营收大头但显著摊薄整体毛利率；另有<strong>自有产品</strong>(自产试剂/仪器)约3.5亿(2024)，处于起步阶段。2024H1特检收入占诊断业务收入约40.69%。整体毛利率2025约28.47%(TTM)、2026H1回升至约30%。<br><br><strong>服务/连锁网络(核心资产)：</strong>全国连锁独立医学实验室网络，提供多学科检验外包；ICL市场处第二梯队(市占约两成，估)，与金域医学贴身竞争，在渠道与区域上形成差异。<br><br><strong>核心方向(特检+AI)：</strong>特检(基因/质谱/病理/血液病等)是高毛利差异化方向；<strong>病理AI辅助诊断</strong>被中泰/银河/中金列为重点催化(中金"全面推进AI产品商业化落地")，是区别于同行的差异化故事。<br><br><strong>利益/治理：</strong>董事长陈海斌；上市以来现金分红16次(2011年以来)，FY2025拟每10股派3.5元(约0.35元/股、对应股息率约1.7%)；公司通过并购扩张渠道与连锁实验室，合并报表含较大少数股东权益(归母权益约64.9亿/总权益约85.8亿，少数股东约21亿)。<br><br><strong>资产负债(2026H1)：</strong>应收账款+票据高企，2026H1应收账款约60.4亿(占总资产43.65%、较年初+1.01亿)，源自新冠检测应收与公立医院账期——回款与坏账计提是现金流与利润的关键变量；商誉约4.1亿(并购遗留，存在减值风险)；货币资金13.76亿(较年初降7.32亿)，短贷4.22亿+一年内到期非流动负债10.40亿+长贷6.28亿，有息负债约22.1亿，微净有息负债约8亿。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长(尚未完全立起)：</strong>诊断服务(ICL)恢复+特检放量+病理AI落地是真实的长期驱动，但2025-2026营收仍负增长(2026H1-3.3%，渠道代理去库拖累)——"服务恢复、产品收缩"并存。</li><li><strong>会计/政策性因素：</strong>毛利率2025约28.5%、2026H1回升至约30%；2026H1归母2.32亿/扣非2.39亿主要来自诊断服务恢复+新冠/2025低基数出清+成本控制，而非收入放量。</li><li><strong>一次性/出清因素：</strong>2024年大额亏损(2024Q4归母-4.88亿)核心是新冠检测需求断崖+应收账款/商誉减值计提；2025-2026坏账影响边际减弱、盈利基数出清。</li><li><strong>结论：</strong>当前是"低基数出清+服务恢复"带来的扭亏修复。应区分：真实经营亮点(诊断服务特检放量、毛利率回升、病理AI) / 周期出清(新冠/2025低基数、坏账计提) / 成长待证(收入仍负增长、自有产品未上量)。盈利修复确定性高、成长兑现确定性低。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈20.65元</strong></td><td>2026-08-21收盘20.65、区间20.28-21.85、换手10.03%(成交10.63亿)</td></tr><tr><td>总市值</td><td><strong>≈129亿元</strong></td><td>总股本6.25亿股(62,497.94万股)；流通股本约5.01亿股</td></tr><tr><td>EV</td><td><strong>≈137亿元(估)</strong></td><td>市值+净有息负债(货币资金13.76亿<有息负债约22.1亿，微净债约8.4亿)</td></tr><tr><td>PE-TTM</td><td><strong>≈48x</strong></td><td>TTM归母(2026H1口径)约2.66亿，净利基数仍低、绝对PE偏高</td></tr><tr><td>PE-2026E</td><td><strong>≈27x</strong></td><td>一致预期EPS 0.76元；中金口径26.7x</td></tr><tr><td>PE-2027E</td><td><strong>≈25x</strong></td><td>一致预期EPS 0.82元</td></tr><tr><td>PE-2028E</td><td><strong>≈22x</strong></td><td>一致预期EPS 0.92元</td></tr><tr><td>PB</td><td><strong>≈1.9-2.0x</strong></td><td>每股净资产约10.4元(归母权益约64.9亿)；处上市以来偏低分位</td></tr><tr><td>PS-2026E</td><td><strong>≈1.3x</strong></td><td>市值129亿/2026E营收约94.5亿(一致)</td></tr><tr><td>EV/EBITDA</td><td><strong>≈9-11x(估)</strong></td><td>EBITDA因低利润、估</td></tr><tr><td>OCF Yield</td><td><strong>≈15.7%</strong></td><td>2025经营现金流20.28亿/市值129亿(折旧+应收回款推高OCF)</td></tr><tr><td>股息率</td><td><strong>≈1.7%</strong></td><td>FY2025每10股派3.5元(约0.35元/股)，2026-08-21口径</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(westock/腾讯、东财F10、新浪、证券之星)市值约129亿、股价约20.65元、PB约1.9-2.0x、PS-2026约1.3x、PE-2026E约27x，均于2026-08-21交叉核对，取主流口径约129亿。关键口径提醒：①PE-TTM因TTM净利仅约2.66亿而失真偏高(净利基数低)，横向比估值须用PE-2026E/PB/PS综合；②迪安净利规模小(2025归母仅0.44亿、2026E约4.74亿)、盈利修复后净利率仍仅个位数，绝对PE不便宜；③PB(约2x)更能反映资产侧、处历史偏低分位；④预测(2026-28E)+Bull/Base/Bear均为一致预期/AI估算，2026半年报已披露(8-20)、涉Q3及以后仍为预测。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PB(当前)</td><td><strong>约1.9-2.0x</strong></td><td>每股净资产约10.4元；2021新冠概念期PB曾达6-8x+，当前处上市以来偏低分位</td></tr><tr><td>PE-TTM(当前)</td><td><strong>≈48x(基数低)</strong></td><td>TTM净利仅约2.66亿；新冠红利期(2021)归母达峰(约14亿级)、PE反而低，2023-2024大跌后口径失真</td></tr><tr><td>市值/52周</td><td><strong>约129亿元 / 20.65元</strong></td><td>52周区间13.25-33.30元、当前处中位；较2021新冠红利峰值市值(数百亿)大幅缩水</td></tr>
+      </tbody>
+    </table></div>
+    <p>无论PB(约2x)还是市值(约129亿，较2021新冠红利峰值大幅缩水)，迪安均处于上市以来的偏低分位——这是"新冠红利退潮(2023骤降78.6%、2024亏损、2025才扭亏)+收入连续负增长(渠道分销去库)+高估值BOOM泡沫破裂+净利规模极小"多重因素共振的结果。当前低位反证两件事：①市场已相当程度price in了新冠出清、应收风险与渠道业务的低盈利；②PB底+OCF 20.28亿给左侧提供了较厚的"现金牛"安全垫。但PB低位≠买入理由：2025-2026盈利修复主要靠低基数与成本控制、净利率仍仅个位数，估值能否持续修复取决于"诊断服务(特检/AI)"能否补位为成长引擎，而非仅利润端减亏。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>100.96</td><td>~94.5E</td><td>~94E</td><td>~94E</td></tr>
+        <tr><td>毛利率</td><td>28.47%</td><td>~30E%</td><td>~30E%</td><td>~30E%</td></tr>
+        <tr><td>净利润</td><td>0.44</td><td>~4.7E(一致)</td><td>~5.1E(一致)</td><td>~5.7E(一致)</td></tr>
+        <tr><td>EPS</td><td>0.07</td><td>~0.76E</td><td>~0.82E</td><td>~0.92E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司口径：2025年报"经营见底回升、扭亏为盈"(营收100.96亿/归母0.44亿/扣非0.12亿/OCF 20.28亿+67.99%、每10股派3.5元)；2026半年报(2026-08-20披露)"扣非净利暴增超26倍、AI战略驱动开启新成长周期"(营收47.73亿-3.3%、归母2.32亿+2160.87%、扣非2.39亿+2685.60%)。判断诊断服务恢复+特检/病理AI为中长逻辑，应收账款(约60.4亿)回款与坏账为关键变量。(2025年报/2026半年报/审计报告)（公司指引）/ <strong>市场一致预期(westock/腾讯一致，2026-08-21)：2026E营收94.48亿(-6.42%)、归母4.74亿(+975.98%)、EPS 0.76；2027E营收93.39亿(-1.15%)、归母5.12亿(+8.02%)、EPS 0.82；2028E营收94.24亿(+0.91%)、归母5.75亿(+12.3%)、EPS 0.92。一致目标价23.58元。券商：中金"跑赢行业/买入"目标价24.46元(对应33.5x2026PE)、东方证券买入目标价19.24元、中泰买入(病理AI规模化放量)、银河买入(经营见底回升AI推进)、东吴首次覆盖买入。(注：个别内资早期过高预测2026E 7.29亿已明显失效，以当前一致4.74亿为准)</strong>（市场一致预期）/ <strong>AI估算：基于2026H1(营收47.73亿、归母2.32亿/扣非2.39亿、Q2归母约1.68亿强)，全年营收约93-95亿(仍小幅负增，渠道代理收缩)、归母2026E约4.4-5.0亿(与一致4.74亿接近)、2027E约5.0-5.6亿、2028E约5.5-6.5亿；毛利率约30E%；EPS约0.76/0.82/0.92元。盈利修复确定、收入转正待证(需服务补位对冲产品收缩)。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>ICL+IVD双轮型潜力指标</h3><ul><li><strong>诊断服务恢复+特检放量(高价值差异化)：</strong>ITCL服务2025企稳回升，特检(基因/质谱/病理/血液病)占诊断业务约40%、高毛利，是盈利结构改善与净利率修复的关键。</li><li><strong>病理AI规模化放量：</strong>病理AI辅助诊断被中泰/银河/中金重点推荐(中金"全面推进AI产品商业化落地")，是区别于同行的差异化成长逻辑——AI收入与检验放量双催化。</li><li><strong>DRG/DIP下ICL渗透率提升：</strong>中国ICL渗透率仅约6-8%(vs美国约35%)，按病种付费压缩医院检验成本→检验外包就医ICL渗透提升，行业2025-2030年乐观CAGR 15-18%(估)——连锁实验室网络龙头受益。</li><li><strong>自有产品放量(早期期权)：</strong>自产试剂/仪器约3.5亿(2024)处起步，研发2025约2.55亿；自有产品放量或带来毛利与定价权改善，弹性大但未证实。</li><li><strong>现金牛底色+应收出清：</strong>2025经营现金流20.28亿(+67.99%)、OCF Yield约15.7%、OCF远大于账面净利(折旧+应收回款);应收账款约60.4亿中新冠类已大额计提，坏账影响边际减弱→利润"打底回升"弹性。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2026H1归母+2160%≠高成长：高增主要来自"新冠/2025低基数出清+诊断服务恢复+成本控制+坏账计提边际减弱"(周期/一次性因素)，而营收仍-3.3%(渠道代理/产品分销收缩拖累)。要区分：真实经营亮点=诊断服务特检放量与毛利率回升(约28.5%→30%)、病理AI；周期出清=新冠/2025低基数与坏账；成长待证=收入能否转正、自有产品能否上量。当前"利润上岸、营收溺水(趋稳但仍负)"，估值弹性取决于服务/产品结构的兑现，而非减亏本身。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>诊断服务(ICL)恢复+特检放量</td><td><strong>+约2-3pct</strong></td><td>服务收入2025企稳回升、特检占诊断业务约40%、高毛利差异化方向(估)</td></tr><tr><td>病理AI/AI产品商业化</td><td><strong>+1-2pct</strong></td><td>病理AI规模化放量、AI商业化落地，中泰/银河/中金重点催化(估)</td></tr><tr><td>DRG/DIP下ICL渗透率提升</td><td><strong>+约2pct</strong></td><td>按病种付费促检验外包，全国连锁实验室网络受益(估)</td></tr><tr><td>自有产品放量(早期期权)</td><td><strong>+1pct</strong></td><td>自产试剂/仪器处起步(约3.5亿/2024)，弹性大但未证实</td></tr>
+      </tbody>
+    </table></div>
+    <p>最关键的领先/滞后张力是"盈利修复已确认(2025扭亏、2026H1归母2.32亿)、收入仍负增长(产品分销去库拖累)"。增长主引擎长期看是"诊断服务特检放量+病理AI+DRG/DIP下ICL渗透率提升"，短期(2026-2027)则体现为"低基数出清+诊断服务恢复+毛利率回升"带来的净利率修复(从2025的0.44亿向4-5亿)。但产品分销(渠道代理)占营收约六成且持续收缩，是拖累收入与整体盈利的"反向引擎"。收入端能否由负转正(2026H1仍-3.3%)是成长叙事的成立前提：若下半年收入降幅收窄企稳+特检/AI占比提升，则"修复+成长"双击；若渠道代理继续收缩而服务补位不足，则只是"深度价值型现金牛"，估值难持续抬升。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价20.65元(市值约129亿)对应2026E一致EPS 0.76元约27x、2027E 0.82元约25x、2028E 0.92元约22x。隐含市场对迪安给的是"归母修复到约4→5→5.75亿、净利率回个位数、收入靠服务小幅增长对冲产品收缩"的存量恢复情景，并假设：①诊断服务(特检/病理AI)较快补位、②应收账款不再大额计提、③渠道代理收缩至少企稳。<br><br>换言之，<strong>市场并未按高成长给估值、也未为"产品分销持续拖累+应收坏账反复"的情景化风险充分埋单</strong>：当前买的是"扭亏(低基数)+现金牛(OCF 20亿)+AI/特检转型期权"，PB约2x偏低分位提供安全垫。若诊断服务大放量+收入转正+自有产品起量+净利率显著回升，现价明显低估；若收入继续下滑、产品拖累超预期、应收坏账反复，现价亦有下行空间——对"修复"较宽容、对"成长"较保守，中枢偏Base、底部偏Bull(绝对PE偏高是隐忧)。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>ICL连锁网络+渠道代理双覆盖：</strong>全国连锁独立医学实验室+主流IVD代理渠道(罗氏/雅培等)，检验外包与设备耗材供应双链路，区域覆盖与客户粘性。</li><li><strong>特检菜单与病理AI：</strong>基因/质谱/病理/血液病等特检(占诊断业务约40%)高毛利差异化；病理AI辅助诊断商业化走前列，属技术与产品先发。</li><li><strong>现金牛底色：</strong>OCF 20.28亿(2025,+67.99%)稳定且远大于账面净利，折旧与应收回款支撑现金流，给转型以资金底气。</li><li><strong>自有产品研发布局：</strong>自产试剂/仪器(约3.5亿/2024)与研发投入(2025约2.55亿)带来上中游延伸期权，但尚早期、未成规模。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>迪安护城河整体弱于金域：其一，<strong>产品分销(代理)本质是低毛利渠道业务</strong>，依赖上游罗氏/雅培、议价与竞争弱，医保控费/集采直接压制；自有产品未成规模，尚难凭产品护城河。其二，ICL网络密度与特检菜单广度不及金域(迪安服务体量小、毛利率约28.5% vs 金域约34.7%)。真正的竞争压力来自金域/艾迪康的贴身竞争+DRG/DIP压价+公立医院检验"带量自留"。护城河评为"中等偏下"：服务网络/特检/AI为中高壁垒，但高占比的产品分销稀释盈利、是真实短板。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-20</strong> · 2026年半年报披露(归母2.32亿/扣非2.39亿、+2160%/+2686%)确认盈利拐点——已落地，情绪催化</p><p><strong>2026Q3-Q4</strong> · 收入能否企稳/降幅收窄+特检/病理AI收入占比提升——成长叙事是否立起 — 估值</p><p><strong>2026H2</strong> · 病理AI产品商业化落地、DRG/DIP下检验外包招标准点、自有产品注册获批 — 收入</p><p><strong>持续</strong> · 应收账款约60.4亿回款/坏账计提节奏、渠道并购整合、分红方案 — 现金流/利润</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>产品分销(代理)依赖与去库</td><td>收入+毛利率</td><td>渠道代理约六成营收、低毛利且依赖上游罗氏/雅培，医保/集采直接压制、错失收缩拖累收入</td></tr><tr><td>ICL行业/竞争(金域/艾迪康)</td><td>收入+利润率</td><td>第一梯队贴身竞争，服务体量与特检菜单不及金域，普检价格与份额争夺</td></tr><tr><td>DRG/DIP压价+医保控费</td><td>收入+毛利率</td><td>按病种付费压缩检验收费，普检与代理业务同步承压(2025毛利率仅约28.5%)</td></tr><tr><td>应收账款高企</td><td>现金流+减值</td><td>2026H1应收账款约60.4亿(占总资产43.65%)，公立医院账期长，坏账计提/回款是现金流与利润双压力</td></tr><tr><td>新冠后遗症/收入持续下滑</td><td>收入+成长性</td><td>2026H1营收仍-3.3%(产品分销收缩)，收入转正落空则"成长叙事"缺席</td></tr><tr><td>商誉减值</td><td>利润</td><td>商誉约4.1亿(并购渠道/连锁遗留，2024已暴露减值)，并购整合不及预期拖累</td></tr><tr><td>净利规模小/绝对PE高</td><td>估值</td><td>2025归母仅0.44亿、盈利修复后净利率仍个位数，PE-TTM约48x、绝对估值不便宜，估值弹性受限</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>诊断服务(特检/AI)大放量+产品企稳+净利率显著回升+收入转正</td><td>~6.5亿E(2028)</td><td>~25x</td><td>~26元(+26%)</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>诊断服务温和恢复+特检/病理AI补位+产品收缩可控+应收不再大额计提</td><td>~5.7亿E(一致~5.75)</td><td>~22x</td><td>~22.5元(+9%)</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>产品分销持续拖累+应收坏账超预期+服务恢复不及+商誉减值</td><td>~4.0亿E</td><td>~20x/PB压缩</td><td>~16元(-22%)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价20.65元为基准：上行Bull约26元(+26%)/Base约22.5元(+9%)，下行Bear约16元(-22%)；收益风险比约1.2:1(偏弱)。PB约2x偏低分位+OCF 20.28亿+盈利拐点确认(2026H1归母2.32亿)提供左侧安全垫，但"收入仍降+产品分销占营收六成且拖累+净利规模小(绝对PE高)+应收60.4亿大+外资覆盖缺位"，风报比偏"深度价值修复"而非"成长双击"，宜轻仓等收入企稳信号再提高仓位、现价不追高。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026全年归母<4亿/扣非走弱或下半年转弱；②收入连续多季负增长、诊断服务补位落空；③应收账款出现大额超预期坏账/商誉减值计提；④病理AI/特检逻辑在招标中证伪、商业化不及预期；⑤渠道代理收缩超预期拖累毛利率——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：第三方医学检验(ICL)+体外诊断(IVD)分销——中国ICL渗透率仅约6-8%(vs美国约35%)，DRG/DIP按病种付费从"压迫"转向"促外包"，行业中期(2025-2030)乐观CAGR 15-18%(估)；同时IVD渠道/代理业务受医保控费与集采(如化学发光集采)持续压价。当前处"2022新冠红利峰值崩塌后的重建周期"中段——利润率刚从大亏修复到小幅转正。迪安为ICL第二梯队+IVD大渠道双轮，服务恢复确认+产品收缩拖累，景气度=盈利拐点确认+收入企稳待证，属"行业底部反转向、个股盈利拐点刚确立"。板块整体估值(PB)处历史偏低分位。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价20.65元，自52周低13.25元大幅反弹，8-21收20.65(区间20.28-21.85)、换手10.03%(成交10.63亿)放量;上方20.8-21.5为近期压力、下方19-20支撑、18为强支撑、52周低13.25为极值底</td><td><strong>短线转热但已大幅反弹、处中位(52周13.25-33.30)，等回踩19-20企稳再增仓、不追高</strong></td></tr><tr><td>基本面</td><td>2026H1营收47.73亿仍-3.3%但归母2.32亿/扣非2.39亿大幅扭亏；FY2025归母0.44亿/扣非0.12亿扭亏、OCF 20.28亿(+67.99%)；毛利率回升至约30%——"利润拐点确认、收入仍降、产品分销拖累"</td><td><strong>盈利拐点确认、成长未立，验证点2026Q3-Q4收入降幅与特检/AI占比、应收回款</strong></td></tr><tr><td>情绪面</td><td>2026-08-20中报(归母+2160%)披露后情绪转热、8-21放量换手10%延续高活跃；市场分歧显著(聚焦特检/AI催化 vs 质疑应收60.4亿与低毛利产品分销)，估值处历史偏低分位</td><td><strong>情绪升温但分歧大、短线已反映中报高增，追高性价比低、风险释放后宜冷静</strong></td></tr><tr><td>政策影响</td><td>DRG/DIP按病种付费+医保控费：一面促检验外包(利好ICL渗透率)、一面压普检与代理业务毛利；IVD集采(化学发光等)对代理(渠道)业务形成直接压力；公立医院"带量自留"为中性偏负；无重大突发政策风险</td><td><strong>政策双刃：对服务中长期偏正(渗透率)、对代理产品短期偏负(集采/控费)，压价已相当程度反映</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行：迪安所属A股ICL/IVD渠道赛道外资大行(高盛/摩根士丹利/瑞银/美银/花旗/杰富瑞)单列覆盖稀少，公开目标价有限——外资优先但"外资暂未覆盖/缺公开目标价"须如实注明。内资研报：中金"跑赢行业/买入"目标价24.46元(对应33.5x2026PE)、东方证券买入目标价19.24元、中泰买入(病理AI规模化放量)、银河买入(经营见底回升AI推进)、东吴首次覆盖买入。westock一致目标价约23.58元(较现价约+14%)。内资乐观等级高但目标价集中约22-25元、普遍贴现"盈利修复+特检/AI"，须对早期过高预测(如2026E 7.29亿)打折——以中金/东方相对审慎口径及当前一致4.74亿为锚。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：PB约2x历史偏低分位+盈利拐点确认(2026H1归母2.32亿/扣非2.39亿)+OCF 20.28亿+特检/病理AI催化，是"深度价值修复+转型期权"候选；但收入仍-3.3%、净利规模小(PE-TTM约48x、绝对PE不便宜)、应收账款60.4亿(占总资产43.65%)、产品分销(约六成营收)低毛利且收缩、外资覆盖缺位，成长叙事未立、高增属低基数。判断为<b>轻仓试仓(1成)或等收入企稳信号、现价不追高</b>：20.65元附近小仓观察；加仓触发——2026Q3/Q4确认①收入降幅收窄乃至回正、②特检/病理AI收入占比提升、③应收不再大额计提及回款改善，任一确认可加至2-3成。止损：有效跌破约17元(52周低13.25上方)离场，不追逐涨停、不盲押"低位抄底"。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>迪安诊断2025年年度报告及摘要(深交所披露2026-04-22)、2026年半年度报告(2026-08-20披露)、2023年年度报告/2023年审计报告、历年季度报告(westock/腾讯数据接口回源核对)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(中金/东方/中泰/银河/东吴等内资；外资大行对A股ICL/IVD渠道覆盖稀少)及盈利预测</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>westock/腾讯自选股(财务/一致预期/目标价23.58元/行情)、东方财富F10/操盘必读、新浪财经、证券之星(市值PE/PB/PS、应收账款、股本交叉验证)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>证券之星/新浪/钛媒体/财富号等财经媒体长文(特检占比、AI战略、应收坏账线索，财务数据未直接采信)</p></div>
+    <p>高信心(90%·财报口径)：营收2025 100.96/2024 121.96/2023 134.08亿、归母0.44/-3.57/3.07亿、扣非0.12/亏损/2.95亿、2026H1营收47.73亿/归母2.32亿/扣非2.39亿、OCF 2025 20.28亿(+67.99%)/2023 19.21亿、毛利率2025约28.47%(TTM)、2026H1应收账款约60.4亿(占总资产43.65%)，均回2025年报、2026半年报、2023年报/审计报告核对。中高信心(72%·估值)：市值约129亿、PE/PB/PS、一致目标价23.58元、PE-2026E约27x(中金26.7x)来自westock/东方财富并交叉；EV/EBITDA为AI估；获利能力ROE 2025约0.5%为按财报归母/权益测算的估。中低信心(45-60%·预测/行业)：2026-28E一致预期与Bull/Base/Bear、特检占诊断业务约40%、渠道代理占比约六成、自有产品约3.5亿(2024)、ICL渗透率6-8%、市占份额及2025-30 CAGR为第三方行业口径/AI估算；2024扣非、2023 GM/ROE未回常量核实标"估/待核实"。未回源码均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>迪安诊断2025年年度报告及摘要（深交所披露2026-04-22）</li>
+        <li>迪安诊断2026年半年度报告及业绩披露（2026-08-20，westock/腾讯数据接口核对）</li>
+        <li>迪安诊断2023年年度报告及审计报告（营收134.08亿、归母3.07亿、扣非2.95亿）</li>
+        <li>中金/东方证券/中泰/中国银河/东吴等券商研报与盈利预测（中金目标价24.46元、东方19.24元、一致目标价23.58元）</li>
+        <li>westock/腾讯自选股、东方财富F10/操盘必读、新浪财经、证券之星（市值、PE/PB/PS、应收账款、股本交叉验证 2026-08-21）</li>
+        <li>证券之星/新浪/钛媒体/财富号等财经媒体（特检占比约40%、AI战略、应收60.4亿坏账线索，财务数据不采信）</li>
+        <li>ICL行业分析报告（渗透率6-8%、市占份额、市场规模口径，部分为第三方行业估算）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

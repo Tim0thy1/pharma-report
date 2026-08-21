@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>百奥赛图 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">百奥赛图<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">模式动物/抗体平台 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch3">回产业链报告</a></div>
+    <h1>百奥赛图<span class="code">02315.HK</span></h1>
+    <p class="subtitle">模式动物龙头 · 基因编辑+RenMice全人源抗体平台 · A+H双上市</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+    <a >上一家</a>
+    <a href="gempharmatech.html">下一家 · 药康生物</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">H股≈290亿港元/约264亿元 · A股总市值≈599.92亿元</div><div class="k-sub">2026-08-21</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">H股PE-TTM≈72x · A股PE-TTM≈207x</div><div class="k-sub">PE-TTM 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">上市时间短(2022H股/2025.12A股)+2024才扭亏，PE分位无统计意义</div><div class="k-sub">过去5年中位 不适用(2022-2023持续亏损)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+约100%(归母翻倍+)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>国内模式动物+全人源抗体平台龙头(A+H)，2025年盈利首破亿、2026H1净利再翻4倍，靠"模式动物销量高增+千鼠万抗抗体授权(首付款/里程碑/销售分成)"兑现。股票2026年受创新药景气回暖与公募举牌大幅上涨，H股~65港元已接近民银目标价66.9港元，Base情景收益空间已不大，属于"成长极快但估值不便宜、且Base预期已部分跑满"标的。</li>
+      <li><strong>基本面：</strong>2025营收13.79亿(+40.6%)、归母净利1.73亿(+416%)、扣非1.16亿(+405%)，毛利率75.8%、经营性现金流3.70亿。2026H1预告营收9.36-9.46亿(+50.8%)、归母2.36-2.46亿(+392%)。模式动物销售2025年6.22亿(+59.9%，毛利80.4%)为核心，抗体授权累计61个项目进入兑现期。</li>
+      <li><strong>估值：</strong>H股PE-TTM≈72x、PE-2026E≈77x、2028E≈29x；A股PE-TTM≈207x、PB≈26x明显泡沫化。港股相对A股折价约2.3x更反映基本面，但无论港股仍属"成长股高倍数"。</li>
+      <li><strong>市场隐含预期：</strong>现价65港元(H股)对应2028E一致净利约9亿≈29-32x，隐含市场要求抗体平台BD与销售分成在2027-2030年持续兑现为双位数复合高增长，并未按"爆发式分成"加码，也几乎未留打折空间。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08-28前后中报正式披露、Q3-Q4更多千鼠万抗抗体授权/里程碑公告、2026年报盈利能否破3.4亿、公募(富国/易方达举牌)是否延续、A股高溢价是否回落带动H股情绪。</li>
+      <li><strong>情景结论：</strong>H股 Bull ~108港元(+66%) / Base ~71港元(+9%) / Bear ~35港元(-46%)，收益风险比约1.4:1偏紧，因现价已充分反映Base。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>A+H上市的"基因编辑+全人源抗体平台"型模式动物龙头</strong>：百奥赛图以自主基因编辑技术为核心，向下构建"创新模式动物销售+临床前药理药效CRO+基因编辑服务+抗体药物开发(千鼠万抗)"四大平台。2022年登陆港股(02315)、2025年12月A股科创板(688796)上市。2024年历史性扭亏、2025年归母净利破亿并高增416%；截至中报已累计5040+现货模型、1100+靶点人源化小鼠品系、合作/授权/转让抗体项目61个，客户覆盖全球顶级药企与头部Biotech。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>7.17</td><td>9.80</td><td>13.79</td><td>19.4E(一致)</td><td>25.5E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>-3.83</td><td>0.34</td><td>1.73</td><td>3.4E(一致)</td><td>5.3E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>-4.05</td><td>0.23</td><td>1.16</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~70%</td><td>~71%</td><td>75.8%</td><td>~76-78%E</td><td>~77%E</td></tr>
+        <tr><td> ROE / ROIC</td><td>亏损</td><td>~3%(估)</td><td>~8-10%(估)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>—</td><td>—</td><td>3.70</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>两大业务主线(2025年报)：</strong>①临床前产品与服务——创新模式动物销售2025年6.22亿(+59.86%，毛利率80.41%)、临床前药理药效评估服务、基因编辑服务；②抗体分子转让与开发——"千鼠万抗"抗体分子库(首付款+里程碑+销售分成3-10%)。2020-2024年：模式动物销售CAGR 55.9%、药理药效CAGR 27.8%、基因编辑CAGR 0.9%。<br><br><strong>平台/产能：</strong>三大AAALAC动物中心(江苏海门/北京大兴/美国波士顿)，总面积5.5万平米，年供应80万+只实验鼠，出口全球20+国；1100+靶点人源化小鼠品系、5000+现货模型/细胞系。<br><br><strong>抗体平台：</strong>RenMice全人抗体家族(RenMab全人单抗/RenLite共轻链双抗/RenNano纳米抗体/RenTCR mimic类TCR)，100万全人抗体序列库、200+TAA项目、30+自免项目；累计签署61个抗体授权/转让/合作开发项目。<br><br><strong>主要客户/合作：</strong>百济神州(BeOne)、IDEAYA(IDE034 B7H3/PTK7双抗ADC，2026.2首例给药触发500万美元里程碑)、Tubulis(ADC抗体)、大正制药(RenNano，2026.3)、Whitehawk(双抗ADC，2026.7)、波士顿科学等全球药企与Biotech。<br><br><strong>竞争对手：</strong>模式动物——集萃药康/南模生物/赛业生物/中美冠科/维通利华(六家占中国市场约68.3%)；基因编辑为主的人源化抗体平台有稀缺性。<br><br><strong>管理层：</strong>董事长/CEO沈月雷；联合创始人倪健(与沈为夫妻，合计实控表决权约27%)。<br><br><strong>Balance sheet：</strong>累计未弥补亏损17.54亿(截至2024底)；2025经营性现金流3.70亿刚转正放大；2025.12 A股IPO募12.67亿(净11.44亿)；2025研发投入相对收入显著收缩(市场有"研发投放锐减"争议)。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>模式动物销量高增(+59.86%)、临床前药理药效、抗体授权首付款/里程碑→真实经营高增，2026H1扣非+574%~609%验证主业造血。</li><li><strong>会计/周期性：</strong>盈利刚扭亏、基数极低(2024净利仅0.34亿)，2025非经常项(归母1.73 vs 扣非1.16，差约0.57亿)含政府补助等；实验动物公允价值/汇兑亦有波动。</li><li><strong>一次性因素：</strong>IDE034(+IDEAYA 2026.2)500万美元里程碑等属低频一次性/半一次性BD确认，不该线性外推。</li><li><strong>结论：</strong>4倍净利增速有真实经营支撑(模式动物+药理药效+BD预收款)，但归母口径含非经常，需以扣非口径跟踪利润质量；累计未弥补亏损17.5亿历史信任瑕疵仍存。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价(H股02315)</td><td><strong>≈61-65港元</strong></td><td>2026-08-20收61.1，08-21盘中64.95</td></tr><tr><td>总市值</td><td><strong>H股≈290亿港元/约264亿元</strong></td><td>总股本4.47亿股(2026-08)</td></tr><tr><td>A股总市值(688796)</td><td><strong>≈599.92亿元</strong></td><td>2026-08-21，A/H溢价约2.3x</td></tr><tr><td>PE-TTM(H股)</td><td><strong>≈72x(估)</strong></td><td>H股264亿/TTM净利约3.7亿①</td></tr><tr><td>PE-2026E(H股)</td><td><strong>≈77x(估)</strong></td><td>2026E一致净利约3.4亿</td></tr><tr><td>PE-2027E(H股)</td><td><strong>≈50x(估)</strong></td><td>2027E约5.3亿</td></tr><tr><td>PE-2028E(H股)</td><td><strong>≈29x(估)</strong></td><td>2028E约9.0亿(东吴一致)</td></tr><tr><td>PB</td><td><strong>H股≈10-11x / A股≈26x</strong></td><td>证券之星/新浪口径，净资产约25-30亿</td></tr><tr><td>PS(TTM)</td><td><strong>H股≈15x(估)</strong></td><td>264亿/TTM营收约17亿</td></tr><tr><td>EV/EBITDA</td><td><strong>≈60x(估)</strong></td><td>盈利体量小，EBITDA可见性低</td></tr><tr><td>FCF Yield</td><td><strong>≈0.5-1%(估)</strong></td><td>2025 FCF约2-3亿(OCF3.7亿-资本开支)，基数小</td></tr><tr><td>PEG</td><td><strong>失真</strong></td><td>净利基数极小<0.5，增速翻倍级，PEG无统计意义</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>注①TTM净利为估算(2025H2净利+2026H1预告净利)。公司2024才扭亏、盈利基数极小而增长翻倍级，PE/PB/PS/EV-EBITDA等倍数类估值波动剧烈、参考意义有限，市场实际按"平台型BD期权限+远期翻倍增速"定价。本页以港股02315.HK为主锚定(H更反映基本面)；A股688796因科创板新股+流动性存在明显估值泡沫(A股PE-TTM≈207x、PB≈26x)，A/H溢价约2.3x需警惕收敛。市值/股价/净利均已在可能范围内回校到交易所披露与第三方行情(新浪/搜狐/证券之星)并标注日期，预测及推算一律标注"估算/一致预期"。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM</td><td><strong>不适用</strong></td><td>2022-2023持续亏损，2024扭亏(净利0.34亿)后PE长期高达数百倍</td></tr><tr><td>上市后估值位置</td><td><strong>历史高位</strong></td><td>2026年受创新药回暖+公募举牌创新高；H股/ A股均处上市以来高位</td></tr><tr><td>PB(H股)</td><td><strong>≈10-11x</strong></td><td>2026年股价大涨后处于上市以来偏高位置</td></tr><tr><td>A/H溢价</td><td><strong>≈2.3x</strong></td><td>A股688796较H股大幅溢价，科创板新股+流动性Distortion</td></tr>
+      </tbody>
+    </table></div>
+    <p>因公司2022年H股上市、2025.12才A股上市，且2024年才扭亏，传统"过去5年PE分位"不具备统计意义。更相关的历史参照是：①盈利刚转正、净利基数极低→PE高位由基数造成，不宜与成熟CXO直接比；②2026年股价创新高、估值处上市以来(而非5年)高位；③A股相对H股溢价约2.3x，为历史级泡沫区间，看空A股/看港股相对价值。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>13.79</td><td>19.4E</td><td>25.5E</td><td>32.9E</td></tr>
+        <tr><td>毛利率</td><td>75.8%</td><td>~77%E</td><td>~77%E</td><td>~77%E</td></tr>
+        <tr><td>净利润</td><td>1.73</td><td>3.4E</td><td>5.3E</td><td>9.0E</td></tr>
+        <tr><td>EPS</td><td>0.39</td><td>0.77E</td><td>1.20E</td><td>2.02E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司指引(业绩预告8-07)：2026H1营收9.36-9.46亿(+50.8%~52.4%)、归母2.36-2.46亿(+392%~413%)、扣非1.92-2.02亿(+574%~609%)。（公司指引）/ <strong>一致预期(东吴/国联民生/民银等内资为主)：营收2026E 19.36-19.4亿、2027E 25.0-25.5亿、2028E 31.4-32.9亿；归母2026E约3.4亿、2027E约5.3亿、2028E约9.0亿；EPS 2026E 0.77/ 2027E 1.20/ 2028E 2.02元。</strong>（市场一致预期）/ <strong>AI估算：营收2026E约19-20亿、2027E约25-26亿、2028E约31-33亿；归母2026E约3.4-4.0亿、2027E约5.5-6.0亿、2028E约8.5-9.5亿；毛利率76-78%(模式动物80%+分担为高毛利)。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>模式动物/平台型潜力指标</h3><ul><li><strong>模式动物销量与产能：</strong>三大动物中心5.5万平米、年供应80万+只实验鼠、1100+靶点人源化小鼠品系；2025H1销量靶点人源化鼠8.54万只/重度免疫缺陷鼠3.22万只；2025模式动物销售6.22亿(+59.86%)是现阶段最大利润来源。</li><li><strong>千鼠万抗抗体库兑现：</strong>100万全人抗体序列库、200+TAA项目、累计61个授权/转让项目；每个分子授权首付款+里程碑(50-500万美元)+上市销售分成3-10%——这是弹性最大的期权。</li><li><strong>临床前药理药效CRO：</strong>2020-2024 CAGR 27.8%，受创新药景气回暖+全球融资改善驱动，随模式动物协同放量。</li><li><strong>平台授权(RenMice)：</strong>RenNano/RenLite/RenTCR mimic等新平台对外授权(大正/Whitehawk等)，扩大触达面。</li><li><strong>实验猴：</strong>公司核心是做实验<strong>鼠</strong>人源化模型，实验猴(NHP)仅用于少量药理药效/安全性高阶服务，敞口小；2025-26实验猴价格曾迎涨价周期，对本公司影响小/基本无牵制(与以猴为主的CRO不同)，亦无需大规模建猴场保值——属低成本优势。</li><li><strong>客户与AI：</strong>覆盖全球顶级药企+头部Biotech；"抗体研发结合AI"被券商视为新增弹性。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2026H1归母+392%≈真实经营驱动(模式动物销量+药理药效+抗体授权首付/里程碑预收)。但需注意：①2024净利才0.34亿、基数极低；②归母(1.73亿)与扣非(1.16亿)差0.57亿含政府补助等非经常；③IDE034等里程碑付款(2026.2的500万美元)属低频一次性确认，不可线性外推。跟踪利润质量请以<strong>扣非</strong>口径为准。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>模式动物销售(最大盘)</td><td><strong>+约6pct</strong></td><td>2025年+59.9%高增惯性，2022-25量价齐升</td></tr><tr><td>临床前药理药效CRO</td><td><strong>+约4pct</strong></td><td>创新药景气回暖+全球融资改善，2026H1与主营协同放量</td></tr><tr><td>抗体授权/分成(千鼠万抗)</td><td><strong>+约3pct(弹性)</strong></td><td>多为首付款+里程碑低频确认，贡献波动大</td></tr><tr><td>海外客户与平台授权</td><td><strong>+约2pct</strong></td><td>20+国出口、RenMics平台对外License深化</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长主引擎是"模式动物销量高增+临床前药理药效随创新药回暖"，属确定性强的主营收入；抗体授权/分成贡献节奏不连续、但弹性最大。整体增长偏"真实经营"，可追踪性较好，主要变数在抗体BD的可持续频率与分成兑现。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>以H股~65港元(=总市值约264亿元人民币)反推：对应2028E一致净利约9.0亿≈29-32x。也就是说当前价格已按"2027-2029年净利持续高双位数复合增长(模式动物+药理药效放量)+抗体平台BD/销售分成如期兑现"给予乐观定价，<strong>并未</strong>再给增量"爆发式分成"的想象空间，也几乎未留打折余地。<br><br>换言之：市场买的不是盈利事实(基数极小、PE 70-80x)，而是"创新型抗体超市"的期权价值+创新药景气beta。A股688796(PE-TTM≈207x、A/H溢价2.3x)更是显著泡沫，靠"平台故事+新股博弈"支撑。一旦BD/里程碑兑现节奏低于预期，或创新药融资/景气回落，高倍数估值与A股溢价都可能快速回吐。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>技术平台稀缺性：</strong>RenMice全人抗体系列(超大片段染色体工程SUPCE、RenMab/RenLite/RenNano/RenTCR mimic)，人源化程度与抗体多样性具全球竞争地位，专利布局中美欧日(多次获海外专利)。</li><li><strong>模式动物先发与规模：</strong>1100+靶点人源化小鼠品系、年供80万+只、覆盖20+国出口，规模与品系广度为国内第一梯队。</li><li><strong>商业模式：</strong>"模式动物(重资产、稳定)+抗体货架(轻资产、期权)"组合，前端获客后端变现，同业难复制其百万级抗体库+全面动物平台。</li><li><strong>客户粘性：</strong>与全球顶级药企(百济/波士顿/IDEAYA等)建立长期合作，RenMice平台授权具锁定效应。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>集萃药康/南模生物/赛业可在模式动物细分复制大部分品系，但难以复制"全人抗体百万库+平台化BD分成变现+海外客户网络"的完整生态。真正威胁是：①人源化小鼠/抗体平台专利战(百奥赛图曾遭遇专利纠纷，保护力度不确定)；②大规模平台授权方竞争(CrownBio/CRL/药明系等)；③细分市场降价。总体护城河中等偏强，属"先发+平台"型。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-28前后</strong> · 2026年半年度报告正式披露(业绩预告已+392%) — 盈利确认/兑现节奏</p><p><strong>2026H2-Q4</strong> · 千鼠万抗新增抗体授权/转让公告(海外药企) — 收入/估值</p><p><strong>2026.2已触发</strong> · IDEAYA IDE034首例患者给药，支500万美元里程碑 — 收入(B7H3/PTK7双抗ADC)进展可续</p><p><strong>2027Q1</strong> · 2026全年业绩/快报，验证归母能否逼近3.4-4.0亿 — 盈利</p><p><strong>持续</strong> · RenNano/RenLite新平台对外授权(大正/Whitehawk等)深化 — 收入/估值</p><p><strong>持续</strong> · A股688796纳入科创板/指数/北向等资金面催化 — 估值/流通性</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>估值泡沫/高倍数</td><td>估值</td><td>H股PE-2026E≈77x、A股PE-TTM≈207x，隐含未来数倍兑现，任何放缓都易杀估值</td></tr><tr><td>盈利基数极低/利润质量</td><td>利润</td><td>2024才扭亏，2025归母含非经常(扣非1.16 vs 归母1.73)，累计未弥补亏损17.54亿</td></tr><tr><td>BD/里程碑兑现节奏</td><td>收入</td><td>抗体授权+销售分成低频且不确定，里程碑集中确认易使季度波动大</td></tr><tr><td>专利纠纷</td><td>收入+估值</td><td>RenMab/RenMice相关专利诉讼保护力度与地域不确定性</td></tr><tr><td>实验动物竞争/降价</td><td>收入+毛利</td><td>集萃药康/南模生物/赛业等价格竞争</td></tr><tr><td>A/H溢价收敛</td><td>估值+情绪</td><td>A股溢价2.3x回吐或压制H股短线情绪</td></tr><tr><td>研发投放收缩争议</td><td>长期收入</td><td>媒体指研发投入相对收入锐减，可能损伤长期平台竞争力</td></tr><tr><td>减持/解禁</td><td>估值</td><td>实控人一致行动人(百奥常青等)已现小幅减持，未来解禁压力</td></tr><tr><td>创新药融资景气回落</td><td>收入</td><td>全球医药融资波动直接影响模式动物+CRO订单</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>千鼠万抗BD接力兑现+销售分成规模化+海外高增，2028净利破11亿</td><td>~11亿</td><td>40x</td><td>~108港元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>模式动物+药理药效高增、常规抗体授权，无大规模销售分成，2028净利约9亿</td><td>~9.0亿</td><td>32x</td><td>~71港元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>BD节奏不及预期/创新药景气回落/模式动物降价/研发收缩放大，2028净利约6.5亿</td><td>~6.5亿</td><td>22x</td><td>~35港元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以H股~65港元为中枢：上行Bull+66%/Base+9%，下行Bear-46%，收益风险比约1.4:1偏紧(股价已充分反映Base，向上弹性靠BD兑现、向下有估值回吐)。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026年报归母不及3.4亿；②2026年报扣非增速明显拖累、依赖非经常；③千鼠万抗新增BD/里程碑持续低于预期；④创新药融资景气回落使模式动物与CRO订单转弱；⑤A股206x高溢价大幅回吐带动H股情绪。任一兑现将向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：模式动物/上游CXO(基因编辑动物+临床前CRO)。2026年医药CXO景气度明确回升(龙头药明康德2026H1营收+38.9%、归母+29.4%；CRO板块反弹)，叠加公募抢筹"实验动物"赛道(富国/易方达分别增持百奥赛图H股至7%举牌)，景气处于<strong>修复早-中期、情绪偏热</strong>。模式动物细分因"创新药上游刚需+国产替代"结构性更优；但行业整体静态PE仍在39x(发行口径)以上，估值不便宜、处偏热区。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>H股~65港元处上市以来高位(2026.8创阶段新高)，量能放大、短线涨幅已大；A股~134元更剧烈(08-21曾临时停牌)</td><td><strong>高位放量，追高性价比差，需等待回踩企稳(关注55-58港元前区间)</strong></td></tr><tr><td>基本面</td><td>2025净利+416%、2026H1归母+392%(预告)，模式动物+药理药效驱动，ROE预计自个位数快速抬升</td><td><strong>盈利拐点强劲但基数极低，估值已按高增打满，基本面边际改善难再推升估值</strong></td></tr><tr><td>情绪面</td><td>创新药+实验动物赛道情绪火热，公募连续举牌(富国/易方达)、A股新股炒作溢价2.3x；换手率高</td><td><strong>情绪偏热、涨幅已大，A股气泡特征明显，H股相对理性但仍受传染</strong></td></tr><tr><td>政策影响</td><td>无集采、不受医保控费影响(基因编辑上游)；受益创新药政策鼓励与国产替代；实验动物由AAALAC等规范管理</td><td><strong>政策为温和正面且无集采压制，非主要变量</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(优先)：<strong>未查到高盛/摩根士丹利/瑞银/花旗等外资大行对百奥赛图02315.HK的公开稳定目标价</strong>(覆盖有限)——需特别注明"外资大行覆盖暂缺/存疑"。内资与合资为主：民银证券"买入"目标价66.90港元(≈现价)、东吴/国联民生/西部/申万宏源/中邮均"买入"(多为H股60-80港元区间、保守跟单需打折)；富途聚合6家评级83%强力推荐+17%买入。结论：<strong>外资优先原则下，无外资背书，以合资民银66.9港元为中性锚，内资目标价偏乐观需打折。</strong></div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：盈利拐点极强但估值已高倍数(H股PE-2026E≈77x)、Base情景已接近现价、A股2.3x溢价值泡沫明显、收益风险比约1.4:1偏紧。判断为<b>轻仓试仓、等回落/等企稳信号</b>：H股可在回落至55-58港元的前低企稳区建立1-1.5成试仓；若中报(8-28)正式披露确认扣非高增及Q4订单延续，且股价未破位，可加至2成。触发加仓：跌破55港元趋势走弱则止损轻装；A股688796因206x TTM估值与2.3x溢价，暂不追高介入。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>百奥赛图2023年报、2024年报、2025年报/H股港交所披露易(HKEXnews)、2025年A股招股书与上市公告书(上交所披露)、2026-08-07业绩预告自愿性披露公告、业绩预告说明、公司IR/官网(生物兔BioMice/RenMice平台、动物中心数据)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报：东吴证券(2025年报点评)、国联民生、民银证券(目标价66.90)、西部证券、申万宏源、中邮证券、招银国际等内资/合资盈利预测与目标价</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富、新浪财经/搜狐/证券之星/同花顺(估值指针PE/PB/市值)、富途(分析师聚合)、财联社/证券时报/每日经济新闻(业绩预告报道，交叉验证)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>DoNews/老虎社区/公众号(千鼠万抗商业模式、IDEAYA里程碑等，仅线索与交叉，未作财务事实唯一依据)</p></div>
+    <p>高信心(90%·财报)：2023-2025营收/归母/扣非、2025毛利率/经营现金流均回2025年报与公告；2026H1营收/归母/扣非为2026-08-07业绩预告口径。较高信心(75%·预告与研报)：2026-2028E营收/净利取东吴/国联民生/民银等内资一致，标注"一致/估算"。中低信心(40-55%)：Bull/Base/Bear与远期预测为主观推演；H股/A股市值与股价为第三方行情(新浪/搜狐/证券之星/富途)标注日期；<strong>外资大行覆盖未查到，估值分位因公司上市时间短+2024才扭亏而参考性受限</strong>；净资产与公允价值损益拆分为估。未回源数字一律标注"估算/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>百奥赛图(北京)2025年年度报告 · 港交所披露易/上交所披露</li>
+        <li>百奥赛图2026年半年度业绩预告自愿性披露公告(2026-08-07) · 上交所披露</li>
+        <li>百奥赛图2023/2024年报与科创板招股书/上市公告书(+中金公司发行结果、上交所科创板)</li>
+        <li>东吴证券/国联民生/民银证券/西部证券/申万宏源/中邮证券研报(2025-2026，盈利预测与目标价)</li>
+        <li>东方财富 / 新浪财经 / 搜狐证券 / 证券之星 / 同花顺 / 富途 行情估值字段(交叉验证、标注日期)</li>
+        <li>财联社 / 证券时报 / 每日经济新闻 / DoNews 公开报道(业绩预告、公募举牌、商业模式)</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

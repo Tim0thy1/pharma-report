@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英矽智能 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">英矽智能<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">AI制药/AIDD · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch3">回产业链报告</a></div>
+    <h1>英矽智能<span class="code">03696.HK</span></h1>
+    <p class="subtitle">AI制药(AIDD)先驱 · 端到端生成式Pharma.AI平台 · 全球首款AI全赋能药物进入III期</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+    <a href="tigermed.html">上一家 · 泰格医药</a>
+    <a href="xtalpi.html">下一家 · 晶泰控股</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈HK$250-257亿(≈US$3.2B)</div><div class="k-sub">2026-08-20/21</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">亏损无PE</div><div class="k-sub">TTM口径亏损(PE-TTM约-9~-8.9)</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">上市不足9个月,无5年分位</div><div class="k-sub">过去5年中位 不适用(2025-12-30上市)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">2026扭亏(上半年转盈)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>全球生成式AI制药(AIDD)龙头,首个以"端到端AI全赋能"模式将管线推进到III期的公司。2025-12-30赴港上市(AI生物医药当年最大IPO),底层Pharma.AI平台已获Sanofi、礼来、SK生物制药等合计超$25亿的BD大单。2026H1宣布扭亏为盈(首次盈利),验证平台"卖管线+里程碑+分成"的商业兑现,估值逻辑从"烧钱管线公司"向"自我造血的平台型biotech"切换。</li>
+      <li><strong>基本面：</strong>2025营收$5624万(-34%)因里程碑节点稀疏、归母净亏$3.52亿(其中含IPO相关金融工具公允价值变动等大额非现金损失);2026H1预计收入$1.025-1.065亿(+272~287%)、净利$3350-3950万(扭亏)、调整净利$4550-5150万。IPO后账上现金$3.933亿。</li>
+      <li><strong>估值：</strong>近月股价约HK$41-48,总市值约HK$250亿(≈US$3.2B),较上市价HK$24.05累计上涨约+70~100%。因AEPS仍薄/存大幅非现金亏损,PE/PS参考意义弱,市场以"平台项目数+BD管线+扭亏兑现+未来销售分成"定价,外资PS口径约27~31x 2026E。</li>
+      <li><strong>市场隐含预期：</strong>现价对应2026E收入(约$2.1亿)PS约24~27x、以UBS口径约31.3x为基准,市值隐含"2028年起里程碑+分成持续放量、Rento(sertib)III期成功并商业化成常态化收入"的成长预期,并已部分计入潜在反垄断落地后礼来$27.5亿大单。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08底中报(盈利兑现、里程碑收入拆分)、Rento(sertib)III期爬坡(320例)与可能的全球注册路径、礼来$27.5亿及SK$25亿合作的里程碑释放节奏、以及其他Pharma.AI对外授权BD。</li>
+      <li><strong>情景结论：</strong>Bull ~HK$90-100 / Base ~HK$55-60 / Bear ~HK$35-40;按现价~HK$44中枢,收益风险比约3:1,弹性大但波动高。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>全球生成式AI制药(AIDD)先驱与"AI基建+自研管线"双轮龙头</strong>：总部美国剑桥,2025-12-30于港交所主板上市,募资约$2.93亿(约HK$23.5亿,当年香港生物科技最大IPO),获礼来、腾讯基石认购。其专有端到端Pharma.AI平台(靶点发现→分子生成→ADMET→临床前→临床设计全覆盖)已认证全球领先;自研管线约40+,31个临床前候选药(PCC)、13个获IND、8个进入I期。最核心资产是全球首款完全由生成式AI设计的原创新药Rentosertib(ISM001-055,靶向TNIK,特发性肺纤维化IPF)——IIa期结果登顶《自然·医学》(60mg组FVC较安慰剂改善约118.7ml),已于2026-07-07启动III期(320例),成为首个由AI全赋能推进到III期的药物。公司"best-in-class:first-in-class≈8:2"的项目构成凸显平台产出含金量。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>51.2</td><td>85.8</td><td>56.2</td><td>~210E(估)</td><td>~320E(估)</td></tr>
+        <tr><td>归母净利润</td><td>-211.6</td><td>-17.1</td><td>-352.3</td><td>~45E(估,H1预盈)</td><td>~150E(估)</td></tr>
+        <tr><td>扣非净利润</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~75%</td><td>~90%</td><td>~90%</td><td>~90%E</td><td>~90%E</td></tr>
+        <tr><td> ROE / ROIC</td><td>亏损</td><td>亏损</td><td>亏损</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>业务结构(2025年报,收入合计$5624万)：</strong>药物发现服务$2500万(对外许可+合作研发,占比~44%);管线开发$2390万(自研管线授权+里程碑) ;软件解决方案(Pharma.AI SaaS/PandaOmics等)$490万;其他发现(靶点发现等)$250万。收入模式高度依赖里程碑,故年度间波动大(2024 $8583万 > 2025 $5624万,因里程碑节点稀疏)。<br><br><strong>平台/管线：</strong>专有端到端Pharma.AI;管线约40+(best-in-class/first-in-class≈8:2);31个临床前候选药(PCC)、13个获IND、8个在I期;核心产品Rentosertib(ISM001-055,TNIK抑制剂,IPF)已启动III期;泛TEAD抑制剂ISM6331、NLRP3等处于I/临床前。<br><br><strong>主要伙伴/BD(累计总额超$25亿)：</strong>赛诺菲(2022年,$12亿潜在总额,首付款逾$2000万,至多6靶点);礼来(2025-11及2026-03先后两笔,2026-03新型口服药合作首付$1.15亿、总潜在约$27.5亿+销售分成,触发美国反垄断审查);SK生物制药(2026年,总价值约$25亿,聚焦神经免疫,亚太迄今最大);KAT6对外授权等(2023年,总额超$5亿)。<br><br><strong>竞争对手：</strong>国际AIDD/平台型——Recursion、Exscientia/Recursion合并后、Iambic、Absci、克里格(中国晶泰/QuantumPharm、深势科技,以及临床类AI biotech如CHIO)。传统大药企自建AI团队亦为潜在替代。<br><br><strong>管理层：</strong>创始人/CEO Alex Zhavoronkov(亚历克斯·扎沃龙科夫);香港上市主体开曼(InSilico Medicine Cayman TopCo)。<br><br><strong>Balance sheet：</strong>IPO后现金及银行结余约$3.933亿(2025年报);亏损主因含可转优先股/可换股金融工具公允价值变动等大量非现金一次性损失(2025年总亏损$3.52亿中占大头);研发投入高企,商业化尚未自我造血、依赖里程碑回款。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长(真兑现)：</strong>H1-2026收入$1.025-1.065亿(+272~287%)、净利$3350-3950万(扭亏)、调整净利$4550-5150万——经营拐点确立,主因BD里程碑兑现+研发效率摊薄。</li><li><strong>会计/一次性因素(拖累2025)：</strong>2025年净亏$3.52亿主要是IPO相关的可转优先股等金融工具公允价值变动等非现金、非经营性损失,并非经营性现金流恶化;因AEPS口径失真,不宜直接当"经营亏损"解读。</li><li><strong>收入波动为模式属性：</strong>里程碑节点稀疏致2024($8583万)>2025($5624万)下滑,属AI制药"脉冲式收入"特征,须以多年累计/backlog观之。</li><li><strong>结论：</strong>经营上2026H1已跨过盈利分水岭;剩余风险是里程碑节奏的不确定性与大额非现金公允价值损益对报表净利的扰动。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈HK$41-48</strong></td><td>2026-08区间(8/11=48.0,8/18=41.68,8/20收盘+12.13%)</td></tr><tr><td>总市值</td><td><strong>≈HK$250亿(≈US$3.2B)</strong></td><td>总股本5.82亿股</td></tr><tr><td>EV</td><td><strong>≈HK$220-240亿</strong></td><td>市值-净现金$3.93亿(≈HK$30亿)</td></tr><tr><td>PE-TTM</td><td><strong>负数(约-8.9/-9)</strong></td><td>TTM净利亏损口径</td></tr><tr><td>PE-2026E</td><td><strong>不适用/偏高</strong></td><td>2026E转盈但净利薄</td></tr><tr><td>PS-2026E</td><td><strong>≈24~27x</strong></td><td>2026E收入约$2.1亿(估)</td></tr><tr><td>PS(外资UBS锚)</td><td><strong>31.3x(2026E)</strong></td><td>瑞银目标价口径</td></tr><tr><td>PB</td><td><strong>≈6.7x</strong></td><td>第三方口径(2026)</td></tr><tr><td>PS(2025实际)</td><td><strong>≈46x</strong></td><td>$5624万收入/市值</td></tr><tr><td>EV/EBITDA</td><td><strong>无意义</strong></td><td>EBITDA为负/非现金损失干扰</td></tr><tr><td>FCF Yield</td><td><strong>负</strong></td><td>研发烧钱+里程碑回款波动</td></tr><tr><td>PEG</td><td><strong>不适用</strong></td><td>盈利刚转正,PE失真</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(富途/理杏仁/证券之星/经济通)市值、股价、股本、PE/PB均已尽力回港交所与年报核对(IPO招股书/2025年报/盈利预喜)。估值字段对一家"刚扭亏、仍有大额非现金公允价值损失、收入脉冲式"的AI制药公司参考意义弱:机构普遍以PS或管线NaV定价。UBS按2026E PS约31.3x给目标价HK$77;国盛(内资,存疑)按2026E 35x PS给HK$81.9。上市不足1年,无5年历史分位。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>上市以来</td><td><strong>HK$24.05(发行价)→HK$41-48</strong></td><td>2025-12-30上市,当前累计+70~100%</td></tr><tr><td>区间高位</td><td><strong>约HK$48+</strong></td><td>2026-08-11盘中冲高(8月初)</td></tr><tr><td>区间低位</td><td><strong>约HK$25~30</strong></td><td>上市初期/2026年1-2月低位</td></tr>
+      </tbody>
+    </table></div>
+    <p>公司2025-12-30才上市,历史估值窗口不足9个月,无法套用传统"过去5年分位"框架。上市以来股价中枢抬升主要反映"H1扭亏预喜($100M+收入、$3350-3950万盈利)+礼来/SK大单+首选AI资产进III期"的多重催化;当前处于上市以来中高位,估值以PS/管线NaV为新锚。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>56.2</td><td>~210E(估)</td><td>~320E(估)</td><td>~420E(估)</td></tr>
+        <tr><td>毛利率</td><td>~90%</td><td>~90%E(估)</td><td>~90%E(估)</td><td>~90%E(估)</td></tr>
+        <tr><td>净利润</td><td>-352.3</td><td>~45E(估)</td><td>~150E(估)</td><td>~250E(估)</td></tr>
+        <tr><td>EPS</td><td>—</td><td>~0.08E(估)</td><td>~0.26E(估)</td><td>~0.43E(估)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司指引/预喜：2026H1收入$1.025-1.065亿(+272~287%)、净利$3350-3950万(扭亏)、调整净利$4550-5150万;长期目标推动更多Pharma.AI对外授权与自研管线里程碑,向"平台+管线+分成"多重变现收敛（公司指引）/ <strong>市场/券商一致预期(瑞银/UBS等)：多按2026E PS约27~35x给目标价HK$60~100不等;13家外资/中外投行覆盖、目标价高至约HK$100;盈利因里程碑脉冲式,券商普遍不单看净利而给PS/NaV估值</strong>（市场一致预期）/ <strong>AI估算(约)：2026E收入$1.9-2.2亿(2026H1 $1.05亿+下半年),2027E收入$2.8-3.2亿(视礼来/SK里程碑节奏),2028E收入$3.8-4.5亿;毛利率~90%;盈利随里程碑大额摆动——2026E净利$0.3-0.8亿(估),2027E净利$1-2亿(估),2028E净利$2-3亿(估)报价仅为方向性</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>AI制药型潜力指标</h3><ul><li><strong>平台生产力(核心)　：</strong>31个临床前候选药(PCC)、13个IND、8个I期、40+管线;每年新增多款PCC,是管理层言语的"从靶点直达IND"压缩周期(约18-24个月赴临床),持续为BD与自研供血。</li><li><strong>里程碑转自造血　：</strong>2026H1已$1.05亿收入、扭亏$3350-3950万——是AI制药里罕见的"当季盈利";说明只要里程碑按季落地,公司可自我造血,烧钱不再是唯一剧本。</li><li><strong>DD药/授权变现　：</strong>礼来$27.5亿(2026-03,首付$1.15亿)、SK生物制药$25亿(2026)、赛诺菲$12亿——合计对外授权总额超$25亿;多款后续管线(PCC池)提供新一轮授权弹药。</li><li><strong>Rento(sertib)/IPF　：</strong>全球首款AI全赋能药进入III期(2026-07-07启动,320例);IIa期FVC净改善约118.7ml具疾病逆转信号(登《自然·医学》),一旦III期POC证实,首个"AI新药"商业化将为整个AIDD赛道定价。</li><li><strong>软件/SaaS描边　：</strong>PandaOmics/Pharma.AI SaaS收入尚小($490万)但为平台复用提供订阅型现金流,边际扩张不计研发。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>经营上2026H1真实转盈($3350-3950万净利/调整净利$4550-5150万),主要靠BD里程碑兑现——这是"经营增长"的内核;2025年$3.52亿巨亏则含大量IPO相关可转优先股等金融工具公允价值非现金变动,属"一次性/会计因素",不反映经营性现金流恶化。收入脉冲式波动是AI制药里程碑模式天然属性,须以多年累计视角审视。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>BD/对外授权里程碑</td><td><strong>+45~60pct</strong></td><td>礼来$27.5亿+SK$25亿+Sanofi$12亿等里程碑按季/按阶段释放</td></tr><tr><td>自研管线推进(含Rento III期)</td><td><strong>+20~25pct</strong></td><td>III期数据节点+后续IND/PCC推进,继续增强变现谈判力</td></tr><tr><td>软件/SaaS复用</td><td><strong>+10~15pct</strong></td><td>PandaOmics等平台订阅型收入的低基数边际</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长主引擎切换为"外部BD里程碑(绝对主导)+自研管线进阶释放定价权+软件复用"三重叠加;因里程碑是脉冲式、非均匀,单季/单年波动大,须看"多年累计+在建目标项目数"而非单年同比。增长来源偏"经营兑现",但可预测性低于稳态药企。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价HK$41-48(市值约US$3.2B)对应UBS的2026E PS约24~31x,处于AIDD平台公司估值带中偏上。隐含的市场叙事是：礼来($27.5亿)+SK($25亿)+Sanofi($12亿)等对外授权能按计划落地里程碑、Rento(sertib)III期(2026-07-07启动)数据POC并将"首个AI新药商业化分成"计入远期,2028年起把收入推到$4亿+、把净利从"当季盈利($0.35-0.4亿)"拉到"年度盈利$2亿+"。<br><br>换句话说：市场已为"AI平台持续产出+大额BD里程碑+首选资产III期成功"定价,并把礼来大单落地(含反垄断审查)看成大概率事件。若里程碑节奏低于预期、或Rento III期遇挫,或在大额非现金公允价值损失反复扰动之下回调空间同样可观(上市价HK$24.05仍在下方约-45%)——弹性大、但已是"按好消息定价"的阶段。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>端到端平台数据飞轮　：</strong>从靶点到临床的全链条生成式AI,累计13 IND、31 PCC,数据闭环与湿实验验证形成正反馈——个案可复制技术,难复制数据集与迭代工程。</li><li><strong>先发/认证　：</strong>全球首个把生成式AI设计药物带到III期的公司,学术与临床先发声誉(FDA等认可),构成融资与BD谈判地位。</li><li><strong>产融生态　：</strong>礼来、腾讯基石;Sanofi、赛诺菲等MNC长期伙伴验证平台可信度("MNC排队下单"),品牌背书难被新玩家短超越。</li><li><strong>研发投入　：</strong>持续大规模AI/湿实验投入,软件+PCC池双层护城河。</li><li><strong>替代难度　：</strong>监管(IND/NDA)、临床、BD多方绑定,切换成本高于纯软件。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>Recursion、晶泰/深势等可复制"AI+湿实验"打法并在单靶点/单管线突破,但难以复制英硅的"累计IND数+首个III期AI药+与MNC的多年BD信任+11亿美元级大单组合"这一整体记录。真正风险是：传统大药企自建AI团队、以及各家AIDD之间"管线撞车与同质化",以及龙头企业(如礼来)自研后不再外购。总体护城河在AI制药第一梯队,但行业仍早期、格局未固化。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08底/9月初</strong> · 2026中期业绩正式公告(H1收入$1.025-1.065亿、扭亏) — 盈利/估值</p><p><strong>2026H2</strong> · 礼来$27.5亿合作的美国反垄断审查进展与首付款落地进度 — 收入/现金流</p><p><strong>2026H2</strong> · SK生物制药$25亿庆祝(神经免疫)首个里程碑触发 — 收入</p><p><strong>2026H2-2027</strong> · Rento(sertib/TNIK·IPF)III期(320例)入组与中期/顶线数据节点 — 估值(赛道定价锚)</p><p><strong>2026H2</strong> · 泛TEAD抑制剂ISM6331、NLRP3等I期数据更新 — 估值</p><p><strong>持续</strong> · MSCI Global Small Cap纳入+南下资金/沪深港通纳入后流动性 — 估值/资金面</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>里程碑节奏不及预期</td><td>收入+利润</td><td>脉冲式收入,礼来/SK大单若分拆慢或审查受阻,单年兑现缩水</td></tr><tr><td>Rento III期研发失败/有效率不足</td><td>收入+估值</td><td>IIa强,但III期320例POC仍存不确定性;失败将重定价整个AI药赛道</td></tr><tr><td>大额非现金公允价值损失</td><td>报表净利</td><td>可转优先股等公允价值变动反复制造账面巨亏,扰乱盈利观感</td></tr><tr><td>竞争/同质化</td><td>收入+估值</td><td>Recursion等AIDD及大药企自研抢单,管线撞车</td></tr><tr><td>监管与地缘(含美国反垄断审查)</td><td>收入+估值</td><td>跨境BD审查不确定性,中美关系波动影响授权利落</td></tr><tr><td>烧钱与现金</td><td>现金流+估值</td><td>研发+平台耗资大,依赖里程碑回款持续输血,融资摊薄可能</td></tr><tr><td>限售解禁/筹码</td><td>估值</td><td>次新股、基石/机构筹码解禁与波动</td></tr><tr><td>收入集中度</td><td>收入</td><td>收入主要来自少数大额BD,单一大单依赖度高</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>礼来/SK等大额里程碑密集兑现+Rento III期数据POC+商业化分成放量,盈利跳增</td><td>~$300M(估)</td><td>~30x(NaV/PS混合)</td><td>~HK$90-100</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>BD稳落地、里程碑多点开花,H1盈利延续,2026-2028年度净利由薄到厚</td><td>~$180M(估)</td><td>~25x(PS/NaV)</td><td>~HK$55-60</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>里程碑节奏慢、礼来审查受阻,Rento III期遇挫,盈利再走弱/靠非现金摆布</td><td>~$40M(估)</td><td>~20x</td><td>~HK$35-40</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约HK$44为中枢：上行至Bull则+100%+/Base则+30~40%,下行至Bear则约-15~20%,收益风险比约3:1(但Beta高、波动大)。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026-08中期正式业绩未兑现预喜口径(收入<亿元或再度亏损);②礼来$27.5亿反垄断审查长期拖延/被否;③Rento III期出现无疗效或安全信号(重定价赛道);④里程碑持续低于预期且无新增大额BD——任一成立则Base大幅下修、向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：AI制药/AIDD行业——处于估值高位、景气度偏"过热炒作"阶段(IPO热潮+融资高峰+MNC大单频出),但也是"产业化从0动能加满"的早期放量期。整体PS/NaV估值极高(可比公司2026E PS平均约78x,英硅相对折价),属典型的"高景气+高估值"赛道,个股靠里程碑与事件驱动而非稳定盈利。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>股价上市以来自约HK$25一线抬升至HK$41-48,8月以来高位震荡(8/18收41.68、8/20+12.13%),量能放大</td><td><strong>中枢抬升但短期波动大,追高风险高,等回踩/企稳信号</strong></td></tr><tr><td>基本面</td><td>2026H1扭亏($3350-3950万)、$1.05亿收入,平台+BD双轮进入变现期,Rento III期是最大期权</td><td><strong>基本面向上的拐点已现,但兑现依赖里程碑与III期数据,属事件驱动</strong></td></tr><tr><td>情绪面</td><td>MSCI纳入+南下/沪深港通流动性、券商13家覆盖目标价高至HK$100,情绪偏热、筹码高度活跃</td><td><strong>情绪偏热,利好大部分被price in,追高性价比下降</strong></td></tr><tr><td>政策影响</td><td>美国反垄断审查(礼来$27.5亿)对跨境BD落地构成短期不确定；AI医药自身获政策扶持立意正面</td><td><strong>政策中性偏暖,但审查/地缘+大额非现金损益扰动需跟踪</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(优先)：瑞银(UBS)2026-05-22对英硅首次覆盖,予"买入"、目标价HK$77(按2026E PS约31.3x与全球同业一致),认可Pharma.AI全球领先;另摩根士丹利、Jefferies、HSBC、J.P.Morgan等外资/投行亦有覆盖,目标价高至约HK$100,评级均偏正面。内资(国盛证券)亦予"买入"、目标价HK$81.9(2026E 35x PS),但内资研报普遍偏乐观需打折——<b>外资优先</b>。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：基本面2026H1扭亏拐点已现、BD弹药充足、Rento III期是远期最大期权,但估值高企、情绪偏热、事件驱动依赖强。判断为<b>等企稳信号/分批建仓</b>：现价HK$41-48已较早前大幅上行,建议不追高,回踩至HK$38-40一线建1成底仓、并随"中期正式业绩落地+H1里程碑拆分兑现"分批加到2-3成;加仓触发：2026-08底中报确认盈利且礼来反垄断审查有实质进展,或股价放量企稳站回并守住HK$42上方。若跌破HK$30前低趋势走坏,止损观察。仓位上限控制在<-2-3成以内(生存型,防里程碑审查+/III期不确定性)。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>英矽智能2025年报、2026年中期盈利预喜(正面盈利警告/hkexnews)、IPO招股书、港交所披露</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>瑞银(UBS)、摩根士丹利、Jefferies、HSBC、J.P.Morgan、CICC、国盛/国金等券商研报(多为首次覆盖)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>港交所/经济通/富途/理杏仁/证券之星(市值股价口径)、东财/新浪(交叉验证用)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>媒体报道(每日经济新闻/格隆汇/新浪财经等,仅线索&BD交易披露用,不作财务依据)</p></div>
+    <p>中高信心(80%·财报/披露口径)：2025营收$56.24M、亏损$3.52亿、2022-2024营收/亏损、IPO募资与现金$3.93亿、2026H1盈利预喜($102.5-106.5M收入/$3350-3950万净利)均来自年报/hkexnews/招股书一级披露。中低信心(45-60%·估值与预测)：2026E-2028E收入/净利、PS口径、Bull/Base/Bear及目标价($77/81.9/至$100)为主观推演+券商锚;BD总金额(礼来$27.5亿、SK$25亿、Sanofi$12亿)为公开披露但有里程碑口径差异;上市不足1年无历史分位,以第三方PS/NaV替代。未回源的预测数字均标注"估"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>英矽智能2025年度报告/业绩公告（HKEX/NEWS披露）</li>
+        <li>英矽智能2026年中期盈利预喜（正面盈利警告, 2026-07-09, hkexnews）</li>
+        <li>英矽智能IPO招股书 + 上市公告（2025-12-30）</li>
+        <li>Insilico官网新闻稿（2025年报、Rento III期启动2026-07-07、2026中期盈喜）</li>
+        <li>瑞银/UBS·国盛证券等券商首次覆盖研报（目标价HK$77/81.9, 至约HK$100）</li>
+        <li>富途/理杏仁/经济通/证券之星 市值、股价、PM口径（交叉验证）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

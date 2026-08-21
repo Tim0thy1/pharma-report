@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>联影医疗 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">联影医疗<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">高端医学影像设备 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch5">回产业链报告</a></div>
+    <h1>联影医疗<span class="code">688271.SH</span></h1>
+    <p class="subtitle">国产高端医学影像龙头 · 对标GPS(GE/西门子/飞利浦) · 海外2025占25%·2026H1高增54%</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+    <a href="mindray.html">上一家 · 迈瑞医疗</a>
+    <a href="microport.html">下一家 · 微创医疗</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈874亿元</div><div class="k-sub">2026-08-21</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈49x(归母TTM)·2026E≈37x</div><div class="k-sub">PE-TTM 2026-08-21(6-30财报TTM)</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB处近5年中低位区(PE受盈利/汇兑扰动参考弱)</div><div class="k-sub">过去5年中位 上市以来PE中位约50-55x(估)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+约26.4%</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>国产高端医学影像（CT/MR/PET-CT/放射治疗/XR等）绝对龙头，对标GPS（GE/西门子/飞利浦）的"进口替代+全球化"旗舰，科创板上市以来长期享受高成长溢价。核心增长极是高端产品国产化渗透（PET/CT连续10年国内第一、3.0T+超高场MR放量、5T超高端落地、光子计数CT商业化）+海外扩张（2025海外占24.86%、2026H1海外收入+54%、亚太+149%）。但重资本模式ROE仅约8.7%、经营现金流与自由现金流偏弱、H1 2026归母-10%受汇兑损失1.18亿拖累、欧洲欧盟禁令与人民币波动构成压制。当前市值约874亿、PE-TTM约49x处中高位，买的是"高端国产替代+出海+AI影像"的长成长逻辑，需盈利兑现支撑高估值。</li>
+      <li><strong>基本面：</strong>2025营收138.00亿(+33.98%)、归母18.69亿(+48%估)、扣非17.70亿(+75.18%)；国内103.69亿(+29%)、海外34.31亿(+51.39%，占24.86%)；毛利率约47%、ROE加权约8.7%、经营现金流26.78亿。2026H1营收70.52亿(+17.22%)、归母8.97亿(-10.12%因汇兑1.18亿)、海外17.65亿(+54.46%、占25.02%)，扣非8.27亿。研发费用约18.4亿(占~13%)。净现金约54亿、商誉仅0.2亿。</li>
+      <li><strong>估值：</strong>现价约106元、总市值约874亿、PE-TTM约49x、PB约4.0x；2026E一致EPS 2.87元对应约37x、2027E约30x、2028E约24x。一致预期目标价约152元；高盛182元(买入)。估值显著高于迈瑞等盈利更扎实的器械（迈瑞PE-TTM约24x），市场给联影远超同业的成长溢价。</li>
+      <li><strong>市场隐含预期：</strong>现价106元对应2028E一致EPS 4.43元约24x，隐含2026-2028归母净利约+25%复合增速，并要求：①国产高端替代（3.0T/5T/PET-CT/光子计数CT）持续兑现；②海外（亚太+149%/欧洲+49%/北美突破）维持高增；③设备更新政策托底国内、毛利率稳定在47%附近。市场同时容忍约49x的TTM高PE与仅8.7%的ROE，即信任"高成长会自然拉低估值"。并未为"宏观经济/集采压价/海外地缘/汇率"等风险大幅定价。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026Q3(10月底)：国内集采需求释放在H2是否加速、扣非增速能否重新抬升；光子计数CT与5T MR订单/交付；海外亚太/欧洲高增延续性；欧元人民币汇率与欧盟禁令对欧洲区的影响；2026全年归母能否兑现一致预期约23亿(+26%)。</li>
+      <li><strong>情景结论：</strong>Bull 约145元(+37%) / Base 约122元(+15%) / Bear 约69元(-35%)，收益风险比约1:1——优于盈利更扎实的器械的赔率逊色，估值高且近端盈利受汇率/集采扰动，需在回落或盈利拐点确认处介入。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>国产高端医学影像/放射治疗的绝对龙头、对标GPS的全球玩家</strong>：联影医疗2011年由张强等创立于上海嘉定、2022-08-22科创板上市(688271)。提供高性能医学影像设备（MR磁共振、CT、分子影像MI-PET/CT-PET/MR）、放射治疗（RT）、X线/介入（XR-DSA）及生命科学仪器、医疗数字化与AI（uAI平台/联影智能）全栈解决方案。2025年报营收138.00亿(+33.98%)、归母18.69亿，全产品线（不含超声）中国市场新增市占率+4.5pct排名第一，PET/CT连续十年中国市占率第一、MR/CT连续多年第一、3.0T以上超高场市占率大幅提升，向GPS主导的高端市场发起正面替代。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>114.11</td><td>103.00</td><td>138.00</td><td>~165E(一致)</td><td>~197E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>19.74</td><td>12.62</td><td>18.69</td><td>~23.4E(一致)</td><td>~29E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>~16.9(估)</td><td>~10.1</td><td>17.70</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~47%</td><td>~48.5%</td><td>~47.0%</td><td>~47E%(估)</td><td>~47E%(估)</td></tr>
+        <tr><td> ROE / ROIC</td><td>~10%(估)</td><td>~6%(估)</td><td>8.7%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~12(估)</td><td>8.86</td><td>26.78</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>产品线(2026H1/设备口径)：</strong>磁共振MR 22.86亿(+16.15%，占设备39.08%)——uMR Ultra收入+100%、5T产品线+50%、3.0T+超高场市占率大幅提升；CT 16.51亿(+8.96%，占28.22%，连续多年国内第一)；分子影像MI 10.62亿(+26.37%，占18.16%，PET/CT连续10年国内第一)，光子计数CT完成研发到商业化的跨越；放射治疗RT 3.97亿(+63.97%)；X线/介入XR 4.55亿(+40.50%，国内份额重回首位)。2025年报MR 45.48亿、CT 35.45亿(+16.31%)、MI 19.08亿(+46.86%)。<br><br><strong>区域(2025)：</strong>国内103.69亿(+29.07%)、海外34.31亿(+51.39%，占24.86%)。2026H1海外17.65亿(+54.46%、占25.02%)：美国4.21亿(北美累计交付850+台/套覆盖90%州)、欧洲2.66亿(+49.37%、累计780+台)、亚太10.09亿(+148.54%、占海外57%)、新兴市场0.68亿。<br><br><strong>订单/需求前瞻：</strong>2025上半年中标总额同比+53%、1-8月累计+60%（医疗设备6-9个月确认周期，2026H2-2027收入有保障）；国内多省集采项目2026H2进入执行期、积压需求逐步释放；2025 uMR Jupiter 5T订单60+台、已覆盖30+省市，5T与光子计数CT为高端增量订单核心。<br><br><strong>研发/AI：</strong>2025研发费用约18.42亿(占营收约13.3%)；联影智能uAI平台用于AI辅助诊断、设备智能化与远程协作医疗，是毛利率与全球化竞争的关键壁垒。<br><br><strong>客户/竞争：</strong>对应三甲/全国规模化医院及海外医疗机构；竞争对手=GE医疗/西门子医疗/飞利浦(GPS，高端垄断)、国内迈瑞(超声正面对手)/东软医疗/鑫高益等。<br><br><strong>资产负债(2026-06-30)：</strong>总股本8.24亿股；归母净资产约220.2亿、货币资金约72.3亿、有息负债约18.2亿（净现金约54亿）；存货约72.4亿、应收约60.3亿（资本占用高）；商誉仅0.22亿；研发投入大、折旧摊销高、自由现金流为负(2025 FCFE约-24亿/FCFF -28亿)反映重资本扩张。<br><br><strong>治理：</strong>董事长/总裁张强；2026-06-02发布2026年股权激励计划绑定核心团队。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长(核心)：</strong>2025营收+33.98%主因国内设备更新/集采需求回暖+海外高增(+51.4%)；高端产品(3.0T+ MR、5T、PET/CT、RT、DSA)份额显著提升，属真实经营成长、毛利率稳定于~47%。</li><li><strong>会计/周期性波动：</strong>H1 2026归母-10.12%主要为汇兑损失1.18亿(去年同期为汇兑收益)所致——剔除汇兑后利润总额同比+8.79%；此外国内招采/集采项目执行节奏致收入确认波动，属经营性与汇率交织。</li><li><strong>一次性/重资本项：</strong>重资本扩张致经营现金流偏弱(2025 OCF 26.78亿 vs 净利18.69亿为相对弱于净利、H1 2026 OCF转负约-2.4亿)，股权激励费用、折旧摊销与研发费用化较高；商誉极小无减值之忧。</li><li><strong>结论：</strong>营收高增由"国内需求回暖+海外渗透+高端替代"三重真实经营驱动；报表净利短期被汇兑一次性扰动——看经营侧营收/扣非与海外高增、勿以某一季归母定趋势。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈106元</strong></td><td>2026-08-21收盘106；近1月区间105-118、7月高点约118</td></tr><tr><td>总市值</td><td><strong>≈874亿元</strong></td><td>8.24亿股本×106元</td></tr><tr><td>EV</td><td><strong>≈815-820亿元(估)</strong></td><td>市值-净现金约54亿(现金72.3-有息18.2)</td></tr><tr><td>PE-TTM</td><td><strong>≈49x</strong></td><td>TTM归母17.68亿(2026-06-30)；扣非TTM口径偏高(重资本/低ROE)</td></tr><tr><td>PE-2026E</td><td><strong>≈37x</strong></td><td>一致预期EPS 2.87元</td></tr><tr><td>PE-2027E</td><td><strong>≈30x</strong></td><td>一致预期EPS 3.54元</td></tr><tr><td>PE-2028E</td><td><strong>≈24x</strong></td><td>一致预期EPS 4.43元</td></tr><tr><td>PB</td><td><strong>≈4.0x</strong></td><td>每股净资产约26.7元(2026-06-30)，历史中低位区</td></tr><tr><td>PS(TTM)</td><td><strong>≈6.3x</strong></td><td>市值874亿/2025营收138.0亿；2026H1 TTM营收约148亿</td></tr><tr><td>EV/EBITDA</td><td><strong>≈28-32x(估)</strong></td><td>EBITDA因重折旧偏小；重资本模式</td></tr><tr><td>FCF Yield</td><td><strong>为负(估)</strong></td><td>FY2025 FCFE约-24亿；负自由现金流畅往，估值溢价靠成长兑现</td></tr><tr><td>股息率</td><td><strong>极低/待核实</strong></td><td>分红率低，成长型定位</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>市值/股本/股价以2026-08-21第三方(东财/同花顺/雪球)与财报交叉核对；PE-TTM=874亿/17.68亿约49x(以2026-06-30 TTM归母计)；PB以2026中报净资产220.2亿计约4.0x。2026-28E EPS、目标价与EUR倍数均为一致预期/AI估算，非事实；高盛目标价为外资大行口径、最乐观。口径提醒：①重资本+低ROE(约8.7%)导致PE/PB均具高成长溢价，横向比迈瑞(PE-TTM约24x)显著高企；②盈利受汇兑/国内招采节奏扰动，PE分位参考意义弱于PB；③FCF为负，估值兑现高度依赖营收与份额持续上行。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PB(当前)</td><td><strong>约4.0x</strong></td><td>每股净资产26.7元(2026H1)；上市初期PB约8-10x(2022)、历史中位约5-6x、2024-2025底约3.5-4x——当前处历史中低位区</td></tr><tr><td>PE-TTM(当前)</td><td><strong>约49x</strong></td><td>2022上市初期PE约90-110x(极高)；盈利随成长消化后回落，历史中位约50-55x(估)；当前处中位附近</td></tr><tr><td>历史极端</td><td><strong>2021-2022上市溢价为历史峰值</strong></td><td>2024年国内反腐/设备采购停滞+景气低迷时估值收缩；2025-2026随国产替代+海外高增重现成长溢价</td></tr>
+      </tbody>
+    </table></div>
+    <p>看PB，联影处科创板上市以来的中低位区（约4.0x，高增成长股正常区间）；看PE-TTM约49x则处于中等偏水平，因"盈利周期+汇兑"压低TTM利润而分数失真。整体估值形态是"高成长溢价+重资本属性"的复合体：既不便宜（远贵于环比器械迈瑞），也非历史泡沫高位。估值修复/回落的枢纽在"盈利兑现"——若海外+高端+设备更新兑现一致预期约26%的2026-28净利复合增速，高PE将被成长消化；若增长证伪或毛利率承压，高PE无安全边际。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>138.00</td><td>~165E(一致)</td><td>~197E(一致)</td><td>~240E(一致)</td></tr>
+        <tr><td>毛利率</td><td>~47.0%</td><td>~47E%(估)</td><td>~47E%(估)</td><td>~47E%(估)</td></tr>
+        <tr><td>净利润</td><td>18.69</td><td>~23.4E(一致)</td><td>~29E(一致)</td><td>~36E(一致)</td></tr>
+        <tr><td>EPS</td><td>2.28</td><td>~2.87E</td><td>~3.54E</td><td>~4.43E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：2026H1国内需求"从设备更新阶段性释放转向常态化"，多省集采进入执行期、积压需求2026H2逐步兑现；全产品线收入同增、国内综合份额+1.7pct；海外"收入与交付同频"、亚太+148%为最大增量；光子计数CT完成从研发到商业化。2026H2-2027重点看国内需求集中释放+海外高增兑现。(2026H1业绩说明会/IR纪要)（公司指引）/ <strong>市场一致预期(东财/中金等多家，2026-08中报后)：营收2026E 163-167亿(+18~21%)、2027E 192-202亿、2028E 225-256亿；归母净利2026E 23-23.6亿(+26%)、2027E 28.8-29.2亿、2028E 35.7-36.6亿；EPS 2026E 2.81-2.87元、2027E 3.49-3.54元、2028E 4.34-4.43元；一致目标价约152元。</strong>（市场一致预期）/ <strong>AI估算：营收2026E 165-170亿、2027E 195-205亿、2028E 235-260亿；归母2026E 23-24亿、2027E 29-30亿、2028E 36-40亿；毛利率维持47%附近，ROE随盈利修复向10-12%抬升；海外收入占比2028年有望升至35%+。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>高端医疗器械型潜力指标</h3><ul><li><strong>国产替代渗透(核心)：</strong>PET/CT连续10年国内第一、PET/MR第一、CT连续多年第一；MR超高场(3.0T+)市占率+近30pct，5T产品线+50%、uMR Jupiter 5T订单60+台覆盖30+省市——高端"定价权"突破GPS壁垒。</li><li><strong>高端新品(光子计数CT)：</strong>2026H1光子计数CT(能谱/剂量优势)完成研发到商业化跨越，为CT高端化的第二增长曲线，全球领先。</li><li><strong>海外全球化：</strong>2026H1海外17.65亿(+54.46%、占25%)、亚太+148.54%、欧洲+49.37%、北美累计850+台覆盖90%州；海外交付量+55%，"从0到1"进入放量期(2024海外约占21%、2025约25%、2028E或达35%)。</li><li><strong>国内设备更新/新一轮新基建：</strong>2025以来设备更新(以旧换新)+县级医院/千县工程+大型设备配置许可扩容，国内高端影像需求从集采抑制转向常态化+补量，2026H2集采执行释放积压需求。</li><li><strong>AI影像(联影智能uAI)：</strong>AI辅助诊断、设备智能化、远程医疗服务提升溢价与装机粘性，构成差异化壁垒。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2026H1营收+17.22%为真实经营增长；但归母-10.12%主要是汇兑损失1.18亿的一次性/汇率因素（剔除后利润总额+8.79%），叠加国内招采/集采执行节奏的确认波动；经营现金流因重资本扩张(存货72亿+应收60亿)显著弱于净利、H1 OCF转负。看长逻辑应聚焦"营收+海外高增+高端份额"，勿被单季汇兑扰动的归母误导；同时要正视低ROE(8.7%)与负自由现金流对估值的掣肘。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>国产高端替代(CT/MR/PET-CT/RT/DSA)</td><td><strong>+约8~10pct</strong></td><td>PET-CT连续10年第一、3.0T+超高场市占率+30pct、RT+64%、DSA份额回首位</td></tr><tr><td>海外全球化(2026H1占25%)</td><td><strong>+约6~8pct</strong></td><td>海外2026H1+54.46%、亚太+149%、欧洲+49%、北美850+台；占比向35%抬升</td></tr><tr><td>设备更新+国内需求常态化释放</td><td><strong>+约4~6pct</strong></td><td>多省集采2026H2执行期放量、县乡补井+大型设备配置扩容</td></tr><tr><td>高端新品/AI(uMR 5T、光子计数CT、uAI)</td><td><strong>+约3~4pct</strong></td><td>5T产品线+50%、订单60+台、光子CT商业化、设备数字化提价</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎由"国产高端替代+海外出海+设备更新托底+AI/新品"四轮驱动，2025-2026已在报表上兑现(营收+34%/海外+54%)。领先指标是"订单+份额"：2025上半年中标+53%、1-8月+60%，为2026H2-2027收入提供保障；份额(全产品线第一、高端细分多项第一)直接支撑定价权与毛利率。但潜在结构性矛盾是"重资本+低ROE+负自由现金流"——增长主要靠资本与研发投入堆出来的扩表式增长，要靠持续的营收/份额上修来化解估值溢价，盈利弹性(净利率~13.5%)相对偏薄。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价106元对应2026E一致EPS2.87元约37x、2027E约30x、2028E约24x、TTM约49x，隐含市场对2026-2028归母约+25%复合增速，并要求：①海外(亚太+149%/欧洲+49%)与高端替代持续放量；②国内设备更新/集采在2026H2集中释放；③毛利率稳定47%、高端新品(5T/光子CT)顺利商业化；④AI影像提升溢价与粘性。<br><br>换言之，市场为"国产影像之光"的长期成长pay了一个显著的成长溢价，并对ROE仅8.7%、自由现金流为负、H1归母受汇兑拖累的"短期瑕疵"宽容不杀估值。风险在于：高PE几乎全部押注未来成长兑现，一旦海外地缘(欧盟禁令/美国政采)或集采超预期压价导致增长证伪，估值无安全垫、回撤会很深；反之若2026-28净利复合增速兑现，PE将随利润抬升自然回落。当前分歧核心是"成长兑现速度 vs 溢价回落"。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>高端核心技术全栈自研：</strong>CT/MR/PET-CT/RT核心部件(球管/探测器/超导磁体/加速器)自主研发，5T超高场、光子计数CT、质子治疗等全球领先，构筑"卡自己脖子"的反向壁垒。</li><li><strong>国产替代窗口+临床认知：</strong>PET/CT连续10年、CT连续多年、MR第一，3.0T+市占率大幅提升；国产设备信任度、临床数据与三甲装机构成采购惯性。</li><li><strong>全产品线+AI(联影智能uAI)：</strong>一站式影像/放疗全谱系+AI赋能的差异化，客户粘性高、交叉销售强。</li><li><strong>全球化网络：</strong>北美850+台/欧洲780+台，海外本地化服务+认证(FDA/CE)壁垒，中国同行短期难以复制。</li><li><strong>重资本/研发人才/产能：</strong>研发占13%、专利与产线规模，新品(光子CT/5T)量产能力——资本与技术双壁垒。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>GPS的高端垄断是联影要攻克的墙而非护城河，联影的护城河在于"高域自研+高端国产替代的临床口碑/份额惯性+全产品线+海外网络"。本土对手(东软/鑫高益/迈瑞入局超声)可在中低端价格竞争，但难以复制高端核心部件自研、PET/CT连续10年第一与5T/光子CT的全球领先；GPS则在高利润高端机型上有品牌与分销优势、但承受中国的政策天平倾向。总体护城河评为"中上—强"，是国产器械里技术壁垒最厚、最接近正面挑战GPS者；短板是高资本要求导致的低ROE与融资依赖。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-20(已兑现)</strong> · 2026半年报披露：营收+17.22%、海外+54.46%(占25%)、归母-10.12%(汇兑1.18亿)；分红/现金流 — 已交易，市场选择向上</p><p><strong>2026Q3(约10月底)</strong> · Q3国内集采需求进入执行期、积压需求释放，收入是否加速、扣非增速是否抬升 — 盈利/估值</p><p><strong>2026-2027</strong> · 光子计数CT商业化放量、uMR Jupiter 5T(订单60+台)与质子放疗交付 — 收入/高端份额</p><p><strong>持续</strong> · 海外亚太(+148%)/欧洲(+49%)/北美突破、全球三级医院导入、交付量+55% — 收入</p><p><strong>2026H2-2027</strong> · 医疗器械设备更新(超长期特别国债/以旧换新)第二批与"千县工程"落地 — 国内收入</p><p><strong>持续</strong> · 联影智能uAI影像/AI诊断变现与远程医疗落地 — 毛利/粘性</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>国内医疗设备集采降价</td><td>收入+利润</td><td>多省集采/带量采购持续压价，若降价超预期将侵蚀毛利率(现~47%)</td></tr><tr><td>设备更新政策落地节奏</td><td>收入</td><td>需求近端依赖政策托底；执行节奏波动致收入确认季节性扰动(2026H2待兑)</td></tr><tr><td>海外地缘/贸易壁垒</td><td>收入+估值</td><td>欧盟自2025-06-30禁止中国企参与超500万欧元器械公共采购(中国部件比例≤50%)；美国政采地缘、关税与供应商审查——海外溢价锚点</td></tr><tr><td>汇率/汇兑损失</td><td>利润</td><td>海外收入占比升至25%，2026H1汇兑损失1.18亿致归母-10.12%；人民币波动直接扰动净利</td></tr><tr><td>高估值/盈利确定性</td><td>估值</td><td>TTM PE约49x、2026E约37x，ROE仅8.7%、FCF为负；增长证伪则无安全边际</td></tr><tr><td>经营资本周转(现金流)</td><td>现金流+估值</td><td>存货72亿+应收60亿占用高、H1 OCF转负、FCFE约-24亿——重资本扩张的现金流代价</td></tr><tr><td>高端新品研发/推广不及预期</td><td>收入</td><td>质子放疗、光子计数CT、5T等迭代与市场导入速度风险</td></tr><tr><td>竞争加剧</td><td>收入</td><td>GPS高端反扑、迈瑞(超声/影像)与东软等中低端价格战</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>海外高增(亚太+欧洲)延续+国内设备更新集中放量+高端新品(5T/光子CT)放量+AI变现，ROE向12%修复</td><td>~40亿E</td><td>~30x</td><td>~145元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>海外+25%、国内+15%温和增长、毛利率稳定47%、汇兑中性，兑现一致预期</td><td>~36亿E(一致EPS4.43)</td><td>~28x</td><td>~122元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>集采降价超预期+欧盟禁令/美国地缘实质冲击海外+国内需求延后+毛利率跌破45%+汇率再拖累</td><td>~26亿E</td><td>~22x</td><td>~69元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约106元为基准：上行到Bull约145元(+37%)、Base约122元(+15%)，下行到Bear约69元(-35%)；收益风险比约1:1。重资本低ROE、H1归母下滑、估值49xTTM，成长属性的赔率不及盈利更扎实的迈瑞(CX 5:1)；但"国产高端替代+海外出海+光子CT/5T"的中长成长弹性更陡。建议在回落或盈利拐点确认处分批介入，不追高。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026全年归母未能兑现一致预期约23亿(+26)、扣非增速回落；②海外增速从54%降至20%以下或欧盟禁令扩散至美国政采实质冲击北美；③国内设备更新/集采放量证伪、毛利率跌破45%；④光子CT/5T新品放量不及预期；⑤经营现金流持续为负、存货/应收高企暴露减值——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：高端医学影像设备——处"国产替代加速+海外全球化放量+AI赋能"的高景气成长赛道，行业(医疗器械设备端)整体估值处近5年中低位，但高端影像因高成长溢价而显著高于IVD/低值耗材。政策面设备更新+县级扩容为托底，地缘与集采为扰动。联影处"国内需求2026H2集中兑现+海外持续高增"的景气抬升中段，细分景气度高但个股估值已高、距高性价比介入尚需回落或业绩确认。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价约106元自7月高点118回落约10%，处年线上方但呈回调，近期103-105获支撑、108-110为压力；量能温和</td><td><strong>回调中蓄势，建议等企稳或回踩确认，不追高</strong></td></tr><tr><td>基本面</td><td>2026H1营收+17.22%、海外+54.46%(占25%)、归母-10.12%(汇兑1.18亿)；扣非8.27亿、毛利率约47%；订单/份额(国内第一、高端多项第一)支撑</td><td><strong>增长真实但近端盈利受汇率扰动;看Q3国内集采放量与扣非拐点</strong></td></tr><tr><td>情绪面</td><td>科创板高成长医疗器械，市场情绪随"国产替代+出海+AI"主题升温，但年内H1归母下滑+地缘担忧压制；高PE需业绩催化</td><td><strong>情绪中性偏多、估值偏贵，依赖业绩验证</strong></td></tr><tr><td>政策影响</td><td>医疗设备更新(超长期特别国债/以旧换新)+千县工程大型设备配置扩容利好；集采带量压价为负；欧盟禁令/美国政采的地缘收紧为海外长期风险</td><td><strong>政策国内偏正(托底)、海外收紧，综合中性偏多需盯地缘</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资优先：高盛2026-07-28上调目标价至182元(维持买入，DCF、对应2026/27/28E 68/48/35x——最乐观)；招银国际2026-08-21维持"买入"并上调2025-27营收CAGR预测；野村东方国际"增持"、群益证券(香港)"增持"。内资(中金/中泰/天风/广发/太平洋/华泰/长江等)中报后多数"买入/增持"，目标价区间约140-185元，因个股成长弹性大、定价普遍积极、参考时打些折——外资优先。大摩/美银/瑞银/杰富瑞对联营医疗覆盖信息有限(未详查证，标注待核实)。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：公司质地与成长逻辑(国产替代龙头+海外+AI+高端新品)为A股器械旗舰，但现价TTM PE约49x、2026E约37x、ROE仅8.7%、H1归母-10%受汇兑拖累、负自由现金流，估值已充分计入高成长且近端盈利确定性弱。判断为<b>等回落或分批建仓、现价不追高</b>：若回踩至约95-100元(近月支撑/估值消化区)可建2-3成底仓；验证点2026Q3(10月底)——国内集采需求放量、扣非拐点确认与海外高增延续，则加至4成。加仓触发：Q3营收加速+海外再高增+毛利率企稳。止损：有效跌破约93-95元(平台下沿)离场，不盲目抄底高估值成长股。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>联影医疗2025年年度报告、2026年半年度报告(2026-08-20披露)、投资者关系活动记录表(IR纪要2026-001)、业绩说明会纪要、上交所披露易公告</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(高盛/招银国际/野村东方国际/群益(香港)/中金/中泰/天风/广发/太平洋/华泰/华创/长江等)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10、同花顺(牛叉诊股/盈利预测)、雪球、证券之星、新浪财经、界面新闻、动脉网/BIO(市值/PE/PB交叉验证)、腾讯自选股westockdata</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>东方财富财富号/萝卜投研/红星资本局/OFweek医械(汇兑、欧盟禁令、隐忧等线索；财务未采信，仅参考)</p></div>
+    <p>高信心(88%·财报口径)：营收138/103/134/归母、扣非17.70(+75.18%)、ROE8.7%、OCF26.78均回2025年报与2026半年报/季度报表核对(westockdata腾讯自选股数据)；2026H1营收70.52/归母8.97/扣非8.27/海外17.65/汇兑1.18亿回中报。中高信心(72%·估值)：市值874亿、股价106、PE-TTM49x、PB4.0x来自第三方(2026-08-21)交叉验证；EV/EBITDA、FCF、股息率为AI估/待核实。中低信心(45-55%·预测)：2026-28E一致预期EPS与Bull/Base/Bear为主观推演，且盈利受汇兑/集采/地缘高波动、预测不确定大；欧盟禁令/美国政采/高盛182元等为待核实；大摩/美银/瑞银未覆盖为待核实。未回源码均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>联影医疗2025年年度报告及2026年半年度报告（上交所披露，2026-08-20）</li>
+        <li>联影医疗投资者关系活动记录表与业绩说明会纪要（IR，united-imaging.com）</li>
+        <li>高盛·招银国际·野村东方国际·群益(香港)及中金·中泰·天风等券商研报</li>
+        <li>腾讯自选股westockdata（财报/估值/一致预期，2026-08-21查询）</li>
+        <li>东方财富F10 / 同花顺 / 雪球 / 证券之星 / 新浪财经 / 界面新闻（市值、PE、PB交叉验证）</li>
+        <li>东方财富财富号·萝卜投研·红星资本局·OFweek（汇兑/欧盟禁令等线索，财务不采信）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

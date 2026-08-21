@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成都先导 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">成都先导<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">AI制药/DEL龙头 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch3">回产业链报告</a></div>
+    <h1>成都先导<span class="code">688222.SH</span></h1>
+    <p class="subtitle">全球DEL(DNA编码化合物库)药物发现龙头 · 国内唯一万亿级多肽DEL筛选 · 延伸小核酸CDMO+AI+自有管线</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+    <a href="xtalpi.html">上一家 · 晶泰控股</a>
+    <a href="metis.html">下一家 · 剂泰科技</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈145亿元</div><div class="k-sub">2026-08-21(科创板)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈118x(归母TTM 1.23亿)· 2026E约100x</div><div class="k-sub">PE-TTM 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB约9.6x处上市以来中高位(估);PE受盈利剧变+题材驱动参考弱</div><div class="k-sub">过去5年中位 历史中位约50-65x(估·上市以来样本短)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+30%(一致预期归母)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>全球DNA编码化合物库(DEL)药物发现领域绝对龙头，国内唯一具备万亿级(1.2万亿小分子+数千亿多肽)库建库与筛选能力，与辉瑞/阿斯利康/百时美/强生/默沙东/罗氏共建全球首个DEL联盟。2025年营收5.26亿(+23.1%)、归母净利1.10亿(+113.2%)、扣非1.13亿(+96.3%)，毛利率升至54.2%，2026Q1扣非+126.4%继续高速兑现。业务已从DEL建库筛选延伸至英国Vernalis(FBDD/SBDD)、小核酸OBT+GMP CDMO、蛋白降解TPD、化学服务ChemSer，并叠加自有新药管线转让IP变现与AI(DEL海量真实数据训练+控股摩熵智能)能力。成长真实且稀缺，但当前约145亿市值对应PE-TTM约118x、2026E约100x，属"题材+高增"双重夯实下的极端高估值，一致目标价≈31.5元已低于现价，介入须等回落。</li>
+      <li><strong>基本面：</strong>2025营收5.26亿(+23.1%)、归母1.10亿(+113.2%)、扣非1.13亿(+96.3%)。毛利率54.22%(+2.36pct)、净利率20.94%(+9.25pct)，ROE约7%(估)。经营现金流2.16亿。2026Q1营收1.61亿(+50.4%)、归母4150万(+46.7%)、扣非3963万(+126.4%)、毛利率56.34%。DEL核心2.50亿(+25.4%，毛利率75%)、FBDD/SBDD 1.54亿(+27.9%)、OBT小核酸0.75亿(+56.7%)、TPD 0.16亿、ChemSer 0.22亿。</li>
+      <li><strong>估值：</strong>现价约36.2元、总市值约145亿元。PE-TTM约118x(归母TTM1.23亿)、2026E约100x(EPS0.36)、2027E约79x、2028E约65x、PB约9.6x(每股净资产3.75元)、PS约27.6x。EV约138亿、EV/EBITDA约80x、FCF Yield约1%、股息率约0.36%。</li>
+      <li><strong>市场隐含预期：</strong>现价36.2元对应2028E一致EPS 0.56元约65x、2027E约79x、2026E约100x(归母)。隐含市场对2026-2028归母净利约+30%复合并对此后"AI制药+小核酸CDMO+新药IP转让"价值重估，且要求DEL联盟/小核酸高景气持续兑现。换言之，当前价格买的是"稀缺的DEL龙头+AI制药题材+持续25-30%高增"的完美路径，并未为"增速回落或估值均值回归"定价——大致已透支至卖方目标价(31.5元)上方，性价比低。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08-27中报：Q2扣非能否维持50%+高增、DEL/FBDD里程碑收入确认节奏、小核酸CDMO订单；新药项目IP转让年度新增(2025为25个)与HG146(ACC IIa)/HG030海外权益BD进展；深圳钧天(拟减持2.51%)减持落地与否；AI制药/创新药板块情绪是否退潮。</li>
+      <li><strong>情景结论：</strong>Bull 约44元(+22%) / Base 约31元(-14%) / Bear 约21元(-42%)，收益风险比约1:2不利——现价处卖方目标价上方、估值极端透支，宜等回落再介入。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>全球DNA编码化合物库(DEL)药物发现龙头、国内AI制药一环</strong>：成都先导药物开发股份2012年由李进(JIN LI)创立，2020-04-16登陆上交所科创板(688222.SH，发行价20.52元)。公司以国际领先的DEL技术为核心(建成1.2万亿小分子库、约3500亿类环肽库、约1000亿线性多肽库，国内唯一具备万亿级多肽DEL筛选能力)，提供药物早期发现阶段的研发服务与新药研发项目转让；并延伸FBDD/SBDD(英国Vernalis子公司，2020年约2500万美元收购Ligand旗下)、核苷/寡聚核酸合成与小核酸CDMO、蛋白降解TPD、自动化化学合成ChemSer，叠加自研新药管线与AI平台(HAILO/HANDS及控股摩熵智能)。创始人/董事长李进直接持股约20.43%(实控人)，注册地成都高新区，总部成都天府国际生物城(双流区)。2026Q1起股票因"创新药BD出海+AI制药"板块行情放量大涨。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>3.71</td><td>4.27</td><td>5.26</td><td>~6.45E(一致)</td><td>~7.97E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>0.41</td><td>0.51</td><td>1.10</td><td>~1.43E(一致)</td><td>~1.85E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>~0.46(估)</td><td>0.57</td><td>1.13</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>49.2%</td><td>51.9%</td><td>54.22%</td><td>~56E%</td><td>~57E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~3%(估)</td><td>~3.7%(估)</td><td>~7%(估)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~1.0(估)</td><td>1.28</td><td>2.16</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(2025年报，中泰/中金引注)：</strong>DEL核心业务2.50亿(+25.36%，毛利率75.07%)——DEL库小分子种类突破1.2万亿、筛选成功率77%、平均筛选周期缩短至3个月以内，2025达成25个项目的化合物知识产权(IP)转让(累计135个);FBDD/SBDD平台1.54亿(+27.90%，毛利率37.86%)——英国子公司Vernalis新签多项研究合作协议并兑现前期里程碑收入;核酸平台OBT 0.75亿(+56.68%，毛利率由23.84%升至34.49%)——核苷单体/寡聚核酸合成+递送分子商业化突破、小核酸一站式+GMP CDMO能力;蛋白降解平台TPD 0.16亿(同比微降9.72%)——验证TRIM21分子胶独特降解机制;化学服务ChemSer 0.22亿(+31.05%)——自动化高通量化学合成平台。<br><br><strong>新药项目/自有管线：</strong>HG146(实体瘤ACC)IIa期已全部患者入组并完成4轮疗效评估、初步数据积极；HG030中国大陆权益已转让白云山、公司保留海外权益，2025-06向FDA提交安全性更新报告。项目集中于临床早期，以IP转让+里程碑+未来BD分成变现(2025全年IP转让25个)。<br><br><strong>合作/生态(差异化)：</strong>2024-10与辉瑞/阿斯利康/百时美/强生/默沙东/罗氏共建全球首个DEL联盟，共享DEL库构建资源与最佳实践；2025推出OpenDEL 5.0；通过增资控股摩熵智能(基于BCPM-Miner等垂类AI模型，医药文本抽取/多模态/知识图谱)，融合AI数据能力——构建DEL+AI/ML(HAILO平台、HANDS智能体，用海量标准流程真实实验数据训练，非DEL空间预测活性/成药性)。<br><br><strong>客户/竞争：</strong>客户以全球Top跨国药企为主(Big-Pharma采购驱动)，受益2026H1国内创新药对外授权约997亿美元带来的研发外包需求;竞争对手=全球DEL/AIDD领域(如药明康德、X-Chem、Nuevolution等)、跨国药企自建DEL、以及SBDD/AI药物设计新玩家——成都先导以万亿级库规模+DEL联盟独家数据+多肽/环肽筛选稀缺能力构筑差异。<br><br><strong>管理层/治理：</strong>创始人/董事长李进(JIN LI)直接持股20.43%(一致行动人2026-01完成增持、投入超2500万)；重要股东拉萨华博器械10.42%、宁波聚智先导9.88%、安吉东方佳钰5%、深圳钧天2.51%(2026-01公告拟减持2.51%，2026-04-21披露计划期内未减持，计划悬置)；设2025年员工持股计划(0.31%)。港交所中央结算(北向)1.54%(本季减持)。<br><br><strong>资产负债(2025末)：</strong>总资产约15.07亿、归母净资产约15.01亿(每股3.75元);货币资金6.24亿+交易性金融资产3.40亿、有息负债约2.80亿→净现金约7亿;商誉1.19亿(同比增，主要来自并购如控股摩熵智能/先期Vernalis);资产负债率约30%(2026Q1)。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>DEL(+25.4%)/FBDD-SBDD(+27.9%)/OBT小核酸(+56.7%)/ChemSer(+31.1%)全板块齐增，2026Q1营收+50.4%、扣非+126.4%，毛利率54→56%抬升——来自DEL/FBDD里程碑收入集中确认与新技术商业化(小核酸CDMO走通)，经营基本面向好真实。</li><li><strong>会计/周期性拖累(相对次要)：</strong>收入确认依赖"项目里程碑/IP转让节奏"，季度间波动大(2025Q4归母-21.7%、扣非-43.5% vs 全年+113%即为例证)；OBT/TPD新兴业务体量仍小(合计约1亿)、毛利率尚低于DEL，摊薄整体盈利结构。</li><li><strong>一次性因素(助增为主)：</strong>2025归母1.10亿<扣非1.13亿(非经常性净项小幅为负)；归母+113%主要来自经营端，而非公允价值/投资收益主导(与泰格等不同)——账面上一次性干扰较小，但"项目转让里程碑"性质上具一次性/离散弹性，不宜简单线性外推。</li><li><strong>结论：</strong>营收与扣非真实高增、毛利率上行，属"经营驱动+新技术放量"，盈利质量明显好于多数CXO；核心风险不在盈利真实性，而在"绝对盈利体量尚小(1.1亿) vs 145亿市值"的估值透支与主题波动。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈36.2元</strong></td><td>2026-08-21收盘36.16；8-20单日+10.1%冲至38.7、当周高位回落</td></tr><tr><td>总市值</td><td><strong>≈145亿元</strong></td><td>4.0068亿股本×(36.2元)；北向/融资余额4.11亿</td></tr><tr><td>EV</td><td><strong>≈138亿元(估)</strong></td><td>市值145−净现金约7亿(现金6.24+交易3.40−有息负债约2.80)</td></tr><tr><td>PE-TTM</td><td><strong>≈118x</strong></td><td>归母TTM约1.23亿(2026Q1)；高基数下盈利小、PE失真偏极端</td></tr><tr><td>PE-2026E</td><td><strong>≈100x</strong></td><td>一致预期EPS 0.36元</td></tr><tr><td>PE-2027E</td><td><strong>≈79x</strong></td><td>一致预期EPS 0.46元</td></tr><tr><td>PE-2028E</td><td><strong>≈65x</strong></td><td>一致预期EPS 0.56元；仍显著高于常规CXO</td></tr><tr><td>PB</td><td><strong>≈9.6x</strong></td><td>每股净资产约3.75元(2025末)，处上市以来中高位(估)</td></tr><tr><td>PS(TTM)</td><td><strong>≈27.6x</strong></td><td>市值145/2025营收5.26亿元</td></tr><tr><td>EV/EBITDA</td><td><strong>≈80x(估)</strong></td><td>EBITDA约1.7亿(扣非1.13+折旧摊销+少量调整，估算)</td></tr><tr><td>FCF Yield</td><td><strong>≈1%(估)</strong></td><td>OCF 2.16亿−资本开支约1.0亿=FCFF约1.2-1.5亿/145亿</td></tr><tr><td>股息率</td><td><strong>≈0.36%</strong></td><td>2025年度10派1.3元(除权2026-06-18)，每股0.13元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>市值/PE/PB/PS由2026-08-21收盘价36.16×总股本4.0068亿测算，并与东财/同花顺/雪球/e公司(盘中36.2-38.7)交叉核对。关键口径提醒：①PE-TTM/PE-2026E因盈利体量小(归母仅1.1-1.4亿)读数被推到100-130x极端高位，横向比CXO意义有限，须以PS、PB及EV/EBITDA结合看;②一致目标价≈31.45元、中金目标31.60元均低于现价——卖方一致口径暗示现价已透支;③EV/EBITDA、FCF、历史分位为估算;④科创板次新上市时间短(2020年)+盈利剧变(2023-24低谷曾净利润0.4-0.5亿)令历史分位参考弱。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PB(当前)</td><td><strong>约9.6x</strong></td><td>每股净资产3.75元；上市以来估值处中高位(低估期2023-24约6-8x，2020上市初更高，估)——当前不便宜</td></tr><tr><td>PE-TTM(当前)</td><td><strong>约118x</strong></td><td>远高于历史中位(约50-65x估)；但2023-24亏损/微利期市盈率失真，历史PE参考意义弱</td></tr><tr><td>历史极端</td><td><strong>2020-2021上市初期股价高点曾约139元/百倍以上估值</strong></td><td>2023-2024盈利低谷期归母仅0.4-0.5亿、估值被盈利失真放大；现价36元远低于历史高点</td></tr>
+      </tbody>
+    </table></div>
+    <p>资产与盈利两端都"贵"：PB约9.6x处于上市以来中高位，PE-TTM约118x更远超历史中枢。这是"盈利刚放大(2025扣非+96%)+AI制药/创新药题材双击"下的结果。与2020-2021上市初期市梦率高点相比，当前PE高而绝对价只有高点的1/4左右——说明市场是按"成长股+题材"而非"当期盈利"给价。处"高景气主线上高估值"位置，安全边际薄，任何增速回落或题材退潮都可能引发估值均值回归，历史上2021-2024已验证过一次百倍估值的回落过程。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>5.26</td><td>~6.45E</td><td>~7.97E</td><td>~9.94E</td></tr>
+        <tr><td>毛利率</td><td>54.22%</td><td>~56E%</td><td>~57E%</td><td>~57-58E%</td></tr>
+        <tr><td>净利润</td><td>1.10</td><td>~1.43E</td><td>~1.85E</td><td>~2.27E</td></tr>
+        <tr><td>EPS</td><td>0.27</td><td>~0.36E</td><td>~0.46E</td><td>~0.56E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：2025年持续推进DEL+AI/ML(HAILO平台、HANDS智能体)，收购控股摩熵智能补强AI数据能力；建成1.2万亿小分子+万亿级多肽DEL库，与辉瑞/阿斯利康等六家跨国药企共建全球DEL联盟推进项目；小核酸一站式+GMP CDMO、新药IP转让(年25个)与管线后移(HG146/HG030)为弹性来源。(东财F10/投资者关系活动记录表2026-05-21、2026-07-08/10)（公司指引）/ <strong>一致预期(东财/同花顺、近六月)：2026E收入6.45亿(+22.7%)、归母1.43亿(+30%)、EPS0.36；2027E收入7.97亿(+23.7%)、归母1.85亿、EPS0.46；2028E收入9.94亿、归母2.27亿、EPS0.56。一致目标价≈31.45元(低于现价)。内资券商(打折看)：中泰"买入"1.36/1.70/2.14亿、天风"增持"1.40/1.79/2.28亿、中金"跑赢行业"目标31.60元(DCF，2026-04)。</strong>（市场一致预期）/ <strong>AI估算：收入2026E 6.4-6.6亿、2027E 7.8-8.1亿、2028E 9.4-9.9亿；归母2026E 1.4-1.5亿、2027E 1.8-2.0亿、2028E 2.2-2.5亿——受项目转让里程碑/BD大单的离散弹性影响，区间比一致预期更宽，预测不确定性大。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>AI制药/DEL药物发现型潜力指标</h3><ul><li><strong>DEL库规模与技术壁垒(核心)：</strong>1.2万亿小分子+约3500亿类环肽+约1000亿线性多肽库、77%筛选成功率、周期缩至3个月内——国内唯一万亿级多肽DEL筛选，环肽为减肥药/靶向核药/小核酸递送热门方向，市场空间打开。</li><li><strong>全球DEL联盟(独家稀缺)：</strong>与辉瑞/阿斯利康/百时美/强生/默沙东/罗氏共享共建DEL库，绑定Big-Pharma采购+获得独家构建数据，直接受益2026H1国内创新药对外授权约997亿美元的研发外包高景气。</li><li><strong>AI差异化：</strong>DEL海量标准流程真实实验数据(数百靶点训练)构建HAILO/HANDS模型+控股摩熵智能，可在非DEL空间预测活性/成药性——区别于依赖蛋白结构的AI剪裁，数据真实度与场景理解是护城河。</li><li><strong>小核酸OBT+GMP CDMO：</strong>2025 +56.7%、毛利率由23.8%升至34.5%，递送分子商业化突破，一站式"研发到GMP原料药"稀缺能力受益小核酸赛道高景气。</li><li><strong>FBDD/SBDD Vernalis全球化：</strong>英国团队新签协议+里程碑兑现，海外本地化与全球客户协同。</li><li><strong>新药IP转让/管线(弹性)：</strong>累计135个IP转让、2025年25个，HG146(ACC IIa)/HG030(海外权益)随管线后移价值放大，项目BD/分成可带来业绩弹性。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2025归母+113%(1.10亿)、2026Q1扣非+126%(3963万)为真实经营高增(DEL/FBDD里程碑+小核酸转化+毛利率上行)，非靠投资收益；但其中"项目里程碑/IP转让收入"具离散弹性(2025Q4归母-21.7%即季间佐证)，OBT/TPD新兴业务体量仍小、毛利率低于DEL。评估经营侧以"全年扣非+订单/IP新签节奏"为准，勿按单季线性外推，亦勿低估其波动性。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>核心DEL业务</td><td><strong>+约8pct</strong></td><td>DEL 2025 +25.4%(2.50亿、毛利率75%)，定制库/筛选服务多元+关键里程碑</td></tr><tr><td>FBDD/SBDD(Vernalis)</td><td><strong>+约6pct</strong></td><td>2025 +27.9%(1.54亿)，英国团队新签研究协议+里程碑兑现，全球化协同</td></tr><tr><td>OBT小核酸+GMP CDMO</td><td><strong>+约6pct</strong></td><td>2025 +56.7%(0.75亿)、毛利率34.5%，小核酸高景气+递送分子商业化</td></tr><tr><td>新药IP转让/管线BD</td><td><strong>+约4pct</strong></td><td>年IP转让25个+HG146/HG030等管线后移，合同与分成弹性</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长由"DEL+多肽/环肽核心龙头地位+小核酸CDMO放量+FBDD全球协同"多引擎驱动，景气背景为全球创新药融资回暖与国产创新药出海(2026H1对外授权约997亿美元)。领先指标是"DEL/FBDD客户里程碑确认节奏+新药IP转让密度(年25个)"——项目制收入确认令季度波动大，但全年维度确定性较高。核心瓶颈不是需求而是"绝对体量小(2025营收仅5.26亿)+估值透支"：增长率20-30%真实，却支撑不起118x PE，需更多步的项目/BD大单与AI、小核酸增量才能逐步兑现估值。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价36.2元对应2028E一致EPS 0.56元约65x、2027E约79x、2026E约100x(归母)，PB约9.6x。隐含市场对2026-2028归母净利约+30%复合，并要求：①DEL联盟与小核酸CDMO高景气持续兑现、里程碑顺利确认；②AI制药/创新药趋势短期不退潮，资金持续给"稀缺龙头"高溢价；③新药IP转让与未来BD不断贡献超预期弹性。<br><br>也就是说，当前价基本为"高增+题材"双重定价的成熟态——已透支至卖方一致目标价(≈31.5元)上方。它并未为"增速回落、推出一个失败临床、或板块估值均值回归(PE由100x向50-60x)"留出缓冲。市场分歧本质是"稀缺龙头的成长溢价值不值得提前多付"，而当前赔率(上行+22% vs 下行-42%)明显不利风险偏好稳健的投资者。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>DEL库规模与构建数据：</strong>1.2万亿小分子+万亿级多肽/环肽库、77%筛选成功率、77%达标率，国内唯一万亿级——建库能力与历史筛选数据沉淀难以一蹴而就。</li><li><strong>全球DEL联盟独家绑定：</strong>辉瑞/阿斯利康/百时美/强生/默沙东/罗氏共享共建，既锁定顶级客户又获得独家高质量构建数据——客户粘性极高。</li><li><strong>AI真实数据差异化：</strong>用海量DEL标准流程实验数据训练(HAILO/HANDS)，不依赖蛋白三维结构即可预测活性/成药性，数据真实度与场景理解构筑算法壁垒。</li><li><strong>多平台协同：</strong>DEL+FBDD/SBDD(Vernalis)+小核酸CDMO+TPD+自动化ChemSer一站式，交叉销售提升单客户价值。</li><li><strong>自有管线/IP变现：</strong>135个IP转让+自有新药管线(HG146/HG030)提供"服务+权益"双变现。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>DEL库建库与万亿级筛选门槛高但非绝对不可复现——药明康德(X-Chem体系)与跨国药企自建DEL已构成正面竞争，X-Chem、Nupro等海外玩家亦在。成都先导短中期护城河核心是"DEL联盟独家数据+万亿级多肽/环肽库+AI真实数据"，竞争对手要复制需长周期+大量真实实验数据与顶级客户绑定，弥合成本高；但高毛利率(75%)会持续吸引规模资本进入、D端技术替代(SBDD/AI从头设计)也在改写格局。护城河评为"中上"，显性强于大部分CRO，但高估值已把护城河兑现提前计入。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-27</strong> · 2026年半年度报告披露(Q2扣非能否维持50%+高增、DEL/FBDD里程碑、小核酸订单) — 盈利/估值</p><p><strong>2026H2</strong> · HG146(实体瘤ACC)IIa期数据读出及后续临床进展 — 管线价值</p><p><strong>持续</strong> · HG030海外权益BD/授权交易、新药IP转让年度节奏(2025为25个) — 业绩/弹性</p><p><strong>持续</strong> · 全球DEL联盟(六家跨国药企)项目推进与小核酸GMP CDMO商业化订单 — 收入</p><p><strong>板块</strong> · AI制药/国产创新药BD出海(2026H1对外授权约997亿美元)情绪与并购催化 — 估值</p><p><strong>持续监控</strong> · 深圳钧天(拟减持2.51%)减持是否落地、北向持仓变化 — 股价/筹码</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>估值极端高企/主题退潮</td><td>估值+股价</td><td>PE-TTM约118x、2026E约100x、PB约9.6x，AI制药/创新药板块情绪退潮将触发戴维斯双杀，均值回归风险大</td></tr><tr><td>盈利依赖项目里程碑/IP转让</td><td>利润</td><td>DEL/FBDD里程碑收入集中确认+小核酸转化，2025Q4归母-21.7%已示季间波动；新药项目转让/BD具离散不确定性</td></tr><tr><td>股东减持/筹码</td><td>估值+股价</td><td>深圳钧天2026-01拟减持2.51%(4-21披露计划期未减但计划悬置)，拉萨华博10.42%等解禁抛压；北向本季减持</td></tr><tr><td>自有新药管线临床风险</td><td>价值</td><td>HG146(ACC IIa)/HG030等若临床不及、海外BD受挫，公司"项目权益/管线"估值逻辑被削弱</td></tr><tr><td>客户与行业景气依赖</td><td>收入+利润</td><td>依赖全球Big-Pharma研发外包与创新药融资景气；生物安全/地缘法案对接单有潜在扰动</td></tr><tr><td>商誉与并购整合</td><td>利润+估值</td><td>商誉1.19亿(2025末)因控股摩熵智能/先期Vernalis等并购抬升，存在摊销与减值风险</td></tr><tr><td>竞争与技术替代</td><td>壁垒</td><td>药明康德/跨国药企自建DEL及SBDD、AI从头设计(mRNA/环肽等新模态)可能削弱DEL相对优势</td></tr><tr><td>汇率波动</td><td>利润</td><td>海外收入与Vernalis(英镑区)占比高，汇兑影响利润；英镑/美元波动</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>中报维持高增+AI制药/创新药主题延续+新药BD/项目转让大单落地</td><td>~2.5亿E(一致2.27)</td><td>PE~70x</td><td>≈44元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>一致预期兑现(2026-28归母+25~30%)、估值回归中性区间</td><td>~2.27亿E(一致EPS0.56)</td><td>PE~55x</td><td>≈31元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>AI/CXO主题退潮+项目转让不及+高估值均值回归</td><td>~1.9亿E</td><td>PE~45x</td><td>≈21元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约36.2元为基准：上行到Bull约44元(+22%)、Base约31元(-14%)、下行到Bear约21元(-42%)；收益风险比约1:2不利——上行空间明显小于下行风险。盈利真实高增但绝对体量小、估值已透支至卖方目标价上方，PB/PE均处高位，风报比不占优，故不建议在现价追入，宜等回落或中报印证后再定。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026-08-27中报Q2扣非增速降至30%以下或收入增速降至20%以下；②AI制药/创新药/CXO板块情绪退潮、估值整体被压缩；③深圳钧天/华博等股东减持放量兑现；④2028E一致预期(归母2.27亿/EPS0.56)被明显下修；⑤HG146/HG030临床或海外BD受挫、IP转让节奏放缓——任一兑现将证伪Base并拖向Bear。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：AI制药/DEL药物发现CRO——全球创新药融资回暖+国产创新药BD出海爆发(2026H1对外授权约997亿美元，接近2025全年)拉动药物发现外包需求高景气，行业处上行周期；但估值面上，AI制药主题下板块整体处于高位、PE分位较历史中枢显著溢价，属"景气高而估值贵"的波动大阶段。成都先导为国内DEL+万亿级多肽筛选绝对龙头(国内唯一)，双向受益于AI制药与创新药外包两条主线——是主线上的高估值龙头，Beta强、Alpha也强，但追高性价比低。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>8-20单日+10.1%冲高38.7、8-21高位回落收36.2，换手8-11%偏高放量；突破7月平台28-29后急涨，上方38-40压力、下方32-33支撑、前期起涨平台26-28</td><td><strong>短线高位放量、乖离大，追高风险高，等回踩32-33企稳再考虑</strong></td></tr><tr><td>基本面</td><td>2025归母+113%/扣非+96%、2026Q1营收+50.4%/扣非+126.4%真实高增，但归母1.10亿对应145亿市值(PE-TTM~118x)估值极端高企</td><td><strong>基本面向上、估值已透支，验证点8-27中报</strong></td></tr><tr><td>情绪面</td><td>AI制药/创新药BD出海板块共振、融资余额4.11亿持续净买入、融资净买入1768万，情绪高热易见急涨急跌</td><td><strong>情绪过热、筹码活跃，不适合追高，等情绪降温</strong></td></tr><tr><td>政策影响</td><td>国内"全链条支持创新药"、创新药出海政策利好(DEL联盟成员跨国药企采购受益)；海外地缘/BIOSECURE类法案对接单有潜在扰动</td><td><strong>政策中性偏正、地缘为尾部扰动，需跟踪</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>内外资(优先外资、内资打折)：现价36.2元已高于中金公司目标31.60元(DCF、跑赢行业、2026-04-29)与一致目标价≈31.45元——卖方一致口径暗示现价透支。内资(打折看待)：中泰证券"买入"(2026-28归母1.36/1.70/2.14亿)、天风证券"增持"(1.40/1.79/2.28亿)、国信证券"买入"，多未给明确目标价或给出较乐观预测；东财一致目标31.45元。外资大行(高盛/大摩/瑞银/美银/杰富瑞/瑞穗等)对成都先导的覆盖与目标价信息有限，本研究中未检索到外资大行具体目标价(标"外资覆盖未查证")——总体上该股以境内券商与主题资金定价为主，买方预期集中于一致目标约31-32元。</div>
+    <div class="callout bull"><div class="label">介入结论</div><b>暂不追高、等回落再考虑介入</b>：当前36.2元高于一致目标价(≈31.5元)与中金目标(31.6元)，PE-TTM约118x、2026E约100x、PB约9.6x处极端高位，属"AI制药题材+20-30%真实高增"双重透支定价，收益风险比不利(上行≈+22%、下行≈-42%)。若仍看重DEL龙头+AI+小核酸长期逻辑，建议等回落至约30-32元(卖方目标区，对应2026E一致PE约85x)再分2成底仓试仓；中报(2026-08-27)若Q2扣非增速维持50%+、AI主题未退潮，可在缩量回踩32-33企稳后加至最多3成。加仓触发：中报扣非/订单超预期或回落至目标区企稳。止损：有效跌破前期起涨平台26-27元离场。仓位上限建议≤3成(高波动主题股)，风险偏好低者直接观望等待更好买点。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>成都先导2025年年度报告及摘要、2026年一季报、2026年半年度报告(预约2026-08-27披露)、投资者关系活动记录表(2026-05-21、2026-07-08/10)、2025年度分红公告(10派1.3元、除权2026-06-18)、股东增减持公告(深圳钧天2026-01减持计划)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(中金公司/中泰证券/天风证券/国信证券等；均为境内券商——外资大行覆盖未查证)，东方财富/Wind一致预期</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10、同花顺F10、雪球、新浪财经、e公司、九方智投(市值/PE/PB交叉验证)、厚尾财经/9fzt投资者关系转载</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>雪球/股吧/公众号(AI自动生成推文如"豆包强势股解析"等，仅作题材线索，财务数据一律不采信)</p></div>
+    <p>高信心(90%·财报口径)：2025营收5.26/归母1.10/扣非1.13/毛利率54.22%/OCF2.16/DEL收入2.50亿/FBDD 1.54亿/OBT 0.75亿等均回2025年报并由中泰/中金研报交叉引注；2026Q1营收1.61/归母4150/扣非3963万/毛利率56.34%回一季报。中低信心(50%·估值)：市值145亿、PE-TTM/PE26E/PB由收盘价36.16×股本测算并与第三方交叉核对；但历史分位因科创板上市时间短+盈利剧变参考弱，EV/EBITDA、FCF为AI估。中低信心(40%·预测)：2026-28E一致预期(EPS0.36/0.46/0.56)来自东财一致预期并内资打折；Bull/Base/Bear与公司基本面判断属主观推演，且"AI/BD催化+高估值"下不确定性大；英国/海外经营、商誉变化前瞻、外资目标价为待核实项。未回源码均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>成都先导2025年年度报告及2026年一季报（公司公告/上交所，2026-04披露）</li>
+        <li>成都先导2026年半年度报告（预约2026-08-27披露）</li>
+        <li>成都先导投资者关系活动记录表（2026-05-21、2026-07-08/10，公司IR）</li>
+        <li>中金公司·中泰证券·天风证券·国信证券研报（2026-04~05，境内券商）</li>
+        <li>东方财富F10 / 同花顺F10 / 雪球 / 新浪财经 / e公司 / 九方智投（市值、PE、PB、一致预期交叉验证）</li>
+        <li>公开报道：DEL联盟(辉瑞/阿斯利康等)、摩熵智能收购、HG146/HG030管线进展、国产创新药BD出海(2026H1约997亿美元)等</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

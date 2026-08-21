@@ -119,7 +119,12 @@ td.highlight { background: #eff6ff; }
   flex-wrap: wrap;
   margin-bottom: 0.5rem;
 }
-.company-card .card-name { font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+.company-card .card-name
+.company-card .card-name a.card-link { color: inherit; text-decoration: none; }
+.company-card .card-name a.card-link:hover { color:#2563eb; text-decoration: underline; }
+.company-card .dlink { display:inline-block; margin-left:0.5rem; font-size:0.72rem; font-weight:600; color:#2563eb; background:#eff6ff; border:1px solid #bfdbfe; border-radius:4px; padding:0.05rem 0.45rem; text-decoration:none; vertical-align:middle; white-space:nowrap; }
+.company-card .dlink:hover { background:#dbeafe; }
+ { font-size: 1.05rem; font-weight: 700; color: var(--ink); }
 .company-card .card-code { font-size: 0.8rem; color: var(--muted); font-family: var(--font-mono); }
 .company-card .card-tag {
   display: inline-block;
@@ -620,7 +625,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">百奥赛图</span>
+      <span class="card-name"><a class="card-link" href="companies/biocytogen.html">百奥赛图</a><a class="dlink" href="companies/biocytogen.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">02315.HK / 688796.SH</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -639,7 +644,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">药康生物</span>
+      <span class="card-name"><a class="card-link" href="companies/gempharmatech.html">药康生物</a><a class="dlink" href="companies/gempharmatech.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh688046</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -658,7 +663,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">南模生物</span>
+      <span class="card-name"><a class="card-link" href="companies/nanmo.html">南模生物</a><a class="dlink" href="companies/nanmo.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh688265</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -676,7 +681,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">益诺思</span>
+      <span class="card-name"><a class="card-link" href="companies/innos.html">益诺思</a><a class="dlink" href="companies/innos.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh688710</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -694,7 +699,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">和铂医药</span>
+      <span class="card-name"><a class="card-link" href="companies/harbour.html">和铂医药</a><a class="dlink" href="companies/harbour.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">02142.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -719,7 +724,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">药明康德</span>
+      <span class="card-name"><a class="card-link" href="companies/wuxi-apptec.html">药明康德</a><a class="dlink" href="companies/wuxi-apptec.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh603259 / 02359.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -738,7 +743,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">凯莱英</span>
+      <span class="card-name"><a class="card-link" href="companies/asymchem.html">凯莱英</a><a class="dlink" href="companies/asymchem.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz002821 / 06821.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -757,7 +762,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">康龙化成</span>
+      <span class="card-name"><a class="card-link" href="companies/pharmaron.html">康龙化成</a><a class="dlink" href="companies/pharmaron.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz300759 / 03759.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -777,7 +782,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">泰格医药</span>
+      <span class="card-name"><a class="card-link" href="companies/tigermed.html">泰格医药</a><a class="dlink" href="companies/tigermed.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz300347 / 03347.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -796,7 +801,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">昭衍新药</span>
+      <span class="card-name"><a class="card-link" href="companies/jiangyan.html">昭衍新药</a><a class="dlink" href="companies/jiangyan.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh603127</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -817,7 +822,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">英矽智能</span>
+      <span class="card-name"><a class="card-link" href="companies/insilico.html">英矽智能</a><a class="dlink" href="companies/insilico.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">03696.HK</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -835,7 +840,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">晶泰控股（晶泰科技）</span>
+      <span class="card-name"><a class="card-link" href="companies/xtalpi.html">晶泰控股（晶泰科技）</a><a class="dlink" href="companies/xtalpi.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">02228.HK</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -853,7 +858,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">成都先导</span>
+      <span class="card-name"><a class="card-link" href="companies/hitgen.html">成都先导</a><a class="dlink" href="companies/hitgen.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh688222</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -871,7 +876,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">剂泰科技（Metis）</span>
+      <span class="card-name"><a class="card-link" href="companies/metis.html">剂泰科技（Metis）</a><a class="dlink" href="companies/metis.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">07666.HK</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -889,7 +894,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">望石智慧</span>
+      <span class="card-name"><a class="card-link" href="companies/wangshi.html">望石智慧</a><a class="dlink" href="companies/wangshi.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">非上市·AI制药新锐</span>
       <span class="card-tag concept">概念驱动</span>
     </div>
@@ -901,7 +906,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">百图生科（BiMap）</span>
+      <span class="card-name"><a class="card-link" href="companies/bimap.html">百图生科（BiMap）</a><a class="dlink" href="companies/bimap.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">非上市·百度系</span>
       <span class="card-tag concept">概念驱动</span>
     </div>
@@ -913,7 +918,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">金斯瑞生物科技</span>
+      <span class="card-name"><a class="card-link" href="companies/genscript.html">金斯瑞生物科技</a><a class="dlink" href="companies/genscript.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">01548.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -935,7 +940,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">恒瑞医药</span>
+      <span class="card-name"><a class="card-link" href="companies/hengrui.html">恒瑞医药</a><a class="dlink" href="companies/hengrui.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh600276</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -956,7 +961,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">百济神州</span>
+      <span class="card-name"><a class="card-link" href="companies/beigene.html">百济神州</a><a class="dlink" href="companies/beigene.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh688235</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -976,7 +981,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">信达生物</span>
+      <span class="card-name"><a class="card-link" href="companies/innovent.html">信达生物</a><a class="dlink" href="companies/innovent.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">01801.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -995,7 +1000,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">荣昌生物</span>
+      <span class="card-name"><a class="card-link" href="companies/remegen.html">荣昌生物</a><a class="dlink" href="companies/remegen.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh688331 / 09995.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1014,7 +1019,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">君实生物</span>
+      <span class="card-name"><a class="card-link" href="companies/junshi.html">君实生物</a><a class="dlink" href="companies/junshi.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh688180 / 01877.HK</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -1028,7 +1033,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">康方生物</span>
+      <span class="card-name"><a class="card-link" href="companies/akeso.html">康方生物</a><a class="dlink" href="companies/akeso.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">09926.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1047,7 +1052,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">科伦药业 / 科伦博泰</span>
+      <span class="card-name"><a class="card-link" href="companies/kelun.html">科伦药业 / 科伦博泰</a><a class="dlink" href="companies/kelun.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz002422 / 06990.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1066,7 +1071,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">三生制药</span>
+      <span class="card-name"><a class="card-link" href="companies/symphogen.html">三生制药</a><a class="dlink" href="companies/symphogen.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">01530.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1087,7 +1092,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">药石科技</span>
+      <span class="card-name"><a class="card-link" href="companies/pharmblocks.html">药石科技</a><a class="dlink" href="companies/pharmblocks.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz300725</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1106,7 +1111,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">毕得医药</span>
+      <span class="card-name"><a class="card-link" href="companies/bide-pharm.html">毕得医药</a><a class="dlink" href="companies/bide-pharm.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh688073</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -1274,7 +1279,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">迈瑞医疗</span>
+      <span class="card-name"><a class="card-link" href="companies/mindray.html">迈瑞医疗</a><a class="dlink" href="companies/mindray.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz300760</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1293,7 +1298,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">联影医疗</span>
+      <span class="card-name"><a class="card-link" href="companies/united-imaging.html">联影医疗</a><a class="dlink" href="companies/united-imaging.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh688271</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1312,7 +1317,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">微创医疗</span>
+      <span class="card-name"><a class="card-link" href="companies/microport.html">微创医疗</a><a class="dlink" href="companies/microport.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">00853.HK</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -1332,7 +1337,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">乐普医疗</span>
+      <span class="card-name"><a class="card-link" href="companies/lepu.html">乐普医疗</a><a class="dlink" href="companies/lepu.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz300003</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1352,7 +1357,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">威高股份 / 健帆生物</span>
+      <span class="card-name"><a class="card-link" href="companies/weigao.html">威高股份 / 健帆生物</a><a class="dlink" href="companies/weigao.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">01066.HK / sz300529</span>
       <span class="card-tag concept">概念驱动/承压</span>
     </div>
@@ -1394,7 +1399,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">新产业生物</span>
+      <span class="card-name"><a class="card-link" href="companies/snibe.html">新产业生物</a><a class="dlink" href="companies/snibe.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz300832</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1414,7 +1419,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">安图生物</span>
+      <span class="card-name"><a class="card-link" href="companies/autobio.html">安图生物</a><a class="dlink" href="companies/autobio.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh603658</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -1434,7 +1439,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">华大基因</span>
+      <span class="card-name"><a class="card-link" href="companies/bgicomics.html">华大基因</a><a class="dlink" href="companies/bgicomics.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz300676</span>
       <span class="card-tag concept">概念驱动/承压</span>
     </div>
@@ -1454,7 +1459,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">金域医学 / 迪安诊断</span>
+      <span class="card-name"><a class="card-link" href="companies/kindstar.html">金域医学 / 迪安诊断</a><a class="dlink" href="companies/kindstar.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh603882 / sz300244</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -1621,7 +1626,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">华海药业</span>
+      <span class="card-name"><a class="card-link" href="companies/huahai.html">华海药业</a><a class="dlink" href="companies/huahai.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh600521</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1641,7 +1646,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">普洛药业</span>
+      <span class="card-name"><a class="card-link" href="companies/apeloa.html">普洛药业</a><a class="dlink" href="companies/apeloa.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz000739</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1661,7 +1666,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">海正药业</span>
+      <span class="card-name"><a class="card-link" href="companies/hisun.html">海正药业</a><a class="dlink" href="companies/hisun.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh600267</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -1681,7 +1686,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">新和成</span>
+      <span class="card-name"><a class="card-link" href="companies/nhuji.html">新和成</a><a class="dlink" href="companies/nhuji.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz002001</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1701,7 +1706,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">天宇股份</span>
+      <span class="card-name"><a class="card-link" href="companies/tianyu.html">天宇股份</a><a class="dlink" href="companies/tianyu.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz300702</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -1721,7 +1726,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">美诺华</span>
+      <span class="card-name"><a class="card-link" href="companies/menova.html">美诺华</a><a class="dlink" href="companies/menova.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh603836</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1784,7 +1789,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">山东药玻</span>
+      <span class="card-name"><a class="card-link" href="companies/shandong-pg.html">山东药玻</a><a class="dlink" href="companies/shandong-pg.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh600529</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1804,7 +1809,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">正川股份</span>
+      <span class="card-name"><a class="card-link" href="companies/zhengchuan.html">正川股份</a><a class="dlink" href="companies/zhengchuan.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh603976</span>
       <span class="card-tag concept">承压</span>
     </div>
@@ -1824,7 +1829,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">力诺药包</span>
+      <span class="card-name"><a class="card-link" href="companies/linuo.html">力诺药包</a><a class="dlink" href="companies/linuo.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz301188</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -1852,7 +1857,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">国药控股</span>
+      <span class="card-name"><a class="card-link" href="companies/sinopharm.html">国药控股</a><a class="dlink" href="companies/sinopharm.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">01099.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1872,7 +1877,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">上海医药</span>
+      <span class="card-name"><a class="card-link" href="companies/sp-pharma.html">上海医药</a><a class="dlink" href="companies/sp-pharma.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh601607</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -1892,7 +1897,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">华润医药</span>
+      <span class="card-name"><a class="card-link" href="companies/crhh.html">华润医药</a><a class="dlink" href="companies/crhh.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">03328.HK</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1912,7 +1917,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">九州通</span>
+      <span class="card-name"><a class="card-link" href="companies/jointown.html">九州通</a><a class="dlink" href="companies/jointown.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh600998</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -1932,7 +1937,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">中国医药</span>
+      <span class="card-name"><a class="card-link" href="companies/sinopharm-china.html">中国医药</a><a class="dlink" href="companies/sinopharm-china.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh600056</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -1960,7 +1965,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">大参林</span>
+      <span class="card-name"><a class="card-link" href="companies/dashenlin.html">大参林</a><a class="dlink" href="companies/dashenlin.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh603233</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -1980,7 +1985,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">老百姓</span>
+      <span class="card-name"><a class="card-link" href="companies/lbx.html">老百姓</a><a class="dlink" href="companies/lbx.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh603883</span>
       <span class="card-tag story">潜力型</span>
     </div>
@@ -2000,7 +2005,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">益丰药房</span>
+      <span class="card-name"><a class="card-link" href="companies/yifeng.html">益丰药房</a><a class="dlink" href="companies/yifeng.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sh603939</span>
       <span class="card-tag real">真业绩</span>
     </div>
@@ -2020,7 +2025,7 @@ flowchart LR
 
   <div class="company-card">
     <div class="card-header">
-      <span class="card-name">一心堂</span>
+      <span class="card-name"><a class="card-link" href="companies/yixintang.html">一心堂</a><a class="dlink" href="companies/yixintang.html" title="12维度深度分析(基本面/估值/投资时机/券商)">12维分析</a></span>
       <span class="card-code">sz002727</span>
       <span class="card-tag story">潜力型</span>
     </div>

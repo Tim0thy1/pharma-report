@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山东药玻 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">山东药玻<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">药用玻璃包装 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch7">回产业链报告</a></div>
+    <h1>山东药玻<span class="code">600529.SH</span></h1>
+    <p class="subtitle">药用玻璃包装绝对龙头 · 模制瓶市占率80%+ · 中硼硅国产替代主线 · 国药央企入主</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+    <a href="menova.html">上一家 · 美诺华</a>
+    <a href="zhengchuan.html">下一家 · 正川股份</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈124亿元</div><div class="k-sub">2026-08-21(沪A)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈18x(归母TTM·盈利底部被动抬升)</div><div class="k-sub">PE-TTM 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB约1.5x处近5年低位;PE受2025盈利下滑28%扰动参考弱</div><div class="k-sub">过去5年中位 归母PE历史中位约14-16x(估)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+10%~16%</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>国内药用玻璃包装绝对龙头(模制瓶/管制瓶/安瓿/口服液瓶，钠钙玻璃模制注射剂瓶市占率超80%、中硼硅模制瓶产能40亿支居国内第一、棕色瓶生产规模全球前列)。2025年受医保支付方式改革与下游需求不足冲击(国内市场收入-13.65%)，营收44.74亿(-8.8%)、归母6.90亿(-26.9%)、扣非6.58亿(-27.1%)业绩明显承压；2026Q1营收转正(+4.1%)、毛利率小幅提升至32.56%，边际企稳。最大中期变量是2026年国药集团系32.35亿定增入主(实控人变更为国务院国资委)——央企协同+中硼硅国产替代+集采用药放量构成"稳健价值修复+中长期成长"主线。现价约18.7元、PE-TTM约18x、PB约1.5x，纯现金牛低估值。</li>
+      <li><strong>基本面：</strong>FY2025营收44.74亿(-8.78%)、归母6.90亿(-26.87%)、扣非6.58亿(-27.13%)，基本EPS 1.04元；毛利率约33.3%(2026Q1 32.56%同比+1.6pct)、加权ROE Q1 2.40%。经营现金流2025仅5.77亿(2024为11.65亿，明显回落)。资产负债率约17.4%、账上净现金(现金25.4亿)健康。</li>
+      <li><strong>估值：</strong>A股约18.74元、总市值约124亿元；PE-TTM约18-18.6x、PB约1.48x、PS(TTM)约2.75x。一致预期2026E归母7.97亿(PE≈15.6x)/EPS1.20元、2027E归母8.72亿(≈14.3x)/EPS1.31元、2028E归母9.69亿(≈12.8x)/EPS1.46元。</li>
+      <li><strong>市场隐含预期：</strong>现价18.74元对应2028E一致预期EPS 1.46元约12.8x、2026E 1.20元约15.6x、PB约1.48x。隐含市场偏好：(1)2026-2028归母以约+12%CAGR温和恢复(6.9→9.7亿)；(2)中硼硅国产替代+国药入主后集采放量与品类协同带来量增;(3)毛利率在32-34%平台窄幅波动、不期待大幅跃升。换言之买的是"内需企稳+中硼硅替代+央企协同"的稳健修复预期，并未为爆发式成长付费。若内需恢复不及或中硼硅库存去化慢于预期，估值将向低PB价值股中枢回归(约15-17元)。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08-25中报：Q2营收与归母能否延续企稳、中硼硅模制瓶销量/库存去化、毛利率方向；国药定增控制权变更落地进程(已获国务院国资委批复)；马来西亚海外基地与出口贡献；内需恢复与集采放量跟踪。</li>
+      <li><strong>情景结论：</strong>Bull 约26-28元(+40~50%) / Base 约20元(+7%) / Bear 约14-15元(-22~25%)，中长期收益风险比约1.5-2:1——稳健价值+中硼硅成长期权，短线需等中报确认企稳。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>国内药用玻璃包装绝对龙头、中硼硅国产替代主线标的</strong>：山东药玻1993年成立于山东淄博沂源、2002年在上交所上市(SH600529)。主营各类药用玻璃包装产品制造销售——模制瓶(钠钙/中硼硅)、管制瓶、安瓿瓶、口服液瓶及棕色瓶、瓶盖/滴管等配套。主导产品钠钙玻璃模制注射剂瓶国内市场占有率超80%，中硼硅模制瓶产能约40亿支居国内第一(EPS化，截止2024年6月一类模制瓶年化产能24-25亿支级)、棕色瓶生产规模居全球前列；已实现中硼硅玻管自产(冲破国外连管依赖)，乘一致性评价+集采用药放量+药品安全升级推动药包材向中硼硅等高端替代。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>~47.7(估)</td><td>49.05</td><td>44.74</td><td>~46.4-46.5E</td><td>~48.8E</td></tr>
+        <tr><td>归母净利润</td><td>~7.76(估)</td><td>9.43</td><td>6.90</td><td>~7.6-8.0E(一致)</td><td>~8.7E</td></tr>
+        <tr><td>扣非净利润</td><td>~7.4(估)</td><td>9.04</td><td>6.58</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~31%(估)</td><td>~33.2%</td><td>~33.3%</td><td>~32.5-33E%</td><td>~33E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~10%(估)</td><td>~11.5%(估)</td><td>~8.5%(估)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~10(估)</td><td>11.65</td><td>5.77</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>产品结构(2025)：</strong>模制瓶(钠钙/中硼硅、注射剂瓶/西林瓶/输液瓶)为核心大单品，辅以管制瓶、安瓿、口服液瓶、棕色瓶及药用瓶盖等；棕色瓶生产规模全球前列。中硼硅模制瓶为公司盈利质量最高品类(疫苗/生物药高端包材)。<br><br><strong>中硼硅升级主线：</strong>国内通过一致性评价+集采放量+药品安全升级推动"药包材由普通钠钙向中硼硅替代"；公司已实现中硼硅玻管自产(734中硼硅配方、多次拉管技术)，随良率与降本突破，中硼硅模制瓶产能约40亿支居国内第一，是国产替代的旗舰产能(核心竞对肖特SGD/力诺/正川的中硼硅布局均明显落后)。<br><br><strong>集采/用药放量：</strong>带量采购扩大、创新药与生物药放量拉动注射剂/预制灌装对高品质中硼硅包材需求；央企国药体系入主后有望带来集采渠道与品类协同的增量订单空间。<br><br><strong>海外/国际化：</strong>玻璃制品出口为增量方向，2026年拟设立马来西亚全资子公司推进全球化(东南亚布局)；国际化稳步推进是机构追踪重点。<br><br><strong>产能/规模：</strong>36个生产车间、玻璃制品24车间/27座窑炉/200条生产线、日玻璃出料量2200多吨，规模+窑炉工艺带来综合成本优势。<br><br><strong>客户/竞争：</strong>下游覆盖国内主要药企；竞争=正川股份、力诺特玻、肖特SGD(全球)、康宁/欧文斯-伊利诺斯(O-I)及出口市场的印度/东南亚厂商。<br><br><strong>治理/股权(重大)：</strong>原实控人山东省沂源县财政局；2026年国药集团系(国药国际100%控股+国药国际香港旗下山东耀新)以32.35亿定增认购≤1.99亿股(约16.26元/股)联合入主，完成后控股股东变更为国药国际、实控人变更为中国医药集团、最终追溯国务院国资委(2026-06-26已获国务院国资委批复)。<br><br><strong>资产负债：</strong>资产负债率约17.4%(低)、账上现金25.4亿元+有息负债仅0.42亿元，净现金充裕的现金牛，为后续并购(国药预留整合资金)与新产能建设提供弹药。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长/恢复：</strong>2026Q1营收12.19亿(+4.09%转正、环比+8.7%)、毛利率32.56%(同比+1.6pct)边际企稳；中泰"单季度营收增速企稳、国际化稳步推进"；核心看内需恢复与中硼硅替代量增。</li><li><strong>会计/周期拖累(2025)：</strong>医保支付方式改革+下游需求不足，2025国内市场收入-13.65%、中硼硅模制瓶销量下滑双位数且库存同比上升(2025去库压力)；整体营收-8.78%、归母-26.87%、扣非-27.13%——是需求周期底部而非质量恶化，毛利率反升(产品结构/自动化)。</li><li><strong>一次性因素：</strong>非经常性损益对净利影响小(2025归母6.90 vs 扣非6.58，差约0.3亿)；主要扰动是2025经营现金流失速(11.65→5.77亿)反映回款与营运资金占用，须关注是否随库存去化改善。</li><li><strong>结论：</strong>2025是"内需换挡期"的需求性下修，毛利率稳健、资产负债极健康，属"底部企稳+中硼硅与海外成长期权"的稳健价值标的；看多逻辑依赖内需恢复+中硼硅替代+央企协同兑现。勿以2025单年-27%线性外推。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈18.74元</strong></td><td>2026-08-21收盘18.74、当日18.64-19.12</td></tr><tr><td>A股总市值</td><td><strong>≈124亿元</strong></td><td>总股本约6.636亿股(全流通)</td></tr><tr><td>EV</td><td><strong>≈99-105亿元(估)</strong></td><td>现金25.4亿+有息负债仅0.42亿，净现金约24亿元</td></tr><tr><td>PE-TTM</td><td><strong>≈18x(归母TTM约6.67亿)</strong></td><td>2025年报归母6.90亿口径约18x；盈利底部被动抬升</td></tr><tr><td>PE-2026E</td><td><strong>≈15.6x</strong></td><td>一致预期归母7.97亿/EPS1.20元</td></tr><tr><td>PE-2027E</td><td><strong>≈14.3x</strong></td><td>一致预期归母8.72亿/EPS1.31元</td></tr><tr><td>PE-2028E</td><td><strong>≈12.8x</strong></td><td>一致预期归母9.69亿/EPS1.46元</td></tr><tr><td>PB</td><td><strong>≈1.48x</strong></td><td>每股净资产12.44元(2026Q1末)；历史低位区</td></tr><tr><td>PS(TTM)</td><td><strong>≈2.75x</strong></td><td>市值124亿/营收TTM约45.2亿</td></tr><tr><td>EV/EBITDA</td><td><strong>≈13-15x(估)</strong></td><td>EBITDA约8-9亿(估，含折旧摊销)</td></tr><tr><td>FCF Yield</td><td><strong>≈2-3%</strong></td><td>OCF 2025仅5.77亿(低位)，估</td></tr><tr><td>股息率</td><td><strong>≈0.96%</strong></td><td>2025年度10派1.8元(除权2026-05-20)，派息率约17%</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(东财F10/同花顺/证券之星/大智慧/腾讯自选股)市值约124亿、股价约18.7-19.5元、PE-TTM约18x、PB约1.48x于2026-08-21交叉核对。关键口径：①2025盈利下滑28%使PE被动抬升，横向比PE参考性下降，PB(1.5x历史低位)+净现金更反映价值底；②中硼硅是盈利质量最高品类，估值隐含其恢复弹性；③预测(2026-28E)+PE均为一致预期/AI推算，须以实际披露为准；④国药定增≤1.99亿股将摊薄总股本约23-30%，对EPS口径有摊薄影响，前瞻估值建议用摊薄后股本复核。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE(当前)</td><td><strong>约18-18.6x</strong></td><td>历史区间约10-25x、中位约14-16x(估)；当前偏高主因2025盈利底部(EPS1.04元)所致</td></tr><tr><td>PB(当前)</td><td><strong>约1.48x</strong></td><td>每股净资产12.44元；历史中位约1.8-2.5x(估)、近5年低位区</td></tr><tr><td>历史极端</td><td><strong>2020-2021情绪高点PE约25-30x、PB约4-5x(估)</strong></td><td>2020中硼硅+集采放量主题下市梦率；2025盈利下滑后PE被动走高</td></tr>
+      </tbody>
+    </table></div>
+    <p>山东药玻属"稳健现金牛药用玻璃"细分，历史估值中枢本就偏低(PE 12-18x、PB 1.5-3x)。当前PB约1.5x处于近5年低位区，绝对PE约18x看似不低实因2025扣非/归母下滑27-28%、EPS落到1.04元所致——是"盈利底"而非"估值贵"。若内需企稳、中硼硅替代与央企协同兑现使盈利修复，PE将随盈利抬升而回落。整体处"低PB+盈利左侧底部"的稳健价值区，中长期赔率占优。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>44.74</td><td>~46.4E</td><td>~48.8E</td><td>~51.7E</td></tr>
+        <tr><td>毛利率</td><td>~33.3%</td><td>~32.5-33E%</td><td>~33E%</td><td>~33-34E%</td></tr>
+        <tr><td>净利润</td><td>6.90</td><td>~7.6-8.0E</td><td>~8.4-8.7E</td><td>~9.7-10.1E</td></tr>
+        <tr><td>EPS</td><td>1.04</td><td>~1.2E</td><td>~1.31E</td><td>~1.46E(摊薄后略降)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：2026Q1营收转正(+4.1%)且毛利率提升，内需边际企稳；持续推进中硼硅结构升级与玻管自产降本、布局马来西亚/海外出口；国药入主后强化央企协同与产业整合(预留并购资金)。中硼硅模制瓶库存去化与销量恢复是2026重点(大智慧/年报注)。（公司指引）/ <strong>一致预期(腾讯自选股/东财多机构口径)：营收2026E 46.45亿(+3.8%)、2027E 48.78亿、2028E 51.74亿；归母2026E 7.97亿(+15.6%~大智慧更保守7.62亿/+10.5%)、2027E 8.72亿、2028E 9.69亿；EPS 2026E 1.20元、2027E 1.31元、2028E 1.46元。宁/申万等内资多给"买入/增持"，目标价含国药逻辑，内资目标价偏乐观需打折。</strong>（市场一致预期）/ <strong>AI估算：营收2026E 46-47亿、2027E 48-50亿、2028E 51-53亿；归母2026E 7.6-8.0亿、2027E 8.5-8.8亿、2028E 9.6-10.1亿；毛利率维持32-34%平台、净利率约16-17%；2025经营现金流量在库存去化与内需企稳下有望回升至8-10亿。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>药用玻璃/中硼硅型潜力指标</h3><ul><li><strong>中硼硅替代渗透率(前瞻)：</strong>一致性评价+集采+生物药/疫苗放量推动"注射剂包材由低硼向中硼硅升级"，中硼硅模制瓶产能40亿支国内第一、同类国产替代标的；替代渗透率提升是量价齐升的核心引擎。</li><li><strong>中硼硅玻管自产/降本：</strong>已实现中硼硅玻管自产，良率与国产降本突破将显著摊薄成本并扩大毛利空间(公司曾展示多条玻管拉管线)。</li><li><strong>央企协同与集采放量(国药)：</strong>国药入主后潜在集采渠道+品类协同订单、预留并购资金整合药包材产业——中期增量最明确。</li><li><strong>国际化/出口：</strong>马来西亚子公司+玻璃制品出口，承接海外药玻双位数替代需求，打开第二增长曲线。</li><li><strong>全品类平台：</strong>模制瓶+管制瓶+安瓿+棕色瓶+瓶盖的全品类布局与规模窑炉，交叉配套与成本壁垒支撑量增。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2025归母-26.87/扣非-27.13是全国性"需求换挡"下调宣示，非公司个体质量问题——毛利率(约33.3%)反升、资产负债率17.4%、净现金健康，盈利质量本身未恶化。非经常项对净利扰动小(6.90 vs 6.58)。真正的观测点在：①中硼硅模制瓶库存去化与销量恢复(Q1毛利率已回升印证结构)；②经营现金流能否随库存去化回升至8亿+；③2026-08-25中报内需企稳/出口贡献的兑现度。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>中硼硅药玻国产替代/结构升级</td><td><strong>+约4-5pct</strong></td><td>一致性评价+集采+生物药放量推动注射剂包材中硼硅化，替代渗透率与毛利双升</td></tr><tr><td>内需企稳恢复(集采放量)</td><td><strong>+约3pct</strong></td><td>2026Q1营收转正(+4.1%)，医保控费边际缓和+用药放量拉动量增</td></tr><tr><td>海外/出口+马来基地</td><td><strong>+约2pct</strong></td><td>玻璃制品出口与马来西亚子公司打开增量，国际化战略起步</td></tr>
+      </tbody>
+    </table></div>
+    <p>成长引擎由"中硼硅国产替代(质)+内需恢复/集采放量(量)+央企协同+海外出口"多维构成，但2025的需求性下修要求"先企稳、后回升"。最直接的领先指标是：①2026中报(8-25)营收与归母能否延续同比转正/修复；②中硼硅模制瓶销量与库存去化(替代放量的确认)；③经营现金流回升。增长确定性低于高景气CXO，属"低个位数稳健恢复(2026-28归母CAGR约12%)+中硼硅与央企协同成长期权"，兑现依赖于内需与替代节奏，宜以"稳健价值+期权"定位而非高成长股。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价18.74元对应2028E一致预期EPS 1.46元约12.8x、2027E约14.3x、2026E约15.6x、PB约1.48x。隐含市场对2026-2028归母给约+12%CAGR(6.90→9.69亿)的中性恢复，并要求：①内需边际企稳、②中硼硅替代+集采放量带来量增、③毛利率稳定在32-34%、④国药央企协同逐步兑现但不期待短期爆发、⑤经营现金流随库存去化回归正常。<br><br>换言之，当前价格买的是"稳健价值底+中硼硅成长期权"，赔率主要由低PB(1.5x)+净现金+央企背书提供安全垫，并未为"爆发式替代"或"毛利率跃升"付费——若盈利如期修复，PE随之回落、上行仍具空间；若内需恢复不及或中硼硅库存去化慢于预期，估值将向低PB价值中枢(约15-17元)回归。市场当前分歧核心是"这轮修复的斜率与确定性"。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>模制瓶绝对规模龙头：</strong>钠钙玻璃模制注射剂瓶市占率超80%、中硼硅模制瓶产能约40亿支国内第一、棕色瓶全球前列——行业"确定性垄断"。</li><li><strong>中硼硅自产Know-how：</strong>中硼硅玻管自产+多次拉管技术，突破国外连管依赖，良率/降本构筑国产替代最硬壁垒。</li><li><strong>药包材准入/一致性评价门槛：</strong>药用的安全性、相容性、稳定性验证与客户认证周期长，替换成本高，形成客户粘性。</li><li><strong>规模窑炉成本：</strong>27座窑炉/200条产线/日玻璃出料2200吨+全品类配套，综合成本与供货能力难复制。</li><li><strong>央企背书：</strong>国药集团(国务院国资委)入主带来渠道协同与产业整合平台、并购资金储备。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>国内正川股份/力诺特玻在中硼硅与模制瓶中硼硅的规模与良率明显落后山东药玻，短期难撼动其一供地位；真正竞争来自全球龙头肖特(SGD)、康宁/O-I——其在中硼硅高端配方与窑炉工艺仍领先，国产替代仍需降本与认证推进。山东药玻差异化在于"模制瓶中硼硅规模+全品类+窑炉+央企渠道"，护城河评为"中—中上"：壁垒在产能与准入，变现弹性依赖替代与内需节奏，定价权中性(集采下游传导有限)。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-25</strong> · 2026年半年度报告披露(Q2营收/归母能否延续企稳、中硼硅销量与库存去化、毛利率) — 盈利/估值核心验证</p><p><strong>2026-07+</strong> · 国药定增推进：已获2026-06-26国务院国资委批复，控制权变更/发行落地进程 — 估值/治理</p><p><strong>2026下半年</strong> · 马来西亚全资子公司设立与海外出口业绩验证 — 收入</p><p><strong>持续</strong> · 中硼硅模制瓶库存去化与销量恢复、注射剂集采放量放量 — 收入/毛利</p><p><strong>持续</strong> · 内资券商(中泰"单季营收增速企稳"/长江/国海"控股变更"/西南"创新与国际化韧性")目标价与评级动向 — 估值</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>医保支付方式改革/下游需求不足</td><td>收入</td><td>2025国内市场收入-13.65%，内需换挡期延续将压制量增，中硼硅模制瓶销量下滑双位数、库存同比上升2025去库承压</td></tr><tr><td>集采/药包材压价</td><td>利润</td><td>带量采购/药企降本向上游药包材传导，毛利率与单价承压</td></tr><tr><td>中硼硅替代与库存去化慢</td><td>利润+估值</td><td>中硼硅模制瓶2025库存同比上升，若去化慢于预期将拖累价格与利用率</td></tr><tr><td>原材料/能源成本</td><td>利润</td><td>纯碱、硼硅料、石英砂、天然气等原材料与能耗价格波动直接侵蚀毛利</td></tr><tr><td>国药入主整合/摊薄/不确定性</td><td>估值+利润</td><td>定增≤1.99亿股摊薄EPS约23-30%；央企整合节奏、关联交易与协同兑现不达预期</td></tr><tr><td>新产能爬坡/资本开支</td><td>利润</td><td>中硼硅与玻管新线投产爬坡速度、海外基地投入期费用</td></tr><tr><td>出口/汇率/地缘</td><td>收入+估值</td><td>出口占比仍低，但海外地缘与汇率波动影响第二增长曲线兑现</td></tr><tr><td>竞争(国外龙头)</td><td>利润</td><td>肖特/康宁/O-I在中硼硅高端配方与工艺的领先，国产替代进度有不确定性</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>内需企稳+中硼硅替代放量+国药协同订单+毛利率提升至34%+经营现金流回升</td><td>~11亿E(归母)</td><td>~17x</td><td>~26-28元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>内需温和恢复、中硼硅稳步替代、集采放量平稳，毛利率稳定32-34%</td><td>~9.7亿E(一致EPS1.46)</td><td>~14x</td><td>~20元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>医保控费延续+中硼硅库存去化慢+集采压价侵蚀毛利，盈利继续低个位数/下滑</td><td>~8亿E</td><td>~12x</td><td>~14-15元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约18.74元为基准：上行到Bull约26-28元(+40~50%)、Base约20元(+7%)，下行到Bear约14-15元(-22~25%)；收益风险比约1.5-2:1，优于多数cxo但弹性低于成长股。低PB+净现金+央企背书提供价值安全垫，"稳健修复+中硼硅成长期权"赔率占优，但短线需等中报确认企稳，不宜右侧追高。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026-08-25中报营收/归母未能延续企稳、或继续负增长；②中硼硅模制瓶销量继续下滑、库存去化不见明显改善；③集采/药包材压价致毛利率跌破32%；④经营现金流继续萎缩;(⑤国药定增/控制权变更延宕或出现整合不利)——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：药用玻璃/药包材——长期受益一致性评价+集采用药放量+药品安全升级+中硼硅国产替代，属医疗刚性细分的稳健成长赛道；2025年受医保控费换挡冲击处"景气底部"(内需-13.65%)，2026Q1营收转正、毛利率回升，处"底部企稳→向上初段"。板块估值(尤其PB)处近5年中低位。龙头山东药玻(模制瓶80%+)叠加国药央企入主，是"稳健价值底+中硼硅替代+央企协同"三重逻辑的稀缺标的。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>8-21收18.74，跌破MA5/10/20(19.0-19.35)但在MA60(18.89)/MA120(18.74)获支撑，MACD柱-0.165偏弱、RSI6 28.9接近超卖；近两月18.5-20.5窄幅横盘</td><td><strong>处区间下沿与价值支撑带，短线偏弱整理，等企稳信号(站回MA20/放量)或回落到18.3-18.6强支撑再关注</strong></td></tr><tr><td>基本面</td><td>2026Q1营收12.19亿(+4.09%转正)、毛利率32.56%(+1.6pct)提升、归母2.01亿(-10%)、扣非1.94亿(-9.4%)——增收但利弱、盈利质量结构好</td><td><strong>基本面"企稳但利未确认"，验证点2026-08-25中报</strong></td></tr><tr><td>情绪面</td><td>市值124亿、日成交1.5-4亿偏低，融资余额约8.2亿，市场关注度中性偏冷，国药入主为中长期叙事(2026年2月曾脉冲) </td><td><strong>情绪平淡、无人气，稳健资金主导，情绪发酵空间存于中报/国药落地</strong></td></tr><tr><td>政策影响</td><td>医保支付方式改革短期压缩内需(2025负贡献)；一致性评价+集采放量+药品安全+央企整合(国药、国务院国资委背书)利好中硼硅高端替代与集采跟随</td><td><strong>政策边际中性、中长期偏正(高端替代+央企协同)，需跟踪集采与医保动态</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行对山东药玻覆盖很少(未详查证到高盛/大摩/瑞银/花旗等明确目标价，多依赖内资与同花顺/东财一致预期，参考有限)。内资(中泰"买入·单季度营收增速企稳、国际化推进"、长江"买入·收入转正、毛利率提升"、国海"买入·控股股东变更国药集团"、西南"业绩短期承压、创新与国际化韧性")普遍给"买入/增持"。内资目标价偏乐观(含国药逻辑)，须打折看。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：低PB(约1.5x近5年低位)+净现金+国药央企入主+中硼硅国产替代长期逻辑，属"稳健价值+成长期权"标的，下行保护较强；但2025盈利下行+中报未出+短线技术偏弱(价在MA20下、MACD转弱)。判断为<b>轻仓试仓或等回落后分批、现价不追高</b>：现价18.74已在价值支撑带(MA120/18.6附近)可建首批1-2成底仓；加仓触发=2026-08-25中报营收与归母延续企稳/中硼硅去库改善或站回MA20(19.3)放量则加至2-3成；止损：有效跌破18.0-18.3(区间下沿)离场，稳健者等18元下方更好赔率。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>山东药玻2025年年度报告(2026-03-06公告/03-07披露)、2026年一季报(2026-04-25)、2026-06-26向特定对象发行股份暨控制权变更进展公告及07-01关联认购协议补充公告(SSE披露柜)、2025年度分红(10派1.8元)实施公告</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(中泰/长江/国海/西南/民生等，多为内资，外资覆盖有限；另参考大智慧/同花顺/东财盈利预测汇总)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10、同花顺(iFind)、证券之星、大智慧(dzh)、腾讯自选股(westock-data：profile/finance/kline/consensus/technical/fund-flow)、新浪/齐鲁网财经(市值、PE/PB、财务交叉核对)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>齐鲁网/山东商报/东方财富财富号(国药32.35亿入主、中硼硅国产替代公众号)、雪球(投资分析贴)等仅作线索，财务数据未采信</p></div>
+    <p>高信心(88%·财报口径)：2025营收44.74/归母6.90/扣非6.58/EPS1.04、2026Q1营收12.19/归母2.01/扣非1.94/毛利率32.56/ROE2.40%均回公司财报与腾讯自选股结构化数据核对；国药入主与国资委批复(2026-06-26)回SSE公告。中高信心(73%·估值)：市值124亿/股价18.74/PE-TTM约18x/PB约1.48x对第三方(8-21)交叉核对；EV/EBITDA/FCF为AI估。中低信心(45-55%·预测)：2026-28E一致预期EPS与Bull/Base/Bear连并考虑国药定增摊薄(约23-30%)为主观推演，且2025内需拐点未完全确认，预测不确定性中;2023明细、历史估值分位(估)、马来西亚子公司细节待核实。未回源码均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>山东药玻2025年年度报告及摘要（SSE披露柜，2026-03-06/07）</li>
+        <li>山东药玻2026年一季报（2026-04-25）及2025年度权益分派实施公告（10派1.8元，2026-05-20除权）</li>
+        <li>山东药玻关于向特定对象发行股份暨控制权变更进展公告（国务院国资委批复，2026-06-26）及附条件生效股份认购协议补充公告（2026-07-01）</li>
+        <li>中泰证券·长江证券·国海证券·西南证券研报（内资为主，外资覆盖有限）</li>
+        <li>东方财富F10 / 同花顺(iFind) / 证券之星 / 大智慧 / 腾讯自选股(westock-data)（市值、PE/PB、财务、技术、资金流交叉验证）</li>
+        <li>齐鲁网·山东商报·东方财富财富号（国药32.35亿入主与中硼硅国产替代相关线索，财务数据不采信）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

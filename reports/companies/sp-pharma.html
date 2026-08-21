@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>上海医药 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">上海医药<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">一体化医药工商龙头 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch7">回产业链报告</a></div>
+    <h1>上海医药<span class="code">601607.SH</span></h1>
+    <p class="subtitle">国内第二大全国性医药流通龙头 · 药工农商一体化 · 自研1类新药信妥安(SPH3127)获批开启创新药转型</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+    <a href="sinopharm.html">上一家 · 国药控股</a>
+    <a href="crhh.html">下一家 · 华润医药</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈600亿元(A股)</div><div class="k-sub">2026-08-21(A股价格折算)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈10.5-10.9x(TTM)</div><div class="k-sub">PE-TTM 2026-08-20/21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PE-TTM处近5年约5-9%分位;A股PB 0.79x破净</div><div class="k-sub">过去5年中位 近5年PE中位约14.6x(理杏仁50%分位)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+4%~6%(经营归母口径·扣2025一次性后)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>上海医药是上海市国资委(上实集团)旗下A+H上市的一体化医药工商龙头——国内第二大全国性医药流通企业(分销收入2588亿/网络覆盖31省/进口代理龙头),叠加中药为主的医药工业(工业收入245亿)。2025归母净利57.25亿(+25.74%创历史新高)主因并购和黄药业并表产生的一次性会计核算收益(扣后经营归母仅47.21亿,-5.56%),扣非29.80亿(-26.68%)反映集采压价下工业毛利率下滑(工业毛利率57.13%,-2.08pct)与商业薄利。自研1类新药信妥安(SPH4336复合?否——信妥安为SPH3127苹果酸司妥吉仑片,高血压国产首创)2025-12鄂获批上市,开启创新药转型;分销靠份额集中+进口代理+上海政策深化。当前A股16.19元破净、PE-TTM约10.6x处历史5-9%分位、股息率约2.9%,交易的是"深度价值+高股息防御+国资/低估值修复"逻辑,成长弹性有限。</li>
+      <li><strong>基本面：</strong>2025营收2835.80亿(+3.03%): 工业245.22亿(+3.33%·毛利率57.13%)、商业2590.58亿(分销毛利率5.79%)。归母57.25亿(+25.74%,含和黄并表一次性)、扣非29.80亿(-26.68%)、经营现金流61.54亿(+5.61%)。2026Q1营收752.62亿(+6.36%)、归母14.18亿(+6.35%)、扣非12.38亿(-2.02%)。ROE(加权·年)约7-8%、综合毛利率仅10.72%、净利率2.45%——商业占比约91%拉低资产收益率。有息负债约523亿、归母权益758.9亿(A股PB 0.79破净)。</li>
+      <li><strong>估值：</strong>A股约16.19元、总市值约600亿元,PE-TTM约10.6x(处近5年5-9%分位)、PB约0.79x(破净)、PS约0.22x、股息率约2.9%(2025累计派0.47元/股)。PE-2026E/27E/28E约11/10/9.4x(大摩EPS 1.46/1.61/1.72元·根据H股口径)。H股02607破净更深(PB约0.49)。</li>
+      <li><strong>市场隐含预期：</strong>现价600亿对应2028E一致EPS约1.72元≈9.4x,隐含市场仅给"低个位数经营增速+高股息(2.9%)深度价值"定价,对创新药转型(SPH3127/SPH4336)与工业营销(中药大品种)授予接近零溢价。破净(PB 0.79)+PE历史5-9%分位=情绪已极度悲观、安全垫厚,但买的是"估值修复+高分红"而非成长,若扣非继续下滑则该低估值也无支撑。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08-28半年报:扣非能否企稳(Q1仍-2%)、工业毛利率是否止跌、SPH3127商业化放量与医保进展、和黄芪等中药大品种;以及商业板块纯销/进口代理增速与应收账款回款。</li>
+      <li><strong>情景结论：</strong>Bull 约24元(+48%) / Base 约17元(≈现价) / Bear 约12元(-24%),收益风险比约2:1——深度价值+高股息有安全垫,但盈利质量(净利率2.45%/扣非下滑)制约上行弹性,宜分批轻仓而非重仓博反转。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>一体化医药工商龙头 · 国内第二大全国性医药流通企业+中药工业基本盘</strong>：上海医药(601607.SH/02607.HK)由上海市国资委旗下上实集团控股,1994年上交所上市、另在港交所(HK02607)上市。业务=医药工业(自有品牌中药/化学药/生物药+创新药研发)+医药商业(药品分销配送、零售),分销网络控股直接覆盖全国25省、间接覆盖31省,覆盖各类医疗机构超7万家,是国内第二大全国性医药流通企业和行业领先的进口药品服务平台(进口总代/口岸供应链为核心)。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>2602.95</td><td>2752.51</td><td>2835.80</td><td>~3000E</td><td>~3180E</td></tr>
+        <tr><td>归母净利润</td><td>37.68</td><td>45.53</td><td>57.25</td><td>~54E</td><td>~60E</td></tr>
+        <tr><td>扣非净利润</td><td>35.96</td><td>40.65</td><td>29.80</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>12.03%</td><td>11.12%</td><td>10.72%</td><td>~11E%</td><td>~11.2E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~5.6%(估)</td><td>~6.5%(估)</td><td>~7.8%(估)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>52.32</td><td>58.27</td><td>61.54</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(2025年报)：</strong>医药工业销售收入245.22亿(+3.33%),工业毛利率57.13%(-2.08pct,集采压价);医药商业销售收入2590.58亿(+3.00%),其中分销业务收入2588.28亿、分销毛利率仅5.79%(商业占收入约91%,拉低综合毛利率至10.72%)。<br><br><strong>产品(工业自有品种)：</strong>中药大品种为主——和黄药业麝香保心丸/正气片、参麦、银杏酮酯滴丸、丹参系列、培菲康(双歧杆菌活菌);化学药与生物药布点肿瘤/神经系统等领域。<br><br><strong>创新药(转型引擎)：</strong>SA首款自研1类新药苹果酸司妥吉仑片(信妥安,SPH3127)2025-12-09获批上市(中国近十余年高血压领域首个1类新药);SPH4336(高选择性CDK4/6抑制剂)II/III期HR+/HER2-乳腺癌(联合来曲唑一线)在研并在美国开展、另拓展KRAS突变实体瘤;SHPL-49注射液III期(急性缺血性脑卒中)。<br><br><strong>商业(分销+零售)：</strong>分销网络覆盖31省/超7万家医疗机构,进口创新药代理与口岸医药供应链为核心优势;零售含华氏大药房、上药云健康等。<br><br><strong>竞争格局：</strong>全国药品流通——国药控股(约28.6%/分销6247亿)>上海医药(约14.1%/分销3075亿)>华润医药商业(12.9%)>中国医药/九州通;工业为中药+化学药多品种组合,差异化不强(非单品垄断)。<br><br><strong>管理层/治理：</strong>国资控股(上海市国资委/上实集团),治理稳定;注意医药商业子公司2025-2026多地因"围标串标/虚假材料"被处罚(上药控股青岛2025-12、四川2026-01、东营2026-07、东莞),招采合规存监管尾部风险。<br><br><strong>资产负债：</strong>归母权益758.9亿、总权益897.9亿,资产负债率61.5%(商业属性偏高);有息负债约522.9亿(vs现金327亿+交易性金融资产104亿,净有息负债约200亿);商誉126.66亿;应收账款及票据2025末833亿(2026Q1升至920亿),医院回款与现金流是核心观察项。研发投入2025为26.04亿(占工业销售10.62%)、研发费用23.40亿。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>营收2835.8亿(+3.03%)由工业(+3.33%)+商业(+3.00%)双轮低个位数修复;进口代理/CSO创新业务、分销集中度提升、和黄并表后中药大品种(麝香保心丸)贡献、创新药SPH3127从0到1商业化——真实经营在缓慢增长。</li><li><strong>会计/合并口径：</strong>归母+25.74%(57.25亿)主要来自并购和黄药业(2025-04由持股50%增至60%并表)产生的"合营转子公司"一次性会计核算收益;剔除后经营归母约47.21亿(-5.56%)。2025扣非29.80亿(-26.68%)系集采压价致工业毛利率下滑+2024基数较高+研发费用增加所致。</li><li><strong>一次性因素：</strong>和黄并表会计核算一次性收益(口径约10亿级)推高2025归母;净利率与ROE被商业低毛利摊薄至极低水平。</li><li><strong>结论：</strong>公司是"低个位数稳健收入+高股息(2.9%)+净利率极低(2.45%)"的深度价值/防御型标的——2025归母高增长不可持续(一次性),评估须以扣非+经营归母(47亿口径)为准绳,别以57亿归母线性外推。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈16.19元</strong></td><td>2026-08-21收盘(-2.82%);盘中16.10-16.60</td></tr><tr><td>A股总市值</td><td><strong>≈600亿元</strong></td><td>总股本37.08亿(按A价折算);A股流通市值约454亿(流通27.89亿)</td></tr><tr><td>EV</td><td><strong>≈790亿元(估)</strong></td><td>市值+净有息负债(有息523-现金327-交易性104,未含少数等)</td></tr><tr><td>PE-TTM</td><td><strong>≈10.5-10.9x</strong></td><td>理杏仁10.45/富途10.33/动态10.65/同花顺TTM10.63</td></tr><tr><td>PE-2026E</td><td><strong>≈11x</strong></td><td>一致归母约54亿(大摩EPS1.46);估</td></tr><tr><td>PE-2027E</td><td><strong>≈10x</strong></td><td>约60亿(大摩EPS1.61);估</td></tr><tr><td>PE-2028E</td><td><strong>≈9.4x</strong></td><td>约64亿(大摩EPS1.72);估</td></tr><tr><td>PB</td><td><strong>≈0.79x(破净)</strong></td><td>A股每股净资产约20.5元(2025末归母权益758.9亿/37.08亿);2026-08-21</td></tr><tr><td>PS(TTM)</td><td><strong>≈0.22x</strong></td><td>市值600/营收2836</td></tr><tr><td>EV/EBITDA</td><td><strong>≈5-6x(估)</strong></td><td>EBITDA(EBIT111亿+折旧摊销约35-40亿)约150亿</td></tr><tr><td>FCF Yield</td><td><strong>≈5%(估)</strong></td><td>OCF61.5亿-资本开支约30亿=约31亿/市值600</td></tr><tr><td>股息率</td><td><strong>≈2.9%</strong></td><td>2025累计派现0.47元/股(年末0.35+中期0.12);占归母30.45%</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方市值口径2026-08-21交叉核对:富途600.38亿、东财600-615亿、财报帮617.81亿、亿牛615.22亿(16.59价)——A股总市值约600亿元。PE-TTM(10.3-10.9x)与PB(0.78-0.81)均来自第三方当日口径;PE-2026~28E、EV/EBITDA、FCF为AI估算/一致预期,须以披露为准。关键警惕:①归母2025含一次性(和黄并表),剔除后经营归母47亿,用57.25亿算PE会低估估值;②综合毛利率仅10.72%、净利率2.45%,估值"低"源于商业模式(商业占91%低毛利),属合理折价而非错杀(高盛"沽售"即以此为据);③A股破净+高股息提供安全垫,但利率/集采是核心扰动。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM(当前)</td><td><strong>≈10.5x</strong></td><td>近5年约5-9%分位(理杏仁当前分位4.0%、同花顺TTM9.1%);5年50%分位14.64、20%分位11.28 → 现价低于20%分位</td></tr><tr><td>PE中位(近5年)</td><td><strong>≈14.6x</strong></td><td>理杏仁50%分位;80%分位约18</td></tr><tr><td>PB(当前)</td><td><strong>≈0.79x(破净)</strong></td><td>历史极低位;历史上多在1-2x区间,A股长期破净属罕见</td></tr><tr><td>H股估值</td><td><strong>PB约0.49x、PE约6.6x</strong></td><td>H股破净更深,A/H存在溢价(A股反而相对/绝对都破净)</td></tr>
+      </tbody>
+    </table></div>
+    <p>当前PE-TTM约10.6x处过去5年约5-9%分位、PB 0.79x破净,处于历史极低位区——这是"净利率仅2.45%/低ROE(约7-8%)/集采压价+医药商业占比90%"共同决定的合理偏低估定价,而非单纯悲观错杀。现价约低于近5年20%分位(11.28x),安全边际较厚,提供高股息(2.9%)+破净修复的防御价值;但要让估值系统性上行,需要扣非/毛利率企稳或创新药(SPH3127/SPH4336)兑现带来商业模式重估——现在赚的是"修复与分红",不是"成长"。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>2835.80</td><td>~3000E</td><td>~3180E</td><td>~3360E</td></tr>
+        <tr><td>毛利率</td><td>10.72%</td><td>~11.0E%</td><td>~11.2E%</td><td>~11.4E%</td></tr>
+        <tr><td>净利润</td><td>57.25</td><td>~54E</td><td>~60E</td><td>~64E</td></tr>
+        <tr><td>EPS</td><td>1.54</td><td>~1.46E</td><td>~1.61E</td><td>~1.72E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司口径:2025聚焦"工业营销转型+商业创新(进口代理/CSO)+创新药收获期";和黄并表后首个完整年度中药增长;SPH3127(高血压)2025-12获批后2026为商业化放量元年并推进医保准入;未给出公开的集团亏利润指引。(2025年报/业绩会纪要)（公司指引）/ <strong>市场一致预期:大摩(摩根士丹利)2026-28 EPS 1.46/1.61/1.72元RMB(归母约54/60/64亿);高盛上调2026-28净利预测5%/3%/3.6%但仍沽售;内资(银河/浙商/天风等)多预计2026-2027归母50-58亿/58-65亿、收入3000-3200亿。内资目标价部分测算乐观(如分部估值给工业18x+商业11x→约25.88元),参考需打折——外资优先。</strong>（市场一致预期）/ <strong>AI估算:营收2026E约3000亿(+5.9%)、2027E约3180亿、2028E约3360亿;综合毛利率自10.72%温和修复至11.0-11.4%;归母(经营口径·剔一次性)2026E 52-55亿、2027E 57-61亿、2028E 63-68亿(SPH3127等创新+工业毛利率修复渐进贡献);扣非2026E 31-34亿、2027E 35-38亿、2028E 40-44亿。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>一体化药工农商·深度价值+创新转型潜力指标</h3><ul><li><strong>创新药商业化(2026元年):</strong>信妥安(SPH3127,苹果酸司妥吉仑片,1类新药)2025-12获批上市,为中国近十余年高血压领域首个1类新药,2026-2027医保准入+院内推广放量,自0到1打开创新药收入并重塑估值叙事。</li><li><strong>管线纵深:</strong>SPH4336(新一代CDK4/6)II/III期HR+/HER2-乳腺癌(联合来曲唑一线)+美国临床+KRAS实体瘤拓展;SHPL-49(神经保护)III期缺血性脑卒中;40余款创新药在研,研发投入26.04亿(占工业销售10.62%)。</li><li><strong>中药基本盘:</strong>和黄并表后麝香保心丸等中药大品种全口径并表,是稳定的利润压舱石与现金牛;中药创新/经典名方为长线增量。</li><li><strong>商业集中度+进口代理:</strong>全国第二流通龙头,集采常态化下份额向头部(国药/上药/华润)集中;进口创新药代理+口岸医药供应链是核心差异化,直接受益上海进口药流通便利化政策。</li><li><strong>高股息+国资:</strong>派现率约30%、连续高分红,叠加上海市国资委持股与破净修复/市值管理预期,提供防御性估值支撑。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2025归母+25.74%(57.25亿)≠经营性高增长:核心来自收购上海和黄药业(持股50%→60%)产生的"合营转子公司"一次性会计核算收益,剔除后经营归母约47.21亿(-5.56%);而扣非29.80亿(-26.68%)更直接反映集采压价(工业毛利率-2.08pct)+研发加大+2024高基数。公司真实经营增速是"低个位数、利润质量弱(净利率2.45%)"。评估成长须以扣非+经营归母为锚,勿被57亿年报数字线性外推;高股息与破净是"价值+防御"的安全垫,而非成长催化。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>创新药商业化(SPH3127+管线)</td><td><strong>+1-2pct(对利润)</strong></td><td>信妥安高血压1类新药2025-12获批,2026-27医保放量;SPH4336乳腺癌II/III期,贡献从无到有的增量(基数小弹性有限)</td></tr><tr><td>工业营销转型+中药大品种</td><td><strong>+1pct(对利润)</strong></td><td>和黄麝香保心丸等中药、自有品牌渠道升级与结构优化,对冲化学药/仿制药集采降价</td></tr><tr><td>商业分销扩张+进口代理</td><td><strong>+0.5-1pct(对收入)</strong></td><td>份额向头部集中+进口创新药代理/口岸供应链+CSO创新业务,纯销占比提升</td></tr>
+      </tbody>
+    </table></div>
+    <p>成长主基调为"低个位数稳健增长":收入端靠商业(占91%收入)规模的缓慢扩张(约+3-6%),利润端靠工业毛利率的止跌修复与创新药从0到1(SPH3127)。增长弹性有限——这是净利率2.45%的深度价值股,而非高速成长股。真正的重估看点不在收入增速,而在:①扣非/工业毛利率能否企稳回升;②创新药(SPH3127/SPH4336)单品放量与管线兑现能否让市场从"商业+分红股"切换为"工业+创新估值"给更高倍数。若商业模式不切换,收入3-6%个位数增速只能支撑估值修复至PB 1x附近的低倍数,上行空间靠分红+破净修复逐步兑现。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价16.19元、总市值约600亿对应2028E一致EPS约1.72元≈9.4x、2027E约10x、2026E约11x(经营归母口径)。隐含市场仅对上海医药授予：①经营归母2026-2028约4-6%的低个位数复合增速;②几乎为零的创新药成长溢价(SPH3127/SPH4336管线被当作期权而非重估资产);③"商业股+高分红股"定价(PB破净0.79、股息率2.9%作为唯一回报来源)。<br><br>换言之,现价把上海医药定在"零成长/微成长+吃股息"的历史极低估值分段，安全边际厚(PE处5-9%分位、破净、股息2.9%提供了类债下限),但并未为"工业营销修复+创新药兑现+商业模式重估"定价。若扣非企稳+SPH3127放量+中药增长,存在PB向1x修复的空间;反之若集采持续压扣非(高盛沽售逻辑),则低估值也缺乏向上催化——当前是"下有股息与净资产托底、上有修复弹性待验证"的价值型位置。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>分销网络规模壁垒：</strong>全国第二大流通企业、控股覆盖25省/间31省、超7万家医疗机构网络与GSP资质、物流冷链体系——新进入者无法快速复制。</li><li><strong>进口代理/口岸供应链：</strong>国内领先的进口创新药代理与口岸医药供应链平台,叠加上海区位政策红利,是外资药企入院的关键通道(高粘性、低替代)。</li><li><strong>中药大品种品牌：</strong>麝香保心丸(和黄)、参麦、银杏、丹参等医院渠道多年沉淀的品牌与处方惯性,现金流稳定。</li><li><strong>国资+牌照：</strong>上海市国资委控股,集全产业链牌照/资质/财政与政策资源,风险偏好低、融资成本优。</li><li><strong>创新药自研起步：</strong>SPH3127(高血压1类新药)获批+SPH4336(CDK4/6)II/III期,证明源头创新能力,是潜在差异化变量(但兑现期长、占比小)。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>分销网络+进口代理+GSP牌照+中药品牌组合难以被新进入者复制,护城河"中"—"中上"且偏资源/网络型;但商业业务的护城河呈"规模大、壁垒强、盈利薄"特征,竞争同质化(国药/华润/九州通直接竞价),且集采+VBP持续压利润率。工业端中药独家大单品粘性较强但整体创新纵深不足,若创新药(SPH3127/SPH4336)成功放量才能打开真正的差异化;否则上药更像"高壁垒、低ROE、低成长"的价值垄断者而非成长龙头。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-28</strong> · 2026年半年度报告披露(扣非能否企稳、工业毛利率是否止跌、SPH3127商业化与医院准入进展) — 盈利/估值</p><p><strong>2026H2-2027</strong> · 信妥安(SPH3127)高血压新药医保谈判与放量,国产首创1类新药入院 — 收入/估值叙事</p><p><strong>2026H2-2027</strong> · SPH4336(CDK4/6)HR+/HER2-乳腺癌II/III期关键数据读出/潜在NDA申报 — 估值(重估变量)</p><p><strong>持续</strong> · 上海进口药流通便利化政策、全国药品流通集中度提升兑现 — 收入/估值</p><p><strong>持续</strong> · 国资/市值管理与高分红(派现率约30%)、破净修复政策 — 估值</p><p><strong>监控</strong> · 集采常态化(化药+中成药+医械VBP)下一批中标与价格 — 利润</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>集采/VBP常态化压价</td><td>利润</td><td>化药/中成药/医械带量采购持续压缩工业毛利率(2025工业毛利率57.13%、-2.08pct),高盛据此维持沽售</td></tr><tr><td>净利率低/ROE低/利润质量弱</td><td>估值</td><td>净利率仅2.45%、ROE约7-8%,商业占91%致整体盈利能力偏低,估值被按商业股/分红股压制</td></tr><tr><td>应收账款高/医院回款/现金流</td><td>利润+估值</td><td>应收2025末833亿、2026Q1升至920亿,商业账期与回款质量是现金流与减值核心观察项(2026Q1经营现金流-10.1亿)</td></tr><tr><td>商誉减值</td><td>利润</td><td>商誉126.66亿规模大,并表/收购标的业绩不及预期存在减值风险</td></tr><tr><td>有息负债高/利率</td><td>利润</td><td>有息负债约523亿(净约200亿),负债率61.5%——利率波动与融资环境影响财务费用</td></tr><tr><td>医药商业合规/围标串标</td><td>估值+治理</td><td>多个地方分销子公司2025-2026因投标违规被处罚(青岛/四川/东营/东莞),招采合规与治理形象存疑可能压制估值</td></tr><tr><td>医疗反腐/政策</td><td>收入</td><td>反腐与院内销售规范化影响处方药放量节奏</td></tr><tr><td>创新药研发/商业化不及</td><td>估值(远期)</td><td>SPH4336等管线读出失败或SPH3127放量不及预期,重估逻辑受挫</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>创新药(SPH3127/SPH4336)兑现+工业毛利率修复+商业模式向"工业+创新"重估+商业份额集中</td><td>~68亿E</td><td>~12x</td><td>~24元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>收入低个位数稳健、扣非/毛利率温和企稳、吃股息+估值阶段修复</td><td>~64亿E(一致EPS约1.72)</td><td>~10x</td><td>~17元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>集采持续压扣非、净利率再降、商业薄利、商誉/应收减值与合规风险暴露</td><td>~50亿E</td><td>~8.5x</td><td>~12元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约16.19元(市值600亿)为基准:上行到Bull约24元(+48%)、Base约17元(≈现价),下行到Bear约12元(-24%),收益风险比约2:1——深度价值+破净+股息2.9%提供较厚安全垫,向下有类和息托底,向上靠扣非企稳与创新兑现事件驱动。但盈利质量偏弱、成长弹性有限,适合"分批轻仓底仓+等催化加仓"而非重仓博反转。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026-08-28中报扣非继续两位数下滑、工业毛利率跌破56%、经营现金流转弱——证伪"止跌";②集采下一批大幅降价、高盛沽售逻辑兑现(利润率再压);③应收账款/商誉出现大规模减值;④SPH4336数据读出失败或SPH3127商业化明显不及;⑤净利率进一步下行令高股息也失去吸引力。任一兑现将把Base拉向Bear。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分行业:医药商业/药品流通——板块整体PE处历史中低位,景气处"筑底期";集采常态化下流通渠道利润率承压但格局向头部(国药/上药/华润)集中,头部国企凭借规模+进口代理+全渠道相对受益。行业PE约15x,上药10.6x低于板块均值,相对估值(证券之星测算约15.9-17.6元)说明其估值处历史低位。景气周期位置:商业流通"底部修复初期"、成长属性弱,以分红+估值修复为主要回报来源;适合防御型低估值策略而非进攻。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>8-21收16.19元(-2.82%)、换手仅0.5-0.7%极低、跌破16.5-16.7短平台,量能萎缩处历史低位区(近7年底部);上方17元整数+20日线压力,下方15.5-16支撑</td><td><strong>极低换手+无量阴跌,短线弱势但地量也难深跌,破净+股息托底;等缩量企稳/止跌信号再加仓,不追</strong></td></tr><tr><td>基本面</td><td>2026Q1营收+6.36%/归母+6.35%/扣非-2.02%;2025归母57.25亿含一次性、经营归母47.21亿(-5.56%);盈利拐点看扣非与工业毛利率能否止跌,中报(8-28)是验证窗口</td><td><strong>基本面弱修复、盈利拐点未确立,验证点8-28中报(扣非/毛利率/现金流)</strong></td></tr><tr><td>情绪面</td><td>换手极低(0.5-0.7%)、成交低迷,市场对"低ROE商业一体化股"兴趣淡薄,情绪偏冷;破净+高股息吸引的是价值/红利资金,非题材热度资金</td><td><strong>情绪低迷但符合价值配置时机——地量、悲观集中,适合右侧(等企稳)而非左侧急going;若放量突破17元则情绪起</strong></td></tr><tr><td>政策影响</td><td>集采常态化压工业毛利(利空);反之上海进口药流通便利化政策+市场信用体系/物流与头部分销集中(利多商业),医疗反腐影响处方药节奏——综合"略偏多"对商业、工业毛利率仍是拖累</td><td><strong>政策对商业略偏正、对工业毛利润空,整体中性偏多,关注中报集采影响与创新药医保谈判</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(优先):分歧明显——<b>高盛</b>维持「沽售(Sell)」,H股目标价上调至10.63港元(原10.3),理由为仿制药+医械VBP常态化下利润率承压;<b>摩根士丹利</b>维持「增持(Overweight)」,H股目标价16→15.8港元,预测2026-28 EPS 1.46/1.61/1.72元RMB。同一标的两种极端评级说明分歧焦点在"集采压价 vs 创新+份额集中"。内资(银河/浙商/天风等)多为"买入/增持",部分分部估值目标(工业18x+商业11x)给至约25.88元、较现价+60%,偏乐观需打折——外资优先。对A股估值中枢的共识约在破净~1x PB区间。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合:PE-TTM约10.6x(近5年5-9%分位)、A股PB 0.79x破净、股息率2.9%提供类债安全垫,风险收益比约2:1——深度价值成立;但扣非仍在下滑(Q1-2%)、净利率仅2.45%、成长弹性小,短线无量弱势、8-28中报待验证。判断为<b>分批建仓·先轻仓底仓(2-3成)·不追高</b>:现价已破净+高股息,可在15.5-16.5区间分批建立25%底仓;加仓触发(升至4-5成)为——①2026-08-28中报扣非/工业毛利率止跌企稳且经营现金流为正;②放量突破17元并站稳20日线;③SPH3127医保放量或SPH4336数据/NDA催化兑现。止损:有效跌破14.5元(近三年低点区,约-10%)离场。仓位上限5成,以吃股息+破净修复为主、成长为辅,勿以刺激成长股思路重仓博弈。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>上海医药2025年年度报告及权益分派公告(公司IR PDF/港交所SEC·2026-03/07)、2026年一季报、2025年年度权益分派实施公告(灯塔A股派0.35)、上交所对2025年报信披问询函及公司回复、关于苹果酸司妥吉仑片(SPH3127)获批公告(2025-12)、公司官网公司简介</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报:高盛(沽售,H目标10.63港元)、摩根士丹利(增持,H目标15.8港元,EPS 1.46/1.61/1.72)、银河/浙商/天风/西部/西南等内资(多买入/增持,部分分部估值目标25.88元)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>腾讯自选股(westock数据)、东方财富F10/操盘必读、同花顺iFind(市盈率分位9.1%)、理杏仁(PE分位4.0%/50%分位14.64)、富途、证券之星、财报帮、亿牛网、新浪财经/上海证券报(2025年报报道 归母57.25亿/经营归母47.21亿)、证券时报(信妥安获批)、华夏时报(上药区域子公司围标串标)、天风(扣一次性经营归母47.21亿)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>雪球/东方财富股吧(和黄并表一次性口径约10亿、医疗用品面讨论等,仅作线索,精确财务数字未采信)</p></div>
+    <p>高信心(90%·财报口径):营收2835.8/归母57.25/扣非29.80/经营现金流61.54/工业245.22/分销2588.28/毛利率10.72(工业57.13)/资产负债率61.5/研发26.04/归母权益758.9/有息负债约523/商誉126.66/(不含)均回2025年报与公司公告;2026Q1营收752.62/归母14.18/扣非12.38回一季报;SPH3127获批与和黄并表(50%→60%、一次性会计核算收益)回公司公告与监管报道。中高信心(75%·估值):市值600-615亿、股价16.19元、PE-TTM 10.3-10.9x、PB 0.79来自第三方并交叉核对(8-20/21);EV/EBITDA/FCF为AI估。中低信心(50-55%·预测):2026-28E EPS(大摩1.46/1.61/1.72)与一致预期、Bull/Base/Bear为主观推演,受集采与一次性口径扰动大;经营归母47.21亿(剔和黄一次性)来自媒体口径需回年报复核;2026中报(8-28)为核心待验证时点。未回源码均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>上海医药2025年年度报告及权益分派实施公告（公司IR/上交所披露,2026-03~07）</li>
+        <li>上海医药2026年一季度报告（上交所,2026-04）</li>
+        <li>对上海和黄药业控股收购及SPH3127获批上市公告（公司公告2025-04/2025-12）</li>
+        <li>高盛（沽售,H目标10.63港元）/摩根士丹利（增持,H目标15.8港元）及银河/浙商/天风等券商研报</li>
+        <li>腾讯自选股(westock)/东方财富F10/同花顺iFind/理杏仁/富途/证券之星/财报帮/亿牛网（市值、PE、PB分位交叉验证）</li>
+        <li>新浪财经·上海证券报·证券时报（2025年报报道）、华夏时报（上药区域子公司投标合规处罚）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

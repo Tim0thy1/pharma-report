@@ -1,0 +1,84 @@
+{
+  "sectors": [
+    {"key": "s1_model", "name": "模式动物+抗体平台", "chainAnchor": "ch3", "order": 1},
+    {"key": "s2_cro", "name": "CRO/CDMO", "chainAnchor": "ch3", "order": 2},
+    {"key": "s3_ai", "name": "AI制药/AIDD", "chainAnchor": "ch3", "order": 3},
+    {"key": "s4_innov", "name": "创新药企", "chainAnchor": "ch3", "order": 4},
+    {"key": "s5_material", "name": "上游材料与服务", "chainAnchor": "ch3", "order": 5},
+    {"key": "s6_device", "name": "医疗器械", "chainAnchor": "ch5", "order": 6},
+    {"key": "s7_ivd", "name": "IVD体外诊断", "chainAnchor": "ch5", "order": 7},
+    {"key": "s8_api", "name": "原料药/API", "chainAnchor": "ch7", "order": 8},
+    {"key": "s9_pack", "name": "药用包材", "chainAnchor": "ch7", "order": 9},
+    {"key": "s10_dist", "name": "医药流通", "chainAnchor": "ch7", "order": 10},
+    {"key": "s11_retail", "name": "连锁药店", "chainAnchor": "ch7", "order": 11}
+  ],
+  "companies": [
+    {"slug": "biocytogen", "name": "百奥赛图", "code": "02315.HK", "sector": "s1_model", "tag": "real"},
+    {"slug": "gempharmatech", "name": "药康生物", "code": "688046.SH", "sector": "s1_model", "tag": "real"},
+    {"slug": "nanmo", "name": "南模生物", "code": "688265.SH", "sector": "s1_model", "tag": "story"},
+    {"slug": "innos", "name": "益诺思", "code": "688710.SH", "sector": "s1_model", "tag": "real"},
+    {"slug": "harbour", "name": "和铂医药", "code": "02142.HK", "sector": "s1_model", "tag": "real"},
+    {"slug": "jiangyan", "name": "昭衍新药", "code": "603127.SH", "sector": "s1_model", "tag": "real"},
+
+    {"slug": "wuxi-apptec", "name": "药明康德", "code": "603259.SH/02359.HK", "sector": "s2_cro", "tag": "real"},
+    {"slug": "asymchem", "name": "凯莱英", "code": "002821.SZ/06821.HK", "sector": "s2_cro", "tag": "real"},
+    {"slug": "pharmaron", "name": "康龙化成", "code": "300759.SZ/03759.HK", "sector": "s2_cro", "tag": "real"},
+    {"slug": "tigermed", "name": "泰格医药", "code": "300347.SZ/03347.HK", "sector": "s2_cro", "tag": "real"},
+    {"slug": "johar", "name": "昭衍新药", "code": "603127.SH", "sector": "s2_cro", "tag": "real", "skip": true},
+
+    {"slug": "insilico", "name": "英矽智能", "code": "03696.HK", "sector": "s3_ai", "tag": "story"},
+    {"slug": "xtalpi", "name": "晶泰控股", "code": "02228.HK", "sector": "s3_ai", "tag": "story"},
+    {"slug": "hitgen", "name": "成都先导", "code": "688222.SH", "sector": "s3_ai", "tag": "story"},
+    {"slug": "metis", "name": "剂泰科技", "code": "07666.HK", "sector": "s3_ai", "tag": "story"},
+    {"slug": "wangshi", "name": "望石智慧", "code": "未上市", "sector": "s3_ai", "tag": "concept"},
+    {"slug": "bimap", "name": "百图生科", "code": "未上市", "sector": "s3_ai", "tag": "concept"},
+    {"slug": "genscript", "name": "金斯瑞生物科技", "code": "01548.HK", "sector": "s3_ai", "tag": "real"},
+
+    {"slug": "hengrui", "name": "恒瑞医药", "code": "600276.SH", "sector": "s4_innov", "tag": "real"},
+    {"slug": "beigene", "name": "百济神州", "code": "688235.SH", "sector": "s4_innov", "tag": "real"},
+    {"slug": "innovent", "name": "信达生物", "code": "01801.HK", "sector": "s4_innov", "tag": "real"},
+    {"slug": "remegen", "name": "荣昌生物", "code": "688331.SH/09995.HK", "sector": "s4_innov", "tag": "real"},
+    {"slug": "junshi", "name": "君实生物", "code": "688180.SH/01877.HK", "sector": "s4_innov", "tag": "story"},
+    {"slug": "akeso", "name": "康方生物", "code": "09926.HK", "sector": "s4_innov", "tag": "real"},
+    {"slug": "kelun", "name": "科伦药业/科伦博泰", "code": "002422.SZ/06990.HK", "sector": "s4_innov", "tag": "real"},
+    {"slug": "symphogen", "name": "三生制药", "code": "01530.HK", "sector": "s4_innov", "tag": "real"},
+
+    {"slug": "pharmblocks", "name": "药石科技", "code": "300725.SZ", "sector": "s5_material", "tag": "real"},
+    {"slug": "bide-pharm", "name": "毕得医药", "code": "688073.SH", "sector": "s5_material", "tag": "story"},
+
+    {"slug": "mindray", "name": "迈瑞医疗", "code": "300760.SZ", "sector": "s6_device", "tag": "real"},
+    {"slug": "united-imaging", "name": "联影医疗", "code": "688271.SH", "sector": "s6_device", "tag": "real"},
+    {"slug": "microport", "name": "微创医疗", "code": "00853.HK", "sector": "s6_device", "tag": "story"},
+    {"slug": "lepu", "name": "乐普医疗", "code": "300003.SZ", "sector": "s6_device", "tag": "real"},
+    {"slug": "weigao", "name": "威高股份", "code": "01066.HK", "sector": "s6_device", "tag": "concept"},
+    {"slug": "jianfan", "name": "健帆生物", "code": "300529.SZ", "sector": "s6_device", "tag": "concept"},
+
+    {"slug": "snibe", "name": "新产业生物", "code": "300832.SZ", "sector": "s7_ivd", "tag": "real"},
+    {"slug": "autobio", "name": "安图生物", "code": "603658.SH", "sector": "s7_ivd", "tag": "story"},
+    {"slug": "bgicomics", "name": "华大基因", "code": "300676.SZ", "sector": "s7_ivd", "tag": "concept"},
+    {"slug": "kindstar", "name": "金域医学", "code": "603882.SH", "sector": "s7_ivd", "tag": "story"},
+    {"slug": "dian", "name": "迪安诊断", "code": "300244.SZ", "sector": "s7_ivd", "tag": "story"},
+
+    {"slug": "huahai", "name": "华海药业", "code": "600521.SH", "sector": "s8_api", "tag": "real"},
+    {"slug": "apeloa", "name": "普洛药业", "code": "000739.SZ", "sector": "s8_api", "tag": "real"},
+    {"slug": "hisun", "name": "海正药业", "code": "600267.SH", "sector": "s8_api", "tag": "story"},
+    {"slug": "nhuji", "name": "新和成", "code": "002001.SZ", "sector": "s8_api", "tag": "real"},
+    {"slug": "tianyu", "name": "天宇股份", "code": "300702.SZ", "sector": "s8_api", "tag": "story"},
+    {"slug": "menova", "name": "美诺华", "code": "603836.SH", "sector": "s8_api", "tag": "real"},
+
+    {"slug": "shandong-pg", "name": "山东药玻", "code": "600529.SH", "sector": "s9_pack", "tag": "real"},
+    {"slug": "zhengchuan", "name": "正川股份", "code": "603976.SH", "sector": "s9_pack", "tag": "concept"},
+    {"slug": "linuo", "name": "力诺药包", "code": "301188.SZ", "sector": "s9_pack", "tag": "story"},
+
+    {"slug": "sinopharm", "name": "国药控股", "code": "01099.HK", "sector": "s10_dist", "tag": "real"},
+    {"slug": "sp-pharma", "name": "上海医药", "code": "601607.SH", "sector": "s10_dist", "tag": "story"},
+    {"slug": "crhh", "name": "华润医药", "code": "03320.HK", "sector": "s10_dist", "tag": "real"},
+    {"slug": "jointown", "name": "九州通", "code": "600998.SH", "sector": "s10_dist", "tag": "story"},
+    {"slug": "sinopharm-china", "name": "中国医药", "code": "600056.SH", "sector": "s10_dist", "tag": "story"},
+
+    {"slug": "dashenlin", "name": "大参林", "code": "603233.SH", "sector": "s11_retail", "tag": "real"},
+    {"slug": "lbx", "name": "老百姓", "code": "603883.SH", "sector": "s11_retail", "tag": "story"},
+    {"slug": "yifeng", "name": "益丰药房", "code": "603939.SH", "sector": "s11_retail", "tag": "real"},
+    {"slug": "yixintang", "name": "一心堂", "code": "002727.SZ", "sector": "s11_retail", "tag": "story"}
+  ]
+}

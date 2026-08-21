@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>荣昌生物 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">荣昌生物<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">ADC/自免双抗 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch3">回产业链报告</a></div>
+    <h1>荣昌生物<span class="code">688331.SH/09995.HK</span></h1>
+    <p class="subtitle">国产ADC+自免双轮创新药企 · 泰它西普全球首个BLyS/APRIL双靶点 · 维迪西妥首个国产HER2 ADC</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+    <a href="innovent.html">上一家 · 信达生物</a>
+    <a href="junshi.html">下一家 · 君实生物</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">A股≈690亿元(125.5元)；H股≈434亿港元(78.9港元)</div><div class="k-sub">2026-08-21</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">PE-TTM≈97x(A)/≈56x(H)</div><div class="k-sub">基于2025归母7.1亿，2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">—(2022-2024连亏、2025方扭亏，无正PE历史分位)</div><div class="k-sub">过去5年中位 —(亏损期无正PE中位)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+433%(H1营收预告)/净利扭亏</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>荣昌生物是以泰它西普(全球首个BLyS/APRIL双靶点自免药)与维迪西妥单抗(首个国产自主HER2 ADC)双核心驱动的创新药企。2025年扭亏为盈(归母+7.1亿)，2026年凭艾伯维RC148大中华区外授权(首付款6.5亿美元，4月到账)一次性业绩爆量(H1预告净利≈47亿)，从"烧钱研发"迈入"国内放量+海外授权"双击收获期。但2026高盈利主要是一次性BD；2027年后须靠国内多适应症放量与海外里程碑"由一次转持续"。</li>
+      <li><strong>基本面：</strong>2025营收32.51亿元(+89.36%)、归母净利+7.10亿元首年盈利、扣非+0.68亿、经营现金流转正(+5295万)、资产负债率降至50.21%、研发费用12.19亿。2026H1预告营收≈58.5亿(+4.3倍)、归母≈47亿元扭亏(主系艾伯维RC148首付款45-47亿于二季度一次性确认)。泰它西普2025销量225.5万支(+47.9%)、维迪西妥30.19万支(+27.3%)。</li>
+      <li><strong>估值：</strong>A股≈690亿(125.5元)、H股≈434亿港元；2026PE因一次性BD无参考性，2027E归母6.7亿→A股≈103x、2028E 12.2亿→A股≈57x/H股≈32x。市场定价的是"全球自免大药(泰它西普海外)+ADC/IO双抗管线期权+持续BD"而非当期EPS，A/H溢价≈1.5~1.7x。</li>
+      <li><strong>市场隐含预期：</strong>现价(125.5元、A股≈690亿)已计入"全球放量+持续BD"的乐观情景，2026一次性46亿首付款不可线性外推，估值缺乏当期安全边际(除非通过H股择时)。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看泰它西普美国SLE III期读出(约2026-2027)、IgA肾病/SjD海外注册与放量、维迪西妥IO联用商业化(ASCO 2026)、艾伯维RC148后续里程碑、以及2027-2028盈利能否"由一次性转持续"。</li>
+      <li><strong>情景结论：</strong>Bull≈145元(+15%) / Base≈108元(-14%) / Bear≈82元(-35%)，收益风险比约1~1.5:1(已计入较多乐观预期)；H股(外资目标价均价115.8港元,+45%)性价比优于A股。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>自免与肿瘤双轮驱动的全球视野创新药企</strong>：荣昌生物制药(烟台)股份有限公司，A股688331.SH(2022-03科创板上市、发行价48元)+H股09995.HK(2020年上市，-B)。专注ADC、抗体融合蛋白、单抗及双抗，覆盖自免疾病、肿瘤、眼科等。两大上市核心产品：①泰它西普(泰爱/RC18)——TACI-Fc融合蛋白、全球首个BLyS/APRIL双靶点生物制剂，国内获批系统性红斑狼疮、类风湿关节炎、全身型重症肌无力、干燥综合征(全球首个该适应症获批生物制剂)、IgA肾病(首个国产IgA肾病原研、全球首个双靶点IgA肾病用药)，约900名自免销售、覆盖约1200家医院；②维迪西妥单抗(爱地希/RC48)——首个国产自主HER2 ADC，用于HER2表达晚期乳腺癌/胃癌/尿路上皮癌，ASCO 2026展示IO联用潜在优势。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>10.83</td><td>17.17</td><td>32.51</td><td>≈77.6E(一致,含BD)</td><td>≈43.1E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>-15.11</td><td>-14.68</td><td>+7.10</td><td>≈45~55E(告知H1已≈47,一致43E偏保守)</td><td>≈6.7E(一致,一次性退潮后)</td></tr>
+        <tr><td>扣非净利润</td><td>≈-13~-15(估)</td><td>≈-15(估)</td><td>+0.68</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>≈84%(估)</td><td>≈80%(估)</td><td>≈87%</td><td>—</td><td>—</td></tr>
+        <tr><td> ROE / ROIC</td><td>亏损</td><td>亏损</td><td>≈20%(估,扭亏+低净资基数)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>≈-7(估)</td><td>-11.1</td><td>+0.53</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>双核心产品(自免+肿瘤)：</strong>①泰它西普(泰爱/RC18)——TACI-Fc融合蛋白、全球首个BLyS/APRIL双靶点生物制剂；国内5大适应症(SLE/RA/MG/SjD/IgA肾病)获批，海外在美国开展SLE、SjD、IgA肾病、NMOSD等III期；2025销量225.5万支(+47.9%)，进入约1200家医院、覆盖超32000名医生、约900名自免销售。②维迪西妥单抗(爱地希/RC48)——首个国产自主HER2 ADC，HER2表达晚期乳腺癌(≥3线/≥2线)、胃癌/胃食管交界癌、尿路上皮癌；2025销量30.19万支(+27.3%)；ASCO 2026展示与免疫IO联合的潜力(尿路上皮癌/胃癌等)。<br><br><strong>研发管线与BD授权(2025-2026连续三笔对外授权)：</strong><li><strong>RC148(PD-1/VEGF双抗)→艾伯维(AbbVie)2026-01签署/03-10生效</strong>：大中华区外独家开发/生产/商业化权益，首付款6.5亿美元(2026-04-15到账、Q2一次性确认≈45-47亿元)、最高49.5亿美元开发/监管/商业化里程碑、海外净销售额两位数分级分成，市场口径总交易额≈56亿美元——2026年业绩爆量的核心引擎。</li><li><strong>RC18(泰它西普)海外→Vor Bio(2025-06)</strong>：4500万美元首付款+8000万美元认股权证、最高41.05亿美元里程碑、高个位数~两位数销售分成(两家来源口径约1.25亿美元现金+认股权证，略有出入)；Vor Bio向RA Capital/Forbion/Venrock等增发约1.75亿美元融资。</li><li><strong>RC28-E(抗VEGF/FGF，眼科)→参天中国(Santen China)</strong>：覆盖大中华区及部分区域眼科权益(湿性AMD/糖尿病黄斑水肿等)。</li><br><br><strong>产品管线：</strong>自有中后期管线包括泰它西普多个海外III期(SLE美国/SjD/IgAN/MG/NMOSD)、维迪西妥IO联用管线、RC148(PD-1/VEGF双抗，已授权艾伯维)、RC28眼科系列及ADC/双抗平台。<br><br><strong>管理层/董事：</strong>董事长王威东、联合创始人兼CEO房健民(研发)<br><br><strong>资产负债：</strong>2025末货币资金11.98亿、有息负债约20亿(短贷12.2亿+长贷7.3亿)、资产负债率50.21%(降至合理区间)；2026年艾伯维首付款46亿人民币入账后基本由净债务转为净现金，资产负债表大幅夯实、融资稀释风险下降。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长(可持续)：</strong>国内核心产品放量(泰它西普多适应症+维迪西妥)、泰它西普海外III期注册序列、RC28眼科内生管线。</li><li><strong>一次性/非经常因素(大额但不持续)：</strong>2026Q2确认艾伯维RC148首付款6.5亿美元(≈45-47亿元净利)占2026半年净利绝大部分；Q1虽归母+3.28亿但扣非仍-0.35亿(Q1盈利主要依赖非经常性BD相关收益)。</li><li><strong>会计/经营口径差：</strong>2025归母7.10亿 vs 扣非0.68亿(差额主系政府补助等非经常损益)；2026扣非显著低于归母主系一次性BD收入性质待甄别(BD首付款/里程碑在损益表口径可能计入经常性他项收入,需以财报附注为准)。</li><li><strong>结论：</strong>2019-2025两个产品商业化+2025扭亏为"内生拐点"已建立；2026年暴利高度依赖一次性BD大单——判断盈利"可持续性"须看2027年一次性退潮后国内销售+里程碑/分成能否接力,勿把2026PE外推常态。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价(A股)</td><td><strong>125.50元</strong></td><td>2026-08-21收盘(科创板688331)</td></tr><tr><td>股价(H股)</td><td><strong>78.90港元</strong></td><td>2026-08-21(09995.HK)</td></tr><tr><td>市值(A股)</td><td><strong>≈690亿元</strong></td><td>125.5元×总股本≈5.5亿股</td></tr><tr><td>市值(H股)</td><td><strong>≈434亿港元</strong></td><td>≈397亿元人民币</td></tr><tr><td>A/H溢价</td><td><strong>≈1.5~1.7x</strong></td><td>A股 vs H股(人民币口径)，科创板流动性溢价</td></tr><tr><td>PE-TTM</td><td><strong>≈97x(A)/≈56x(H)</strong></td><td>基于2025归母7.1亿元；多年亏损后恢复，倍数参考性弱</td></tr><tr><td>PE-2026E</td><td><strong>≈15x(A)</strong></td><td>含艾伯维6.5亿美元首付款一次性净利≈47亿，不具常态参考</td></tr><tr><td>PE-2027E</td><td><strong>≈103x(A)</strong></td><td>基于2027E归母6.7亿(一次性退潮后)</td></tr><tr><td>PE-2028E</td><td><strong>≈57x(A)/≈32x(H)</strong></td><td>基于2028E归母≈12.2亿(一致)</td></tr><tr><td>PS(TTM)</td><td><strong>≈21x(A)</strong></td><td>基于2025营收32.5亿元</td></tr><tr><td>PB</td><td><strong>≈19x(A)</strong></td><td>2025末归母净资36.1亿元</td></tr><tr><td>现金/净债务</td><td><strong>2026由净债务转净现金</strong></td><td>艾伯维首付款6.5亿美元(≈46亿人民币)4月入账，约抵前期≈20亿有息负债</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>股价/市值来自腾讯自选股westockdata(2026-08-21)、股份数及净资来自2025年报与公告。因公司2022-2024连续亏损、2025方扭亏，各类PE(TTM/历史分位)参考性弱，报告以"2027-2028正常化盈利(一致/估)+全球管线逻辑+现金"综合评估；A/H溢价、2026一次性BD对当期PE的失真需重点甄别。所有"E/估"为一致预期或主观估算，以正式财报为准。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM</td><td><strong>—(连亏多年无正PE)</strong></td><td>2022-2024连续亏损、2025方扭亏，PE体系2025起重建，不适用5年分位</td></tr><tr><td>PS(TTM)</td><td><strong>≈21x(A)，处历史区间中位偏上</strong></td><td>2022-2024营收高增期PS普遍20-40x，现因BD红利+全球自免逻辑仍处中上</td></tr><tr><td>PB</td><td><strong>≈19x(A)</strong></td><td>2022-2024冰点期PB更低，现因股价修复+2026大额BD预期抬升</td></tr><tr><td>A/H溢价</td><td><strong>≈1.5~1.7x</strong></td><td>A股显著高于H股，反映科创板流动性溢价，结构性偏高为主要价差风险</td></tr>
+      </tbody>
+    </table></div>
+    <p>荣昌生物上市后长期为亏损成长股，传统"PE历史分位"不适用。当前A股处"2025扭亏+2026一次性BD大年+全球自免大药叙事"驱动的估值扩张期，交易的是"一次性BD红利+管线期权+持续BD预期"而非当期EPS，故绝对估值偏高、历史载体不可比(且A/H溢价支撑)。长期定价看泰它西普海外(SLE/IgA肾病/SjD)与ADC/双抗兑现，而非2026年的一次性暴利点。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>32.51</td><td>≈77.6E(一致)</td><td>≈43.1E(一致)</td><td>≈49.5E(一致)</td></tr>
+        <tr><td>毛利率</td><td>≈87%</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>净利润</td><td>7.10</td><td>≈45~55E(预告H1>47)</td><td>≈6.7E(一致)</td><td>≈12.2E(一致)</td></tr>
+        <tr><td>EPS</td><td>1.29</td><td>7.64E(一致,或随H1上修至≈8-10)</td><td>1.18E(一致)</td><td>2.16E(一致)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司指引/预告：2025年报营收32.51亿(+89%)、归母首次转正+7.10亿、扣非+0.68亿；2026H1预告(2026-08-05)营收≈58.5亿(+4.3倍)、归母≈47亿扭亏(去年同期亏4.5亿)，主系艾伯维RC148首付款6.5亿美元(≈45-47亿)于Q2一次性确认+RC48里程碑/分成+国内销售增长。（公司指引）/ <strong>一致预期(腾讯/westock+证券之星，万元口径)：2026E营收77.6亿(+139%)/归母43.2亿/PE≈17x；2027E营收43.1亿(-44%)/归母6.7亿/PE≈113x；2028E营收49.5亿/归母12.2亿/PE≈62x。主SD:2026E归母43亿明显低于预告H1已≈47亿(一致预期滞后或含H1口径差异，随正式中报上修)。交银国际(2Q25)：2026-2027归母转正并逐级上修，目标价136港元。</strong>（市场一致预期）/ <strong>AI估算：2026归母≈50~60亿元(一次性首付款主导，不能线性外推)；2027一次性退潮后归母回到≈6~9亿(依赖国内双品放量+海外里程碑/分成)；2028归母≈11~15亿(国内5适应症放量+泰它西普海外若获批放量+RC28眼科+RC148里程碑)。分季度波动大(BD确认时点)，勿按线性季度外推。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>自免+肿瘤双轮创新药企潜指标</h3><ul><li><strong>泰它西普全球自免大药(SLE/IgA肾病/SjD/MG)海外：</strong>美国SLE III期、SjD、IgA肾病、NMOSD多线推进，若读出阳性并获批，SLE+IgA肾病全球都是大TAM，是最大远期弹性。</li><li><strong>维迪西妥RC48 ADC+IO联用：</strong>ASCO 2026展示与免疫联合的优势，尿路上皮/胃癌/乳腺癌多适应症扩容，具备商业化爆发潜力。</li><li><strong>海外授权BD引擎(里程碑+分成)：</strong>艾伯维RC148(49.5亿里程碑+两位数分成)、Vor Bio泰它西普(41.05亿里程碑)、参天RC28-E——后续开发/商业化里程碑为可持续增量。</li><li><strong>国内放量：</strong>泰它西普5大适应症(SLE/RA/MG/SjD/IgAN)+维迪西妥3大瘤种，进入1200家医院、约900名自免销售，商业化网络成型。</li><li><strong>现金与盈亏平衡：</strong>2026年艾伯维46亿现金入账，由净债务转净现金，消除融资稀释风险、强化再投资能力。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2026年业绩是"经营+一次性"主导：经营(国内产品放量+日常研发/商业化投入)+一次性(艾伯维RC148首付款45-47亿、Q2集中确认)。会计口径上扣非显著低于归母，2026净利不具常态参考。判断核心：2027一次性退潮后，国内5适应症放量+海外里程碑/分成能否接力支撑盈利——若不能，2027净利将显著回落(一致6.7亿)。读财报须区分BD确认季度与经营性季度，勿线性外推。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>泰它西普国内多适应症+海外III期</td><td><strong>+15~25pct对2027</strong></td><td>5大适应症放量(SLE/RA/MG/SjD/IgAN)，SLE美国/SjD/IgA肾病III期推进+海外里程碑</td></tr><tr><td>海外BD里程碑/分成(RC148/RC18/RC28-E)</td><td><strong>+10~20pct对2027</strong></td><td>艾伯维RC148后续里程碑、Vor Bio(泰它西普)、参天眼科里程碑与分成</td></tr><tr><td>维迪西妥RC48国内放量+IO联用</td><td><strong>+5~10pct对2027</strong></td><td>尿路上皮/胃癌/乳腺癌扩容+ASCO 2026 IO联用商业化落地</td></tr>
+      </tbody>
+    </table></div>
+    <p>2026年增长≈94%由艾伯维RC148首付款一次性爆量贡献(不可持续)；2027年增长主引擎切换为"国内核心产品多适应症放量(泰它西普)+海外授权里程碑/分成"两轮。盈利"由一次变持续"的关键在泰它西普SLE/IgA肾病海外临床成功、国内销量兑现、维迪西妥IO联用商业化，以及艾伯维/参天等后续里程碑落地——确定性高但弹性与临床/审批强相关。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价125.5元、A股市值≈690亿。2027E归母6.7亿→≈103x；2028E归母12.2亿→≈57x(A股)/≈32x(H股)。即使剔除A/H溢价，A股对2028年正常化盈利的估值仍处高倍数区间。<br><br>换言之，市场<strong>已计入"泰它西普全球自免大药放量+ADC/双抗管线持续BD+一次性首付款之后海外里程碑接力"的乐观情景</strong>：隐含市场假设泰它西普美国SLE等海外III期成功并获批准放量、维迪西妥IO联用商业化兑现、艾伯维RC148后续里程碑按序到账，使2027-2028盈利"由一次性转持续"。<br><br>风险在于：2026的46亿首付款是一次性的，若2027无新大额BD+海外临床不及预期，2027净利落入个位数为基准，高倍数将面临压缩。当前A股定价偏"乐观兑现+高期权性"，当期EPS缺乏安全边际；H股(外资目标价均价115.8港元,+45%)提供更合理风险收益入口。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>泰它西普差异化机制：</strong>全球首个BLyS/APRIL双靶点(TACI-Fc)生物制剂，SLE国内首个高效、SjD全球首个获批生物制剂、IgA肾病首个国产双靶点用药——机制+先发+数据壁垒。</li><li><strong>ADC平台：</strong>维迪西妥首个国产自主HER2 ADC，尿路上皮癌等差异化适应症，CCP/酶联偶联自有平台。</li><li><strong>国内自免商业化网络：</strong>约900名自免销售+1200家医院+32000名医生覆盖，SLE等科室渗透先发。</li><li><strong>持续BD兑现(MNC背书)：</strong>艾伯维RC148首付款6.5亿美元(2026)、Vor Bio/参天等连续三笔对外授权，证明全球认可度。</li><li><strong>海外III期全球注册能力：</strong>SLE/SjD/IgA肾病/NMOSD多线海外推进，全球化开发能力成型。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>泰它西普的"BLyS/APRIL双靶点+SjD全球首个+国内5适应症先发"短期难以直接复制；维迪西妥在尿路上皮癌的HER2 ADC差异化也难被德曲妥珠(偏乳腺癌)完全替代。但威胁真实存在：SLE赛道已有GSK贝利尤单抗、阿斯利康anifrolumab等强竞品，且中国尿路上皮/胃癌ADC扎堆、医保持续降价；若泰它西普海外III期逊于竞品，全球故事将弱化。护城河"国内自免先发+ADC差异化+持续BD兑现"厚度中上，但高度依赖临床与兑现纪律。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08底/09初</strong> · 2026半年度报告正式披露(08-05已预告营收58.5亿/净利≈47亿) — 盈利确认+报表口径</p><p><strong>2026H2-2027</strong> · 泰它西普美国SLE III期关键数据读出(顶线) — 全球自免大药逻辑最大验证点</p><p><strong>2026-06已获批</strong> · 泰它西普SjD(全球首个)/IgA肾病(首个国产)国内放量爬坡 — 收入</p><p><strong>2026-2027</strong> · 维迪西妥RC48+IO联合注册/商业化(ASCO 2026数据背书) — 收入+估值</p><p><strong>持续</strong> · 艾伯维RC148开发/商业化里程碑(首付已收6.5亿美元)、Vor Bio(泰它西普海外)、参天RC28-E里程碑 — 收入</p><p><strong>2027+</strong> · 泰它西普海外(SLE等)若III期成功→NDA→获批放量 — 最大远期期权</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>一次性BD依赖、盈利不可持续</td><td>利润</td><td>2026净利≈47亿高度依赖艾伯维RC148首付款一次性确认，2027退潮后若国内/里程碑跟不上，净利将显著回落(一致6.7亿)</td></tr><tr><td>泰它西普海外III期临床失败/竞争</td><td>估值</td><td>美国SLE等III期若读出不及预期，全球自免大药逻辑瓦解；SLE赛道贝利尤/anifrolumab等强竞品挤压</td></tr><tr><td>医保降价/集采压力</td><td>收入+利润</td><td>泰它西普80mg已多轮降价，国内医保谈判/集采持续挤压单品价格与规模</td></tr><tr><td>ADC/IO双抗竞争红海</td><td>收入+估值</td><td>RC48 vs 德曲妥珠(T-DXd)及国产ADC扎堆；RC148(PD-1/VEGF)赛道亦有多个竞品</td></tr><tr><td>研发/销售费用高企</td><td>利润</td><td>2025研发12.19亿+约900人自免销售，多线海外III期投入大，费用刚性</td></tr><tr><td>现金流/融资稀释</td><td>资产负债表</td><td>2026年艾伯维46亿入账缓解，但2027后若无新大额BD+持续投入，仍存现金流/再融资压力</td></tr><tr><td>A/H溢价收敛/资本市场</td><td>估值</td><td>A股≈1.5-1.7x H股溢价结构性偏高，若科创板溢价收敛、流动性走弱，A股回撤弹性大</td></tr><tr><td>BD里程碑/分成不兑现</td><td>收入+估值</td><td>艾伯维/Vor Bio/参天授权若因临床或监管失败而里程碑落空，持续BD预期受挫</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>SLE/IgA肾病海外III期积极+获批放量+RC148新里程碑+新BD；2028归一归母≈18亿</td><td>≈18亿</td><td>≈40x(全球成长生物药+管线期权)</td><td>≈145元(+15%)，若新一轮大额BD可达≈170元(+35%)</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>国内双轮放量(泰它西普5适应症+RC48)+有序里程碑/分成，无重大新BD；一次性退潮后2028盈利缓慢爬坡</td><td>≈12亿(2028一致)</td><td>≈32~35x(A股含管线+A/H溢价,低于对标则收敛)</td><td>≈105~110元(-12%~-16%)</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>海外III期失败/无新BD/国内集采加深；2028归一归母≈5亿</td><td>≈5亿</td><td>≈25x(偏谨慎)</td><td>≈82元(-35%)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价125.5元、Base为中枢：上行至Bull +15%、Base -12~-16%、下行至Bear -35%，收益风险比仅约1~1.5:1——A股已计入较多乐观预期、缺乏当期安全边际；若通过H股(外资目标价均价≈115.8港元,+45%)择时则风险收益比更佳。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①泰它西普美国SLE III期读出失败或劣于对标(贝利尤/anifrolumab)；②一次性BD退潮后2027净利落至个位数且2028无回升动能(盈利"不可持续"坐实)；③无新一轮大额BD/里程碑明显不及预期；④国内泰它西普/维迪西妥集采或价格压力加大、销量增速环比大幅走弱；⑤A/H溢价明显收敛。任一兑现将把Base下修向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：国产Biotech(ADC/自免双抗)——医药生物/科创板创新药。行业经历2022-2024估值冰点后，2025-2026在"盈利拐点+海外BD出海"逻辑下整体估值修复；自免+ADC属景气度高、但单个标的估值分化极大的赛道。荣昌所处位置：行业景气中上、个股因2025扭亏+2026一次性BD大年而走强，正处叙事兑现期。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>A股125.5元(08-21)：价站上MA60(122.1)/MA120(123)/MA250(107.6)、MACD多头(DIF1.99>DEA1.56)，但自8月上旬BD炒作高点~139回落、失守MA5/MA10(131)，近5日主力净流入+7086万、20日-4.36亿</td><td><strong>中期趋势偏多、短期高位回调蓄势；回不破120/MA60趋势完好，跌破115则转弱</strong></td></tr><tr><td>基本面</td><td>2025扭亏为盈(+7.1亿)+2026H1预告净利≈47亿(一次性BD主导)+现金大幅夯实，基本面"拐点+爆量"确认；但2027一次性退潮后盈利持续性待证</td><td><strong>基本面强叙事期但含一次性成分，看中报正式数据与海外III期节奏</strong></td></tr><tr><td>情绪面</td><td>港股16家分析师平均目标价115.8港元(+45%)，交银136/中金133.7/瑞银升买入，野村中性89.4；A股1年内15家综合"买入"。8月上旬H1预告后A股曾连日大涨、短期情绪偏热后回调</td><td><strong>情绪高位回落中，非底部；人气随BD/III期事件反复放大</strong></td></tr><tr><td>政策影响</td><td>国产创新药院内准入/医保谈判体系+鼓励创新药出海授权，整体政策中性偏正面；但医保降价/集采对自免大单品价格持续施压，属结构性负面</td><td><strong>政策双向：出海受鼓励、院内价格承压，主要看市场化BD与临床事件</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资/境外大行为主的可参考覆盖(H股)：交银国际"买入"目标价136港元、中金"跑赢行业"133.7港元、瑞银(UBS)上调至"买入"；16家港股分析师目标价均价115.8港元(+45%)；另有一外资DCF(WACC 9.5%/永续3%)给港股75港元、A股96.7元维持"持有"；野村"中性"89.44港元。A股(科创)以中资覆盖为主(华泰/中泰/浙商/安/证均"买入/增持"、1年内综合买入)，证券之星A股15家综合"买入"。注：外资目标价多基于H股/全球自免逻辑，A股因A/H溢价外资参考性打折，目标价仅作方向参考。</div>
+    <div class="callout bull"><div class="label">介入结论</div>逻辑上"盈利拐点+全球自免大药+ADC/IO双抗管线+持续BD"方向向上，但A股已计入较多乐观预期(2027-2028正常化盈利PE极高+A/H溢价~1.7x)，且2026高盈利一次性成分重。判断为<b>轻仓试仓/等企稳(A股)</b>：不建议在一次性BD红利高点追高满仓，现价仅宜≤10~15%底仓(若坚定看好全球自免长逻辑)；H股(≈79港元、外资目标115.8港元)相对更可<b>分批建仓至20~30%</b>。触发加仓：泰它西普美国SLE III期积极读出/H1正式中报与预告相符/H股放量突破企稳；A股回踩120-123(MA60/MA120)企稳可低吸。止损/离场：A股跌破115元(MA250-平台)或H股跌破75港元离场观察；回避在单季BD或III期利好脉冲后的情绪高点追高。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>荣昌生物2023/2024/2025年度报告与2026H1业绩预告(2026-08-05公告，上交/港交所披露)、2026Q1季报(2026-04-28)、艾伯维RC148授权公告(2026-01/03-10生效)、公司官网IR产品与管线页</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>交银国际/中金/瑞银(外资优先，H股目标价134-136港元)及野村(中性89.4)、华泰/中泰/浙商/华安(内资"买入"、存疑打折)、证券之星一致预期</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>腾讯自选股westockdata(行情/财务/评级/TTM口径)、东方财富/财富号(市场情绪与A/H行情)、证券之星/雪球(交叉验证市值PE PB)、长桥(分析师目标价)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>华夏时报/长江商报/新浪财经媒体综述、雪球讨论(仅线索，提示一次性BD与"卖青苗"争议)</p></div>
+    <p>高信心(90%·财务)：2023-2025年报(营收10.83/17.17/32.51亿、归母-15.11/-14.68/+7.10亿)、2026H1预告(营收58.5亿/归母47亿)均来自公司公告；泰它西普/维迪西妥销量、研发费用、经营现金流、负债率回原始年报核对。中高信心(75%·估值)：股价/市值/PE-TTM来自westockdata 2026-08-21、A/H溢价为估算、2027-2028一致预期来自第三方(口径可能滞后)。中低信心(40-55%·预测/Bull·Base·Bear)：2026-2028E与情景为主观与一致预期推演，一次性BD对2026PE失真、分季波动大；艾伯维首付款到账节奏/确认科目、Vor Bio交易口径两家来源略异，均标注"待核实/估"。未回源数字均标注"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>荣昌生物2025年年度报告（2026-03-28披露，营收32.51亿/归母+7.10亿/销量）</li>
+        <li>荣昌生物2026年半年度业绩预告公告（2026-08-05，营收58.5亿/归母≈47亿）</li>
+        <li>荣昌生物2026年一季报（2026-04-28）、与艾伯维RC148授权协议公告（2026-01、03-10生效）</li>
+        <li>荣昌生物2023年报（营收10.83亿/亏15.11亿）、2024年报（营收17.17亿/亏14.68亿）</li>
+        <li>公司官网IR/产品页：泰它西普（SLE/RA/MG/SjD/IgA肾病）、维迪西妥、RC148/RC28授权</li>
+        <li>券商研报：交银国际/中金/瑞银/野村（外资，H股目标价）、华泰/中泰/浙商/华安（内资）</li>
+        <li>腾讯自选股westockdata（行情/财务/评级，2026-08-21）、东方财富/证券之星/雪球/长桥（交叉验证）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

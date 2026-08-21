@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>迈瑞医疗 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">迈瑞医疗<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">医疗器械 · 数据截至2026.08.20</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch5">回产业链报告</a></div>
+    <h1>迈瑞医疗<span class="code">300760.SZ</span></h1>
+    <p class="subtitle">医疗器械龙头 · 四大产线+新兴业务 · 海外占比53%</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+    <a href="bide-pharm.html">上一家 · 毕得医药</a>
+    <a href="united-imaging.html">下一家 · 联影医疗</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈1900亿元</div><div class="k-sub">2026-08-20/21</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈24.4x</div><div class="k-sub">PE-TTM 2026-08</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">≈5%~15%分位</div><div class="k-sub">过去5年中位 40~44x</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+7%~8%</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>国产医疗器械绝对龙头，从"三大产线"升级为"四大产线+新兴业务"，2025年报海外收入占比首次突破53%。当前处于"集采压价+国内采购周期低谷"的估值历史底部，市场按"周期底部+高股息防御"定价，一旦2026Q3国内拐点+海外高增兑现，存在估值修复空间。</li>
+      <li><strong>基本面：</strong>2025营收332.82亿(-9.38%)、归母净利81.36亿(-30%)因国内集采与反腐采购停滞；但海外176.5亿(+7%)创历史新高、新兴业务53.78亿(+30%)逆势高增。ROE 21.58%、净现金170亿+、分红率65%。</li>
+      <li><strong>估值：</strong>PE-TTM≈24.4x，处于近5年约5%~15%历史底部；PB≈4.8x亦接近2024大底。估值收缩主因是2025净利周期性低谷+集采杀估值，市场分歧在"周期底还是趋势衰退"。</li>
+      <li><strong>市场隐含预期：</strong>现价155元对应2028E一致预期EPS 9.27元≈16.7x，隐含市场只给8~12%的复合增速预期，并未定价爆发式成长。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08-29中报(Q2国内降幅是否收窄)、2026Q3业绩拐点确认、海外IVD/新兴业务能否持续放量、港股发行落地。</li>
+      <li><strong>情景结论：</strong>Bull 266元(+72%) / Base 203元(+31%) / Bear 146元(-6%)，收益风险比约5:1偏优。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>迈向全球化平台的医疗器械龙头</strong>：2018年A股上市，产品覆盖生命信息与支持、体外诊断(IVD)、医学影像三大主线并有新兴业务(微创外科/动物医疗/微创介入)新增快增长极。2025年报首次将"新兴业务"单列，业务从"设备"向"设备+试剂+服务"复用型模式跃迁。2025年海外收入176.5亿元、占比53%，创历史新高。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>252.70</td><td>303.66</td><td>349.32</td><td>367.26</td><td>332.82</td></tr>
+        <tr><td>归母净利润</td><td>80.02</td><td>96.07</td><td>115.82</td><td>116.68</td><td>81.36</td></tr>
+        <tr><td>扣非净利润</td><td>78.50</td><td>95.24</td><td>114.42</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~65%</td><td>~64%</td><td>~66%</td><td>~64%</td><td>~62-63%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~33%</td><td>~33%</td><td>33.64%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~90</td><td>121.4</td><td>110.6</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>产线结构(2025年报)：</strong>IVD(体外诊断)122.41亿(+36.78%占比第一，毛利率未单列)；生命信息与支持98.37亿(-19.8%，毛利率59.37%)；医学影像57.17亿(-18.02%，毛利率63.05%)；新兴业务53.78亿(+30%逆势高增)。<br><br><strong>国内外：</strong>国内156.32亿(-22.97%)，海外176.50亿(+7%，占比53%创新高)。2026Q1海外+15.7%、国内-11.1%(去库存)。<br><br><strong>主要产品：</strong>监护仪(全球前三)、麻醉机(全球第二)、呼吸机(全球第二)、超声、全自动化学发光/血球/生化/凝血及试剂、微创外科(超声刀/内窥镜)、动物医疗。<br><br><strong>客户/渠道：</strong>全球190+国家、64家海外子公司、7000+经销商、9国本地化生产基地。<br><br><strong>竞争对手：</strong>GE医疗/飞利浦/德尔格(生命信息)、罗氏/雅培/西门子/(IVD)、联影/迈克/新产业(国内超声与化学发光)。<br><br><strong>管理层：</strong>董事长/创始人李西廷；副董事长吴昊；总经理成明和。<br><br><strong>Balance sheet：</strong>净现金170亿+(货币资金约170-176亿、有息负债极低)、资产负债率24.8%、商誉约115亿、2025研发39.29亿(占比~11.8%)、分红率65.27%、股息率~2.8%。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>海外(+7~15%)、新兴业务(+18~30%)、IVD试剂复用放量 → 真实经营增长仍在。</li><li><strong>会计/周期性拖累：</strong>2025国内-22.97%主因集采压价+反腐致设备采购停滞+渠道去库存，属周期性而非经营质量恶化。</li><li><strong>一次性因素：</strong>2026Q1因汇率(美元走弱)产生一次性汇兑损益，拖累净利增速约个位数pct。</li><li><strong>结论：</strong>净利润-30%主要是"国内周期底部+集采"所致，海外与新兴的真实经营动能未被破坏。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈155元</strong></td><td>2026-08-20/21区间150.6-158</td></tr><tr><td>总市值</td><td><strong>≈1900亿元</strong></td><td>12.12亿股</td></tr><tr><td>EV</td><td><strong>≈1725亿元</strong></td><td>市值-净现金170亿+</td></tr><tr><td>PE-TTM</td><td><strong>≈24.4x</strong></td><td>TTM净利≈78.4亿</td></tr><tr><td>PE-2026E</td><td><strong>≈21.6-22.0x</strong></td><td>2026E净利86.6/87.9亿</td></tr><tr><td>PE-2027E</td><td><strong>≈19.4x</strong></td><td>2027E净利98.3亿</td></tr><tr><td>PE-2028E</td><td><strong>≈16.9x</strong></td><td>2028E净利112.3亿</td></tr><tr><td>PB</td><td><strong>≈4.8-5.0x</strong></td><td>每股净资产31-33元</td></tr><tr><td>PS(TTM)</td><td><strong>≈5.7x</strong></td><td></td></tr><tr><td>EV/EBITDA</td><td><strong>≈16x</strong></td><td>估算</td></tr><tr><td>FCF Yield</td><td><strong>≈4.3%</strong></td><td>2025 FCF约81亿/市值1900亿</td></tr><tr><td>PEG</td><td><strong>无意义</strong></td><td>2026增速~8%，PEG失真</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(雪球/东财/同花顺)的市值、股价、净利均已尽力回交易所与财报交叉核对。估值字段(PE/PB/PEG/FCF等)为第三方公开数据，仅用于辅助；关键市值/股本/净利以财报为准。注意：2026半年报预约披露日8-29，涉2026H1均为预测，须以实际披露为准。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM</td><td><strong>40~44x(中位)</strong></td><td>历史最高约73.5~94x(2021-02)、最低约20~21x(2024年大底)</td></tr><tr><td>当前PE分位(近5年)</td><td><strong>≈5%~15%分位</strong></td><td>iFind约4.9%(2026-07-29)；历史底部区</td></tr><tr><td>PB</td><td><strong>≈4.8-5.0x</strong></td><td>接近2024年大底水平；历史中位约8.3x</td></tr>
+      </tbody>
+    </table></div>
+    <p>当前处于过去5年估值的历史性低位区(底部5%~15%)。估值收缩主因是"2025净利-30%的周期性低谷+集采杀估值+高股息防守切换"，而非成长逻辑崩塌。市场分歧点在于：这是周期低谷，还是趋势性衰退？</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>332.82</td><td>358.2E</td><td>399.5E</td><td>448.1E</td></tr>
+        <tr><td>毛利率</td><td>~62-63%</td><td>~62-63%E</td><td>~63%E</td><td>~63%E</td></tr>
+        <tr><td>净利润</td><td>81.36</td><td>87.5E(中值)</td><td>98.3E</td><td>112.3E</td></tr>
+        <tr><td>EPS</td><td>6.71</td><td>7.14-7.25E</td><td>8.11E</td><td>9.27E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司指引：2026国内重回正增长、2027-2028两位数提速；2026H1海外+15%、新兴+20%+(高管纪要)（公司指引）/ <strong>市场一致预期(东财25家/同花顺29家)：营收2026E 358.2亿(+3.95%)、2027E 399.5亿、2028E 448.1亿；归母净利2026E 86.6~87.9亿、2027E 98.3亿、2028E 112.3亿</strong>（市场一致预期）/ <strong>AI估算：营收2026E 355-360亿(+7%)、2027E 395-400亿(+12%)、2028E 440-450亿；归母2026E 87-88亿、2027E 98-100亿、2028E 112-115亿；毛利率62-63%</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>CRO/器械型潜力指标</h3><ul><li><strong>国内市占率提升(IVD核心)：</strong>核心IVD品类国内份额由2025H1的10%→2026Q1的13%；MT8000 TLA全自动流水线2026Q1完成80+台装机→后续试剂放量(耗材高粘性)。</li><li><strong>海外高增：</strong>欧洲2025 +17%、2026Q1 +25%+(英法德意高端突破)；新兴市场2026Q1 +15%(印度/墨西哥各+30%)；北美+3~5%。本地化：13国规划基地、9国投产。</li><li><strong>各产线装机/份额：</strong>监护仪全球前三(市占18~20%)、麻醉机全球第二、呼吸机全球第二、超声国产龙头(受联影入局威胁)。</li><li><strong>IVD试剂放量：</strong>海外IVD 2026Q1 +20%；IVD+新兴业务合计占海外收入约40%、占国内超70%→收入向耗材/复用结构转型。</li><li><strong>新兴业务：</strong>2025收入53.78亿(+30%)、2026Q1 14亿(+18.2%)，微创外科/动物医疗/微创介入为未来3年最确定的量增来源。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>净利润增速(-30%)≠经营增速：2025下滑主因是国内集采压价+反腐采购停滞+渠道去库存(周期性)；海外与新兴业务真实经营保持高增；2026Q1另有一笔一次性汇率损失。区分"经营增长(海外/新兴/IVD) / 周期性拖累(国内设备) / 一次性因素(汇率)"后，经营基本面仍在向上。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>海外(占53%)</td><td><strong>+7.0pct</strong></td><td>欧洲+15%、新兴+18%、北美+5%</td></tr><tr><td>国内(占47%)</td><td><strong>+4.5pct</strong></td><td>IVD份额提升+新兴放量</td></tr><tr><td>新增量/产线结构</td><td><strong>+4.0pct</strong></td><td>新兴+25%、IVD+10~13%、影像+10%</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长率主引擎由"国内设备采购周期"切换为"海外+IVD试剂+新兴业务"三重叠加；国内PMLS/MIS设备端占比&lt;30%，去库存扰动边际弱化。增长来源偏"真实经营"，可追踪性强。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>当前PE-TTM≈24x建立在被"集采价格+反腐采购停滞+一次性汇率减值"压瘪的TTM EPS之上——这是低谷分母下的数值。用市场化口径反推：现价155元对应2028E一致预期EPS 9.27元≈16.7x，隐含市场对2028-2030年归母净利仅给"高个位至低双位数(约8~12%)的复合增速"，并要求IVD份额提升、海外扩张如期兑现。<br><br>换言之：市场<strong>并未为爆发式成长定价</strong>，当前交易的是"周期底部+高股息+龙头防御"逻辑(股息率2.8%、FCF Yield 4.3%、5年估值底部区)。一旦2026Q3拐点兑现、2027两位数增长确认，估值有望自底部修复(潜在戴维斯双击)；反之若国内复苏证伪，底部估值难再给更高安全边际的"增长期权"。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>研发投入：</strong>2025研发39.29亿(占~11.8%)，远超国内同行；专利+独家MT-TLA流水线+试剂绑定生态。</li><li><strong>渠道/网络：</strong>190+国销售、64家子公司、7000+经销商、9国本地化基地——国内对手短期难以复制海外网络。</li><li><strong>产品矩阵：</strong>四大产线横跨监护/麻醉/呼吸/超声/IVD/微创，形成"设备+试剂+服务"全套方案与交叉销售，国内独有。</li><li><strong>品牌与认证：</strong>海外需过FDA/CE/NMPA三重认证(2-3年)，已批量进入欧美高端医院。</li><li><strong>替代难度：</strong>IVD试剂绑定装机、监护全院方案切换成本极高。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>国内单点产品(安图化学发光、新产业)可在细分品类复制产品，但难以复制"全球渠道+四大产线协同+试剂装机绑定"的系统性壁垒。真正威胁是①联影入局超声的国内正面竞争、②海外地缘准入限制/关税、③GE/飞利浦对高端监护的反扑。总体护城河为国产医疗器械最厚之一。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-29</strong> · 2026半年报披露(Q2国内降幅是否收窄至-3%~-5%) — 盈利</p><p><strong>2026Q3(约10月底)</strong> · IR公开表态"长周期业绩拐点已现"(中信建投Q4收入已连续正增) — 盈利/估值</p><p><strong>2026H2</strong> · 湖南县域彩超、安徽28省IVD联盟集采落地结果与份额 — 收入/份额</p><p><strong>持续</strong> · MT8000流水线装机放量+化学发光试剂放量 — 收入</p><p><strong>2026-2027</strong> · 港股H股上市推进(募用于全球研发/销售/供应链) — 估值/资金面</p><p><strong>持续</strong> · 欧洲高端医院中标、新兴市场新增装机 — 收入</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>IVD集采/价格战</td><td>收入+利润</td><td>江西/安徽/28省联盟持续压价，2026Q1毛利率降至61.87%</td></tr><tr><td>国内反腐/采购延迟</td><td>收入+现金流</td><td>2025国内-22.97%；应收周转上升</td></tr><tr><td>海外监管/地缘</td><td>收入+估值</td><td>美欧高端准入限制、部分市场封堵</td></tr><tr><td>关税/贸易摩擦</td><td>收入+利润</td><td>海外成本上升</td></tr><tr><td>汇率</td><td>利润</td><td>海外占53%，汇兑损益波动</td></tr><tr><td>应收账款/商誉</td><td>现金流+估值</td><td>商誉约115亿，并购标的减值风险</td></tr><tr><td>股权激励/高管变动</td><td>估值</td><td>港股IPO前夕董事辞任</td></tr><tr><td>竞争(联影入局超声)</td><td>收入</td><td>国内/海外市场份额争夺</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>国内2027强反转+IVD份额15%+海外高增+新兴爆发</td><td>~124亿</td><td>26x</td><td>~266元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>国内2026小正、2027两位数；海外+12~13%；集采温和</td><td>~112亿</td><td>22x</td><td>~203元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>国内复苏证伪/集采超预期/海外地缘收紧</td><td>~98亿</td><td>18x</td><td>~146元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价~155元、Base为中枢：上行到Bull+72%/Base+31%，下行到Bear-6%，收益风险比约5:1(内部偏Bull)。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026-08-29中报Q2国内降幅若未收窄；②2026Q3拐点未兑现；③2027年归母未能回到95-100亿并重上两位数；④港股发行落地及摊薄超预期——任一兑现将下修Base，向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：医疗器械/IVD板块——处于"集采高压+国内设备采购低谷(反腐致采购停滞)"的周期底部区域，行业整体估值处近5年低位。IVD细分因"国产替代+流水线装机后试剂放量"相对更优；监护/超声等设备端受周期压制。迈瑞所处赛道景气度：国内筑底待反转(2026Q3拐点预期)、海外稳健上行，属"底部左侧、反转前夜"。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价约155元处年线下方、2024大底(约120-125元)上方，箱体震荡，量能温和</td><td><strong>底部区域运行，站上年线前不重仓</strong></td></tr><tr><td>基本面</td><td>2025净利-30%主因国内周期+集采，海外+新兴高增，ROE 21.58%、股息率2.8%，盈利弹性在海外</td><td><strong>基本面被周期压瘪但长期逻辑完好，看8-29中报拐点</strong></td></tr><tr><td>情绪面</td><td>估值5年大底+高股息防御属性吸引配置，但国内复苏证伪担忧压制情绪；筹码高位换手</td><td><strong>情绪偏冷、风险大量释放，底部钝化</strong></td></tr><tr><td>政策影响</td><td>IVD集采带量(28省联盟)持续压价是主要压制；医疗反腐令国内设备采购放缓——两者均已充分定价</td><td><strong>政策偏负面但充分预期，边际改善看Q3</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(优先)：高盛/摩根士丹利/瑞银/美银对迈瑞目标价多在200~266元(较现价+30%~70%)，评级买入/增持，认可"周期底+海外龙头"逻辑；杰富瑞亦有覆盖。内资研报"买入"占多数但目标价普遍保守(170~220元)且多为跟单，参考价值弱于外资——外资优先。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：估值5年大底(PE分位5-15%)+收益风险比约5:1+海外/新兴高增对冲，属"底部配置价值显现、但国内反转未确认"标的。判断为<b>底部区域分批布局/等企稳信号</b>：现价可建1-2成底仓，验证点8-29中报Q2国内降幅收窄→收窄则加至3成；若Q3(10月底)国内拐点确认再加至4-5成。触发加仓：中报国内降幅收窄至-3%~-5%或单季转正。若跌破140元趋势走弱，止损观察，不盲目抄底。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>迈瑞医疗2025年报、2026Q1季报、深交所/上交所披露、业绩说明会纪要、公司IR官网、招银国际/中信建投/国联民生研报纪要</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(东财25家/同花顺29家盈利预测)、Wind、行业机构</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富、同花顺(iFind PE分位)、雪球、财联社(交叉验证用)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>股吧/公众号(仅线索，未作财务依据)</p></div>
+    <p>高信心(90%·财报口径)：营收/归母/ROE/现金流/分红/产线收入均为2025年报2026Q1披露一致口径。中高信心(75%·估值)：2026-28E净利与PE/PS/PB来自东财/同花顺机构均值，5年PE分位来自iFind(±5pct浮动)。中低信心(40-55%·预测)：三栏预测与Bull/Base/Bear为主观推演；2026半年报(8-29披露)前涉2026H1均为预测。未回源数字均标注"估算/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>迈瑞医疗2025年年度报告（深交所披露）</li>
+        <li>迈瑞医疗2026年一季报（深交所披露）</li>
+        <li>业务说明会纪要 / 招银国际·高盛·中信建投等券商研报</li>
+        <li>东方财富 / 同花顺(iFind) 机构盈利预测与估值字段（交叉验证）</li>
+        <li>Wind / 上证报 / 中证网 公开报道</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>康方生物 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">康方生物<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">双抗龙头 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch3">回产业链报告</a></div>
+    <h1>康方生物<span class="code">09926.HK</span></h1>
+    <p class="subtitle">创新药企——PD-1/CTLA-4双抗(卡度尼利)与PD-1/VEGF双抗(依沃西AK112)全球领跑 · 商业化兑现期龙头 · 尚未稳定盈利</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+    <a href="junshi.html">上一家 · 君实生物</a>
+    <a href="kelun.html">下一家 · 科伦药业/科伦博泰</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈830亿港元(≈770亿RMB)</div><div class="k-sub">2026-08-21(港元收盘90.25×约9.21亿股)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">2025归母亏损-11.13亿元，PE不适用；PS(TTM)≈25x</div><div class="k-sub">2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">近一年股价中枢偏下≈90港元，较2026年4月高约152港元回落约41%、年内-20%</div><div class="k-sub">过去5年中位 PS历史中枢约15-40x(未盈利期指引弱，估)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">产品收入2026E +约50-80%(依沃西放量)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>中国双抗(IO 2.0)绝对龙头，两款核心双抗卡度尼利(PD-1/CTLA-4)与依沃西(AK112，PD-1/VEGF)在全球同靶点中数据领先，依沃西更以头对头优于帕博利珠单抗(Pembrolizumab/K药)的III期结果获全球关注并向Summit Therapeutics授权(地区：美/加/欧/日，首付5亿美元+里程碑可达50亿美元+低双位数销售分成)。2025年营收30.56亿元(+43.9%)、产品收入30.33亿(+51.48%)，核心靠卡度尼利/依沃西入选国家医保后放量，但同期归母净亏11.13亿元(研发+销售高投入、2023年的Summit一次性BD收入不再)，2026H1有扭亏迹象。核心价值与近期弹性集中在两块：国内双抗医保放量(商业模式兑现)+依沃西海外(Summit推进，FDA的BLA PDUFA日期2026-11-14)。股价自2026年4月高点(约152港元)回落约41%至90港元附近，外资普遍目标价165-212港元、明显高于现价，属"基本面向上、海外催化未落地、估值已回调"的品种。</li>
+      <li><strong>基本面：</strong>2025营收30.56亿元(+43.9%)：产品收入30.33亿(+51.48%，主要来自卡度尼利与依沃西入选医保后放量)，许可收入小幅(约0.23亿)。归母净亏-11.13亿(亏损扩大116.3%)，延续2024年的-5.15亿亏损、距2023年盈利(约19-20亿，Summit款主导)回落；毛利率约78.7%(医保降价、同比降)、ROE(加权)-14.2%。经营现金流为负(2025约-9.7亿RMB，估)。2025末现金及等价物约97.7亿港元、有息借款约43.8亿港元，净现金仍充足足以支撑研发。</li>
+      <li><strong>估值：</strong>港股约90.25港元、总市值约830亿港元(≈770亿RMB)。尚处亏损期、PE不适用，PS(TTM)≈25x；每股净资产约10.87港元、PB≈8.3x(反映对政治管线的期权溢价，含大量现金)。外资目标价普遍165-212港元(大摩212/中信里昂177/中银国际174等)，较现价隐含+83%~+135%空间；内资DCF目标价亦在170-203港元区间。</li>
+      <li><strong>市场隐含预期：</strong>现价90港元对应PS约25x、市值约830亿港元，隐含市场对"依沃西国内医保快速放量+卡度尼利稳态"的主线定价，但对"依沃西海外临床读出(尤其1L大适应症HARMONi-3 OS)与FDA获批+Summit里程碑"给相对中性概率。相比外资普遍目标(165-212港元)与国内产品现金流折现，现价处近一年中枢偏下、内嵌较多"海外不及预期"的折价——即市场当前把华尔街/外资偏乐观的海外价值打了一定折扣，海外读出(2026-11 FDA、HARMONi-3)将是决定上修或下修的重心。</li>
+      <li><strong>核心矛盾/看点：</strong>①2026-08下旬 2026H1中报(野村料H1扭亏约+0.46亿，验证国内放量与费用端);②2026-11-14 FDA对依沃西+化疗(EGFRm NSCLC后TKI)的PDUFA;③HARMONi-3 1L NSCLC(头对头K药)OS读出;④Summit里程碑款到账节奏;⑤医保续约/降价;⑥卡度尼利与依沃西更多适应症获批。</li>
+      <li><strong>情景结论：</strong>Bull约185港元(+105%) / Base约130港元(+44%) / Bear约68港元(-25%)，收益风险比约2.4:1偏多——但高度依赖海外临床读出与FDA结果，属"高弹性+海外催化未落地"的高波动标的。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>中国双抗(IO 2.0)龙头、以Tetrabody双抗平台立身的创新药企</strong>：康方生物2012年由夏瑜等创始、2020年4月港交所上市(HK09926，曾为18A)，总部中山/上海。围绕自研的端到端抗体平台与Tetrabody双抗技术，建立肿瘤、自免、代谢、神经等多领域管线——现有7款产品获批(卡度尼利PD-1/CTLA-4、依沃西PD-1/VEGF、派安普利PD-1、伊努西PCSK9、依若奇IL-12/23，及授权乐普/科伦的两款PD-(L)1)，27个项目在已上市/临床阶段、12款在III期、18个为潜在first-in-class双抗/多抗/ADC等创新机制。核心造血产品为双抗卡度尼利(开坦尼，PD-1/CTLA-4，宫颈癌等)与依沃西(依达方，PD-1/VEGF，非小细胞肺癌，III期头对头优于帕博利珠单抗)---依沃西更向Summit Therapeutics授权美/加/欧/日地区(首付5亿美元+里程碑最高约50亿美元+低双位数销售分成)，构成公司全球价值与license-out收入的最重要来源。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>45.26</td><td>21.24</td><td>30.56</td><td>~55-65E</td><td>~80-95E</td></tr>
+        <tr><td>归母净利润</td><td>+19.4(Summit款主导)</td><td>-5.15</td><td>-11.13</td><td>~-6~+1E(分歧大)</td><td>~+2~8E</td></tr>
+        <tr><td>扣非净利润</td><td>+~19(一次性BD主导)</td><td>~-5(经营)</td><td>~-11(经营)</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~85%</td><td>~85.6%</td><td>~78.7%</td><td>~80E%</td><td>~81E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>+55%(BD年，估)</td><td>-8.9%</td><td>-14.2%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~+15(估，含BD款)</td><td>~-5(估)</td><td>~-9.7(估)</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>收入结构(2025年，亿元RMB)：</strong>产品销售收入30.33亿(+51.48%)——核心来自卡度尼利与依沃西纳入国家医保目录后放量及新获批一线适应症；许可/授权收入约0.23亿(2025无大额Summit里程碑集中确认)。整体毛利率约78.7%(同比降，医保降价+结构)。<br><br><strong>核心产品：</strong>依沃西单抗(依达方，AK112/PD-1×VEGF)——PD-L1阳性1L及EGFR突变化疗经治NSCLC等；卡度尼利单抗(开坦尼，AK104/PD-1×CTLA-4)——宫颈癌、多个1L大适应症；两款产品5个适应症已纳入医保、渠道已覆盖上千家医院(卡度尼利2025销售约12.7亿，依沃西2025约17-18亿，估)。<br><br><strong>海外/授权(全球价值支柱)：</strong>2022-12与Summit Therapeutics(纳斯达克SMMT)就依沃西签独家授权(美/加/欧/日)，首付5亿美元(已收)、里程碑最高约50亿美元、低双位数净销售分成；Summit正推进依沃西全球阶段III(HARMONi/EGFRm后TKI、HARMONi-3/1L鳞及非鳞NSCLC头对头K药、HARMONi-6/中国)并已向FDA递交EGFRm NSCLC适应症BLA(受理、PDUFA 2026-11-14)——海外获批与销售分成+里程碑是license-out收益的核心。<br><br><strong>研发/商业化投入：</strong>2025研发费用约17.4亿港元、销售费用约15.9亿港元，双高投入吞噬收入致经营盈亏为负；依靠在手净现金(2025末现金约97.7亿港元、有息借款约43.8亿港元)支撑。<br><br><strong>管线深度：</strong>50+在研项目，18个潜在FIC双抗/多抗/ADC等创新机制，12款III期；覆盖肿瘤(依沃西/卡度尼利多适应症、CD47、VEGFR-2、HER3-ADC等)、自免(IL-17/IL-12/IL-23等)、代谢(PCSK9)、siRNA/mRNA与细胞治疗平台。<br><br><strong>客户/竞争：</strong>国内患者与医院为直销/经销商体系；竞争对手=国内外PD-(L)1军团(恒瑞、百济、信达、君实及K药等)+双抗赛道同类(AK112领先)；海外国际化依赖Summit。<br><br><strong>管理层/治理：</strong>创始人/董事长/CEO夏瑜(并任Summit董事)；治理与商誉扰动相对小，主要风险在海外临床与商业化法务/地缘。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长(可持续)：</strong>卡度尼利+依沃西纳入医保后国内放量——2025产品收入+51.48%至30.33亿，多个1L大适应症陆续获批，2026H1有望扭亏(野村料H1归母约+0.46亿)。这是真实的主线经营驱动。</li><li><strong>会计/规模效应：</strong>毛利率由2024年约85.6%降至2025年约78.7%主因医保降价与结构，后续随放量规模与海外分成可望回升；研发+销售双高费用摊薄期尚未结束，盈利拐点在费用增速≤收入增速。亏损指标(净亏-11.13亿)反映摊销期投入而非经营现金恶化。</li><li><strong>一次性/license-out扰动(最关键)：</strong>2023年盈利(+19.4亿)主要由Summit一次性BD/技术授权收入主导(2023技术授权&许可收入高达约29-34亿)；2024-2025不依赖大额BD、靠产品放量但继续亏损。即"一次性BD款"曾在2023年把公司做成盈利，不应视为稳定经营能力；同时Summit后续里程碑(每笔可数亿美元级)与销售分成(低双位数royalty)又是"弹性但非稳定"的现金流</li><li><strong>结论：</strong>"国内双抗医保放量"是经营基本面且真实向上(2026H1料扭亏)，"Summit款/里程碑/royalty"是license-out弹性但曾把2023年利润扭曲——评估须以产品放量+费用节奏(经营侧)为准绳，勿以单一财年盈亏定性。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈90.25港元</strong></td><td>2026-08-21收盘(HKD)；年内-20%、较4月高152约-41%</td></tr><tr><td>总市值</td><td><strong>≈830亿港元(≈770亿RMB)</strong></td><td>约9.21亿股；南向(港股通)持股约48.1%(2026-08-21)</td></tr><tr><td>PS(TTM)</td><td><strong>≈25x</strong></td><td>市值/2025营收30.56亿RMB；研发亏损期以PS/管线NaV为估值锚</td></tr><tr><td>PE-TTM</td><td><strong>亏损，不适用</strong></td><td>2025归母-11.13亿；尚未稳定盈利故PE失真</td></tr><tr><td>PE-2026E</td><td><strong>≈NA(盈亏平衡前夜)</strong></td><td>预测分歧大:国泰海通2026E约-6.28亿 vs 大摩约+0.13亿</td></tr><tr><td>每股净资产</td><td><strong>≈10.87港元</strong></td><td>2025末；PB≈8.3x(含现金与管线期权溢价)</td></tr><tr><td>净现金(估)</td><td><strong>≈50-55亿港元</strong></td><td>2025末现金及等价物约97.7亿港元-有息借款约43.8亿港元</td></tr><tr><td>研发/销售费用</td><td><strong>2025研发约17.4亿港元·销售约15.9亿港元</strong></td><td>双高投入，吞蚀收入致经营亏</td></tr><tr><td>外资目标价</td><td><strong>165-212港元</strong></td><td>大摩212/中信里昂177/中银国际174/海通国际170/申万165(2026)；较现价+83%~+135%</td></tr><tr><td>管线NaV(估)</td><td><strong>约1500-1900亿RMB</strong></td><td>东吴DCF目标价177.34元RMB(≈市值1892亿港元)、国泰海通约1594亿RMB(估)</td></tr><tr><td>PS-Fwd(2026E)</td><td><strong>≈13-15x</strong></td><td>市值/2026E营收约55-65亿</td></tr><tr><td>FCF Yield</td><td><strong>负(估)</strong></td><td>经营现金流2025约-9.7亿RMB，尚处投入期</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(华盛通/东财/雪球等)与行情数据(2026-08-21)交叉核对：港股约90.25港元、总市值约830亿港元、股价区间近一年80-152港元、南向持股约48.1%。关键口径：①公司尚未稳定盈利，PE不适用，估值核心是"国内产品现金流折现+海外(Summit/依沃西)NaV+管线期权"，PS(TTM)约25x、看点在于进入盈利后PE与海外分成重估；②2023年"盈利"与2024-2025"亏损"曾被Summit一次性BD款与费用节奏扭曲，不宜用单一财年PE/PB横向比；③PB≈8.3x包含巨额在手现金与管线期权溢价，非账面价值回归；④所有2026-2028E预测与Bull/Base/Bear及外资目标价为券商估算，须以实际披露/读出为准；2026H1中报与2026-11 FDA读出前预测不确定性偏高，均标"估/待核实"。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PS(TTM)≈25x</td><td><strong>未盈利期PS中枢约15-40x(估)</strong></td><td>现价处近一年中枢偏下、低于2026年初高位对应PS</td></tr><tr><td>PB≈8.3x(2025末每股净资产10.87港元)</td><td><strong>反映管线期权+现金溢价，历史上随临床数据1-25x间大幅波动(估)</strong></td><td>处近一年适中偏高，主因净现金与管线重估</td></tr><tr><td>历史极端</td><td><strong>2020-2021估值高企(β期)，2023-2024随Summit数据/商业化重估，2025-2026在80-152港元大区间震荡</strong></td><td>现价90港元处近一年下沿，较4月高152约-41%，估值明显回调</td></tr>
+      </tbody>
+    </table></div>
+    <p>作为尚未稳定盈利的管线型(aReality)标的，历史PE分位意义弱，宜用"股价-PS-市值相对自身区间"定位：现价约90港元、市值约830亿港元，处于2025-2026年【80-152港元】区间的下沿，较2026年4月高(约152)回落约41%、年内-20%，较2022-2023年也未再创新低。当前估值已在"海外乐观预期折价"状态下——即市场把华尔街/外资对依沃西海外价值的部分乐观打掉了。若2026-11 FDA获批+海外读出落地，估值向外资目标(165-212)回归弹性巨大；若海外不及，则进一步向现金+国内现金流底部(估60-70港元)靠拢。整体属"回调充分、海外催化未落地"的适中国估值位置。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>30.56</td><td>~55-65E</td><td>~80-95E</td><td>~100-120E</td></tr>
+        <tr><td>毛利率</td><td>~78.7%</td><td>~80E%</td><td>~81E%</td><td>~82E%</td></tr>
+        <tr><td>净利润</td><td>-11.13</td><td>~-6~+1E</td><td>~+2~8E</td><td>~+10~20E</td></tr>
+        <tr><td>EPS</td><td>-1.21(RMB)</td><td>~-0.6~+0.1E</td><td>~+0.2-0.8E</td><td>~+1-2E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层/媒体口径：两款双抗5个适应症纳入国家医保，多个1L大适应症获批上市驱动产品放量；2026H1有扭亏迹象(野村预测H1归母约+0.46亿RMB，对比2025H1亏约5.7亿)；与华润等多方合作扩大渠道覆盖；海外依沃西由Summit推进(HARMONi BLA已获FDA受理、PDUFA 2026-11-14)，Akeso享里程碑与低双位数royalty。(公司IR/业绩会/港交所披露)（公司指引）/ <strong>市场一致预期(多家券商)：依沃西单抗国内2026-2028E销售约20-30/30-40/40-50亿(估)、卡度尼利约15-20/20-25/25-30亿(估)；归母净利2026E约-6~+1亿(国泰海通-6.28亿、大摩约+0.13亿、中信约-0.39亿，分歧大)、2027E约-2~+4亿、2028E约+8~20亿(CITIC约20.2亿、大摩约14亿、国泰海通约7.6亿)。外资目标价165-212港元。确认2026H1 could turn profitable。(华盛通/东吴/国泰海通/中信证券/中银国际等)</strong>（市场一致预期）/ <strong>AI估算：营收2026E约55-65亿(+80-110%，依沃西放量+医保+新适应症，部分券商含Summit里程碑到账)、2027E约80-95亿、2028E约100-120亿；归母2026E约盈亏平衡附近(±，含海外里程碑与否口径差异)、2027E约+2~8亿、2028E约+10~20亿(假设Summit里程碑/royalty部分到账+国内放量)；毛利率2026E约80%、2027-28E逐步回升至82%。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>创新药/双抗(BioTech管线型)潜力指标</h3><ul><li><strong>依沃西(AK112, PD-1×VEGF)全球价值(最大潜力)：</strong>III期头对头优于帕博利珠单抗(K药)获全球关注；Summit负责美/加/欧/日，HARMONi(EGFRm后TKI)FDA的BLA已受理(PDUFA 2026-11-14)、HARMONi-3(1L鳞及非鳞NSCLC)OS读出临近——海外肺癌市场巨大，royalty(低双位数)+里程碑是license-out现金流的弹性核心。</li><li><strong>国内医保放量(经营兑现)：</strong>卡度尼利+依沃西5个适应症纳入医保、多个1L大适应症陆续获批，2025产品收入+51.48%，2026H1趋近扭亏——商业化从"主题"转入"业绩兑现"，单车价值随适应症扩展上行。</li><li><strong>管线纵深期权：</strong>50+项目、12款III期、18个潜在FIC双抗/多抗/ADC/TCE等创新机制（含CD47、HER3-ADC、自免IL-17/IL-12/IL-23、代谢PCSK9），构成后续BD与增长期权。</li><li><strong>国际化分食：</strong>除Summit外，部分产品授权乐普/科伦等，全球license-out留存价值与双抗平台(Tetrabody)可复制性带来溢价。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2025归母亏损-11.13亿(亏损扩大116.3%)≠经营恶化：主因研发+销售双高投入(约17.4+15.9亿港元)摊薄，产品收入端真实+51.48%放量、2026H1料扭亏(经营侧向上)。反之2023年"盈利+19亿"主要来自Summit一次性技术授权/BD收入(约29-34亿)——把一次性BD款与产品经营利润剥开：一次性BD使2023年账面转盈，不可外推；Summit后续里程碑/royalty是弹性但非稳定现金流。评估以国内产品放量+费用节奏(经营侧)为准，勿以单财年盈亏定性双抗龙头盈利质量。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>依沃西单抗(AK112)国内放量(主流)</td><td><strong>+约50-80%</strong></td><td>进医保+多1L适应症(非鳞/鳞NSCLC、EGFRm等)，2026-2028E销售20-30→40-50亿，最大单车增长引擎</td></tr><tr><td>依沃西海外(Summit授权/全球)</td><td><strong>弹性大，km成交则显著</strong></td><td>HARMONi FDA PDUFA 2026-11-14、HARMONi-3 OS读出；royalty(低双位数)+里程碑(最高约50亿美元承诺)是license-out现金弹性</td></tr><tr><td>卡度尼利单抗(AK104)</td><td><strong>+约20-30%</strong></td><td>稳态放量(2025约12.7亿)，宫颈癌+1L多适应症扩展，2026-2028E约15-20→25-30亿</td></tr><tr><td>管线/国际化(期权)</td><td><strong>中性-谨慎</strong></td><td>CD47、ADC、TCE及自免/代谢管线为后续BD与增长期权，贡献弹性与叙事</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎双轮：短期由"国内双抗医保放量"(依沃西+卡度尼利)驱动并已兑现(2025产品+51.48%)，是确定性较高、可季度验证的主线；中期由"依沃西海外(Summit)获批+royalty+里程碑"提供最大弹性(若2026-11 FDA与HARMONi-3落地)，其兑现与否是估值升降的枢纽。综合判断：国内放量支撑基本面向上、确定性中高；海外是全球价值与利润弹性的气球，收益大但兑现依赖临床读出——增长兑现度中等偏高，但波动与对海外事件的敏感性显著高于传统现金流公司。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价90.25港元、市值约830亿港元、PS(TTM)≈25x，对应2026E PS约13-15x。隐含市场给"依沃西国内快速放量+卡度尼利稳态(主线)"较充分定价，但对"依沃西海外临床读出(尤其1L大适应症HARMONi-3 OS)与FDA 2026-11-14获批+Summit里程碑/royalty大规模兑现(弹性)"给相对中性偏低概率——即把外资普遍目标(165-212港元)中的海外乐观部分打了显著折扣。<br><br>换言之，当前价格买的是"国内放量(几乎确定)+海外催化期权(未落地、已被折价)"组合：若海外获批/读出落地，估值向外资目标与管线NaV回归、弹性约+83%~+135%；若海外不及预期，则向现金+国内现金流底部(估60-70港元)靠拢、下行约-25%。市场当前分歧核心在"海外事件兑现与否与节奏"，而非国内基本面。该定价把海外乐观做了折价，故下行风险相对可控、上行弹性大，但事件未落地前不宜重仓押注单一读出。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>双抗(Tetrabody)平台：</strong>自研端到端抗体+双抗技术，PD-1/CTLA-4(卡度尼利)与PD-1/VEGF(依沃西)均为同靶点me-better/头对头领先，属少见"疗效数据直接胜出"的技术差异化。</li><li><strong>头对头胜出K药(依沃西)：</strong>在1L NSCLC III期对比帕博利珠单抗取得决定性阳性——这类"正面击败全球PD-1金标准"的数据在国产创新药界少见，构成海外授权与royalty的高价值壁垒。</li><li><strong>商业化网络：</strong>卡度尼利/依沃西纳入医保、覆盖上千家医院、多年双抗销售团队与产能(符合GMP)，国产双抗商业化领先。</li><li><strong>管线纵深与国际化：</strong>50+项目、12款III期、18个FIC创新机制；依沃西交Summit做海外，享royalty/里程碑——平台可复制+BD溢出。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>双抗平台的"亮眼数据(FIC/me-better、头对头胜K药)"短期内难被复制，卡度尼利/依沃西在国内免疫力与海外授权价值均有数据支撑；但堵点在于：①PD-(L)1/免疫检查点国内内卷严重，定价与医保降价压缩单车价值；②依沃西海外若获批，在美/欧将与K药及中国PD-1出海军团(替雷利珠等)虎口夺食，销售靠Summit执行力；③同类PD-1×VEGF等双抗竞品在研，独占期窗口。护城河评为"中上"：技术壁垒真实，但国际化变现依赖第三方(Summit)与外部临床读出、风险暴露较大。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08下旬</strong> · 2026年中期业绩披露(野村料H1扭亏约+0.46亿，验证国内放量+费用拐点) — 盈利/基本面</p><p><strong>2026-11-14</strong> · 美国FDA对依沃西+化疗(EGFRm NSCLC后TKI)的PDUFA目标审评日期(Summit BLA) — 最大短期催化，估值/全球价值</p><p><strong>2026H2</strong> · HARMONi-3(1L鳞及非鳞NSCLC、头对头K药)OS读出与非鳞队列入组完成 — 全球1L大适应症价值重估</p><p><strong>持续</strong> · Summit里程碑款到账与卡度尼利/依沃西更多适应症(国内)获批上市 — 收入/里程碑</p><p><strong>贯穿</strong> · 依沃西国际商业化(Summit)与美国/欧洲肿瘤学会(LBA)读出；抗体系(Tetrabody)新分子BD与临床数据 — 期权</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>海外(Summit)临床/获批依赖</td><td>估值+利润</td><td>依沃西全球价值高度依赖Summit推进：HARMONi-3(1L)OS读出、FDA 2026-11 PDUFA，任一不及即重估海外royalty/里程碑</td></tr><tr><td>海外III期读出风险</td><td>估值</td><td>尽管HARMONi已PFS阳性，1L大适应症(HARMONi-3)OS在头对头K药仍有统计/生存获益不确定或FDA要求更高门槛(OS阳性)，或致获批延后/临床钻受阻</td></tr><tr><td>PD-(L)1/免疫检查点内卷</td><td>收入+利润</td><td>国内PD-(L)1诸强+医保降价，双抗虽然差异化但仍承压单车价值与放量节奏</td></tr><tr><td>医保续约/降价</td><td>毛利率+收入</td><td>医保每期续约与价格谈判致毛利率下滑(2025已由85.6%降至78.7%)、放量节奏波动</td></tr><tr><td>BD/一次性收益不可外推</td><td>利润口径</td><td>2023年盈利靠Summit一次性BD款；若里程碑久不到账，报表亏面会延续，勿把license-out当稳定现金流</td></tr><tr><td>高投入致现金流/融资压力</td><td>利润+估值</td><td>研发+销售双高投入，2025经营现金流为负(约-9.7亿RMB估)，持续扩管线或需再融资摊薄</td></tr><tr><td>海外商业化与地缘/法务</td><td>估值+海外收入</td><td>美欧商业化由Summit执行、地缘与医保/安全性诉讼风险，royalty兑现依赖外部</td></tr><tr><td>管线/安全性(II期失败或不良反应)</td><td>估值+期权</td><td>50+项目多为前沿FIC，双抗/ADC/TCE等安全性或疗效失败会拖估值与叙事</td></tr><tr><td>高估值波动(A股进互通车/情绪)</td><td>估值</td><td>南向持股约48%、高贝塔，临床/政策情绪波动放大股价回撤</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>依沃西海外FDA获批(EGFRm)+1L大适应症(HARMONi-3)OS阳性+Summit里程碑到账+国内放量超预期+扭亏兑现</td><td>~20-25亿E(含海外分成/里程碑)</td><td>约90-110x 2028E(成长最优)，或管线NaV回归</td><td>~185港元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>国内双抗医保放量稳步+海外读出中性偏正+里程碑部分到账</td><td>~10-14亿E(一致中位)</td><td>约65-80x 2028E(处管线成长区间)</td><td>~130港元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>海外读出不及(1L OS未胜/FDA延后)+Summit合作退坡+医保大降价致放量放缓+费用居高</td><td>~亏损或微利(≤5亿)</td><td>约40-50x(或按现金+现金流底部)</td><td>~68港元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约90.25港元为基准：Bull约185港元(+105%)、Base约130港元(+44%)、Bear约68港元(-25%)，收益风险比约2.3~2.4:1拜多。国内放量(确定性)托底+海外(期权、被折价)提供弹性，下行受净现金与国内现金流约束相对有限，但上行高依赖海外事件落地——属"高弹性+催化剂驱动"的相对收益品种，仓位宜分批而非一次重仓。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①依沃西海外HARMONi-3 1L OS读出不利或FDA 2026-11未批/out-of-cycle；②Summit里程碑款长期不到账或合作退坡；③国内放量显著低于预期(单季产品收入环比下滑/医保降价超预期)；④2026H1与全年仍大幅亏损、费用未见收敛——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：港股创新药/双抗(IO 2.0)板块。板块整体在2023-2026年"全球license-out回流+医保放量"周期中处于商业化兑现上行的初-中期，但属高波动、事件驱动(WACSA/临床读出/FDA)属性强。Akeso为该板块国内双抗龙头、率先进入产品放量+扭亏拐点，行业景气方向上但个股估值因海外催化未落地而保留折价——"行业景气上+个股风险事件待落地"。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>8-21收90.25港元、年内-20%、近一月-4.6%；较4月高约152回落约41%；近期区间约80-100震荡，下方支撑85/80、上方压力100-105、量能收缩</td><td><strong>技术处回调后的低位区、未破位但未放量反转，右侧待企稳信号(站回95-100)再加</strong></td></tr><tr><td>基本面</td><td>2025营收/产品收入+43.9%/+51.48%、归母-11.13亿；2026H1料扭亏(野村+0.46亿)、费用端收敛在验证——2026-08中报是关键证据点</td><td><strong>基本面向上、盈利拐点临近，验证点2026-08中报+2026-11 FDA</strong></td></tr><tr><td>情绪面</td><td>港药资金面回暖但近期回调，南向持股约48%、高贝塔；临床失败/延后类新闻易放大回撤；当前情绪偏谨慎、利空已部分释放</td><td><strong>情绪偏冷、回撤充分利于分批；追高需警惕事件未落地前的高波动</strong></td></tr><tr><td>政策影响</td><td>国内"医保放量+全链条支持创新药"政策利好；海外licensed-out受BIOSECURE/地缘关注但影响有限；Summit商业化听命美国法规与支付环境</td><td><strong>政策国内偏正、海外中性偏不确定性，需跟踪地缘与Summit进程</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(优先)：摩根士丹利维持"增持/Overweight"、目标价上调至约212港元(2026-06-05)，并给2026/2028E净利约+0.13/14亿；中信里昂(CLSA)维持"跑赢大市"目标价约177港元；中银国际"增持"约174港元(CITIC)(注：中银国际数据与中信证券易混，前者174、后者中信证券买入约199港元)；海通国际"增持"约170.25港元；申万宏源"买入"约165港元；野村中性/偏谨慎区间目标价在约112-120港元(2026-03下调至112.73后最新亦称维持买入、料H1转赚0.46亿)。外资目标区间约112-212港元、中位约170+港元，较现价90.25港元显著溢价——外资优先采信；内资(东吴DCF目标177.34元RMB≈203港元、国泰海通约198.91港元/增持)亦看多但含较强海外假设，参考价值弱于外资横评。整体外资偏乐观、一致指向现价被低估，但高目标多含海外获批预期。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：国内双抗放量(确定性较高)+2026H1料扭亏+海外(FDA 11-14、HARMONi-3)高弹性、外资目标较现价显著溢价，但海外事件未落地、股价4月高点回落41%已处近一年中枢偏下。判断为<b>轻仓试仓(1-2成)或等回落分批、不追高</b>：现价90港元附近可分1成底仓；加仓触发——①2026-08中报扭亏确认+放量加速加至2成，②2026-11 FDA获批或HARMONi-3 OS阳性加至3成；回落至85港元下方(接近半年平台)可分批。止损/风控：有效跌破80港元(近半年新低)减仓至1成，跌破75考虑离场观望，不盲目抄底。高贝塔品种严控仓位、以海外临床/获批为主线，事件前留有现金应对波动。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>康方生物2025年年度业绩公告与年报(港交所披露易/HKEX，2026-03-26披露)、2023/2024年报、公司IR与业绩会纪要、Summit-Akeso授权公告(2022-12，港交所，首付5亿美元/总潜在约50亿美元/低双位数royalty)、Summit(HKDC)+FDA BLA受理公告(PDUFA 2026-11-14)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(摩根士丹利/中信里昂CLSA/中银国际/海通国际/申万宏源/野村/东吴证券/国泰海通/中信证券等)；优先外资大行、内资含海外乐观假设打折</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>华盛通(2025营收30.56亿/归母-11.13亿)、东方财富F10、雪球、etnet/经济通、东吴/国泰海通研报详情页、腾讯自选股(行情/财务/南下持仓/一致预期)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>微信公众号/股吧/媒体(健康界、财联社、新浪财经)——产品拆分、里程碑到账等作线索，财务与临床结果未采信未核</p></div>
+    <p>中高信心(75%·财报/行情)：2025营收30.56亿(+43.9%)/产品收入30.33亿(+51.48%)/归母-11.13亿、2024营收21.24亿(-5.15亿)、2023营收45.26亿(+约19亿，Summit一次性BD主导)回2025/HKEX年报与华盛通交叉核对；市值约830亿港元、股价90.25港元(8-21)、南向持股约48.1%回行情与南下持仓核；2025末现金约97.7亿港元、有息借款约43.8亿港元回资产负债。中高信心(68%·估值/国外媒体)：外资目标价165-212港元、PS约25x、归母/核心分拆标"估"。中低信心(45-60%·预测)：2026E-2028E营收/净利、依沃西/卡度尼利销售拆分、Summit里程碑到账节奏、2026H1扭亏幅度为券商/AI估算且海外读出未落地，均标"估/待核实"；2026-08中报与2026-11 FDA读出前预测不确定。未回源码标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>康方生物2025年年度业绩公告与年报（港交所披露易HKEX，2026-03-26）</li>
+        <li>康方生物2023/2024年报与公司IR业绩会纪要</li>
+        <li>Summit-Akeso依沃西授权协议公告（港交所，2022-12；首付5亿美元/最高约50亿美元/低双位数royalty）</li>
+        <li>Summit Therapeutics：HARMONi III期数据与FDA BLA受理公告（PDUFA目标2026-11-14）</li>
+        <li>券商研报：摩根士丹利·中信里昂·中银国际·海通国际·申万宏源·野村·东吴证券·国泰海通·中信证券</li>
+        <li>华盛通（2025营收30.56亿/归母-11.13亿）、东方财富F10、etnet/经济通、雪球、财联社</li>
+        <li>腾讯自选股数据接口（westock-data：行情/财务/南下持仓/一致预期）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

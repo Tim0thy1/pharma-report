@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南模生物 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">南模生物<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">模式动物/抗体平台 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch3">回产业链报告</a></div>
+    <h1>南模生物<span class="code">688265.SH</span></h1>
+    <p class="subtitle">模式动物龙头 · 基因修饰小鼠/靶点人源化 · 国内市占约前三</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+    <a href="gempharmatech.html">上一家 · 药康生物</a>
+    <a href="innos.html">下一家 · 益诺思</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈34亿元</div><div class="k-sub">2026-08-21</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈100-105x</div><div class="k-sub">PE-TTM 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB/PS处上市后低位</div><div class="k-sub">过去5年中位 PE因净利近零失真、弱参考</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+35%~45%(剔股份支付口径)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>国内基因修饰模式动物(遗传工程小鼠/靶点人源化小鼠)龙头，2025年扣非扭亏、工业客户+24%、标准化模型+23%、境外毛利率71.77%，核心盈利出现真实拐点；但2026H1账面归母受限制性股票股份支付大幅摊薄而-45%~-56%。当前市值仅约34亿、破发于首发价84.62元，PB约2倍、PS-TTM约7.7x处上市后低位，PE-TTM仍超百倍。</li>
+      <li><strong>基本面：</strong>2025营收4.21亿(+10.44%)、归母净利0.31亿(+383.97%)、扣非0.087亿实现扭亏、毛利率51.58%、经营现金流0.97亿(+35.43%)。工业客户1.89亿(+24.15%)占比首升至45%；境外0.58亿(+高速、毛利71.77%)。</li>
+      <li><strong>估值：</strong>市值约34亿(总股本7796万股、价约43元)，PE-TTM约100-105x，PB约1.9-2.1x、PS-TTM约7.7x、股息率约0.3%。PB/PS已回落至上市后低位，但PE因盈利基数近零而失真。</li>
+      <li><strong>市场隐含预期：</strong>现价约43元对应市值约34亿、PE-TTM约100x——用40-45x成长倍率反推，市场按"2026归母约0.78-0.87亿、较当前基数翻倍以上"的高增长定价，对2028年扣非/归母兑现容忍度低。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026年8月下旬正式半年报(剔除股份支付净利是否+47%~79%兑现)、2026Q3工业客户与标准化模型/人源化品系放量、海外人源化鼠出海节奏、股权激励业绩指引锚定。</li>
+      <li><strong>情景结论：</strong>Bull约75元(+74%) / Base约41元(-5%) / Bear约21元(-51%)，Base≈现价、收益风险比不佳，安全边际薄。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>国内遗传工程模式动物平台的代表性公司</strong>：上海南方模式生物科技股份有限公司，2021-12-28科创板上市(首发价84.62元、首发募资16.49亿、发行市盈率201.6x)。主营基因修饰大小鼠模式动物(基因敲除/转基因/靶点人源化小鼠、肿瘤药效免疫缺陷鼠、小鼠医院表型分析与药效评价)，并提供大鼠、斑马鱼、线虫模型与模型定制、繁育、药物筛选服务。2025年扣非扭亏、工业客户与标准化模型成为核心增长引擎，是国内模式动物行业(与集萃药康、百奥赛图)的第三梯队头部。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>≈3.67</td><td>3.81</td><td>4.21</td><td>≈4.8E(估)</td><td>≈5.6E(估)</td></tr>
+        <tr><td>归母净利润</td><td>-0.21</td><td>0.065</td><td>0.31</td><td>≈0.42E(估)</td><td>≈0.60E(估)</td></tr>
+        <tr><td>扣非净利润</td><td>-0.40</td><td>-0.16</td><td>0.087</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~49%</td><td>~49%</td><td>51.58%</td><td>52%E(估)</td><td>53%E(估)</td></tr>
+        <tr><td> ROE / ROIC</td><td><0(亏损)</td><td>~0.5%</td><td>~1.8%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>—</td><td>≈0.72</td><td>0.97</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>业务结构(2025年报)：</strong>主营收入4.18亿(+10.52%)；按产品分——标准化模型2.03亿(+23.22%，项目15,522个+11.13%、平均单价1.31万元+10.88%)、定制化模型0.33亿(-1.73%)、其余为繁育/服务等；按品系分——靶点人源化模型5,911.56万、工具鼠模型2,489.75万、免疫缺陷模型2,345.14万。<br><br><strong>客户结构：</strong>工业客户(创新药企/生物医药CRO)1.89亿(+24.15%)，占主营比例首升至45.09%；科研客户(高校/三甲医院)2.30亿(+1.38%)。客户覆盖全国超1000家，含北大、清华、华西医院、协和等院所及恒瑞医药等创新药企与CRO。<br><br><strong>地区结构：</strong>境内3.60亿(占约86%，毛利率48.31%)；境外5,839.26万(占约14%，毛利率高达71.77%，海外收入增速较快)。<br><br><strong>主要产品/服务：</strong>基因敲除/转基因/靶点人源化大小鼠品系销售、模型定制、繁育、表型分析、小鼠医院药物筛选与药效评价、KOA/斑马鱼/线虫模型。<br><br><strong>竞争对手：</strong>集萃药康(688155.SH，国内基因修饰小鼠市占约13%)、百奥赛图(02331.HK，国内转基因小鼠繁育/人源化模型市占第一约27.8%)、维通利华、斯莱克、昭衍等项目子公司等；南模国内基因修饰小鼠市占约8%、居国内前列。<br><br><strong>管理层/背景：</strong>创始团队具高校/科研院所教授与模式动物产业化背景；公司依托上海本地科研生态，核心高管含董秘刘雯等。<br><br><strong>资产负债：</strong>每股净资产约21.97元(2026-06末口径)、PB约2.0x；IPO募资净额14.68亿仍有较大结余，货币资金较充裕、几乎无有息负债、商誉很小；资产负债率低、净资产约17-18亿、ROE约1.8%(净利基数小)。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>工业客户(+24.15%)、标准化模型(+23.22%)、境外高毛利(+71.77%毛利)放量、人源化高值品系占比提升 → 核心扣非2025扭亏，基本面真实拐点。</li><li><strong>会计/一次性拖累：</strong>2026H1公司实施限制性股票激励+员工持股计划，股份支付费用同比大幅增加；2025年同期曾因激励业绩未达标冲减股份支付(抬高基数)——两项叠加致2026H1账面归母-45%~-56%。</li><li><strong>剔除口径更真实：</strong>2026H1剔除股份支付后归母1,300万~1,580万，同比+47%~+79%，主业盈利明显改善。</li><li><strong>结论：</strong>账面利润被股份支付与激励会计掩盖，经营层面(工业客户/标准化/海外/毛利率)持续向上，属"账面扰动、核心改善"。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈42-45元</strong></td><td>2026-08-21盘中区间，收盘约42-43</td></tr><tr><td>总市值</td><td><strong>≈34亿元</strong></td><td>总股本约7796万股</td></tr><tr><td>EV</td><td><strong>≈21-22亿元</strong></td><td>市值-净现金(IPO募资净额14.68亿未投完+现金结余约12-13亿)</td></tr><tr><td>PE-TTM</td><td><strong>≈100-105x</strong></td><td>TTM归母约0.33亿，盈利基数近零</td></tr><tr><td>PE-2026E</td><td><strong>≈80-85x</strong></td><td>2026E归母约0.42亿</td></tr><tr><td>PE-2027E</td><td><strong>≈57-60x</strong></td><td>2027E归母约0.60亿</td></tr><tr><td>PE-2028E</td><td><strong>≈40-42x</strong></td><td>2028E归母约0.85亿</td></tr><tr><td>PB</td><td><strong>≈1.9-2.1x</strong></td><td>每股净资产约22元</td></tr><tr><td>PS-TTM</td><td><strong>≈7.7x</strong></td><td>TTM营收约4.3亿</td></tr><tr><td>EV/EBITDA</td><td><strong>≈20-25x</strong></td><td>估算，EBITDA约0.9亿</td></tr><tr><td>FCF Yield</td><td><strong>≈2.5-3%</strong></td><td>OCF约1.0亿/市值约34亿</td></tr><tr><td>PEG</td><td><strong>无意义</strong></td><td>净利基数太小致PE失真，PEG不适用</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(雪球/东财/企查查/富途/证券时报)的市值、股价、PB、PS已在2026-08-21口径交叉核对，总股本与净资产以财报为准。PE-TTM约100x建立在净利基数近零(TTM约0.33亿)之上，估值判别应侧重PB(约2x、上市后低位)、PS(约7.7x、低位)与自由现金流，而非失真PE。合作券商覆盖极少，2026-28E各倍率为AI估算。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM</td><td><strong>约100x(当前)</strong></td><td>上市发行PE 201.6x、上市初期净利极小/亏损致PE长期数百倍失真，中位无意义</td></tr><tr><td>PB</td><td><strong>≈1.9-2.1x</strong></td><td>上市首日高点PB约3.8-4x(价82元)、当前约2x，处上市后历史低位区</td></tr><tr><td>PS-TTM</td><td><strong>≈7.7x</strong></td><td>上市初期PS曾达约20x(价82元)，当前处上市后历史低位</td></tr>
+      </tbody>
+    </table></div>
+    <p>上市约4.7年，股价自2021-12首日高点约82元一路下行并于较长时期破发，当前约42-45元。PE因盈利基数近零而完全失真；以PB、PS衡量，当前均处上市后历史低位区域(约下沿)，反映"扭亏初期、盈利尚未摊大、成长被高贴现"的估值消化状态，而非历史高位。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>4.21</td><td>≈4.8E</td><td>≈5.6E</td><td>≈6.6E</td></tr>
+        <tr><td>毛利率</td><td>51.58%</td><td>52%E</td><td>53%E</td><td>53%E</td></tr>
+        <tr><td>净利润</td><td>0.31</td><td>≈0.42E</td><td>≈0.60E</td><td>≈0.85E</td></tr>
+        <tr><td>EPS</td><td>0.40</td><td>≈0.53E</td><td>≈0.77E</td><td>≈1.09E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/公告口径：2026H1营收预增10.34%-27.71%(2.16-2.5亿)、账面归母800-1000万(股份支付拖累-45%~-56%)、剔除股份支付归母1,300-1,580万(+47%~+79%)；2025年报毛利率51.58%、经营现金流0.97亿+35.43%；工业客户与标准化模型高增为2026核心指引（公司指引）/ <strong>市场一致预期：同花顺/东财披露机构关注极少、近60交易日基本无更新评级，2026-28E缺乏可靠一致预期(仅有东吴/国泰海通等偶发买入，预测数值与股本口径混乱、可靠性低)；以下为AI估算</strong>（市场一致预期）/ <strong>AI估算：营收2026E约4.8亿(+14%)、2027E约5.6亿(+17%)、2028E约6.6亿；归母2026E约0.42亿(剔股份支付约0.55-0.6亿)、2027E约0.60亿、2028E约0.85亿；毛利率逐年52%-53%</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>模式动物型潜力指标</h3><ul><li><strong>工业客户渗透率：</strong>2025占主营45.09%(+24.15%)、标准化模型项目数+11.13%且单价+10.88%——创新药企/CRO需求随生物医药投融资回暖而回补，是最确定的量价双击来源。</li><li><strong>靶点人源化与高值品系：</strong>ADC/双抗/细胞治疗带动人源化小鼠需求，2025人源化品系收入5,911万，标准化品系结构向高溢价倾斜。</li><li><strong>海外出口：</strong>境外收入5,839万、毛利率高达71.77%且增势较快，人源化模型出海(海外药企/科研)是潜在高毛利第二曲线。</li><li><strong>品系库与复用平台：</strong>数千基因修饰品系+"小鼠医院"表型/药效评价，形成标准化复购与交叉销售，锁定客户。</li><li><strong>产能/渠道网络：</strong>模型产能与品系扩充 + 覆盖超千家校院所药企的渠道，趁行业景气上行放大份额。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>账面归母增速(-45%~-56%)≠经营增速：2026H1下滑主要由限制性股票股份支付费用大幅增加(会计因素)所致，2025年同期冲减股份支付抬高基数(一次性)。剔除后归母+47%~+79%；经营层面工业客户/标准化模型/海外/毛利率均真实向上。区分"经营改善(工业+标准化+海外) / 会计拖累(股份支付) / 一次性(2025冲减基数)"后，核心盈利处于上升通道。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>工业客户(占45%)</td><td><strong>+14pct</strong></td><td>创新药企/CRO需求回暖，2025工业客户+24.15%</td></tr><tr><td>标准化模型单价/结构</td><td><strong>+9pct</strong></td><td>项目数+11%、单价+10.88%；人源化高值品系占比提升</td></tr><tr><td>海外(占14%、高毛利)</td><td><strong>+7pct</strong></td><td>境外毛利率71.77%，人源化鼠出海增势较快</td></tr><tr><td>科研客户(占55%)</td><td><strong>+3pct</strong></td><td>2025科研+1.38%，回暖相对滞后但逐步修复</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长主引擎由"科研/定制"切换为"工业客户放量+标准化模型量价齐升+高毛利海外出口"；工业客户已占45%并高速增长，驱动逻辑偏"真实经营需求回暖+产品结构升级"，可追踪性强(看项目数与单价、客户订单)。潜在拖累是科研需求修复缓慢与工业端价格竞争。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价约43元、市值约34亿、PE-TTM约100x，建立在TTM归母仅约0.33亿的"近零盈利基数"之上——PE失真。改用成长倍率反推：若市场按40-45x给一家扭亏向上的模式动物龙头，34亿市值隐含市场预期2026归母约0.78-0.87亿(较当前0.31亿翻倍以上)，即市场其实已按"未来几年扣非/归母高速兑现"定价。<br><br>用2028E反推：现价对应2028E归母0.85亿、约40x。即使利润3年从0.31亿涨到0.85亿(CAGR约40%)，以40x计股价也仅约等于现价。换言之市场<strong>并未错误定价，而是给出了对高增长的充分预期，几乎未留安全边际</strong>——当前交易的是"扭亏成长期权"，对2028年业绩兑现极其敏感，估值的安全垫很薄。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>品系库与标准化复用：</strong>数千基因修饰品系形成"造一个、卖一批"的复用模型，单位成本摊薄、毛利率51.58%，工业客户复购绑定。</li><li><strong>技术平台：</strong>ES-trap/CRISPR/细胞工程+靶点人源化IP，研发与品系自主可控，境外毛利率71.77%体现定价力。</li><li><strong>客户与渠道：</strong>覆盖1000+校院所/三甲/创新药企，工业客户排他性复购、科研客户惯性沉淀。</li><li><strong>产业地位：</strong>国内基因修饰小鼠市占约8%、居前三(药康约13%、百奥赛图约28%居首)，具备规模与品牌认知。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>半弱。模式动物壁垒中等——药康、百奥赛图在品系数量、人源化平台与规模上更强，技术上可较易复制品系；南模的差异化在"工业客户结构+高毛利海外+标准化复用效率"，但行业同质化与价格竞争明显，护城河弱于高壁垒创新药/器械。真正的护城河是品系库沉淀+客户粘性+人源化高值品系卡位，可守但居行业第三,难撼动头部两强。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08下旬</strong> · 2026年正式半年报披露(剔除股份支付归母+47%~79%能否兑现) — 盈利/确认</p><p><strong>2026-10月底</strong> · 2026三季报(工业客户与标准化模型/人源化品系是否延续高增) — 盈利/估值</p><p><strong>2026H2</strong> · 创新药融资与CRO需求回暖对工业客户新签订单的传导 — 收入</p><p><strong>持续</strong> · 人源化小鼠海外订单/出海渠道落地 — 收入/估值</p><p><strong>持续</strong> · 股权激励/员工持股计划业绩目标锚定、解除限售节奏 — 估值/资金面</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>股份支付持续摊薄</td><td>利润</td><td>限制性股票+员工持股计划2026H1使账面归母-45%~-56%，若持续高额摊销压制表观利润</td></tr><tr><td>行业价格竞争</td><td>收入+利润</td><td>药康、百奥赛图人源化/转录组品系竞争，若降价侵蚀单价</td></tr><tr><td>生物医药融资/研发放缓</td><td>收入</td><td>工业客户CRO需求与创新药投融资周期性波动，直接传导模型订单</td></tr><tr><td>高估值波动</td><td>估值</td><td>PE-TTM约100x、盈利基数小，业绩不及预期时估值杀跌剧烈(科创小微盘)</td></tr><tr><td>海外/监管</td><td>收入+估值</td><td>模式动物出口的进口国监管、动物伦理/防疫与地缘因素</td></tr><tr><td>应收账款/流动性</td><td>现金流</td><td>科研/工业客户账期、收现节奏</td></tr><tr><td>减持/再融资</td><td>估值</td><td>小微盘股权分散，解禁与激励授予或摊薄/压制</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>工业客户+海外人源化持续放量、2028归母1.30亿(扣非口径兑现)</td><td>≈1.30亿</td><td>45x</td><td>≈75元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>工业+标准化温和放量、海外稳步、股份支付扰动，2028归母0.85亿</td><td>≈0.85亿</td><td>38x</td><td>≈41元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>创新药需求复苏证伪/价格战/股份支付超预期，2028归母0.55亿</td><td>≈0.55亿</td><td>30x</td><td>≈21元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约43元、Base为中枢：上行到Bull约+74%、Base约-5%，下行到Bear约-51%，收益风险比约1.5:1(内部偏Bear/B不优)。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026正式半年报剔除股份支付净利增速显着低于+47%~+79%；②工业客户/标准化模型订单增速回落、2026扣非再度转负；③人源化高值品系或海外出口放量证伪；④行业降价使毛利率见顶回落——任一兑现将下修Base，向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：模式动物(基因修饰小鼠/疾病模型)——伴随生物医药投融资与创新药研发回暖处于‘底部修复早期’，行业景气温和向上，仍未见明显过热。南模处行业第三(药康、百奥赛图居前)，估值(以PS/PB衡量)处上市后低位，但盈利基数小、整体安全边际有限，属‘基本面拐点确认、估值尚未放大’状态。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价约43元自上市高点约82元长期破发后于40-46元箱体震荡，2026-08-21盘中巨幅波动(+8%/-5%)、换手率约5-7%</td><td><strong>小微盘科创板波动剧烈，箱体未破位前不重仓，站上并放量突破前审慎</strong></td></tr><tr><td>基本面</td><td>2025扣非扭亏+工业客户+24%+标准化+23%+境毛利71.77%，真实拐点向上；但2026H1账面归母受股份支付拖累-45%~-56%</td><td><strong>经营改善但表观利润被会计拖累，属“盈利拐点初现、波动大”，等中报确认</strong></td></tr><tr><td>情绪面</td><td>机构关注极少、近60交易日基本无评级更新，PE-TTM约100x吓退配置盘；散户/游资主导、换手高，情绪波动大</td><td><strong>关注度与机构参与度低，情绪易反复，缺乏稳定增量资金</strong></td></tr><tr><td>政策影响</td><td>生物医药行业需求向好+科创板对"硬科技"模式动物平台支持偏正面；无集采/医保压价风险；需关注实验动物伦理与出口监管</td><td><strong>政策温和正面但弹性有限，主要看创新药产业景气与投融资环境</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(优先)：高盛/摩根士丹利/瑞银/美银/花旗/杰富瑞等对市值约34亿的科创板小微盘基本未覆盖，未检索到外资目标价——标注"外资未覆盖"。内资研报覆盖也极稀少(同花顺近60交易日无评级，仅东吴/国泰海通等偶发"买入"、其预测与股本口径混乱可靠性低)，内资目标价参考价值弱。整体缺乏有效卖方定价锚——外资未覆盖优先。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：基本面真实拐点(扣非扭亏+工业客户强增+高毛利海外)确有亮点，但估值已高(PE-TTM约100x、PB/PS虽处低位但盈利基数小)，Base≈现价、Bear-51%，收益风险比1.5:1不佳，且机构覆盖稀缺、外资未覆盖、流通盘小波动大。判断为<b>暂不介入/等回落</b>：不建议追高。若股价回落至30-33元(PB约1.5x、对应2027E约50x以下)且2026正式中报确认剔除股份支付净利+47%以上，可轻仓试仓1-2成参与扭亏成长；否则保持观望。加仓触发：2026Q3工业客户订单与标准化项目数/单价双升且表观扣非转正放大；止损：跌破约26-28元前低或行业需求拐点证伪即离场。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>南模生物2025年年度报告、2026年半年度业绩预告(自愿披露)、2025年报监管问询函回复公告(上交所SSE披露)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(东吴证券/国泰海通等偶发覆盖，覆盖稀少)、行业协会/豆丁市场研报(模式动物市占估算)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富/同花顺/证券时报/企查查/富途/雪球(市值、股价、PB/PS/PE交叉验证)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>股吧/媒体(巨潮、新浪、上证报)——仅线索，未作关键财务依据</p></div>
+    <p>高信心(90%·财报)：2025营收/归母/扣非/毛利率51.58%/经营现金流及2026H1业绩预告(营收2.16-2.5亿、账面归母800-1000万、剔除股份支付1300-1580万)均直接回源公司公告/上交所披露一致口径。中高信心(75%·估值)：市值/股价/PB/PS为2026-08-21第三方多家交叉核对，归母基数来自财报。中低信心(40-55%·预测)：2026-28E盈利、Bull/Base/Bear及倍率为AI估算；正式半年报(8月下旬)披露前涉2026H1明细为预告口径。券商覆盖极稀少、无外资覆盖，有效卖方锚缺失。未回源数字均标注"估算/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>上海南方模式生物科技股份有限公司2025年年度报告（上交所SSE披露，2026-04-27）</li>
+        <li>南模生物2026年半年度业绩预告（2026-08-10/11自愿披露）</li>
+        <li>南模生物关于2025年年度报告信息披露监管问询函的回复公告（上交所，2026-07-10）</li>
+        <li>2024年年度报告（上交所，2025-04-29）——历史财务对照</li>
+        <li>证券时报/企查查/富途/雪球/东方财富 2026-08-21 行情与估值字段（交叉验证）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

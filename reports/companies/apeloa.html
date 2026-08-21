@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>普洛药业 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">普洛药业<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">原料药+CDMO+制剂 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch7">回产业链报告</a></div>
+    <h1>普洛药业<span class="code">000739.SZ</span></h1>
+    <p class="subtitle">原料药/API + 小分子CDMO一体化 · 中国原料药出口前列 · 小分子CDMO国内5强</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+    <a href="huahai.html">上一家 · 华海药业</a>
+    <a href="hisun.html">下一家 · 海正药业</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈240亿元</div><div class="k-sub">2026-08-21</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈27-28x(PE-TTM归母)</div><div class="k-sub">2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">个股近5年中位区(估45-60%)；更可比口径见板块整体74%高分位(原料药申万累计估值)</div><div class="k-sub">过去5年中位 近5年PE中位约25x(估)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+16%(归母一致) · H1实际仍-7%</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>横店集团旗下医药产业平台，原料药(抗生素/沙坦/抗过敏等)+小分子CDMO+制剂一体化。2025-2026核心矛盾是"原料药价格周期下行(2025原料药收入-28.7%、2026H1-20.9%)拖累营收净利双降"，而高毛利的CDMO(2025+16.7%、毛利率45%+、在手订单超73亿)成为反转引擎。投资逻辑=原料药触底回升+CDMO高毛利放量的双轮反转，辅以制剂一体化(司美格鲁肽注射用)与医美新曲线。</li>
+      <li><strong>基本面：</strong>2025营收97.84亿(-18.6%)、归母净利8.91亿(-13.6%)、扣非7.69亿(-21.9%)；毛利率26.4%回升。CDMO收入21.98亿(+16.7%、毛利率45.24%)。2026H1营收48.23亿(-11.4%)、归母5.22亿(-7.3%)、扣非4.95亿，CDMO+14.2%对冲原料药-20.9%；CMOS在手订单超73亿。ROE约14%、经营现金流2025约12.2亿。</li>
+      <li><strong>估值：</strong>股价约20.72元、总市值约240亿元，PE-TTM约27-28x、PB约3.65x、PS约2.6x。个股PE处近5年中位区；原料药申万板块整体PE 56.8x处历史74.6%高分位。估值隐含"原料药触底+CDMO持续兑现"但未为"减重/医美爆发"定价。</li>
+      <li><strong>市场隐含预期：</strong>现价20.72元对应2026E一致EPS 0.89元约23x、2027E约20x、浙商2028E约16-17x。隐含市场给2026-2027年归母净利约+16%的复合增长，并要求：①原料药2026H2触底回升；②CDMO在手订单超73亿持续交付；③毛利率随CDMO占比提升。未对"司美格鲁肽/医美"的爆发式增量充分定价——现价买的是"CDMO成长+原料药反转"，而非"第二成长曲线"。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-10月底三季报(Q3原料药能否同比/环比触底、CDMO订单交付节奏)、CDMO进行中项目数(2026H1已达1620个、+37%)与商业化项目转化、司美格鲁肽注射液与医美进度、2027Q3新产能投产(产能+35%)。</li>
+      <li><strong>情景结论：</strong>Bull 约39元(+88%) / Base 约29元(+40%) / Bear 约16元(-23%)，收益风险比约2-3:1偏多，但前提是H2拐点兑现。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>横店集团旗下"原料药+小分子CDMO+制剂"一体化的医药产业平台</strong>：普洛药业1997年上市(SZ000739，曾用名普洛康裕)，实控人为横店集团，位居中国医药工业及原料药出口前列、小分子CDMO企业国内5强。公司坚持"做精原料(抗生素/沙坦/抗过敏/头孢等)、做强CDMO、做好药品(制剂一体化)、拓展医美"战略。CDMO为全球及国内创新药客户提供全生命周期一站式研发生产服务，2025年形成"CDMO制造基地+美国波士顿实验室"中美双核驱动。2025年三大主业：原料药中间体61.65亿(占~63%)、CDMO 21.98亿(占~22%)、药品制剂11.50亿(占~12%)。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>114.74</td><td>120.22</td><td>97.84</td><td>~103.9E(一致+6.2%)</td><td>~110.2E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>10.55</td><td>10.31</td><td>8.91</td><td>~10.3E(一致)</td><td>~11.9E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>~10.1(估)</td><td>9.84</td><td>7.69</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~25.7%</td><td>~23.8%</td><td>26.4%</td><td>~27-28E%</td><td>~28-29E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~16.5%(估)</td><td>~15.3%(期末)</td><td>~14.1%(期末)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~14(估)</td><td>12.09</td><td>12.20</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(2025年报)：</strong>原料药中间体61.65亿(-28.74%、毛利率约17.6%)；CDMO 21.98亿(+16.66%、毛利率45.24%↑4.18pct)；药品制剂11.50亿(-8.42%)——整体毛利率26.4%、同比回升，主因高毛利CDMO占比提升带来结构优化。<br><br><strong>CDMO(核心引擎·2026中报)：</strong>进行中项目1620个(+37%)、商业化(含III期)项目同比+11%；签订保密协议客户由713家增至776家；三年内将交付的商业化在手订单金额超73亿元(2025年报时60亿+、中报升至73亿+)。北美、欧洲、日韩市场加快拓展，波士顿实验室+国内CDMO基地中美双核。<br><br><strong>原料药(周期拖累·待触底)：</strong>抗生素、沙坦、抗过敏、头孢类为核心，2025-2026处于价格下行周期，收入大幅下滑但部分已现"触底/企稳回升"信号。<br><br><strong>制剂/新曲线：</strong>制剂一体化+减重赛道(司美格鲁肽注射液等)、医美拓展；2026拟投约5亿元新建3个CDMO车间+制剂车间、2027Q3投产、产能提升约35%。<br><br><strong>客户/竞争：</strong>客户=全球及国内创新药企；竞争对手=药明康德/凯莱英(小分子CDMO头部)、华海、九洲等原料药同行；普洛差异化=原料药规模+CDMO全生命周期+垂直一体化。<br><br><strong>管理层/治理：</strong>横店集团控股背景，职业经理人团队；中报口径公司对"H2 CDMO交付+原料药企稳"展望积极。<br><br><strong>资产负债：</strong>总股本约11.58亿股；2026H1净资产65.68亿、总负债55.25亿、资产负债率约46%；商誉仅0.2亿(轻)；存货16.29亿(蓄能待交付)、有息负债15.3亿、货币资金30.4亿、净现金仍充裕。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>CDMO(2025+16.7%、2026H1+14.2%、在手订单73亿+、进行中项目1620个+37%)与毛利率改善(CDMO 45%+、结构优化驱动整体毛利率上行)是真实经营动能；制剂/医美/减重为新增量。</li><li><strong>会计/周期性拖累：</strong>2025-2026营收净利双降主因原料药价格周期下行(2025原料药-28.7%、2026H1-20.9%)+制剂集采，属"周期性低谷"而非经营质量恶化；CDMO与原料药已现分化。</li><li><strong>一次性因素：</strong>以出口为主致汇兑损益与财务费用波动较大(2025财务费用转正)，研发费用化；原料药价格反弹/景气同步为一次性弹性来源。</li><li><strong>结论：</strong>增长引擎在CDMO高毛利，拖累在原料药周期；营收/归母表观负增长≠经营恶化，看"扣非+CDMO订单+毛利率"三重验证。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈20.72元</strong></td><td>2026-08-21收盘；近日自22-23高位回调约9%</td></tr><tr><td>总市值</td><td><strong>≈240亿元</strong></td><td>总股本约11.58亿股(@20.72元)</td></tr><tr><td>EV</td><td><strong>≈210-215亿元(估)</strong></td><td>市值扣净现金(货币资金30.4亿-有息负债15.3亿等)</td></tr><tr><td>PE-TTM</td><td><strong>≈27-28x</strong></td><td>TTM归母约8.5亿；按2025全年8.91亿约27x</td></tr><tr><td>PE-2026E</td><td><strong>≈23x</strong></td><td>一致预期EPS 0.89元(归母10.33亿)</td></tr><tr><td>PE-2027E</td><td><strong>≈20x</strong></td><td>一致预期EPS 1.03元(归母11.94亿)</td></tr><tr><td>PE-2028E</td><td><strong>≈16-17x</strong></td><td>浙商EPS 1.29元(归母约15亿)估算</td></tr><tr><td>PB</td><td><strong>≈3.65x</strong></td><td>每股净资产约5.67元(2026H1)；近5年中位</td></tr><tr><td>PS-TTM</td><td><strong>≈2.6x</strong></td><td>市值约240亿/TTM营收91.6亿</td></tr><tr><td>EV/EBITDA</td><td><strong>≈12-14x(估)</strong></td><td>EBITDA随毛利率改善</td></tr><tr><td>一致预期目标</td><td><strong>约28元(+35%)</strong></td><td>浙商等内资：2026PE约24x(外资覆盖有限)</td></tr><tr><td>股息率</td><td><strong>约1-2%(估)</strong></td><td>分红率中等</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(东方财富F10/证券之星/同花顺)市值约240亿、股价20.7-22.5元区间于2026-08-21交叉核对；财务数字回公司2025年报/2026中报及交易所披露核对。口径提醒：①原料药申万板块整体PE 56.8x处历史74.6%高分位(板块整体偏贵，个股作为龙头与CDMO属性更合理)；②个股PE约27-28x、PB约3.65x处近5年中位区，低于板块整体但未到历史大底；③2026E-2028E及EPS为一者一致/浙商预期/AI估算，须以实际披露为准。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM(当前)</td><td><strong>约27-28x</strong></td><td>历史区间约15-60x：2020-2021 CDMO高热40-60x、2024-2025大底约18-20x——处近5年中位区(估45-60%分位)</td></tr><tr><td>PB(当前)</td><td><strong>约3.65x</strong></td><td>近5年中位水平；高于2024-2025大底约3x</td></tr><tr><td>板块整体(参照)</td><td><strong>原料药PE 56.8x·74.6%分位</strong></td><td>申万原料药板块整体估值处历史高分位，个股较板块更合理</td></tr>
+      </tbody>
+    </table></div>
+    <p>普洛逻辑主线从2020-2021"CDMO泡沫"回落，2024-2025年盈利低谷+原料药周期底部给约18-20x PE、约3x PB的历史大底估值；2026年以来随"CDMO高增+原料药触底预期"回升至PE约27-28x、PB约3.65x，处近5年中位。整体是"左侧偏中、反转待确认"的估值形态：较板块(74%高分位)与CXO行业更合理，但相较2024-2025大底已回补相当空间，估值弹性依赖H2业绩拐点兑现。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>97.84</td><td>~102E</td><td>~110E</td><td>~122E</td></tr>
+        <tr><td>毛利率</td><td>26.4%</td><td>~27.5E%</td><td>~28.5E%</td><td>~29-30E%</td></tr>
+        <tr><td>净利润</td><td>8.91</td><td>~10.3E(一致)</td><td>~11.9E(一致)</td><td>~14E(AI估)</td></tr>
+        <tr><td>EPS</td><td>0.77</td><td>~0.89E</td><td>~1.03E</td><td>~1.20E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/中报口径：CDMO在手订单超73亿(3年内交付)、进行中项目1620个(+37%)、签订保密协议客户776家；原料药"触底回升"研判；2026拟投约5亿新CDMO/制剂车间、2027Q3投产、产能+35%；司美格鲁肽注射液及医美拓展推进中。(2026年半年度报告及机构调研纪要)（公司指引）/ <strong>市场一致预期(中金/华创/浙商/中信建投/中泰/中邮等)：2026E营收103.86亿(+6.2%)、归母10.33亿(+16%)、EPS 0.89元；2027E营收110.22亿、归母11.94亿(+16%)、EPS 1.03元；浙商2026-2028年EPS 0.92/1.09/1.29元(2026PE约24x)。一致预期隐含H2大幅反弹。</strong>（市场一致预期）/ <strong>AI估算：营收2026E 98-103亿(±5%为主原料药企稳节奏)、2027E 109-114亿、2028E 120-128亿；归母2026E 9.8-10.5亿、2027E 11.5-12.5亿、2028E 13.5-15.5亿；毛利率2026-2028年约27.5%→28.5%→29-30%(随CDMO占比提升)。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>原料药+CDMO型潜力指标</h3><ul><li><strong>CDMO在手订单/商业化项目(前瞻核心)：</strong>商业化在手订单三年内交付超73亿(+)、进行中项目1620个(+37%)、商业化(含III期)项目+11%、签订保密协议客户776家——订单为未来1-3年收入与高毛利提供确定性。</li><li><strong>大客户/中美双核：</strong>CDMO制造基地+美国波士顿实验室、北美/欧洲/日韩加快拓展，全球创新药企客户群深化，受益全球创新药研发外包渗透。</li><li><strong>产能爬坡(2027)：</strong>CDMO专用产能利用率高，2026拟投5亿新建3个CDMO车间+制剂车间、2027Q3投产、产能提升约35%——承接更多商业化订单(弹性在后年)。</li><li><strong>原料药周期反转弹性：</strong>抗生素/沙坦/抗过敏等价格2026H1已近触底，价格环比回升提供利润弹性(净利率随价格放大)。</li><li><strong>制剂/减重/医美第二曲线：</strong>司美格鲁肽注射液(减重)、制剂一体化集采放量、医美拓展——潜在爆发式增量(当前未充分定价)。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2025营收-18.6%/2026H1-11.4%≠经营全面恶化：下滑主因原料药价格周期+制剂集采(周期性)，CDMO(经营成长)+订单(73亿+)与毛利率(结构优化)真实改善；出口为主的汇兑/财务费用为一次性波动。评估须以"CDMO订单+扣非+毛利率"为准，勿以表观营收/归母横比。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>CDMO(占~22%)</td><td><strong>+约8-9pct</strong></td><td>2025+16.7%、2026H1+14.2%；在手订单73亿+、进行中项目1620个、毛利率45%+——增长确定性最高</td></tr><tr><td>原料药触底回升(占~63%)</td><td><strong>+约3-5pct</strong></td><td>2026H1-20.9%后现企稳/触底信号，抗生素/沙坦价格修复带来弹性</td></tr><tr><td>制剂/医美/减重(占~12-15%)</td><td><strong>+约1-2pct</strong></td><td>司美格鲁肽注射液、制剂一体化集采放量、医美拓展</td></tr><tr><td>产能投放(2027Q3起)</td><td><strong>+约1-2pct</strong></td><td>新CDMO+制剂车间投产、产能+35%，承接新增商业化订单</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎由"原料药周期下行"切向"CDMO高毛利成长+原料药触底反转"双轮。CDMO是最确定的量增与利润率提升来源(订单充足+产能投放+大客户深化)，原料药价格周期反转提供利润弹性的左腿；毛利率随CDMO占比提升而持续改善。整体增长质量向上，但2026H1表观仍双降，兑现节奏取决于"原料药何时企稳回升"与"CDMO订单交付节奏"——用CDMO进行中项目数(+37%)与在手订单(73亿+)作为最领先的验证指标。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价20.72元对应2026E一致预期EPS 0.89元约23x、2027E约20x、浙商2028E约16-17x。隐含市场对2026-2027归母净利约+16%的复合增长预期，并要求：①原料药2026H2触底回升；②CDMO在手订单超73亿持续交付转化为收入；③毛利率随CDMO占比提升至27-29%。<br><br>换言之，现价买的是"CDMO成长(含订单高增)+原料药周期反转"的逻辑，并已隐含H2业绩拐点(与2026H1实际-7%存在差距，说明一致预期偏乐观需V型)H2兑现。市场未充分给"司美格鲁肽/减重/医美"这条第二成长曲线定价，也未为"原料药V型大涨"定价。若H2拐点证伪或CDMO交付不及，估值将向PB约3x的历史大底下探；若兑现，则PB/PE有向2021-2022中高位修复的空间。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>一体化垂直整合：</strong>原料药-中间体-CDMO-制剂一站式，横店原料药出口规模大，采购/工艺/成本与一致性优势。</li><li><strong>小分子CDMO全球5强+全生命周期：</strong>覆盖研发服务-商业化生产，中美双核(波士顿实验室+国内基地)，承接全球创新药企。</li><li><strong>大客户粘性/认证：</strong>签订保密协议客户776家，FDA/EMA等合规体系与多年合作切换成本高。</li><li><strong>产能与环保壁垒：</strong>CDMO专用产能利用率高、2027产能+35%，原料药环保/牌照门槛高。</li><li><strong>制剂一体化与新增量：</strong>司美格鲁肽减重、医美提供差异化第二曲线。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>普洛的"原料药规模+小分子CDMO全球5强+一体化+产能认证+776家大客户"组合难以被新进入者快速复制，护城河评为"中—中上"：①小分子CDMO头部(药明康德/凯莱英)在更前端研发与客户体量上更强、竞争激烈；②原料药强周期、价格战明显；③华海/九洲等可在细分原料药复制并低价竞争。差异化在于"一体化协同+CDMO订单增长+制剂/医美新增量"，显性护城河强、变现受周期牵制。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-20</strong> · 2026年半年报(已披露：CDMO+14.2%、在手订单73亿+、毛利率升至28%+) — 盈利/预期</p><p><strong>2026-10月底</strong> · 2026年三季报(Q3原料药能否企稳/转正、CDMO订单交付节奏) — 盈利/估值</p><p><strong>2027Q3</strong> · 新建CDMO/制剂车间投产、产能提升约35% — 收入/产能</p><p><strong>持续</strong> · 司美格鲁肽注射液(减重)、医美业务进展与获批 — 估值/第二曲线</p><p><strong>持续</strong> · 原料药价格(TACA)企稳回升数据、CDMO进行中项目数/商业化项目转化 — 盈利弹性</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>原料药价格周期持续下行</td><td>收入+利润</td><td>抗生素/沙坦等价格2025-2026深跌，若触底回升证伪则营收净利继续负增</td></tr><tr><td>小分子CDMO价格竞争</td><td>毛利率</td><td>药明康德/凯莱英等头部竞争，新签或续单价格承压</td></tr><tr><td>CDMO订单交付不及</td><td>收入+利润</td><td>在手73亿+订单按节奏交付依赖客户临床/上市进度</td></tr><tr><td>制剂集采压价</td><td>收入+利润</td><td>制剂一体化品种集采常态化，价格下行</td></tr><tr><td>汇率/出口占比高</td><td>利润</td><td>原料药与CDMO出口为主，汇兑损益与财务费用波动大</td></tr><tr><td>大客户集中/单一项目波动</td><td>收入</td><td>CDMO大客户项目放量或中止节奏影响收入</td></tr><tr><td>产能投产不及预期/折旧</td><td>利润</td><td>2027Q3新产能投放若爬坡慢，新增折旧侵蚀利润</td></tr><tr><td>医美/减重新品进度与合规</td><td>估值</td><td>司美格鲁肽及医美品种审评/获批节奏不确定性</td></tr><tr><td>地缘/海外准入</td><td>收入+估值</td><td>CDMO承接海外订单的地缘与合规扰动</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>原料药触底V型回升+CDMO订单高增+减重/医美放量+毛利率持续改善</td><td>~16亿E</td><td>~28x</td><td>~39元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>原料药2026H2企稳回升+CDMO订单如期交付+毛利率27-29%</td><td>~14亿E(EPS~1.20)</td><td>~24x</td><td>~29元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>原料药周期继续下行+CDMO增速放缓+集采/价格竞争加剧、交付不及</td><td>~10.5亿E(EPS~0.90)</td><td>~18x</td><td>~16元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约20.72元为基准：上行到Base约29元(+40%)、Bull约39元(+88%)，下行到Bear约16元(-23%)；收益风险比约2-3:1偏多。但弹性高度依赖H2业绩拐点与原料药触底兑现，若拐点证伪则V型反转叙事受损、性价比明显下降。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026-10三季报Q3原料药仍未见企稳/转正、CDMO增速回落至个位数；②在手订单7同比300交付节奏放缓或毛利率下降；③2027Q3产能投放延后、折旧拖累；④集采/价格竞争超预期令毛利率回落——任一兑现将下修Base向Bear靠拢（反之企稳则向上）。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：原料药/CDMO板块——原料药申万板块整体PE 56.8x处历史74.6%高分位(估值偏贵、价格回升预期已部分定价)；小分子CDMO景气度回升(以进行中项目数+在手订单为领先指标，2026H1普洛项目+37%、订单73亿+印证)。普洛属"原料药周期底部+CDMO成长"组合，个股PE约27-28x较板块整体更合理，是板块内相对占优标的。行业整体处"原料药底部待反转+CDMO景气上行"的拐点区，但板块估值已不便宜。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>8-21收约20.72、近日自22-23高位回调约9%，7月末低点约19.5元、前低约17.9元；量能放大(换手约3-5%)</td><td><strong>处回调途中，等回踩19.5-20元平台企稳再介入，不追高</strong></td></tr><tr><td>基本面</td><td>2026H1营收-11.4%/归母-7.3%/扣非-5%仍双降，但CDMO+14.2%、毛利率升至28%+、在手订单73亿+；原料药待触底。拐点验证点在Q3</td><td><strong>基本面在改善但表观仍在低位，盈利拐点看10月三季报</strong></td></tr><tr><td>情绪面</td><td>原料药板块情绪偏热(74%高分位)、CDMO景气改善，普洛业务改善但整体仍在下滑，情绪与基本面料部分脱节；8-20中报后股价现回调</td><td><strong>情绪中性偏热、短线追高性价比低，等回调</strong></td></tr><tr><td>政策影响</td><td>制剂集采常态化(压制)；医药反腐边际缓和；CDMO对海外地缘敏感度低、受BIOSECURE类法案影响有限；医美监管待跟踪</td><td><strong>政策中性偏中性；集采/医美监管为尾部变量</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行面：普洛药业为中盘A股、外资大行(高盛/大摩/瑞银/美银)覆盖信息有限——未详查证(外资优先未尽处如实说明)。内资券商(中金/华创/浙商/天风/中信建投/中泰/中邮等)普遍给"买入"，浙商2026-2028EPS 0.92/1.09/1.29元、2026PE约24x、目标价约28元，一致预期较现价约+35%；内资目标价普遍偏乐观需打折（内含H2大幅反弹假设）。中金/华创认可"CDMO延续较快增长+原料药盈利能力修复"。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：CDMO成长确定(订单73亿+、项目+37%、中美双核)+原料药待触底反转+H2拐点预期，个股估值约27-28x/3.65x处5年中位、较板块74%高分位合理；但2026H1表观仍双降、板块整体估值偏贵、一致预期隐含V型假设。判断为<b>等回落分批建仓(2成)</b>，现价20.72元(已自22-23回调约9%)暂不重仓追高：回落至约19.5-20元(7月末平台)可分2成底仓。加仓触发：2026-10三季报营收/归母转正或原料药价格环比回升+CDMO维持20%+ → 加至3-4成。止损：有效跌破19元(前低17.9-19.5下沿)离场，不盲目抄底。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>普洛药业2025年年度报告全文及摘要(交易所披露)、2026年半年度报告(2026-08-20披露)、2026年一季报、机构调研纪要/业绩说明会(深交所互动易)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(中金/华创/浙商/天风/中信建投/中泰/中邮为内资为主，外资覆盖有限——外资优先未尽)、东财/同花顺机构一致预期</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10(经营分析/行情)、证券之星(中报分析)、同花顺(iFind)、雪球(个股讨论)、腾讯自选股westockdata(财务/行情/一致预期/板块估值交叉验证)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>股吧/公众号(市场中报/CDMO订单/原料药价格线索，财务数据不采信)</p></div>
+    <p>高信心(90%·财报口径)：营收97.84/归母8.91/扣非7.69亿、CDMO 21.98亿(+16.7%)、原料药61.65亿(-28.7%)、制剂11.50亿、毛利率26.4%、ROE约14%、经营现金流12.2亿均回2025年报/2026中报及交易所披露核对；2026H1营收48.23/归母5.22/扣非4.95、在手订单73亿+、项目1620个回中报。中高信心(72%·估值)：市值约240亿、股价20.72-22.5元、PE约27-28x、PB约3.65x来自第三方并交叉核对；板块估值56.8x/74.6%分位来自westockdata。中低信心(45-55%·预测)：2026-2028E一致预期与Bull/Base/Bear为主观+内资一致预期推演，隐含H2 V型假设、不确定性高；外资覆盖与"We权原料药触底时点"为待核实；2026Q3前后所设预测须以实际披露为准。未回源数字均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>普洛药业2025年年度报告及摘要（深交所披露，2026-03-20）</li>
+        <li>普洛药业2026年半年度报告（2026-08-20披露）</li>
+        <li>普洛药业2026年一季报（深交所披露，2026-04-21）</li>
+        <li>券商研报：中信建投/中金/华创/浙商/天风/中泰/中邮等（买入评级，一致预期）</li>
+        <li>东方财富F10 / 证券之星 / 同花顺(iFind) / 雪球（市值、PE、PB、经营分析交叉验证）</li>
+        <li>腾讯自选股westockdata（财务三大表、日K、一致预期、原料药申万板块估值分位）</li>
+        <li>中证网·新京报·慧博投研等公开报道（CDMO订单、业务构成，线索核实）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

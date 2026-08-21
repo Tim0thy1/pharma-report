@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金域医学 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">金域医学<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">第三方医学检验 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch5">回产业链报告</a></div>
+    <h1>金域医学<span class="code">603882.SH</span></h1>
+    <p class="subtitle">第三方医学检验(ICL)龙头 · 特检+普检 · 多学科实验室网络全国最大</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+    <a href="bgicomics.html">上一家 · 华大基因</a>
+    <a href="dian.html">下一家 · 迪安诊断</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈145亿元</div><div class="k-sub">2026-08-21(A股·总股本4.63亿股)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">PE-TTM无意义(TTM仍微亏约-1.0亿)·PE-2026E≈35x</div><div class="k-sub">PE口径 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB≈2.2-2.3x，处上市以来绝对低位区</div><div class="k-sub">过去5年中位 COVID期(2020-21)PE曾为百倍市梦率，现TPE失真参考弱</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+约300%~350%</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>中国第三方医学检验(ICL)行业开创者和最龙头，拥有全国最大多学科独立医学实验室网络。2020-2022新冠检测红利(三年累计净利64.8亿)后经历深度出清：2024年归母首亏-3.81亿、2025年大幅减亏至-1.73亿，2026Q1实现双口径扭亏(扣非0.52亿)、2026H1预告归母1.7-2.2亿扭亏。当前正处"利润上岸、营收溺水"的盈利修复期——利润拐点已确认，但DRG/DIP下普检降价、收入连续第8个季度下滑的成长叙事尚未立起。现价31.35元处PB历史低位(PB~2.2x、市值145亿较2021峰值缩水超八成)，市场定价"扭亏+现金牛+特检转型期权"。</li>
+      <li><strong>基本面：</strong>2025营收60.30亿(-16.12%)、归母-1.73亿(大幅减亏54.6%)、扣非归母约-1.6亿；2026Q1营收13.51亿(-约8%)、归母0.43亿/扣非0.52亿扭亏。毛利率34.74%(+1.6pct)、经营现金流12.02亿(+32.6%)、股息率约3%、ROE加权-2.51%(2025)。ICL市占约三成居首，特检(基因/病理/血液病/肿瘤)为公司差异化高价值方向。</li>
+      <li><strong>估值：</strong>A股31.35元、总市值约145亿，PE-TTM因TTM仍微亏而失真、PE-2026E约35-37x(一致EPS0.83-0.88)、PE-2027E约28-30x、PE-2028E约24-25x，PB约2.2-2.3x(每股净资产约13.7元)处上市以来绝对低位。EV约125亿(账上现金28.5亿、有息负债约8.6亿)。国内券商目标价普遍约36元(中金≤36.62元、东北DCF 166亿≈36元)；外资大行对A股ICL覆盖稀少。</li>
+      <li><strong>市场隐含预期：</strong>现价31.35元对应2028E一致预期EPS 1.23-1.34元约23-25x、2026E约37x、2027E约29x。隐含市场只对2026-2028归母净利给"修复到约4-7亿、而非回到历史常态净利率"的低预期，并要求①特检较快放量、②应收出清不再大额计提、③收入企稳。换言之，市场买的是"扭亏+现金牛+特检转型期权"而非"高成长"，既未为乐观成长(净利率回到10%+)定价，也未充分定价收入持续负增长的场景化风险。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08月底/9月初2026半年报(Q2扣非能否延续Q1转正、收入降幅是否收窄、应收回款与坏账计提)、特检(基因/病理/血液病)放量与收入占比提升、DRG/DIP下ICL渗透率与检验招标、应收账款33亿(约56%营收)的回款与减值、未盈利实验室扭亏进度、外资覆盖缺位能否补齐。</li>
+      <li><strong>情景结论：</strong>Bull 约44元(+41%) / Base 约34元(+8%) / Bear 约20元(-35%)，收益风险比约1.5:1(偏弱)，盈利修复真实但成长叙事未立，宜轻仓等企稳信号而非追涨停。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>中国第三方医学检验(ICL)行业开创者、全国最大独立医学实验室网络龙头</strong>：金域医学2006年成立于广州、2017-09-08上交所主板上市(SH603882)。为全国超2.3万家各级医疗机构提供理化质谱、基因组(基因测序)、病理诊断、发光生化、免疫及其他综合检验等六大类近80类检验技术、约3,200项检验项目的外包及科研技术服务。公司以"大平台、大网络、大样本、大数据库"构筑壁垒，特检(基因检测、质谱、病理、肿瘤/血液病/神经等高端项目)为公司差异化高价值方向，与普检(常规生化/免疫)构成"高端特检+规模普检"双轮。2020-2022新冠检测红利三年累计净利64.8亿后转入深度出清，2024年首亏、2025年大幅减亏、2026Q1双口径扭亏，正进入盈利修复期。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>85.40</td><td>71.90</td><td>60.30</td><td>~62-63E(一致)</td><td>~67E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>6.43</td><td>-3.81</td><td>-1.73</td><td>~4.0E(一致)</td><td>~5.0E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>3.65</td><td>-2.36(估)</td><td>-1.61</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~37-38%(估)</td><td>33.15%</td><td>34.74%</td><td>~35E%</td><td>~35-36E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~7-8%(估)</td><td>-4.90%(加权)</td><td>-2.51%(加权)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~13(估)</td><td>9.06</td><td>12.02</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>业务结构(2025)：</strong>第三方医学诊断服务收入约54亿(特检+普检，占主营约90%)，另有检验产品销售、冷链物流、科研协作等。特检(基因测序、质谱、病理、肿瘤/血液病/神经/感染等高端项目)占主营业务收入约40-45%(估)，是差异化高毛利、高成长方向；普检(常规生化/免疫/临检)为规模化基础盘。<br><br><strong>网络(核心资产)：</strong>全国42家医学实验室(含自建+控股/参股省级实验室)、覆盖90%人口区域、超2.3万家医院客户(三甲/大型公立为主)，为全国ICL市占第一(约三成份额，估)。<br><br><strong>核心方向(特检转型)：</strong>单细胞测序(合作广州金圻等)、血液病MICM综合诊断、质谱多组学、病理AI辅助诊断、肿瘤早筛/伴随诊断等——特检是"摆脱新冠、向高价值检验升级"的关键。<br><br><strong>竞争优势/竞对：</strong>ICL头部=金域(约三成)、迪安诊断(约两成)、艾迪康(14%左右)、达安基因；金域在"网络密度+特检菜单+病理能力"上领先，迪安在渠道与区域上竞争。<br><br><strong>管理层/治理：</strong>董事长/创始人梁耀铭；公司上市以来维持积极分红(当前股息率约3%)但2024-2025因亏损分红能力承压，原始股东在2021-2023高位套现上百亿(市场记忆压制)。<br><br><strong>资产负债：</strong>资产负债率约29%(2026Q1)，账上货币资金约28.5亿、有息负债约8.6亿(净正现金约20亿)；应收账款33.93亿(约56%营收，源自疫情期间核酸应收与公立医院账期，2025计提后仍偏高、回款与坏账是关键风险)；商誉0.4亿(小)、未盈利新实验室处减亏爬坡期。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长(尚未立起)：</strong>特检(基因/病理/血液病)与DRG/DIP下ICL外包渗透是真实的长期驱动，但2025-2026收入仍连续负增长(2026Q1再-约8%)——"利润修复真、收入增长未证"。</li><li><strong>会计/政策性因素：</strong>毛利率2025回升1.6pct至34.74%、2026Q1续升至34.9%；2026Q1扣非扭亏0.52亿主要来自成本控制+新冠高基数出清+特检改善，而非收入放量。</li><li><strong>一次性/出清因素：</strong>2024-2025的大额亏损核心是"新冠检测需求断崖回落+应收账款坏账计提(2023年一次性计提超3亿)+新冠资产利用率骤降"。2026Q1起坏账影响边际减弱，盈利基数出清。</li><li><strong>结论：</strong>当前是"基数出清带来的扭亏修复"，应区分：真实经营亮点(特检放量、毛利率回升) / 周期出清(新冠基数、坏账计提) / 成长待证(收入仍未转正)。盈利修复确定性高、成长兑现确定性低。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈31.35元</strong></td><td>2026-08-21收盘31.35、区间30.17-32.32、当日+1.92%</td></tr><tr><td>总市值</td><td><strong>≈145亿元</strong></td><td>总股本4.63亿股(46,325.83万股)；流通总市值约144亿</td></tr><tr><td>EV</td><td><strong>≈125亿元(估)</strong></td><td>市值-净现金(货币资金28.5亿-有息负债约8.6亿)</td></tr><tr><td>PE-TTM</td><td><strong>无意义(负)</strong></td><td>TTM归母(2026Q1)仍约-1.0亿，PE失真(东财-141x为亏损口径)</td></tr><tr><td>PE-2026E</td><td><strong>≈35-37x</strong></td><td>一致预期EPS 0.83-0.88元；中金2026净利4.16亿</td></tr><tr><td>PE-2027E</td><td><strong>≈28-30x</strong></td><td>一致预期EPS 1.02-1.09元</td></tr><tr><td>PE-2028E</td><td><strong>≈24-25x</strong></td><td>一致预期EPS 1.23-1.34元</td></tr><tr><td>PB</td><td><strong>≈2.2-2.3x</strong></td><td>每股净资产约13.7元(归母权益约63.5亿)；处上市以来低位区</td></tr><tr><td>PS-TTM</td><td><strong>≈2.2x</strong></td><td>市值145亿/营收约66亿(TTM约59-62亿区间，估)</td></tr><tr><td>EV/EBITDA</td><td><strong>≈10-12x(估)</strong></td><td>EBITDA因修复中，估</td></tr><tr><td>OCF Yield</td><td><strong>≈8%</strong></td><td>2025经营现金流12.02亿/市值145亿</td></tr><tr><td>股息率</td><td><strong>≈3.0%</strong></td><td>2026-08-21第三方口径3.04%</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(新浪145.23亿/市值、同花顺PB2.29、财报帮142.5亿/股息率3.04%、东财PE-2026E)市值约142-145亿、股价约31元、PB约2.2-2.3x均于2026-08-20/21交叉核对，取主流口径约145亿。关键口径提醒：①PE-TTM因TTM仍微亏约-1.0亿而失真(负值)，横向比估值须用PE-2026E/PB；②盈利预盈(2026H1)是修复起点，一致预期均已隐含扭亏；③PB(2.2x)更能反映资产侧、处上市以来绝对低位；④预测(2026-28E)+Bull/Base/Bear均为一致预期/AI估算，2026半年报(8月底-9月初)披露前涉Q2及以后均为预测，须以实际披露为准。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PB(当前)</td><td><strong>约2.2-2.3x</strong></td><td>每股净资产约13.7元；2020-21 COVID概念期PB曾达8-15x+市梦率区间——当前处上市以来绝对低位区</td></tr><tr><td>PE-TTM(当前)</td><td><strong>失真(负)</strong></td><td>TTM仍微亏约-1.0亿；COVID红利期(2020-21)PE达百倍级，2023-2025盈利崩后口径失真</td></tr><tr><td>市值/股息</td><td><strong>约145亿元 / 股息率约3%</strong></td><td>较2021年市值峰值(约700-900亿区间)缩水超八成；股息率处历史高位，体现"现金牛+底部防守"属性</td></tr>
+      </tbody>
+    </table></div>
+    <p>无论PB(~2.2x)还是市值(145亿，较2021 COVID红利峰值缩水超八成)，金域均处于上市以来(2017)的绝对低位区——这是"新冠红利退潮后盈利深跌(2024首亏、2025仍亏)+收入连续负增长+高估值BOOM泡沫破裂+原始股东高位套现"多重因素共振的结果。当前低位反证两件事：①市场已充分price in了新冠出清与盈利修复的不确定性；②PB底+股息率3%+经营现金流12亿给左侧提供了较厚的"现金牛安全垫"。但PB低位≠买入理由，关键在估值修复能否由"收入端成长(特检/DRG渗透)"兑现而非仅"利润端减亏"。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>60.30</td><td>~62-63E</td><td>~67E</td><td>~73E</td></tr>
+        <tr><td>毛利率</td><td>34.74%</td><td>~35E%</td><td>~35-36E%</td><td>~35-36E%</td></tr>
+        <tr><td>净利润</td><td>-1.73</td><td>~4.0E(一致)</td><td>~5.0E(一致)</td><td>~6.5E(一致~)</td></tr>
+        <tr><td>EPS</td><td>-0.37</td><td>~0.83-0.88E</td><td>~1.06E</td><td>~1.28-1.34E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司口径：2025年报指出"历史包袱逐步出清、经营稳健向好"(毛利率+1.6pct、经营现金流12.02亿)；2026年1-6月预告扭亏，归母1.7-2.2亿、扣非1.8-2.3亿(同比+283%~335%)；判断特检与DRG/DIP下ICL渗透为中长期方向，未盈利实验室处减亏爬坡期。(2025年报/2026半年报预告/IR纪要)（公司指引）/ <strong>市场一致预期(东财近六月平均EPS 0.88/1.06/1.28、腾讯0.83/1.02/1.23；中金2026净利4.16亿、东北3.92亿、国联民生4.06亿、中泰3.79亿、银河5.08亿)：营收2026E 62.4亿(+3.5%)、2027E 67.2亿(+7.7%)、2028E 73.2亿(+8.8%)；归母2026E约3.8-5.1亿、2027E约4.3-6.1亿、2028E约5-7亿。国内券商目标价普遍约36元(中金≤36.62元、东北DCF约166亿总估值≈36元)。</strong>（市场一致预期）/ <strong>AI估算：基于2026Q1(营收13.51亿、归母0.43亿/扣非0.52亿)与H1预告(归母1.7-2.2亿)，全年营收约61-63亿(+约2%，仍依赖H2回正)、归母2026E约3.5-4.5亿、2027E约5-6亿、2028E约6.5-8亿(取决于特检放量与应收出清)；毛利率约35E%；EPS约0.83/1.06/1.3元。盈利修复确定、收入转正待证。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>ICL/第三方医学检验型潜力指标</h3><ul><li><strong>特检放量(高价值差异化)：</strong>基因测序、质谱、病理AI、肿瘤早筛/伴随诊断、血液病MICM综合诊断等特检是高毛利、高成长方向，若特检收入占比与增速双升、则盈利结构改善(估：特检占主营约40-45%，为利润率弹性关键)。</li><li><strong>DRG/DIP下ICL渗透率提升：</strong>中国ICL渗透率仅约6-8%(vs美国约35%)，按病种付费(DRG/DIP)压缩医院检验成本→医院检验外包就医ICL渗透提升，行业2025-2030年乐观CAGR 15-18%(估)——金域作为网络龙头最受益。</li><li><strong>实验室网络复用率：</strong>全国42家实验室、覆盖90%人口、对应2025产能利用率回升——量纲恢复+成本摊薄驱动净利率修复(扭亏核心)。</li><li><strong>现金牛与资产质量：</strong>2025经营现金流12.02亿(+32.6%)、OCF>归母，账上净正现金约20亿、股息率约3%——盈利修复后具备现金流支撑与分红弹性。</li><li><strong>应收出清后的利润弹性：</strong>应收账款33.9亿(约56%营收)中新冠类应收已大额计提，2026起坏账影响边际减弱→利润端"打底回升"。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2026扭亏≠成长确立：利润修复主要来自"新冠高基数出清+坏账计提边际减弱+成本控制"（周期/一次性因素），而非收入放量（2026Q1营收仍-约8%）。要区分：真实经营亮点=特检放量与毛利率回升(+1.6pct至34.9%)；周期出清=新冠基数与坏账；成长待证=收入能否转正。当前"利润上岸、营收溺水"，估值弹性取决于后两者的兑现，而非前两者的减亏本身。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>特检放量(基因/病理/血液病等)</td><td><strong>+约3-4pct</strong></td><td>高毛利差异化方向，收入占比与增速双升是盈利结构改善关键(估)</td></tr><tr><td>ICL渗透率提升(DRG/DIP驱动)</td><td><strong>+约2-3pct</strong></td><td>按病种付费促检验外包，全国最大实验室网络最受益</td></tr><tr><td>常规恢复+应收出清后的价格/利润修复</td><td><strong>+约2pct</strong></td><td>新冠高基数出清、坏账计提边际减弱→净利率修复弹性</td></tr>
+      </tbody>
+    </table></div>
+    <p>最关键的领先/滞后张力是"利润修复已确认、收入增长仍未立起"。增长主引擎长期看是"特检高价值放量(基因/病理/血液病)+DRG/DIP下ICL渗透率提升"，短期(2026-2027)则体现为"新冠基数出清+毛利率回升+坏账计提减弱"带来的净利率修复(减亏→转正→净利率回归5-7%)。收入端能否由负转正(2026Q1仍-约8%)是成长叙事成立的前提——若2026下半年收入回正+特检占比提升，则"修复+成长"双击；若收入持续下滑，则只是"深度价值型现金牛"，估值难持续抬升。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价31.35元(市值约145亿)对应2026E一致预期EPS约0.85元≈37x、2027E约1.06元≈29x、2028E约1.3元≈24x。隐含市场对金域给的是"修复到归母约4→5→6.5亿、净利率回到个位数"的存量恢复情景，并假设：①特检与DRG渗透渗透缓慢兑现为净利而非规模、②应收不再大额计提、③收入至少企稳。<br><br>换言之，<strong>市场并为按高成长给估值、也未为"收入持续负增长的场景化风险"埋单</strong>：当前买的是"新冠后遗症出清+现金牛+特检转型期权"，PB~2.2x历史低位提供安全垫。若特检提速+收入转正+净利率回10%+(回到2019年常态)，现价明显低估；若收入继续下滑、应收坏账反复，现价亦有下行空间——对"修复"较宽容、对"成长"较保守，中枢偏Base、底部偏Bull。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>全国最大实验室网络：</strong>42家实验室覆盖90%人口、2.3万家医院客户，规模+物流+自动化形成"不可能快速复制"的地面网络。</li><li><strong>特检菜单与病理能力：</strong>基因测序、质谱、病理(第三方病理/分子病理)、血液病MICM等约3,200项检验项目，终端高价值、客户替换成本高。</li><li><strong>数据/样本壁垒：</strong>超大规模检测样本与多组学数据库，支撑特检研发、AI辅助诊断与试剂试剂合作议价。</li><li><strong>品牌与资格：</strong>ICL标杆地位+质量体系+全国联网服务，公立医院信任与合规壁垒。</li><li><strong>现金牛底色：</strong>经营现金流稳定、股息率约3%、龙头地位然毛利率受普检降价压制。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>金域的"全国网络+特检菜单+样本数据库"壁垒高，迪安/艾迪康等可复制单一区域或单一检验品类，但难以复制其全国的实验室密度与特检广度；真正压力来自①迪安诊断在渠道与区域的贴身竞争、②DRG/DIP下普检收费持续下行压缩毛利率、③公立医院自有检验科对常规项目的"带量自留"削弱外包量。护城河评为"中上"：网络与特检为高壁垒、但普检端定价权弱、成长性受政策压制是真实短板。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08月底~09月初</strong> · 2026年半年报正式披露(Q2扣非能否延续转正、收入降幅是否收窄、应收回款)——盈利/估值核心验证点</p><p><strong>2026Q3-Q4</strong> · 收入能否转正+特检收入占比提升——成长叙事是否立起 — 估值</p><p><strong>2026H2</strong> · DRG/DIP扩面与ICL检验外包招标准点，特检大单/病理合作 — 收入</p><p><strong>持续</strong> · 应收账款回款/坏账计提节奏、未盈利实验室扭亏进度、分红方案 — 现金流/利润</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>ICL行业/竞争(迪安/艾迪康)</td><td>收入+利润率</td><td>第一梯队贴身竞争，普检价格与份额争夺</td></tr><tr><td>DRG/DIP压价+医保控费</td><td>收入+毛利率</td><td>按病种付费压缩检验收费，普检毛利率承压(2025为34.74%)</td></tr><tr><td>应收账款高企</td><td>现金流+减值</td><td>应收33.9亿(约56%营收)，公立医院账期长，坏账计提/回款是现金流与利润双压力</td></tr><tr><td>新冠后遗症/收入持续下滑</td><td>收入+成长性</td><td>2026Q1营收仍-约8%，收入转正落空则"成长叙事"缺席</td></tr><tr><td>扭亏后再反复/净利率低</td><td>利润</td><td>修复依赖坏账双减与成本控制，若规模不上量净利率难回常量</td></tr><tr><td>未盈利实验室</td><td>利润</td><td>新实验室爬坡慢于预期拖累整体(减亏时点延后)</td></tr><tr><td>外资覆盖缺位/流动性</td><td>估值修复空间</td><td>外资大行鲜有单列覆盖，估值锚依赖内资、场外资金介入有限</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>特检大放量+DRG渗透+收入转正+净利率回10%+、应收出清</td><td>~8.0亿E(2028)</td><td>~26x</td><td>~44元(+41%)</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>特检温和放量+普检企稳+净利率修复到5-7%、应收不再大额计提</td><td>~6.5亿E(一致~6-7)</td><td>~24x</td><td>~34元(+8%)</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>收入持续下滑+应收坏账超预期+扭亏动摇/净利率极低</td><td>~4.0亿E</td><td>~14x/PB压缩</td><td>~20元(-35%)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约31.35元为基准：上行Bull约44元(+41%)/Base约34元(+8%)，下行Bear约20元(-35%)；收益风险比约1.5:1(偏弱)。PB低分位+净现金+股息率3%提供左侧安全垫，但"收入仍未转正+外资覆盖缺位+成长兑现不确定"，风报比与泰格类似偏"价值修复"而非"成长双击"，宜轻仓等收入企稳信号再提高仓位。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026全年归母<3.5亿/扣非未持续为正或下半年转亏；②收入连续多季负增长、转正落空；③应收账款出现大额超预期坏账计提；④未盈利实验室扭亏反复拖累；⑤特检/DRG渗透逻辑在招标中证伪——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：第三方医学检验(ICL)/医学检验服务——中国ICL渗透率仅约6-8%(vs美国约35%)，处于"渗透率提升早期+新冠高基数重建"阶段。DRG/DIP按病种付费从"压迫"转向"促外包"，行业中期(2025-2030)乐观CAGR 15-18%(估)但当前仍处"2022新冠红利峰值崩塌后的重建周期"中段——利润率刚从大亏修复到盈亏平衡。金域为ICL市占第一龙头(约三成)，景气度=盈利修复确认+收入企稳待证，属"行业底部反转初期、个股扭亏刚确立"。板块整体估值(PB)处历史低位。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价31.35元，自7月低点24.43元明显反弹(7月中旬起量)，8-21放量+1.92%、换手6.42%(成交9.28亿)，上方33-34(前高密集)压力、下方28-30支撑、7月低点24-25为强支撑</td><td><strong>短线转强但已反弹约28%、追涨停风险大，等回踩30/28企稳再增仓</strong></td></tr><tr><td>基本面</td><td>2026Q1营收13.51亿仍-约8%但扣非0.52亿扭亏；H1预告归母1.7-2.2亿扭亏；毛利率34.9%(+1.6pct)、经营现金流12亿、股息率约3%——"利润修复真、收入增长未证"</td><td><strong>盈利拐点确认、成长未立，验证点2026半年报收入降幅与扣非持续性</strong></td></tr><tr><td>情绪面</td><td>H1预盈公告后股价连涨(7月连续4天+21%)、8-21放量换手6.4%情绪转热；市场分歧显著(部分机构谨慎、雪球两极)估值处历史低位</td><td><strong>情绪升温但分歧大、短线已反映预盈，追高性价比低、风险快速释放后宜冷静</strong></td></tr><tr><td>政策影响</td><td>DRG/DIP按病种付费+医保控费：一面促检验外包(利好ICL渗透率)、一面压普检收费(压制毛利率)；公立医院"带量自留"与检验集采为中性偏负面变量；无重大突发政策风险</td><td><strong>政策双刃、中期偏正(渗透率)、短期压价已充分反映</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行：金域所属A股ICL赛道外资大行(高盛/摩根士丹利/瑞银/美银/花旗/杰富瑞)单列覆盖稀少，公开目标价有限——外资优先但"外资暂未覆盖/缺公开目标价"须如实注明。内资研报:中金"跑赢行业"目标价≤36.62元(2026E 4.16亿)、东北证券DCF估值166亿/目标价约36元(26-27年原预测5.8/7.2亿下修后对应PE 31/25/20、维持推荐)、国联民生/银河/华创/中泰/信达等多为"买入/增持"、2026E归母3.79~5.08亿、目标价多落在33-37元。内资一致目标约36元(较现价+约14%)、普遍谨慎贴现成长，参考价值弱于外资(但外资缺位)——以中金/东北相对审慎口径为锚。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：PB历史低位(PB~2.2x)+扭亏拐点确认(2026H1预告归母1.7-2.2亿)+净现金+现金流好+股息率约3%，是"深度价值修复+特检转型期权"候选；但收入Q1仍-约8%、外资覆盖缺位、成长叙事未立、300%+扭亏高增属低基数，估值(2028E~24x)处低位却不极端便宜。判断为<b>轻仓试仓(1成)或等企稳信号、现价不追高</b>：现价31.35元附近小仓观察；加仓触发——2026半年报确认①收入降幅收窄至回正、②Q2扣非延续转正、③特检/应收向好，任一确认可加至2-3成。止损：有效跌破约26元(7月低点24-25上方)离场，不追逐涨停、不盲目光押"历史低位"抄底。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>金域医学2025年年度报告及摘要(上交所披露2026-04-25)、2026年一季度报告(2026-04-25)、2026年1-6月业绩预告(2026-07)、公司IR官网/业绩说明会纪要</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(中金/东北/国联民生/银河/华创/中泰/信达等内资；外资大行对A股ICL覆盖稀少)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10/操盘必读、同花顺、新浪财经、证券之星、财报帮、雪球(市值PE/PB/股息交叉验证)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>股吧/钛媒体/雪球长文(慢性病连读/扭亏逻辑等仅作线索，财务未直接采信)</p></div>
+    <p>高信心(90%·财报口径)：营收2025 60.30亿/2024 71.90亿/2023 85.40亿、归母-1.73/-3.81/6.43亿、扣非归母-1.61亿(2025)、毛利率34.74%、ROE加权-2.51%、经营现金流12.02亿、资产负债率29%、应收账款33.9亿(2026Q1)、市值为新浪/同花顺/财报帮交叉核对约142-145亿，均回2025年报、2026一季报/业绩预告核对。中高信心(75%·估值)：PE(2026-28E)、PB、股息率来自第三方(8-20/21)并交叉；EV/EBITDA为AI估。中低信心(45-55%·预测)：2026-28E一致预期与Bull/Base/Bear、特检占比40-45%、ICL渗透率6-8%、市占份额三成及2025-30 CAGR为第三方行业口径/AI估算；2026半年报(8月底-9月初)前涉Q2及以后均为预测；外资覆盖缺位核实的确定性中等。未回源码均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>金域医学2025年年度报告及摘要（上交所披露2026-04-25）</li>
+        <li>金域医学2026年一季度报告及2026年1-6月业绩预告（上交所/公司IR）</li>
+        <li>中金/东北证券/国联民生/中国银河/华创/中泰/信达等券商研报与盈利预测</li>
+        <li>东方财富F10/操盘必读、同花顺、新浪财经、证券之星、财报帮（市值、PE、PB、股息交叉验证 2026-08-20/21）</li>
+        <li>雪球/钛媒体《金域医学扭亏背后的残酷真相》等（收入“失血”逻辑线索，财务数据不采信）</li>
+        <li>ICL行业分析报告（渗透率6-8%、市占份额、市场规模口径，部分为第三方行业估算）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

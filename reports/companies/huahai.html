@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>华海药业 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">华海药业<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">特色原料药+制剂 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch7">回产业链报告</a></div>
+    <h1>华海药业<span class="code">600521.SH</span></h1>
+    <p class="subtitle">沙坦类原料药全球龙头 · 国内制剂国际化(ANDA出海)开创者 · 创新药平台(华奥泰)进入商业化元年</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+    <a href="dian.html">上一家 · 迪安诊断</a>
+    <a href="apeloa.html">下一家 · 普洛药业</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈249亿元</div><div class="k-sub">2026-08-21(收盘16.62元)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈66-67x(归母TTM，受2025盈利塌陷失真)·PE-2026E~28x</div><div class="k-sub">PE-TTM 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB≈2.5x处于近5年中低位;PE因盈利塌陷参考弱</div><div class="k-sub">过去5年中位 归母PE历史中位约30-40x(估)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+245%(归母·低基数)·扣非仍承压</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>全球心血管(沙坦/普利)原料药龙头、也是"国内制剂国际化"开创者(首家FDA制剂认证、首个ANDA文号、规模化销往美国、北卡自建产能)。2025年是公司上市23年来最艰难的一年：首录年度营收下滑、归母净利2.66亿(-76%)、扣非1.58亿(-86%)，主因国内集采降价+原料药产能过剩价格内卷+研发加码+汇兑损失四重压力共振。2026年交易"周期触底反转+创新药兑现"双重期权：①沙坦原料药价格2025基本触底、专利悬崖新品(列净/沙班/GLP-1)放量;②首款创新药HB0034(IL-36R单抗·GPP)2026-07获批、华奥泰分拆赴港上市推进。但归母利润被一次性资产处置(卖华海天衡)美化、扣非主业仍弱，属"困境反转左侧+创新期权"。当前16.62元、PB~2.5x，买的是尾部反转与创新兑现，性价比需周二季报验证扣非。</li>
+      <li><strong>基本面：</strong>2025营收85.87亿(-10.06%，上市以来首降)、归母净利2.66亿(-76.19%)、扣非1.58亿(-86.05%)。整体毛利率约60%。经营现金流12.30亿(现金流显著好于净利)。2026Q1营收23.34亿(-1.4%)、归母4.04亿(+36%)但扣非仅1.36亿(-52%)，归母增量2.46亿元来自出售华海天衡67%股权的一次性收益。研发2025年12.29亿(+carry),2026Q1原料药新品收入同比+230%。总股本约14.97亿股。</li>
+      <li><strong>估值：</strong>约16.62元、总市值约249亿元，PB约2.5x(中低位)、PE-TTM约66-67x(盈利塌陷失真)、PE-2026E约28x、PE-2028E约24x。一致预期目标价约21元。EV约300+亿(有息负债约80亿)。</li>
+      <li><strong>市场隐含预期：</strong>现价16.62元对应2026E一致预期EPS0.61元约28x，隐含市场对"归母净利自2.66亿低基数修复至约9-10亿"并寄望"周期触底+创新药/分拆"带来成长期权，但共识对2027增速仅+2%(9.4亿)——即市场并未为扣非主业高成长定价，只给了一次性修复+创新期权价值。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08-27中报：Q2扣非能否回升(2026Q1扣非-52%)、原料药新品/集采降价幅度、HB0034销售爬坡与IL-17A申报节点、华奥泰港股IPO进度、人民币汇率与对美关税扰动。</li>
+      <li><strong>情景结论：</strong>Bull 约22-23元(+35~38%) / Base 约17元(≈现价) / Bear 约12-13元(-23~27%)，收益风险比约1.3:1——困境反转+创新期权可博弈，但扣非主业未验证、属高风险投机仓，宜轻仓+等扣非拐点。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>全球心血管特色原料药龙头 + 中国制剂国际化开创者 + 创新药平台孵化中</strong>：华海药业(浙江台州,1989年创立,2003年A股上市)是中国最早大规模出口欧美的原料药企业之一，覆盖心脑血管(沙坦/普利)、精神神经、抗感染、甾体等全赛道原料药；并创下国内制剂出海的"四个第一"(首家FDA制剂认证、首个ANDA文号、规模化销往美国、美国北卡自建40亿片/年基地)。美国市场13个制剂产品市占第一、多款产品市占前三。近年重点培育创新药控股子公司华奥泰(山东华奥泰/上海华奥泰)，2026-07首款1类生物新药IL-36R单抗(HB0034·泛发性脓疱型银屑病)获批，开启"从仿制药到创新药"第三次转型；2026-04启动华奥泰分拆上市筹划。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>83.09</td><td>95.47</td><td>85.87</td><td>~91.5E(一致)</td><td>~102.8E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>8.30</td><td>11.19</td><td>2.66</td><td>~9.2E(一致)</td><td>~9.4E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>~7.5(估)</td><td>~11.3(估)</td><td>1.58</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~60%</td><td>~62%</td><td>~60%</td><td>~59E%</td><td>~58E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~9%(估)</td><td>~12%(估)</td><td>~2.8%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~11(估)</td><td>~13(估)</td><td>12.30</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(占比估/待核实)：</strong>原料药+制剂一体化。原料药为基本盘(沙坦/普利等，全球心血管原料药龙头，2022年以来原料药毛利率维持47%+，成本韧性强)；制剂含国内仿制药(受集采降价拖累)与出口欧美ANDA制剂(高毛利、美国多产品市占前三)。<br><br><strong>区域：</strong>出口覆盖欧美/印度/东南亚/拉美；美国市场制剂份额位居前(13个产品市占第一)、北美自营+北卡工厂(40亿片/年)；国内制剂院外零售/电商渠道扩张以对冲院内集采。<br><br><strong>创新药(华奥泰)：</strong>2026-07-29 HB0034(IL-36R单抗·商品名华亦净·GPP)国内首批获批、全球第二个IL-36R单抗——华海首个1类生物新药、创新药商业化元年；在研管线含IL-17A单抗(斑块状银屑病/强直·申报上市)、PD-L1/VEGF双抗(NSCLC/子宫内膜癌·关键III期)、TSLP/IL-11双抗(I期)、IL-17A等。2026-04-29筹划华奥泰分拆(拟赴港)IPO，拟以20亿元债权转股增资满足港股门槛。<br><br><strong>主要技改/竞争力：</strong>FDA认证体系+大规模API产能+成本精益化；2026Q1原料药新品(列净/SGLT2、沙班、GLP-1相关等专利悬崖品种)收入同比+230%。<br><br><strong>管理层/治理：</strong>创始人/董事长陈保华、董事李宏等；2025年被总裁陈保华称为"公司最困难的一年"。<br><br><strong>资产负债(2025末)：</strong>货币资金15.04亿、有息负债约80.4亿(总负债120.5亿)、归母净资产约94.4亿、商誉仅0.64亿(减值风险小)；资产负债率较2024末提升约13pct(估)——负债率偏高、利息支出约2.5亿/年，创新与出海需持续重投入。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营(主业承压)：</strong>2025国内制剂营收-18.19%(集采降价+老品内卷+新品放量慢)；原料药受产能过剩价格内卷、老品增收不增利，2026Q1原料药新品+230%为结构性亮点但体量仍小，主业尚未扭转。</li><li><strong>会计/周期：</strong>2025归母2.66亿(-76%)、扣非1.58亿(-86%)——由集采压缩毛利+原料药价格周期底部+研发费用2025年+约2.4亿+汇兑损失超1亿共同导致；2026Q1归母4.04亿(+36%)主因出售华海天衡67%股权获一次性投资收益2.46亿(非经常2.68亿占单季利润66%+)，扣非仅1.36亿(-52%)。</li><li><strong>一次性：</strong>2026Q1归母增量为一次性资产处置，二季度后不重复，跌出后将显著回落到扣非口径(~1.4亿/季)，市场预期差大。</li><li><strong>结论：</strong>经营处"集采+原料药周期"底部、现金流转好(2026Q1经营现金流3.99亿翻倍)，但"扣非主业反转"尚未验证；归母被一次性收益美化，评估须以扣非+原料药价格+创新药放量三重锚定。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈16.62元</strong></td><td>2026-08-21收盘16.62；近12日16.5-18.4区间，8/11见高18.24</td></tr><tr><td>A股总市值</td><td><strong>≈249亿元</strong></td><td>总股本约14.97亿股(@16.62元)</td></tr><tr><td>EV</td><td><strong>≈300-320亿元(估)</strong></td><td>市值+有息负债80.4亿-货币资金15亿</td></tr><tr><td>PE-TTM</td><td><strong>≈66-67x(归母)</strong></td><td>归母TTM约3.7亿(2025低基数)；盈利塌陷失真、参考弱</td></tr><tr><td>PE-2026E</td><td><strong>≈28x</strong></td><td>一致预期EPS 0.61元、归母约9.2亿</td></tr><tr><td>PE-2027E</td><td><strong>≈27.7x</strong></td><td>一致预期EPS 0.63元、归母约9.4亿(+2%)</td></tr><tr><td>PE-2028E</td><td><strong>≈24.4x</strong></td><td>一致预期EPS 0.71元、归母约10.7亿</td></tr><tr><td>PB</td><td><strong>≈2.5x</strong></td><td>每股净资产约6.6元(2026Q1)，近5年中低位(估)</td></tr><tr><td>PS(TTM)</td><td><strong>≈2.9x</strong></td><td>市值249亿/2025营收85.9亿</td></tr><tr><td>EV/EBITDA</td><td><strong>≈20x左右(估)</strong></td><td>EBITDA约15-17亿估算，重资产摊销大</td></tr><tr><td>FCF Yield</td><td><strong>≈负/估</strong></td><td>OCF 12.3亿-capex(固定资产+在建约95亿折旧重)，FCF约-5至0亿</td></tr><tr><td>股息率</td><td><strong>低/估</strong></td><td>2025盈利受限、分红能力低于历史</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(东财/同花顺/新浪/证券之星)市值约249亿、股价约16.4-18.2元(2026-08)、PB约2.5x、PE-TTM约66x于2026-08-21交叉核对。关键口径提醒：①归母PE受2025盈利塌陷+一次性资产处置(2026Q1卖华海天衡2.46亿)严重失真，横向比PE无意义；②PB(每股净资产约6.6元)更能反映资产侧、约2.5x处中低位；③一致预期EPS(2026-28E)与目标价21元均为一众内资券商(招商/中金/长江等)平均值，外资覆盖不足，须以实际披露为准；④2026Q2起剔一次性收益后归母将显著回落，预测不确定性高，均标"估/一致预期"。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PB(当前)</td><td><strong>约2.5x</strong></td><td>每股净资产约6.6元；历史峰值约7-8x(2020-21医药行情)、中位约3.5-4x(估)——处近5年中低位</td></tr><tr><td>PE-TTM(当前)</td><td><strong>约66x</strong></td><td>受2025盈利塌陷失真；历史中位约30-40x(估)，可参考意义弱</td></tr><tr><td>历史极端</td><td><strong>2003-2021长期成长股高估值</strong></td><td>2025为上市23年首次年度营收下滑、盈利探底，估值锚从"成长"切换为"周期反转+创新期权"</td></tr>
+      </tbody>
+    </table></div>
+    <p>资产侧看(PB约2.5x)华海处于过去5年的中低位——这是"2025史上最差一年+集采/原料药周期底部"的估值反映。PE口径因盈利塌陷+一次性损益严重失真。整体属"周期底部+创新转型前夜"的形态：PB中低位提供一定安全垫，但能否兑现主要取决于扣非主业反转(原料药价格/集采触底)与创新药/华奥泰分拆的增量价值——这是当前估值处置的枢纽。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>85.87</td><td>~91.5E</td><td>~102.8E</td><td>~116E</td></tr>
+        <tr><td>毛利率</td><td>~60%</td><td>~59E%</td><td>~58E%</td><td>~58E%</td></tr>
+        <tr><td>净利润</td><td>2.66</td><td>~9.2E(一致)</td><td>~9.4E(一致)</td><td>~10.7E</td></tr>
+        <tr><td>EPS</td><td>0.18</td><td>~0.61E</td><td>~0.63E</td><td>~0.71E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：①沙坦类原料药价格2025年已基本触底，受基础化工原料/能源成本上涨推动，氯沙坦钾、厄贝沙坦等低毛利市场可能阶段性涨价；②原料药2022年以来毛利率维持47%+；③2026Q1原料药新品+230%(列净/沙班/GLP-1等专利悬崖)，创新转型成新增量；④国内制剂拓展院外零售/电商对冲集采降价；⑤首款创新药HB0034(IL-36R)2026-07获批，IL-17A单抗申报上市、PD-L1/VEGF双抗III期，华奥泰分拆赴港IPO推进中。(公司公告/业绩会纪要/中证网-华海采访)（公司指引）/ <strong>市场一致预期(东财/同花顺等机构共识)：营收2026E约91.5亿(+6.6%)、2027E约102.8亿(+12.3%)、2028E约116.4亿；归母2026E约9.2亿(+245%，低基数+一次性)、2027E约9.4亿(+2.2%)、2028E约10.7亿；EPS 2026E 0.61/2027E 0.63/2028E 0.71元；综合目标价约21元、PE-2028约24x。</strong>（市场一致预期）/ <strong>AI估算：营收2026E 90-93亿(基本持平)/2027E 100-105亿/2028E 110-120亿；归母2026E 8-9.5亿(含一次性与华奥泰增资收益，扣非或仅4-5亿)/2027E 9-10亿/2028E 10-12亿(创新药开始贡献)、盈利弹性取决于原料药价格触底回升与创新药放量，扣非口径不确定性高。毛利率约58-60%窄幅企稳。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>特色原料药+制剂国际化+创新药型潜力指标</h3><ul><li><strong>原料药价格周期反转(核心)：</strong>沙坦/普利连续多年降价后2025基本触底，氯沙坦钾/厄贝沙坦等低毛利市场或因原料/能源成本上涨出现阶段性涨价；落后产能持续出清，龙头成本韧性(毛利率47%+)凸显量价弹性。</li><li><strong>专利悬崖原料药新品(爆款引擎)：</strong>2026Q1原料药新品(列净SGLT2、沙班抗凝、GLP-1相关)收入同比+230%，受益于全球原研药专利到期带来的绕专利地产能需求，是高毛利增量。</li><li><strong>创新药商业化元年(华奥泰)：</strong>HB0034(IL-36R·GPP)2026-07获批，国内首个、全球第二；IL-17A单抗(斑块银屑病/强直)申报上市、PD-L1/VEGF双抗III期、TSLP/IL-11双抗I期，管线进入兑现窗口。</li><li><strong>华奥泰分拆估值重估：</strong>2026-04筹划华奥泰分拆(拟赴港)，20亿元债转股增资，独立上市后形成创新平台市值重估+母公司持股价值显性化。</li><li><strong>制剂国际化先发壁垒：</strong>FDA认证+最大ANDA批文储备+美国自有产能(北卡40亿片/年)+全球客户，出海制剂为稳定高毛利基本盘。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2026Q1归母+36%(4.04亿)≠主业反转：增长部分来自出售华海天衡67%股权的2.46亿一次性收益+其他非经常(合计2.68亿、占单季利润66%+)；剔一次性的扣非仅1.36亿(-52%)。2025年归母-76%则是"集采降价+原料药价格周期底部+研发加码+汇兑损失"的经营性低谷。评估须以"原料药价格触底+扣非拐点+创新药放量"三重锚定，勿被归母一次性收益误导。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>专利悬崖原料药新品(列净/沙班/GLP-1等)</td><td><strong>+约5-8pct</strong></td><td>2026Q1新品+230%，为高毛利增量引擎，随原研专利到期放量</td></tr><tr><td>创新药/华奥泰商业化上线</td><td><strong>+约3-5pct</strong></td><td>HB0034(IL-36R)2026-07获批放量+后续IL-17A等管线，2027-28起贡献</td></tr><tr><td>国内制剂院外零售/电商渠道拓展</td><td><strong>+约3pct</strong></td><td>对冲院内集采降价，渠道多元化</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎已从"沙坦老品+国内集采放量"切换到"专利悬崖原料药新品+创新药商业化+出口制剂"，传统集采与原料药价格处于底部。前沿领先指标是原料药新品增速(+230%)与沙坦价格触底回升；盈利兑现度不确定性高——2025-2026扣非仍弱，增长向上弹性集中在2027-28(创新药落地+周期反转)，需扣非拐点验证而非归母一次性收益。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价16.62元对应2026E一致预期EPS 0.61元约28x、2027E约27.7x、2028E约24.4x，一致预期目标价约21元。隐含市场假设：①归母自2.66亿低基数修复至约9-10亿(其中含2026Q1卖子股权一次性收益2.46亿，2026Q2起剔除)；②2027-28归母仅约+2%~14%温和增长，即市场并未为"扣非主业爆发"定价；③原料药价格触底回升+专利悬崖新品放量+创新药/华奥泰分拆提供成长与市值期权。<br><br>换言之，当前价格买的是"周期触底+创新兑现"的双重期权而非高增长：PB约2.5x(中低位)提供一定安全垫，但扣非主业(2026Q1仅1.36亿)尚未反转、一次性收益不可持续。若扣非拐点确认或HB0034/华奥泰超预期，估值可向上重估；反之若价格继续内卷/创新不及，则向低PB下行。市场分歧核心是"反转的斜率与可信度"。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>全球沙坦原料药龙头+全赛道API规模：</strong>心血管原料药全球领先供应商，FDA/欧盟认证体系+大规模产能，成本精益化(毛利率47%+)构成绕不开的产能-认证壁垒。</li><li><strong>制剂国际化先发壁垒：</strong>首家FDA制剂认证+最大ANDA批文储备+美国北卡自建产能(40亿片/年)+13个美国产品市占第一，出海efficiency高。</li><li><strong>原料药-制剂一体化垂直协同：</strong>从原料药到制剂全链条，成本与供应稳定、切换成本高。</li><li><strong>全球客户与合规体系：</strong>欧美/印度/东南亚/拉美渠道+长期FDA附厂合规记录，新进入者难以短期复制。</li><li><strong>创新平台华奥泰(期权式壁垒)：</strong>IL-36R/IL-17A/双抗多线管线，差异化靶点卡位。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>沙坦原料药的产能+认证+成本壁垒和FDA出海体系短期难被复制，护城河再现于"特色原料药+制剂国际化"环节。主要威胁来自：①印度/国内同行的原料药产能扩张压价；②国内集采与创新药研发投入高企侵蚀利润；③中美贸易/关税与合规核查扰动海外采购。护城河评为"中上现世(原料药/出海)、创新价值待证明"——显性壁垒强、但当前盈利变现能力(扣非)弱。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-27</strong> · 2026年中期报告披露(Q2扣非能否回升、原料药新品/集采降价、HB0034爬坡) — 盈利/估值</p><p><strong>2026H2</strong> · 沙坦等原料药低毛利品种阶段性涨价落地(基础化工/能源成本驱动) — 利润</p><p><strong>2026H2-2027</strong> · IL-17A单抗(斑块银屑病/强直)NDA审批与获批节点 — 收入/估值</p><p><strong>持续</strong> · 华奥泰分拆赴港IPO进度(2026-04筹划、20亿债转股) — 估值重估</p><p><strong>持续监控</strong> · 美元兑人民币汇率、对美关税与FDA合规核查演变 — 利润/风险</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>原料药价格继续下行/产能过剩</td><td>利润</td><td>沙坦/普利等老品价格内卷，虽2025基本触底但出清末竟，毛利率(47%+)仍有下压风险</td></tr><tr><td>国内仿制药集采持续降价</td><td>利润</td><td>2025国内制剂营收-18.19%，集采扩面持续压价、新品放量慢</td></tr><tr><td>中美贸易/关税与合规核查</td><td>收入+利润</td><td>对美ANDA制剂出口受关税、FDA核查扰动，海外盈利稳定性下降</td></tr><tr><td>汇率波动</td><td>利润</td><td>2025美元波动汇兑损失超1亿元，出口依赖美元结算，汇率下行拖累</td></tr><tr><td>创新药高研发投入侵蚀利润/临床失败</td><td>利润+现金流</td><td>2025研发12.29亿(+约2.4亿)，多管线进III期，前期大额投入无法快速变现</td></tr><tr><td>一次性收益不可持续→估值预期差</td><td>估值</td><td>2026Q1归母含2.46亿卖股权收益，Q2起剔除后单季利润明显回落，市场易误判"业绩反转"</td></tr><tr><td>负债率偏高/华奥泰独立上市稀释</td><td>估值+治理</td><td>有息负债约80亿、利息支出约2.5亿/年；华奥泰分拆稀释母公司持股与利润归属</td></tr><tr><td>华奥泰BD大单未落地/创新资本退潮</td><td>估值</td><td>行业创新药资本退潮背景下分拆与授权进展不及预期，创新期权或打折</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>原料药价格触底回升+专利悬崖新品放量+集采企稳+HB0034/华奥泰兑现+一次性收益归位</td><td>~12-13亿E(归母)</td><td>~26x</td><td>~22-23元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>周期温和反转、扣非缓慢修复、创新药初步贡献、归母含稳定一次性收益假设</td><td>~10.7亿E(一致EPS0.71)</td><td>~24x</td><td>~17元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>原料药价格持续内卷+集采降价延续+扣非不反转+创新不及/分拆受阻+汇兑拖累</td><td>~6-7亿E</td><td>~20x</td><td>~12.5元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约16.62元为基准：上行到Bull约22-23元(+35~38%)、Base约17元(≈现价)，下行到Bear约12.5元(-25%)；收益风险比约1.3:1。归母含一次性收益、扣非主业未反转、创新期权未定价——属高风险高波动、靠"周期反转+创新兑现"博弈的标的，建议轻仓试仓或等回落、等扣非拐点(8-27中报)确认再加，不宜重仓。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026-08-27中报Q2扣非未能环比回升、原料药新品增速滑落至100%以下;②沙坦价格未如期触底、毛利率下穿47%;③HB0034/IL-17A临床或销售爬坡不及预期、华奥泰IPO受阻;④对美关税升级或汇率继续大幅拖累;⑤集采扩面再度大幅降价——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：化学原料药/CXO板块(特色原料药)。沙坦等大宗原料药处于"产能过剩出清、价格底部"阶段，行业景气偏弱但拐点临近；海外专利悬崖(列净/沙班/GLP-1)与中国制剂出海提供结构性增量。板块整体估值(尤其PB)处历史中低位、与2020-21高位明显收敛。华海为沙坦原料药龙头+制剂出海先锋，具"周期底部+创新转型"双重属性，细分景气处"底部左侧、反转待确认"阶段——行业类景气度低但个股具反转与创新期权，需景气或扣非证实。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>8-21收16.62、近12日16.5-18.4横盘、8/11见高18.24后回，量能温和；上方18.4-18.7压力、下方16.3-16.4支撑</td><td><strong>横盘蓄势、中性;放量突破18.4则转强，跌破16.2则偏弱</strong></td></tr><tr><td>基本面</td><td>2026Q1归母4.04亿(+36%但含一次性2.46亿)、扣非仅1.36亿(-52%)、原料药新品+230%反弹；经营现金流3.99亿翻倍</td><td><strong>基本面"底部筑底中、扣非拐点未现"，验证点8-27中报</strong></td></tr><tr><td>情绪面</td><td>医药/原料药板块情绪偏冷；华海因创新药获批+华奥泰分拆获主题资金关注，换手偏低、非主流方向</td><td><strong>情绪平淡、无显著过热，主题催化下或有脉冲</strong></td></tr><tr><td>政策影响</td><td>国内集采扩面为制剂利空；医保"全链条支持创新药"与创新药资本回暖利好华奥泰；对美关税/FDA核查为出口扰动</td><td><strong>政策中性(集采待消化+创新支持)，需跟踪关税与医保节奏</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>内外资券商研报(东财/新浪研报库)：招商证券(买入,2026-08 首款创新药获批开启收获期)、中金公司(买入,2026-05 创新转型加速)、长江证券(买入,2026-05 原料药制剂一体化 创新药蓄势待发)、华创证券(2026-07 首款1类生物新药获批)。一致预期目标价约21元、机构覆盖家数少(评级买入1家主导)。外资大行对华海覆盖有限、未详查证(ID不可核查)；内资研报普遍偏乐观须打折，重点提示"扣非反转尚待验证"。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：PB(约2.5x)中低位+原料药价格触底+专利悬崖新品(+230%)+创新药商业化元年+华奥泰分拆，具"困境反转+创新期权"属性；但扣非主业(2026Q1-52%)未反转、归母含一次性、创新远未兑现、外贸/汇率风险。判断为<b>轻仓试仓(<2成)或等回落/等扣非拐点、当前不追高</b>:回落至16元下方或8-27中报Q2扣非环比回升后分批2成底仓;加仓触发=中报扣非拐点确认或原料药涨价/创新药放量超预期。止损:有效跌破15.5-16元(近12日平台)离场，不盲目抄底。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>浙江华海药业2025年年度报告及摘要(上交所2026-04-30披露,含2025首发营收下滑/集采/原料药/研发汇率原因)、2026年一季度报告、2026-07-29关于控股子公司华奥泰HB0034获批的公告、2026-04-29关于筹划华奥泰分拆上市的提示性公告、证券日报获替米沙坦氢氯噻嗪片注册证公告</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(招商证券/中金公司/长江证券/华创证券/中邮等)；外资大行覆盖有限、未详查证</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10/股票、同花顺(iFind)、新浪财经、证券时报、证券之星、格隆汇、中证报/证券日报(市值/PE/PB/一致预期交叉验证)、腾讯自选股westockdata(财务/行情/consensus)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>股吧/公众号(东方财富财富号、北青网、每日经济新闻、谈医说药等，业绩/一次性收益/BD等仅作线索，财务数据以T1回源为准)</p></div>
+    <p>中高信心(78%·财报口径)：营收85.87/归母2.66/扣非1.58/总股本14.97亿股/2025经营现金流12.30亿/2026Q1营收23.34、归母4.04(含2.46一次性)、扣非1.36/研发12.29亿均回2025年报+2026一季报核对；毛利率、ROE、2023-24扣非、EV/EBITDA/FCF为AI估。中低信心(60%·估值)：市值约249亿、股价16.62、PB~2.5x、PE-TTM~66x来自第三方(8-21)交叉核对；一致预期EPS目标价21元为内资券商主导。低信心(45%·预测与创新)：2026-28E归母/创新药放量/原料药涨价幅度含主观推演、扣非反转未验证、一次性收益不可持续，不确定性高；外资覆盖不足、华奥泰分拆估值未定。未回源码均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>浙江华海药业2025年年度报告(上交所2026-04-30)</li>
+        <li>华海药业2026年一季度报告及华奥泰HB0034获批公告(2026-07-29)、华奥泰分拆上市提示公告(2026-04-29)</li>
+        <li>招商证券/中金公司/长江证券/华创证券研究观点(东财/新浪研报库)</li>
+        <li>东方财富F10/同花顺/新浪财经/证券时报/证券之星/格隆汇(市值、PE、PB、一致预期交叉验证)</li>
+        <li>腾讯自选股westockdata(财务、K线、一致预期)</li>
+        <li>东方财富财富号/北青网/每日经济新闻/中证报/证券日报(业绩分解与一次性收益线索，财务回原报告)</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

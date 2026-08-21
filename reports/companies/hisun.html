@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海正药业 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">海正药业<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">原料药+制剂 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch7">回产业链报告</a></div>
+    <h1>海正药业<span class="code">600267.SH</span></h1>
+    <p class="subtitle">老牌原料药+制剂一体化龙头 · 江浙国资背景"困境反转"标的 · 制造毛利率61.6%·向创新药+宠物药+合成生物学转型</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+    <a href="apeloa.html">上一家 · 普洛药业</a>
+    <a href="nhuji.html">下一家 · 新和成</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈154-157亿元</div><div class="k-sub">2026-08-21(收盘13.08元)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈22x(归母TTM·2026Q1口径)·中报后或降至~18x;PE-2026E~13-14x(估)</div><div class="k-sub">PE-TTM 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB≈1.7-1.8x处近5年中低区间;PE低于历史中位31x</div><div class="k-sub">过去5年中位 归母PE近5年中位约31x(知了财报;亏损年份失真)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+100%~120%(归母·2026H1预告口径+100.6~117.3%)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>老牌原料药+制剂垂直一体化龙头(浙江台州,始创1956年,国资控股),业务覆盖抗肿瘤/心血管/抗感染等高端仿制药+原料药+动物药(宠物)+医美/合成生物学。2018年创始人离场后历经减值与治理动荡的"历史包袱",2019年剥离资产扭亏、2024年归母创5年新高6.01亿,2025年"增收不增利"(营收105.5亿+2%、归母5.41亿-10%但扣非5.86亿+36%)。2026年进入利润跳升兑现期:2026H1归母预告6.0-6.5亿(+100.6~117.3%)、扣非4.9-5.3亿(+52~65%),由心血管药(+15.5%)/抗肿瘤(+15%)/宠物药(+50%+)/创新药海博麦布放量+5款药品新晋国家基药目录+商业板块剥离带动。当前13.08元、MC约154亿、PB~1.7x中低位、PE-2026E约13-14x,买的是"困境反转兑现+创新/宠物转型估值重估"。但创新药管线(HS387/HSE-001)多处临床早期、集采与原料药价格仍是压力、历史上治理与减值多次反复,属"反转中段+转型期权"。</li>
+      <li><strong>基本面：</strong>2025营收105.5亿(+2.02%)、归母5.41亿(-10.06%)、扣非5.86亿(+36.11%)。整体毛利率约44.8%(制造毛利率61.64%)。经营现金流2025年3.87亿(近年偏低、弱于净利)。2026H1归母预告6.0-6.5亿(+100.6~117.3%)、扣非4.9-5.3亿(+52~65%)。2026Q1营收23.90亿(-9.17%)但归母3.56亿(+83%)、扣非2.36亿——呈现"减收增利"。总股本约11.8-12亿股(东财11.80亿、注册资本11.99亿),总资产约150亿、有息负债约30.7亿、货币资金12.9亿,资产负债率约41%(2025末,较早年66%明显改善)。</li>
+      <li><strong>估值：</strong>13.08元、总市值约154-157亿元,PB约1.7-1.8x(处近5年中低区间)、PE-TTM约22x(盈利跳升失真向下)、PE-2026E约13-14x、PE-2027E约11-12x(AI估算)。一致预期(内资、偏滞后)2026E归母约8.4亿偏低、已被2026H1实际跑赢。股息率约1.5%(2024年度10派2.10元)。</li>
+      <li><strong>市场隐含预期：</strong>现价13.08元对应2026H1预告归母(6-6.5亿)的年化约11-13亿、PE仅约12-13x,隐含市场仍在"困境反转是否兑现"给折价、尚未为创新药/宠物药成长期权充分定价。市场分歧在H2(第12批集采新价+季节性)能否延续H1高增,以及历史减值/治理包袱是否反复。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08-26中报:H2毛利率与归母环比、第12批集采中标降价幅度、海博麦布/复方制剂获批进度、宠物药与心血管药增速、商业板块剥离进展、是否随利润改善提升分红。</li>
+      <li><strong>情景结论：</strong>Bull 约30元(+130%) / Base 约21元(+61%) / Bear 约12.9元(-1%),收益风险比约1.5:1——困境反转兑现中+估值中低位、向下空间有限、向上的财务弹性与转型期权仍在,宜分批建仓但留中报验证仓位。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>浙江国资控股的老牌"原料药+制剂"垂直一体化龙头,正在从"历史包袱出清"走向"创新药+宠物药+合成生物学"二次生长</strong>:海正药业始创于1956年(前身海门制药厂)、2000年A股上市,控股股东浙江海正集团(约26.8-27.2%)、实控人为台州椒江区国资。业务覆盖医药制造(抗肿瘤/心血管/抗感染/内分泌等高端仿制药+原料药,2025收入64.97亿、制造毛利率61.64%)、医药商业(38.97亿,毛利17.8%)、动物药(宠物药,5.23亿、毛利51%)以及新布局的合成生物学与"大健康/健康美学(医美)"。2018年创始人白骅离场引发数年代际治理动荡与高额减值(2023年归母-0.93亿、扣非亏损),公司随后剥离非核心资产、聚焦主业,2024年归母6.01亿扭亏并创新高,2025年"增收不增利",2026年上半年利润跳升翻倍——正处于"理性出清+利润兑现"的困境反转中段。创新药端自研HS387(KIF18A·抗实体瘤,中美IND双批)、引进HSE-001(小分子偶联·肝癌后线,IIb期),核心品种海博麦布(赛斯美)销量+22%。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>103.73</td><td>97.87</td><td>105.50</td><td>~112E(估)</td><td>~125E(估)</td></tr>
+        <tr><td>归母净利润</td><td>-0.93</td><td>6.01</td><td>5.41</td><td>~11.5E(估·H1指引)</td><td>~13.5E(估)</td></tr>
+        <tr><td>扣非净利润</td><td>~-1.6(估·亏损)</td><td>4.23</td><td>5.86</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~40.3%</td><td>44.75%</td><td>~44.8%</td><td>~45E%</td><td>~45E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>负</td><td>~7%(估)</td><td>~6.3%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~2(估)</td><td>~2.75</td><td>3.87</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(2025,东财F10):</strong>医药制造收入64.97亿(占61.58%、毛利率61.64%、贡献主营利润84.7%)+医药商业38.97亿(占36.94%、毛利率17.82%)。制造内重点品类:心血管药15.50亿(+15.54%)、抗肿瘤药11.20亿(+15%)、医药原料药12.38亿(基本持平)、动物药5.23亿(+1.17亿、毛利率51.04%);商业内含医药经销(营收约30亿、毛利率5.6%)与代理/进口(约9亿、毛利率58.7%)。<br><br><strong>核心产品/增长点:</strong>海博麦布片(赛斯美)销量+22%、注射用丝裂霉素+10%;宠物药(海乐妙/海乐旺)营收+50%+;5款药品新晋国家基药目录;海博麦布/阿托伐他汀复方3个品规(2个已申报上市、预计2026H2获批,另1个跳过II期直接进III期)。<br><br><strong>创新药管线(多临床早期):</strong>自研HS387(选择性KIF18A抑制剂,治疗晚期实体瘤,2025获中美IND双批);引进艾欣达伟HSE-001(小分子偶联·晚期肝细胞癌后线,IIb期临床已入首例);HS-25(预计2027申报上市);门冬胰岛素已获批并中标国采;生物药已5个产品获批上市。<br><br><strong>战略/转型:</strong>提出"3+2+1"战略(创新药+高端仿制药+宠物药 / 合成生物学+医美大健康),上海创新药物研发中心投用,布局欧洲研发。<br><br><strong>治理/股东:</strong>控股股东海正集团(约26.8-27.2%,台州椒江区国资实控)、二股东浙江省国际贸易集团(约6.06%)。历史上2018年创始人离场与多次减值(德谷胰岛素等)为包袱;近年聚焦主业、剥离商业/非核心资产,2024年归母创新高、2024年度拟10派2.10元回馈股东。<br><br><strong>资产负债(2025末):</strong>总资产约150亿、货币资金12.9亿、有息负债约30.7亿(较早年66%负债率降至约41%),归母净资产约86亿,每股净资产约7.5元;商誉与资产减值风险较2019-2023年明显收敛。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营(主业改善为真):</strong>2026H1归母+100~117%主要来自制造端心血管(+15.5%)/抗肿瘤(+15%)/宠物药(+50%+)增长+海博麦布放量+5款基药目录放量+费用优化与商业板块剥离对冲——扣非+52~65%亦验证为主营业绩而非一次性,反转逻辑扎实。</li><li><strong>会计/一次性:</strong>2025年"增收不增利"(营收+2%、归母-10%)受研发及德谷胰岛素项目减值等拖累;2026Q1"减收增利"(营收-9.17%、归母+83%)、扣非Q1 2.36亿,归母与扣非的剪刀差(2026H1非经常约1.1-1.2亿)规模不大。</li><li><strong>历史包袱出清:</strong>2018-2023年经历创始人离场、治理动荡、德谷胰岛素等减值、2023年亏损;2019年后剥离非核心资产、聚焦主业,2024年扭亏兑现,包袱(商誉/齿债)与减负有实质出清但仍需警惕反复。</li><li><strong>结论:</strong>经营处"困境反转中段+利润跳升兑现"通道,扣非(2026H1预告+52~65%)比归母更能反映主业改善;评估以制造毛利率、心血管/抗肿瘤/宠物增速、创新药(海博麦布/复方/临床管线)与商业剥离为主线锚定。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈13.08元</strong></td><td>2026-08-21收盘13.08(单日-4.98%);近月8/3低11.42→8/14高15.00→现回调</td></tr><tr><td>A股总市值</td><td><strong>≈154-157亿元</strong></td><td>总股本约11.8-12亿股(@11.80亿股计≈154亿)</td></tr><tr><td>EV</td><td><strong>≈172亿元(估)</strong></td><td>市值≈154亿+有息负债30.7亿-货币资金12.9亿</td></tr><tr><td>PE-TTM</td><td><strong>≈22x(归母)</strong></td><td>TTM归母7.02亿(2026Q1口径);中报后TTM或升至~8.6亿→PE~18x</td></tr><tr><td>PE-2026E</td><td><strong>≈13-14x</strong></td><td>2026H1预告6-6.5亿作年化,归母2026E约11.5亿(AI估,一致预期8.4亿偏低滞后)</td></tr><tr><td>PE-2027E</td><td><strong>≈11-12x</strong></td><td>归母2027E约13.5亿(AI估)</td></tr><tr><td>PE-2028E</td><td><strong>≈10x</strong></td><td>归母2028E约15.5亿(AI估)</td></tr><tr><td>PB</td><td><strong>≈1.7-1.8x</strong></td><td>每股净资产约7.5元(2025末),处近5年中低区间(2020-21医药高点2.5-4x)</td></tr><tr><td>PS(TTM)</td><td><strong>≈1.5x</strong></td><td>市值≈154亿/2025营收105.5亿</td></tr><tr><td>EV/EBITDA</td><td><strong>≈10x左右(估)</strong></td><td>EBITDA约15-17亿估算,重资产但较早年去杠杆明显</td></tr><tr><td>FCF Yield</td><td><strong>偏弱/估</strong></td><td>OCF 2025仅3.87亿(近年偏低、弱于净利),扣除资本开支后FCF有限</td></tr><tr><td>股息率</td><td><strong>≈1.5%</strong></td><td>2024年度拟10派2.10元;2025年度分红待2026年报披露</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(东财/同花顺/理杏仁/新浪)市值约154-167亿、股价约13-14.4元(2026-08)、PE-TTM约22-24x、PB约1.7-1.9x于2026-08-21交叉核对(各平台总股本11.8-12亿股有出入)。关键口径提醒:①归母PE-TTM随2026利润跳升快速向下(中报后或降至~18x),历史PE因亏损年份(2023等)失真,横向比参考弱;②PB(每股净资产约7.5元)更能反映资产侧、约1.7x处中低位提供缓冲;③机构一致预期(内资主导、查股网显示近2年买入2家/近1年看淡)对2026E归母8.42亿的预测已明显滞后于2026H1实际(6.0-6.5亿),须以半年报为准;④2026-28E为AI估算(基于H1指引作年化+历史增速外推),不确定性高、均标"估/AI"。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PB(当前)</td><td><strong>约1.7-1.8x</strong></td><td>每股净资产约7.5元;2020-21医药行情高位约2.5-4x、近5年中位约2.2x(估)——处中低位</td></tr><tr><td>PE-TTM(当前)</td><td><strong>约22x</strong></td><td>历史PE中位约31x(知了财报)、当前低于中位;2023亏损年PE曾达1000x+失真</td></tr><tr><td>历史极端</td><td><strong>2018-2023治理动荡+亏损期</strong></td><td>2018创始人在任未满离场、数年度值(德谷胰岛素等)与亏损(2023归母-0.93亿),2024扭亏、2025增收不增利、2026利润跳升——估值从"包袱折价"切换为"困境反转+转型"剧本</td></tr>
+      </tbody>
+    </table></div>
+    <p>资产侧看(PB约1.7x)海正处于过去5年的中低区间——这是"2018-2023治理动荡+大额减值"历史包袱尚未完全消化、but主业已连两三年改善并迎来2026利润跳升的估值形态。PE口径受亏损年份与2026盈利跳升双双失真,参考意义有限。整体呈"困境反转中段+转型期权"形态:PB低位+PE-2026E仅13-14x预示向上重估空间,但能否兑现取决于H2(集采/季节性)外推的可持续性、创新药与宠物药成长期权、以及历史包袱(减值/治理)会否反复——这是估值处置(反转兑现vs重估)的枢纽。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>105.50</td><td>~112E</td><td>~125E</td><td>~138E</td></tr>
+        <tr><td>毛利率</td><td>~44.8%</td><td>~45E%</td><td>~45E%</td><td>~45E%</td></tr>
+        <tr><td>净利润</td><td>5.41</td><td>~11.5E</td><td>~13.5E</td><td>~15.5E</td></tr>
+        <tr><td>EPS</td><td>0.46</td><td>~0.97E</td><td>~1.14E</td><td>~1.31E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径:①2026H1归母预告6.0-6.5亿(+100.6~117.3%)、扣非4.9-5.3亿(+52.54~64.99%);②驱动来自制造端心血管药(+15.54%)/抗肿瘤药(+15%)/宠物药(营收+50%+)/海博麦布(销量+22%)+5款药品新晋基药目录+商业板块剥离与费用优化;③海博麦布/阿托伐他汀复方2品规已申报上市、预计2026H2获批;④创新药HS387(中美IND)、HSE-001(IIb期)、HS-25(2027申报),生物药5个上市(含门冬胰岛素中标国采);⑤2024年度拟10派2.10元、回馈股东。(公司2026-07-11半年度业绩预增公告/上交所/年报)（公司指引）/ <strong>市场一致预期(查股网/东财,内资主导、滞后):2025-2027营收117.28/130.39/143.83亿、归母7.07/8.42/9.94亿——2026E归母8.42亿已明显落后于2026H1实际(6.0-6.5亿年化近11-13亿),可信度低须打折;机构关注少(近60日无评级、基金仅7家持仓)。</strong>（市场一致预期）/ <strong>AI估算:营收2026E 111-114亿(制造高增+商业微降)/2027E 123-128亿/2028E 135-140亿;归母2026E 11-12亿(2026H1指引作年化,H2受第12批集采新价拖累略弱)、2027E 13-14亿、2028E 15-16亿(创新/宠物/复方放量+集采企稳);扣非2026E 9.5-10.5亿、2027E 11.5-12.5亿、2028E 13-14亿(扣非更能反映主业);毛利率制造端61%稳、整体约45%。盈利弹性取决于制造高增延续与集采降价幅度,不确定性高。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>原料药+制剂一体化·困境反转·创新/宠物转型型潜力指标</h3><ul><li><strong>困境反转利润兑现(当前核心):</strong>2026H1归母翻倍(+100~117%)、扣非+52~65%,制造端毛利率61.6%+心血管/抗肿瘤各+15%+宠物药+50%,主业连续改善,释放被历史包袱压抑的盈利弹性。</li><li><strong>创新药放量引擎:</strong>海博麦布(赛斯美)销量+22%、复方制剂2品规2026H2获批+专项降脂指南承接;门冬胰岛素国产达+国采中标——从仿制药向首仿/创新过渡。</li><li><strong>拳头成长期权:</strong>自研HS387(KIF18A·中美IND)、HSE-001(引进·肝癌后线IIb)、HS-25(2027申报)——虽多临床早期、但为管线估值重估期权。</li><li><strong>宠物药/合成生物学/医美第二曲线:</strong>宠物药营收+50%(海乐妙/海乐旺),叠加合成生物学与"健康美学(医美)"新布局,打开院外高毛利增量。</li><li><strong>估值重估+分红改善:</strong>PB仅1.7x中低位+PE-2026E仅13-14x,盈利跳升+分红提升(2024年度10派2.1元)下有资产/股息支撑。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2026H1归母+100~117%为真业绩修复主因(扣非亦+52~65%),非一次性主导;但需注意:①2025年"增收不增利"中研发与德谷胰岛素项目减值属会计口径拖累;②2023年亏损为大额减值(历史包袱),2024-2026主业连续改善为经营性反转;③2026H1归母与扣非剪刀差(非经常约1.1-1.2亿)规模有限。评估以"制造高增(扣非)+集采降价幅度+创新/宠物放量"三重锚定,勿被单季波动或一次性项误导。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>制造端高毛利品种(心血管/抗肿瘤)</td><td><strong>+约5-7pct</strong></td><td>2025心血管+15.5%/抗肿瘤+15%、制造毛利率61.6%,2026延续高增为利润主引擎</td></tr><tr><td>宠物药+合成生物学第二曲线</td><td><strong>+约2-3pct</strong></td><td>宠物药营收+50%(海乐妙/海乐旺),高毛利增量,合成为期权</td></tr><tr><td>创新药/复方制剂放量</td><td><strong>+约2-3pct</strong></td><td>海博麦布+22%、复方2品规2026H2获批,门冬胰岛素国采中标,2027-28起贡献</td></tr><tr><td>商业板块剥离+费用优化</td><td><strong>+约2pct</strong></td><td>处置低毛利率医药商业、压降费用,经营杠杆释放利润</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎已从"集采仿制药放量+商业化药"切换为"医药制造高毛利品种(心血管/抗肿瘤)+宠物药/合成生物学第二曲线+创新药(海博麦布/复方/临床管线)+商业剥离降本"。领先指标为制造端毛利率(61.6%)与心血管/抗肿瘤/宠物增速(2026H1扣非+52~65%)——2026年利润跳升已兑现,向上弹性与成长期权集中在2027-28(复方/创新放量+集采企稳),兑现度相对较高但集采降价与创新临床失败依旧是主要变数。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价13.08元对应2026H1预告归母(6.0-6.5亿)年化约11-13亿估值仅约12-13x、2027E约11-12x、PB约1.7x,一致预期目标价偏保守且滞后于H1实际。隐含市场假设:①困境反转兑现但市场仍按"反转是否可持续"打折扣(未给成长溢价);②制造的毛利率与集采降价(第12批)外推偏谨慎;③创新药(HS387/HSE-001)与宠物药尚未被充分定价处于早期。<br><br>换言之,当前价格买的是"困境反转兑现+X(创新/宠物/复方)期权"的组合,PB~1.7x中低位+PE-26E仅13-14x提供有利的收益风险比。若2026-08-26中报H2毛利率/扣非延续、复方获批、宠物/创新放量被证实并给出2027指引,估值或向上重估;若集采大幅降价+原料药价格内卷+创新/复方不及+历史包袱反复,则向低PB回落。核心分歧是"反转的斜率与可持续性、以及转型期权兑现速度"。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>原料药-制剂垂直一体化全价值链:</strong>从原料药到制剂(抗肿瘤/心血管/抗感染)一体,制造毛利率61.64%,规模+工艺+供应链形成成本与质量壁垒。</li><li><strong>国资背景+渠道/准入壁垒:</strong>实控人台州椒江区国资,5款药品新晋国家基药目录、集采/招标准入与学术推广(瀚晖制药营销体系)能力强。</li><li><strong>高端仿制药+首仿储备:</strong>心血管/抗肿瘤等高端仿制药及门冬胰岛素国产,首仿/高壁垒仿制形成相对价格与认证壁垒。</li><li><strong>宠物药先发+创新药卡位:</strong>宠物药(海乐妙/海乐旺)+50%、合成生物学/医美新局,创新药海博麦布为1类、HS387(中美IND)差异化靶点。</li><li><strong>历史包袱出清后的资产负债表:</strong>资产负债率由早年66%降至约41%、去杠杆+减负,支撑后续投入与分红。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>原料药-制剂一体化+国资渠道准入+高端仿制/首仿体系短期较难复制,护城河现于"制造规模化+准入+品类梯队"环节。主要威胁来自:①集采持续降价与仿制药内卷侵蚀高端仿制药毛利;②原料药(尤其大宗)产能过剩价格内卷;③创新药(HS387/HSE-001等)临床失败或研发高投入拖累;④多元化(医美/合成生物学)分散资源与执行力风险。护城河评为"中(制造规模/准入)且正随创新/宠物升级,但创新兑现尚待验证"。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-26</strong> · 2026年中期报告披露(H2扣非/毛利率、第12批集采降价、海博麦布/复方进度、宠物药增速、分红) — 盈利/估值</p><p><strong>2026H2</strong> · 海博麦布/阿托伐他汀复方制剂2个品规获批(已申报上市) + 另1个跳过II期直接进III期 — 收入/估值</p><p><strong>持续</strong> · 第12批国家集采(2026-07-31拟中选)结果执行、5款药品基药目录放量 — 收入/利润</p><p><strong>2026-2027</strong> · 创新药临床进展:HS387(KIF18A)/HSE-001(IIb)/HS-25(2027申报)节点 — 估值期权</p><p><strong>持续监控</strong> · 宠物药与合成生物学/医美新品放量、2025年度分红与治理/股东变动(二股东清仓争议) — 价值/风险</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>国家集采持续降价</td><td>利润</td><td>第12批集采(2026-07拟中选)与后续批次压价高端仿制药毛利,2025-2026心血管/抗肿瘤虽高增但集采降价为逆向变量</td></tr><tr><td>原料药价格波动/产能过剩</td><td>利润</td><td>大宗原料药(抗感染等)产能过剩价格内卷,2025原料药收入12.38亿基本持平,价格弹性弱</td></tr><tr><td>历史包袱(减值/治理)反复</td><td>利润+估值</td><td>2018-2023治理动荡、德谷胰岛素等减值、2023年亏损;虽已出清但创新/商誉减值与股东(二股东清仓转让无人接)风险仍存</td></tr><tr><td>创新药研发/临床失败</td><td>利润+现金流</td><td>HS387/HSE-001多处临床早期、研发投入高,失败或进度慢拖累估值与利润</td></tr><tr><td>多元化分散与执行风险</td><td>估值</td><td>医美/合成生物学/动物药多线作战,资源与精力分散、跨界执行力与估值折价风险</td></tr><tr><td>现金流质量偏弱</td><td>利润+现金流</td><td>2025经营现金流3.87亿明显低于净利5.41亿,医药商业毛利低、回款慢,叠加医美/创新的资本开支</td></tr><tr><td>2026H2利润环比回落</td><td>估值</td><td>2026H1有高基数与指引兑现,若H2叠加集采新价+季节性,年内利润走势或低于H1年化,市场预期差</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>集采温和+制造高毛利延续+复方/创新放量超预期+宠物/合成第二曲线兑现+负债持续去化</td><td>~18E(2028·AI估)</td><td>~20x</td><td>~30元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>制造端稳健增长、宠物/复方渐进、商业剥离降本、创新一期出早期化、集采小幅降价</td><td>~14E(2028·AI估)</td><td>~18x</td><td>~21元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>集采大幅降价+原料药内卷+创新/复方获批与临床不及+治理/股东反复+现金流恶化</td><td>~9E(2028·AI估)</td><td>~15x</td><td>~11.4元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约13.08元为基准:上行到Bull约30元(+130%)、Base约21元(+61%),下行到Bear约11.4元(-13%);收益风险比约1.5:1(Base口径)。困境反转兑现中、PB中低位、PE-2026E仅13-14x,向下有资产/股息缓冲、向上有盈利跳升+转型期权弹性——赔率偏正,但历史包袱与集采/创新是最大变数,建议分批建仓、等8-26中报验证H2后加仓,不宜一次性重仓。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026-08-26中报H2扣非/毛利率环比走弱、第12批集采降价远超预期;②心血管/抗肿瘤/宠物药增速显著回落或集采不再回暖;③海博麦布/复方获批延迟、创新药临床(HS387/HSE-001)失败或重大减值再现;④经营现金流持续弱于净利、商业剥离停滞;⑤治理/股东(二股东清仓)生变——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分:化学制药(原料药+制剂)/医药制造。老牌"原料药+仿制"企业处"历史包袱出清+集采出清+向创新/高端仿制/宠物转型"之中,行业整体在国采常态化与创新转型中分化,老牌标的(海正/华海等)多走"困境反转"逻辑。板块估值(尤其PB)处历史中偏低、较2020-21明显收敛;原料药大宗仍处价格底部、高端仿制/创新有所回暖。海正为其中"反转兑现较明确"(2026H1利润翻倍)的标的,细分景气处中段回暖而估值尚未重估——存在结构性机会但行业景气整体弱于高景气CXO/创新药。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>8-21收13.08(单日-4.98%)、近月8/3低11.42→8/14高15.00后回调,放量上攻后缩量回踩;MACD(DIF 0.662/DEA 0.694/MACD -0.06)高位粘合略转弱</td><td><strong>强势后的回调蓄势,中性偏多;站稳12.8-13企稳则续攻,跌破11.5-12平台转弱</strong></td></tr><tr><td>基本面</td><td>2026H1归母预告6.0-6.5亿(+100~117%)、扣非4.9-5.3亿(+52~65%),制造高增+宠物/复方放量+商业剥离;2026Q1营收-9.17%但归母+83%</td><td><strong>基本面"困境反转兑现中",验证点8-26中报</strong></td></tr><tr><td>情绪面</td><td>化学制药行业人气居前(超行业96%的公司)、近3月人气涨幅32.8%;但机构关注少(基金仅7家、近60日无评级)</td><td><strong>情绪回暖但机构参与有限,主题资金主导、或有脉冲</strong></td></tr><tr><td>政策影响</td><td>国家集采常态化为老品利空(第12批);"创新药支持+基药目录扩容"利好其创新/基药品种;医美/宠物/合成生物为政策友好新赛道</td><td><strong>政策中性偏多(创新/基药/新消费),需跟踪集采降价与医保节奏</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>内资券商与第三方机构观点(西部证券2024年报点评:盈利能力改善、各项业务边际向好;查股网评级近2年买入2家)。一致预期2026E归母约8.4亿明显滞后于2026H1实际、可信度须打折;机构关注少、多数暂无评级。外资大行对海正覆盖有限、未详查证(外资优先不可得,ID不可核查);内资普遍偏乐观须打折,重点提示"集采降价+创新兑现"两大验证点。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合:PB(约1.7x)中低位+PE-2026E仅13-14x+2026H1利润翻倍+创新/宠物/复方成长期权+国资背景,具"困境反转兑现+转型期权"属性;但集采/原料药价格=多头变数、创新处早期、历史包袱须防反复。判断为<b>分批建仓(2-3成底仓)</b>:回落至12.8-13元企稳、或8-26中报H2扣非/毛利率确认后分批加仓至3-4成;加仓触发=中报超预期或复方获批/创新临床进展。止损:有效跌破11.5-12元(前期平台)离场,不追高、留验证仓位。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>浙江海正药业2024/2025年年度报告(上交所,营收/归母/扣非/毛利率/分部/分红核对)、2026年半年度业绩预增公告(2026-07-11,归母6.0-6.5亿/扣非4.9-5.3亿/H1同比+100.6~117.3%)、2026年一季度报告、第12批国家集采拟中选公告(2026-07-31)、海博麦布阿托伐他汀新规格获临床公告(2026-03-13)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商/第三方研报(西部证券2024年报点评;观察者网、新浪财经、雪球行业研究等);外资大行覆盖有限、未详查证(外资优先不可得)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10/行情、同花顺(iFind)、理杏仁、新浪财经、证券时报、证券之星、中证网/上海证券报、财报帮、查股网、微elements(市值/PE/PB/分部/一致预期交叉验证)、腾讯自选股westockdata(财务/行情/K线)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>雪球/公众号/蓝鲸新闻(股东结构、创始人离场历史、医美跨界、二股东清仓争议等仅作线索,财务数据以T1回源为准)</p></div>
+    <p>中高信心(82%·财报口径):2024/2025营收、归母、扣非、毛利率、总股本、2026H1预告(6.0-6.5亿/扣非4.9-5.3亿)、2026Q1数据均回上交所年报+业绩预告+westockdata核对;分部(制造64.97亿/商业38.97亿/心血管15.5/抗肿瘤11.2/动物5.23/海博麦布22%)回东财F10。中低信心(60%·估值):市值约154-157亿、股价13.08、PE-TTM~22x、PB~1.7x来自第三方(8-21)交叉核对、股本因注销口径有出入。中低信心(55%·预测与创新):2026-28E归母/复方获批/宠物/创新海量含AI推演与历史外推(基于2026H1指引作年化),集采降价幅度、创新临床、H2利润走势不确定;外资覆盖不足、一致预期滞后打折。未回源码均标"估/AI估算/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>浙江海正药业2024年年度报告(上交所2025-03-29)与2025年年度报告</li>
+        <li>海正药业2026年半年度业绩预增公告(2026-07-11,归母6.0-6.5亿/扣非4.9-5.3亿)、2026年一季报、第12批集采拟中选公告(2026-07-31)、海博麦布阿托伐他汀新规格临床批件(2026-03-13)</li>
+        <li>西部证券2024年报点评,查股网/东方财富盈利预测(内资一致预期、滞后打折)</li>
+        <li>东方财富F10/同花顺/理杏仁/新浪财经/中证网/证券时报/财报帮/证券之星(市值、PE、PB、分部、一致预期交叉验证)</li>
+        <li>腾讯自选股westockdata(财务三大表、行情、K线、技术)</li>
+        <li>雪球/蓝鲸新闻/观察者网/新浪财经(股东结构、治理历史、医美/合成生物转型线索,财务回原报告)</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

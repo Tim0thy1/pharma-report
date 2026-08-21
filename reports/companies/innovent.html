@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信达生物 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">信达生物<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">国产创新药龙头 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch3">回产业链报告</a></div>
+    <h1>信达生物<span class="code">01801.HK</span></h1>
+    <p class="subtitle">国产创新药龙头 · 全球首个GCG/GLP-1双靶减重 · BD出海(辉瑞/武田/礼来/罗氏) · 减重放量</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+    <a href="beigene.html">上一家 · 百济神州</a>
+    <a href="remegen.html">下一家 · 荣昌生物</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈1790亿港元(总股本17.44亿，≈1620亿人民币)</div><div class="k-sub">2026-08-21收盘</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">PE-TTM约189x(IFRS口径)</div><div class="k-sub">2026-08-19</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">≈32%分位(理杏仁)</div><div class="k-sub">过去5年中位 历史20/50/80分位146/-58/-44(亏损期)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+31%(营收一致)/产品+55%(2026H1)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>中国创新药"二哥"，核心看点是<strong>全球首个获批的GCG/GLP-1双受体激动剂玛仕度肽(减重/糖尿病双适应症)</strong>放量+肿瘤存量盘(信迪利单抗为压舱石)+密集BD出海(辉瑞105亿美元/武田114亿/礼来88.5亿/罗氏10.8亿，累计首付款超22亿美元、潜在超320亿美元)。2025年首次实现全年盈利，2026H1产品收入82亿(+55%)追平2024全年，是少数兑现"从烧钱到赚钱拐点"的国产Biopharma。</li>
+      <li><strong>基本面：</strong>2025营收130.42亿RMB(+38.4%)、产品收入118.96亿(+44.6%)、IFRS净利8.14亿(首年盈利)、Non-IFRS净利17.23亿、Non-IFRS EBITDA转正；2026H1产品收入超82亿(+55%)、Q2超43亿(+60%)。经营现金流~101亿(含BD首付款)。净现金约155亿RMB、现金超175亿。</li>
+      <li><strong>估值：</strong>市值约1790亿港元、PE-TTM约189x(PB约8x、PS 2026E约9.5x)。PE分位因历史亏损意义有限，真正的锚是PS/PB与成长溢价。现价102.4港元近52周高位(高109.1/低69.6)，2026年6月低点以来已自约70涨至102(+45%)。</li>
+      <li><strong>市场隐含预期：</strong>现价102.4港元、市值约1790亿，反推隐含2027年归母净利约36亿(≈45x)、2028年约49亿(≈33x)——即市场已给"玛仕度肽2027年冲40-50亿+肿瘤存量+BD里程碑持续"的成长定价，并未price in减重失控或BD断档。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026中报(预计8月底)、玛仕度肽逐季销售与医保支付(自费→医保的降价博弈)、IBI363/武田合作III期读出、辉瑞/武田/礼来/罗氏里程碑兑现、以及海外自营收入能否突破(当前占比低)。</li>
+      <li><strong>情景结论：</strong>Bull 138港元(+35%) / Base 115港元(+12%) / Bear 78港元(-24%)。当前价略低于高盛目标价111.68、低于中信建投136.3，收益风险比中等偏正。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>从Biotech到国际一流Biopharma的国产创新药龙头</strong>：信达生物(01801.HK)聚焦肿瘤+代谢(减重)+心血管+自身免疫四大治疗领域。核心在售产品包括PD-1信迪利单抗(达伯舒，礼来合作压舱石)、托莱西单抗(PCSK9降脂，信必乐)、替妥尤单抗(信必敏)，以及<strong>全球首个获批的GCG/GLP-1双受体激动剂玛仕度肽(减重/糖尿病双适应症，2025年7月上市)</strong>。研发上IBI363(PD-1/IL-2α-bias双抗融合蛋白)一线NSCLC在ASCO 2026读出"惊艳"POC并与武田(TAK-928)达成全球合作。BD层面已与礼来、武田、辉瑞、罗氏等MNC达成多笔全球授权，累计首付款超22亿美元、潜在里程碑+销售分成超320亿美元。2025年首次实现全年盈利，开启"减重单大单品+肿瘤存量+BD三角" = "2.0时代的信达"。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>45.56</td><td>62.06</td><td>94.22</td><td>130.42</td><td>~170-178E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>-7.38</td><td>-10.28</td><td>-0.95</td><td>8.14(IFRS)</td><td>~20E(IFRS)/30E(Non-IFRS)</td></tr>
+        <tr><td>扣非净利润</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~81%(估)</td><td>~78%(估)</td><td>~82%(估)</td><td>~85-86%</td><td>高位</td></tr>
+        <tr><td> ROE / ROIC</td><td>亏损</td><td>亏损</td><td>约-0.5%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>—</td><td>—</td><td>偏弱(估)</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>收入结构(FY2025，RMB)：</strong>总营收130.42亿(+38.4%)；产品收入118.96亿(+44.6%，占91%)、授权/许可收入约10.4亿(占8%)、研发服务费~2亿。地域主要在中国(~93%，产品口径)，美国/欧洲占产品收入约7%(出海自营刚起步)。<br><br><strong>产品/管线(2026)：</strong>肿瘤——信迪利单抗(压舱石，增速趋稳)、2025年五款新进NRDL的TKI渗透率提升放量；代谢——玛仕度肽(2025.07获批减重+糖尿病，2026.02月销爬坡至亿元级)、托莱西单抗(PCSK9)、替妥尤单抗；IBI363(ASCO 2026一线NSCLC POC亮眼，全球III期推进中)。<br><br><strong>减重赛道(核心看点)：</strong>玛仕度肽为全球首个GCG/GLP-1双受体激动剂，头对头III期(DREAM/ RESPECT系列)显示对司美格鲁肽降糖减重综合优势；机构预计2026全年销售约18亿、2027年冲击40-50亿。但面临司美格鲁肽/替尔泊肽及国产(先为达、恒瑞HRS-9531等)激烈竞争，自费转医保面临降价。<br><br><strong>BD(出海)：</strong>辉瑞105亿美元(首付6.5+里程碑98.5，Co-Co欧美利润共享)、武田114亿(IBI363/TAK-928，首付12亿+里程碑102亿)、礼来88.5亿(首付3.5+里程碑85亿)、罗氏10.8亿(IBI3009 DLL3 ADC，首付0.8+里程碑10亿)；累计首付款超22亿美元、潜在里程碑+利润共享+销售分成超320亿美元。<br><br><strong>竞争格局：</strong>国产创新药"二哥"(产品收入口径)，与百济神州、恒瑞、翰森、三生等竞逐；减重赛道对手为礼来/诺和及国产双寡头。<br><br><strong>Balance sheet(FY2025)：</strong>期末现金~175亿RMB、净现金约155亿、有息负债低；总资产~376亿RMB(按HKD折算)、归母权益~195亿、资产负债率~48%(含BD递延义务)。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>产品收入双引擎(玛仕度肽减重放量+五款新TKI/肿瘤渗透率提升)真实兑现，2026H1产品收入+55%、Q2+60%，规模效应与毛利率(85-86%)双升。</li><li><strong>会计因素：</strong>研发费用持续费用化(IFRS口径)压制表观净利，Non-IFRS净利(17.23亿,2025)显著高于IFRS(8.14亿)是"费用化/资本化"及一次性项目差异，估值须看Non-IFRS与经营性盈利拐点。</li><li><strong>一次性/BD：</strong>BD首付款(辉瑞6.5亿/武田12亿/礼来3.5亿/罗氏0.8亿美元)一次性入账充实现金流与利润；部分BD/Co-Co订单为未来里程碑分期确认。</li><li><strong>结论：</strong>成长是"减重单大单品→放量 + 肿瘤存量企稳 + BD兑现"三角叠加；利润弹性主要来自高毛利产品规模效应与非经常性BD首付款，需区分经常性盈利与一次性。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>102.4港元</strong></td><td>2026-08-21收盘，当日+1.2%</td></tr><tr><td>总市值</td><td><strong>≈1790亿港元</strong></td><td>总股本17.44亿股，≈1620亿人民币</td></tr><tr><td>EV</td><td><strong>≈1620-1660亿港元</strong></td><td>市值-净现金(净现金~155亿RMB≈170亿HKD)</td></tr><tr><td>PE-TTM</td><td><strong>≈189x</strong></td><td>IFRS 2025净利8.14亿RMB(=~8.9亿HKD)，2026-08-19</td></tr><tr><td>PE-TTM(Non-IFRS)</td><td><strong>≈94x</strong></td><td>Non-IFRS净利17.23亿RMB口径</td></tr><tr><td>PE-2026E</td><td><strong>≈81x</strong></td><td>归母IFRS一致约19.9亿RMB(中信建投)</td></tr><tr><td>PE-2027E</td><td><strong>≈45x</strong></td><td>一致净利约36.3亿RMB</td></tr><tr><td>PE-2028E</td><td><strong>≈33x</strong></td><td>一致净利约48.6亿RMB</td></tr><tr><td>PB</td><td><strong>≈8.3x</strong></td><td>归母净资产~195亿RMB</td></tr><tr><td>PS-2026E</td><td><strong>≈9.5x</strong></td><td>2026E营收170-177亿RMB</td></tr><tr><td>PS-2028E</td><td><strong>≈6.2x</strong></td><td>2028E营收260-280亿RMB</td></tr><tr><td>EV/EBITDA</td><td><strong>约35-40x(估)</strong></td><td>Non-IFRS EBITDA转正后口径(估)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>信达2025年才首次实现全年盈利(IFRS 8.14亿RMB)，故PE-TTM约189x在历史亏损下意义有限(理杏仁20/50/80分位146/-58/-44，50%以上分位为负)。更有效的估值锚是PS与PB：PS 2025A约12x、2026E约9.5x，PB约8.3x，处成长型高价区但已较2021年生物科技泡沫顶显著回落。当前价102.4港元近52周高位(高109.1/低69.6)。市值/股本/价格已以新浪/富途/同花顺交叉核对(HK$102-103/总股本17.44亿/市值1785-1792亿)，PE来自理杏仁。All forward数字为券商一致预期口径，非公司指引。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM</td><td><strong>≈189x(2026-08)</strong></td><td>因2025年前长期亏损，50/80历史分位为负(-58/-44)，当前约32%分位，参考性弱</td></tr><tr><td>PB</td><td><strong>≈8.3x(当前)</strong></td><td>处生物科技成长股高价区，但低于2021年减重/创新药情绪顶的更高PB</td></tr><tr><td>PS-2026E/2025A</td><td><strong>≈9.5x / ≈12x</strong></td><td>股价102.4港元近52周高位；52周高109.1(2025-09)、低69.6(2026-06)，6月低点迄今+45%</td></tr>
+      </tbody>
+    </table></div>
+    <p>信达历史估值因长期亏损、PE分位失真(50/80分位为负)。更有效锚是PS/PB与成长溢价率：现价PS 2026E约9.5x、PB约8.3x，处于成长型Biopharma的中上区域，但已从2021年生物科技泡沫顶峰回落，且与2020-2021年信迪利单抗放量期的历史高估值相比，本轮上涨更多由玛仕度肽放量+BD兑现支撑(基本面驱动而非纯情绪)。6月低点(约70港元)至今+45%后短线已不便宜，回踩是更理性介入点。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>130.42</td><td>170-178E</td><td>214-240E</td><td>260-280E</td></tr>
+        <tr><td>毛利率</td><td>~85-86%</td><td>高位(稳)</td><td>—</td><td>—</td></tr>
+        <tr><td>净利润</td><td>8.14(IFRS)/17.23(Non-IFRS)</td><td>~20E(IFRS)/30E(Non)</td><td>~36E(IFRS)/43E(Non)</td><td>~49E(IFRS)/56E(Non)</td></tr>
+        <tr><td>EPS</td><td>0.47RMB(IFRS,摊薄)</td><td>~1.14E</td><td>~2.08E</td><td>~2.79E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司：目标2027年产品总收入200亿RMB；2026H1产品收入82亿(+55%)，公司指引维持全年210亿级(隐含)+玛仕度肽持续放量；2025年推进3款高潜管线进入全球III期(市场空间超600亿美元，武田/Ollin测算)。（公司指引）/ <strong>市场一致(东财/高盛/中信建投)：营收2026E 170.8-177亿、2027E 213.9-231亿、2028E 260.6-280.4亿RMB；归母IFRS净利2026E ~19.9亿(中信建投)~(高盛偏低)、2027E ~36.3亿、2028E ~48.6亿；Non-IFRS净利高于IFRS。</strong>（市场一致预期）/ <strong>AI估算(含2026H1产品收入82亿校准)：营收2026E 172-180亿、2027E 225-240亿、2028E 275-300亿；归母Non-IFRS 2026E ~26-30亿、2027E ~40-45亿、2028E ~52-60亿；IFRS归母因研发费用化yield于Non-IFRS。判断偏"放量兑现的成长型"，减重单大单品弹性为核心。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>创新药/减重大单品型潜力指标</h3><ul><li><strong>减重单大单品(核心)：</strong>玛仕度肽全球首个GCG/GLP-1双受体激动剂，2026E销售约18亿、2027E冲40-50亿；减重+糖尿病双适应症+头对头优于司美格鲁肽，若海外授权/自营放大，潜在峰值数十亿至更大。</li><li><strong>肿瘤存量+管线：</strong>信迪利单抗压舱石；IBI363一线NSCLC ASCO 2026 POC惊艳，全球III期推进(与武田TAK-928)，潜在替代/补充PD-1组合免疫治疗市场。</li><li><strong>BD franchise(收入+期权)：</strong>辉瑞105亿/武田114亿/礼来88.5亿/罗氏10.8亿美元，累计首付款超22亿美元、潜在超320亿美元；里程碑与销售分成是利润与估值期权。</li><li><strong>海外自营：</strong>当前海外产品收入占比仅约7%，是"吃国内饭"后的下一个弹性来源(减重/肿瘤海外注册)。</li><li><strong>平台：</strong>肿瘤+代谢+心血管+自身免疫四大领域，双抗/融合蛋白/ADC管线梯队。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>IFRS净利(8.14亿)≪Non-IFRS(17.23亿)，差值含BD首付款一次性入账、研发费用化及一次性项目；玛仕度肽自费转医保后面临降价(已有"降价求生"报道)，且2026H1产品+55%有部分来自BD/医保切换的基数效应。判断"减重放量+BD兑现"须以经常性产品收入与Non-IFRS净利为主线，勿只看IFRS表观或单季增速。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>玛仕度肽/减重单大单品</td><td><strong>+~30-35pct(2027)</strong></td><td>2026E约18亿→2027E 40-50亿，全球首个GCG/GLP-1双靶，放量与医保可及性为核心</td></tr><tr><td>PD-1信迪利单抗+肿瘤存量</td><td><strong>+~个位数企稳</strong></td><td>压舱石增速趋稳，五款新进NRDL的TKI渗透率提升贡献增量</td></tr><tr><td>BD里程碑+销售分成</td><td><strong>+~中双位</strong></td><td>辉瑞/武田/礼来/罗氏里程碑+欧美Co-Co利润分享，Normalize后为经常性增量</td></tr><tr><td>海外自营(起步)</td><td><strong>+低个位</strong></td><td>当前占比约7%，减重/肿瘤海外注册为下一弹性，兑现较远</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长主引擎是"玛仕度肽单大单品放量 + 肿瘤存量企稳 + BD兑现"三角。2026H1产品收入+55%(Q2+60%)已实证放量可行；关键验证点是玛仕度肽能否在2027年达到40-50亿(占比将超板块产品收入15%+)、以及医保降价后的净贡献。净利弹性(IFRS)大于收入，主要来自高毛利规模效应与一次性BD，Non-IFRS净利体现经常性经营拐点更真实。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价102.4港元、市值约1790亿港元(约1620亿RMB)，PE-TTM约189x(IFRS口径)。反推Forward路径：对2027E归母IFRS净利约36.3亿对应约45x、2028E约48.6亿对应约33x、Non-IFRS口径更低。<br><br>即市场当前约"2027年净利达36亿+、2028年近50亿、并持续给40x上下成长溢价"，隐含对玛仕度肽2027冲40-50亿、肿瘤存量不塌、以及辉瑞/武田/礼来/罗氏里程碑持续兑现的自信定价。<br><br>换句话说，现价定价的是"减重单大单品成功+BD持续开花"的乐观成长情景，尚未为减重竞争失控(司美格鲁肽降价/国产内卷)、医保谈判大幅降价、或BD断档留足安全边际；一旦兑现不及预期，高PS/PB将快速回归。上行依赖减重赛道扩张能否持续超预期。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>差异化管线：</strong>玛仕度肽全球首个GCG/GLP-1双受体激动剂于减重赛道具机制差异化(头对头优于司美格鲁肽)；IBI363(PD-1/IL-2α-bias)一线NSCLC差异化免疫。</li><li><strong>商业化/销售网络：</strong>国产肿瘤+代谢双线销售体系，支撑信迪利单抗、托莱西单抗、玛仕度肽等多产品多科室放量。</li><li><strong>BD国际信用：</strong>获礼来、武田、辉瑞、罗氏等一线MNC授权背书(累计首付超22亿美元/潜在超320亿美元)，形成"MNC信任循环"，是中国创新药出海代表。</li><li><strong>减重赛道先发：</strong>国内首个双靶减重落地+医保可及，先发优势+患者池/医生教育积累。</li><li><strong>产能/质量：</strong>自建抗体产能与合规质量体系，支撑多产品供应与出海。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>单点(玛仕度肽双靶、IBI363)或面临同靶点内卷与MNC巨头(礼来/诺和)降维竞争，但"减重单大单品+肿瘤存量+BD国际信用+千亿级放量组织"的组合护城河处于国产第一梯队，不易整体复制。最大威胁是减重价格战与海外巨头降价，而非被一家整体复制。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-05</strong> · 2026H1/2Q产品收入公告(82亿,+55%) — 已兑现，超预期(高盛上调目标价)</p><p><strong>2026年8月底/9月</strong> · 2026中期业绩正式报告(盈利与现金流确认) — 盈利/估值</p><p><strong>2026H2</strong> · 玛仕度肽逐季销售爬坡 + 医保支付/可及性扩大 — 收入(减重单大单品核心)</p><p><strong>2026-11/12</strong> · 2026国家医保谈判结果(玛仕度肽等争取纳入/降价博弈) — 收入+利润(自费→医保)</p><p><strong>2026-2027</strong> · IBI363 一线NSCLC关键III期数据读出(与武田TAK-928) — 肿瘤增量/估值</p><p><strong>持续</strong> · 辉瑞/武田/礼来/罗氏里程碑付款与欧美Co-Co进度 — 利润/估值</p><p><strong>2026-2027</strong> · 玛仕度肽更多适应症/海外注册与授权推进 — 估值</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>GLP-1/减重竞争加剧</td><td>收入+利润</td><td>司美格鲁肽/替尔泊肽及国产(先为达、恒瑞HRS-9531)降价内卷，玛仕度肽已"降价求生"</td></tr><tr><td>医保谈判/自费转医保降价</td><td>收入+利润</td><td>玛仕度肽从自费转医保支付后面临降价，量价博弈影响净贡献</td></tr><tr><td>单一大单品+国内依赖</td><td>收入+估值</td><td>海外产品收入占比仅约7%，"吃国内饭"，出海尚未自营验证</td></tr><tr><td>估值极高</td><td>仅估值</td><td>PE-TTM约189x、PB约8x、PS-2026E约9.5x，6月低点已+45%，均值回归风险大</td></tr><tr><td>盈利依赖Non-IFRS/一次性</td><td>利润</td><td>IFRS净利(8.14亿)≪Non-IFRS(17.23亿)，含BD首付款一次性入账，经常性盈利须待验证</td></tr><tr><td>三级临床/监管失败</td><td>估值</td><td>IBI363等仍处于III期，ASCO POC不等于注册成功</td></tr><tr><td>BD里程碑兑现依赖授权方</td><td>利润+估值</td><td>辉瑞/武田/礼来/罗氏推进节奏与研发成败决定里程碑收入</td></tr><tr><td>汇率/港股流动性</td><td>仅估值</td><td>港元计价，全球资金/南向波动放大</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>减重单大单品持续超预期+肿瘤存量不塌+BD里程碑密集兑现+海外自营突破</td><td>~48亿(Non)/45亿(IFRS)</td><td>40x</td><td>138港元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>玛仕度肽2027达40-50亿、肿瘤企稳、BD部分兑现、医保降价温和</td><td>~40-43亿(Non)/36亿(IFRS)</td><td>35x</td><td>115港元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>减重价格战失控+医保大幅降价+IBI363注册失败+BD断档+ROE不回升</td><td>~28亿(Non)/22亿(IFRS)</td><td>28x</td><td>78港元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价102.4为中枢：Bull+35%、Base+12%、Bear-24%，最佳路径收益风险比约1.2:1，属成长定价已较充分的"中高置信、中等安全边际"标的(略低于远期一致性目标价但高于高盛单一目标价)。回踩至85-90港元区间安全边际明显改善。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①Q3/Q4产品收入增速回落至低双位/个位，玛仕度肽放量失速；②医保谈判对玛仕度肽降价显著侵蚀净贡献；③IBI363 III期读出不及ASCO POC预期或授权方放缓；④Non-IFRS净利拐点验证失败(2026全年净利不及15亿)——任一兑现将使定价中枢下移向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：中国创新药/GLP-1减重赛道——2025-2026年进入"BD出海兑现+减重放量+首次扭亏"的上行周期，板块处近5年估值中上区域。高景气集中在减重(GLP-1)/双靶与ADC题材，板块普涨后波动放大。信达所处赛道景气处上行通道，但短期6月低点+45%的涨幅使追高性价比下降。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价102.4港元处52周高位区(高109.1/低69.6)，多条均线上方，6月起上行通道，短线超买</td><td><strong>趋势向上但短线涨幅已大，追高风险高，等回踩或突破确认</strong></td></tr><tr><td>基本面</td><td>2025首年盈利、2026H1产品+55%(Q2+60%)放量兑现、Non-IFRS约17亿拐点、BD现金流充裕</td><td><strong>基本面右侧向上、盈利拐点已现，看减重放量与经常性盈利持续性</strong></td></tr><tr><td>情绪面</td><td>减重+BD题材受全球GLP-1叙事+国内创新药修复驱动，券商一致买入、高盛上调目标价，情绪偏热</td><td><strong>情绪偏乐观，预期较为充分，需防题材降温</strong></td></tr><tr><td>政策影响</td><td>创新药支持+医保续约/丙类商保友好；但减重自费转医保伴随降价，且GLP-1扩容监管趋严</td><td><strong>政策短期中性(降价)与中期(放量/可及)并存，构成变量</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资(优先)：高盛维持"买入"、目标价由107.04上调至111.68港元(DCF，2026-08-06)；其余外资未单独列出但普遍覆盖偏多。内资：中信建投(Buy, DCF合理市值2330亿港元/目标价136.3)、交银国际(Buy, 上调TP)、中金(Buy)、西南(增持/买入)——内资目标价更乐观需打折。现价102.4略低于高盛111.68、明显低于中信建投136.3，综合外资一致性略偏正面，但较一致目标价空间约+10%~+30%。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：减重单大单品放量属实+首次扭亏+BD franchise深厚+政策温和，属"高确定性成长、但估值已不便宜"的龙头。判断为<b>分批建仓、等回踩</b>：具长期配置价值，但6月低点+45%、PE-TTM约189x、PB约8x，追高需谨慎。总仓位≤3成：现价轻仓1成试仓；回踩至85-90港元(约前筹码密集/20-30日线)、或2026中报确认经常性盈利与减重净贡献超预期后，加至2-3成。加仓触发：①玛仕度肽季度销售+医保放量超预期；②IBI363/武田关键数据或辉瑞里程碑落地。止损/降仓：跌破90港元的趋势或题材降温、或医保谈判降价超预期释放负面信号。长期看，减重全球赛道若兑现，信达处于国产第一梯队，耐心持有并逢回调布局。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>信达生物2025年度报告(港交所/aastocks-PDF)、2026H1/2Q产品收入公告(港交所inside info 2026-08-05)、公司IR官网新闻(IBI363/玛仕度肽DREAM-3)，礼来合作的2015/2020信迪利单抗外授权记录</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>高盛(目标价111.68, Buy)、中信建投(DCF 2330亿HKD/136.3, Buy)、交银国际(Buy,上调TP)、中金、西南、中泰国际Jun、招银国际研报；东财盈利预测表(营收170.8/213.9/260.6E)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>新浪财经、富途、同花顺(市值/股价/总股本17.44亿交叉验证)、理杏仁(PE-TTM约189x及分位)、桑、雪球(BD交易结构汇总)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>新浪财经评论/证券之星("玛仕度肽降价求生"/"唯一增长在国内"质疑)、澎湃新闻(仅线索，未作财务依据)</p></div>
+    <p>高信心(90%·财报口径)：FY2025营收130.42亿/产品118.96亿/IFRS净利8.14亿/Non-IFRS 17.23亿、2026H1产品82亿(+55%)、BD交易结构(辉瑞105亿/武田114亿/礼来88.5亿/罗氏10.8亿)均回公司公告与港交所核对。高信心(85%·市场)：市值/股价/总股本17.44亿经新浪/富途/同花顺多点交叉，PE分位来自理杏仁。中低信心(40-55%·预测)：Forward净利/PS略为券商一致预期与AI推算，RD净利率、ROE精确值、分产品毛利率、EV/EBITDA待核实，Non-IFRS分项为公司口径。未回源数字均已标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>信达生物2025年年度报告(港交所/aastocks 2026-04-28披露)</li>
+        <li>信达生物2026年上半年及第二季度产品收入公告(港交所inside information 2026-08-05)</li>
+        <li>高盛研报：目标价107.04→111.68港元, Buy(2026-08-06，藤讯自选股/新浪转载)</li>
+        <li>中信建投证券：收入利润强劲增长，从中国领先到国际一流(2026-03, DCF合理市值2330亿HKD/136.3港元)</li>
+        <li>东方财富/中信建投/高盛 盈利预测(营收170.8~177/213.9~231/260.6~280.4E RMB)</li>
+        <li>新浪财经/富途/同花顺/理杏仁(市值、股价、PE-TTM、PB、分位交叉验证)</li>
+        <li>雪球(信达生物BD交易结构汇总) / 21世纪经济报道/观察者网(玛仕度肽销售与竞争格局)</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

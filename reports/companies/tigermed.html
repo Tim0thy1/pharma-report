@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>泰格医药 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">泰格医药<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">临床CRO · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch3">回产业链报告</a></div>
+    <h1>泰格医药<span class="code">300347.SZ/03347.HK</span></h1>
+    <p class="subtitle">国内临床CRO最龙头 · 唯一跻身全球临床CRO前十的中资 · 海外收入占比约46%</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+    <a href="pharmaron.html">上一家 · 康龙化成</a>
+    <a href="insilico.html">下一家 · 英矽智能</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈478亿元</div><div class="k-sub">2026-08-21(A股)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈60-62x(归母TTM)·扣非端~120x</div><div class="k-sub">PE-TTM 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB处近5年低位区;PE受盈利失真参考弱</div><div class="k-sub">过去5年中位 归母PE历史中位约40-50x(估)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+20%~25%</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>国内临床CRO（临床试验I-IV期+数据管理与统计等）最绝对龙头，也是唯一跻身全球临床CRO前十的本土企业。经历2023-2025行业寒冬+集采式价格竞争+公司投资类资产公允价值拖累后，2025新签订单创历史新高(101.6亿+20.7%)，2026年进入"订单回暖→扣非盈利拐点"的修复窗口。但报表归母高度依赖投资收益/公允价值变动、扣非盈利能力弱、实控人2026-05被证监会立案构成压制。当前A股约54元处PB历史低位，交易的是"CRO景气修复+困境反转"预期，需等盈利兑现。</li>
+      <li><strong>基本面：</strong>2025营收68.33亿(+3.48%)、归母净利8.88亿(+119.15%主因非经常性收益5.33亿)、扣非净利3.55亿(-58.47%)。毛利率27.41%(-6.54pct)，ROE加权4.29%。净新增订单101.6亿(+20.7%创新高)、待执行合同182亿(+15.3%)；海外收入占比约46%。商誉35.2亿、资产负债率仅14.7%极低。</li>
+      <li><strong>估值：</strong>A股约54元、总市值约478亿元，PE-TTM(归母)约60-62x、扣非口径约120x、PB约2.3x(处历史低位)。归母PE因投资收益季节扰动不可直接横向比；按2028E一致预期EPS2.03元约27x。H股约40港元、A/H溢价约37%。</li>
+      <li><strong>市场隐含预期：</strong>现价54元对应2028E一致预期EPS 2.03元约27x，隐含市场对2026-2028归母净利复合约+20~25%并对"投资收益+公允价值"持续贡献利润的假设；扣非口径则隐含扣非净利大幅修复。市场未对"报表归母继续被公允价值拖累"或"扣非修复不及"充分定价。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08-29半年报：Q2扣非能否持续双位数、新签订单增速是否维持20%+；2026Q3全球创新药融资回暖与海外订单(+35%)兑现；实控人立案调查后续进展；商誉与投资组合减值。</li>
+      <li><strong>情景结论：</strong>Bull 约70元(+30%) / Base 约55元(≈现价) / Bear 约33元(-39%)，收益风险比约1:1——盈利质量存疑，需等回落增强性价比。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>国内临床CRO绝对龙头、全球前十中唯一本土企业</strong>：泰格医药2004年由叶小平/曹晓春创立、2012年A股创业板上市(SZ300347)、2020年在港交所二次上市(HK03347)。主营临床合同研究(CRO)：临床试验技术服务(CTS，I-IV期、独立稽查、临床试验功能服务FSP)与临床试验相关服务及实验室服务(数据管理与统计分析、现场管理SMO、患者招募、医学影像，以及经持股50.82%的方达控股01521提供基因/生物分析等实验室服务)。2025年报海外收入约46%(中国54%)、海外员工1964人，覆盖42个国家地区，全球排名临床CRO前十、国内第一。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>73.84</td><td>66.03</td><td>68.33</td><td>~75-79E(一致)</td><td>~85.7E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>20.25</td><td>4.05</td><td>8.88</td><td>~10.8-11.9E</td><td>~13-14E</td></tr>
+        <tr><td>扣非净利润</td><td>~14.8(估)</td><td>8.55</td><td>3.55</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~38.6%</td><td>~34%</td><td>27.41%</td><td>~28E%</td><td>~29E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~10%(估)</td><td>~1.9%(估)</td><td>4.29%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~18(估)</td><td>~14(估)</td><td>~11.2(每股1.30)</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(2025年报)：</strong>临床试验技术服务(CTS)32.67亿(+2.8%，毛利率20.09%)；临床试验相关服务及实验室服务34.47亿(占50.4%，毛利率32.64%)——整体毛利率27.41%、同比-6.54pct，反映行业价格竞争与临床人力成本。<br><br><strong>区域(2025)：</strong>中国约37.05亿(占54%)、境外收入约31.3亿(占46%)；美国临床运营团队近200人、进行中美国试验项目38个，2025新增美国项目17个。<br><br><strong>订单(前瞻核心)：</strong>2025净新增订单101.6亿(+20.7%创历史新高)、截至年末累计待执行合同182亿(+15.3%)，为未来1-2年收入提供保障；国内临床运营新签订单平均单价2025企稳、预计2026重回增长。<br><br><strong>主要能力：</strong>临床I-IV期运营、数据管理与统计、SMO/患者招募、独立稽查、医学监查药物警戒、方达控股(01521，持50.82%)临床前与生物分析实验室。<br><br><strong>客户/竞争：</strong>全球前十药企&创新药企客户群；竞争对手=全球IQVIA/ICON/Covance(Envelop)/精鼎(Parexel)等，国内=药明康德/康龙化成(临床段)/诺思格/博济医药等。<br><br><strong>管理层/治理：</strong>创始人/执行董事叶小平、联合创始人曹晓春；注意二人在2026-05-12因持股变动信披涉嫌违法违规被证监会立案调查。<br><br><strong>资产负债：</strong>资产负债率仅14.7%(行业极低)、商誉35.20亿(2025计提减值0.20亿)；持有大量非流动/交易性金融资产(股权投资&产业基金，公允价值损益每期计入利润表)，2025非经常性损益5.33亿——归母利润显著受投资组合波动影响。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>新签订单2025+20.7%(创新高)、2026H1延续(2026Q1高双位数、4-5月+约25~27%、海外+约35%)、待执行合同182亿(+15.3%)、海外收入占比46% → 订单与需求真实回暖。</li><li><strong>会计/周期性拖累：</strong>2024-2025行业寒冬(研发预算收缩+临床CRO价格战)致毛利率由~38%一路降至27.41%；扣非净利率仅约5.2%，属"周期底部+价格竞争"产物而非经营质量恶化。</li><li><strong>一次性因素：</strong>报表归母高度依赖公允价值变动与投资收益(2025非经常5.33亿、归母8.88亿 vs 扣非3.55亿)；2026Q1归母0.49亿(-70%)即主要因公允价值/投资收益同比大幅回落，且存在大额少数股东损益。</li><li><strong>结论：</strong>营收企稳回升、订单显著回暖是"经营基本面"，报表归母被"周期性价格致扣非摊薄+投资收益/公允价值波动"双重干扰——看经营侧扣非与订单、勿以归母为准绳。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈54元</strong></td><td>2026-08-21盘中52.7-57.9；当日放量上攻</td></tr><tr><td>A股总市值</td><td><strong>≈478亿元</strong></td><td>8.61亿总股本(@55.5元)；流通市值约314亿</td></tr><tr><td>EV</td><td><strong>≈360-400亿元(估)</strong></td><td>市值扣净现金(现金+投资组合较大)</td></tr><tr><td>PE-TTM</td><td><strong>≈60-62x(归母)</strong></td><td>归母TTM约7.7亿；扣非端PE约120x(参考弱)</td></tr><tr><td>PE-2026E</td><td><strong>≈43x</strong></td><td>一致预期EPS 1.25元</td></tr><tr><td>PE-2027E</td><td><strong>≈35x</strong></td><td>一致预期EPS 1.54元</td></tr><tr><td>PE-2028E</td><td><strong>≈27x</strong></td><td>一致预期EPS 2.03元</td></tr><tr><td>PB</td><td><strong>≈2.3x</strong></td><td>每股净资产约24.3元(2025末)，历史低位区</td></tr><tr><td>PS(TTM)</td><td><strong>≈7.0x</strong></td><td>市值478亿/营收68.3亿</td></tr><tr><td>EV/EBITDA</td><td><strong>≈25-30x(估)</strong></td><td>EBITDA因扣非摊薄偏小</td></tr><tr><td>FCF Yield</td><td><strong>≈2-3%</strong></td><td>OCF约11亿/市值478亿，估</td></tr><tr><td>股息率</td><td><strong>≈0.23%</strong></td><td>2025每股派0.14元；PEG失真(非经常占比高)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(东财/同花顺/理杏仁/新浪/证券之星)市值约465-478亿、股价约49-55元、PE-TTM约60-62x、PB约2.28-2.31x均于2026-08-21交叉核对。关键口径提醒：①归母PE受投资收益/公允价值季节扰动极大(2025归母8.88亿 vs 扣非3.55亿)，横向比PE意义有限；②PB更能反映资产侧估值、处历史低位；③预测(2026-28E)+Pe比值均为一致预期/AI估算、须以实际披露为准。实控人立案与商誉处审计关键项，涉风险重估。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PB(当前)</td><td><strong>约2.3x</strong></td><td>每股净资产24.3元；历史峰值约10-12x(2021)、中位约4-6x(估)——处近5年低位区</td></tr><tr><td>PE-TTM(归母/当前)</td><td><strong>约60-62x</strong></td><td>中位约40-50x；但归母受投资收益扰动，历史口径参考意义弱</td></tr><tr><td>历史极端</td><td><strong>2021年估值处绝对峰值(市梦率)</strong></td><td>2023-2025盈利崩后扣非端、归母端估值口径均被盈利失真</td></tr>
+      </tbody>
+    </table></div>
+    <p>资产侧看(PB约2.3x)泰格处于过去5年的历史低位区——这是"行业寒冬+CRO价格战+实控人立案+2024-2025盈利崩"共振的结果。PE口径受归母/扣非失真严重，难以直接定位分位。整体属"困境底部、左侧修复前夜"的估值形态：PB低意味着安全边际较厚，但能否兑现价值修复，取决于扣非盈利能否随订单回升而真实上行——这是当前估值处置的枢纽。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>68.33</td><td>~76-80E</td><td>~86-92E</td><td>~100-105E</td></tr>
+        <tr><td>毛利率</td><td>27.41%</td><td>~28E%</td><td>~29E%</td><td>~29-30E%</td></tr>
+        <tr><td>净利润</td><td>8.88</td><td>~11E(一致)</td><td>~13-14E(一致)</td><td>~17.5-18E</td></tr>
+        <tr><td>EPS</td><td>1.04</td><td>~1.25E</td><td>~1.54E</td><td>~2.03E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：国内临床订单单价2025企稳、预计2026重回增长；2026全年新签订单增速「不低于2025年的20.6%」；海外子平台扩张(收日本Micron、佰诚医药)增强本地化。营收确认滞后于订单，2026-2027进入兑现期。(东财F10经营分析/业绩会纪要)（公司指引）/ <strong>市场一致预期(东财/同花顺多机构、近六月均值)：营收2026E 75-79亿(+10~15%)、2027E 85.7-88亿、2028E 99.7亿；EPS 2026E 1.25元(归母约10.8亿)、2027E 1.54元(约13.3亿)、2028E 2.03元(约17.5亿)。乐观内资(国联民生)给2026-28归母11.85/15.75/20.41亿。</strong>（市场一致预期）/ <strong>AI估算：营收2026E 76-80亿(+12%)、2027E 88-92亿、2028E 100-105亿；归母2026E 11-12亿、2027E 14-15亿、2028E 18-20亿(含一定投资收益假设)；毛利率2026E约28%、2027-28E逐步抬升至29-30%。扣非净利预计自2026年起明显修复。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>临床CRO型潜力指标</h3><ul><li><strong>待执行合同/backlog(前瞻)：</strong>2025累计待执行合同182亿(+15.3%)、净新增订单101.6亿(+20.7%创新高)——回款口径可平滑未来1-2年收入。</li><li><strong>新签订单节奏(2026)：</strong>2026Q1高双位数(2月春节放缓、3月强劲)、4-5月同比约+25~27%、海外订单增速突破+35%——订单增速(25-35%)显著快于收入(约15%)，弹性足。</li><li><strong>海外扩张：</strong>海外收入占比约46%、北美本土团队近200人、美国进行中项目38个(2025新增17个)，全球前十临床CRO中唯一中资，受益全球创新药研发外包渗透与海外最大药企采购。</li><li><strong>全球融资回暖：</strong>美联储降息周期下全球创新药一级/二级融资回暖，直接拉动临床CRO前端立项与订单(2026Q1新签订单印证)。</li><li><strong>SMO/统计/实验室协同：</strong>数据管理、统计分析、SMO/患者招募+方达控股实验室(持50.82%)构筑一站式临床服务，交叉销售与客户留存驱动单车价值提升。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2025归母+119%(8.88亿)≠经营好转:增长部分来自非经常性投资收益/公允价值(5.33亿)；真实经营侧扣非仅3.55亿(-58.47%、净利率~5.2%)，反映临床CRO价格战致毛利率由~38%降至27%。订单回暖(净新增+20.7%、2026再提速)是核心经营驱动，但报表归母会被投资组合价格波动+少数股东损益持续干扰，评估须以扣非+订单为准。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>海外临床业务(占~46%)</td><td><strong>+约8pct</strong></td><td>2026新单+约35%、北美团队扩张，海外收入弹性最大</td></tr><tr><td>国内需求复苏+订单迁移</td><td><strong>+约6pct</strong></td><td>国内临床订单单价2026企稳回升、新签订单加速</td></tr><tr><td>SMO/统计/实验室+大客户</td><td><strong>+约3pct</strong></td><td>数据统计/方达实验室协同、全球前十药企渗透加深</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎由"海外临床扩张+国内需求复苏"双轮驱动，以外包行业景气(全球创新药融资回暖)为大背景。最前瞻的领先指标是"新签订单增速(25-35%)>收入增速(~15%)"——订单先行、收入随后确认，兑现确定性较高。但"增订单易、增利难"：价格战下毛利率仅27%、扣非净利率~5%，盈利质量是当前最大拖累，增长兑现度需紧盯扣非拐点而非归母。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价54元对应2028E一致预期EPS 2.03元约27x、2027E约35x、2026E约43x(归母口径)。隐含市场对2026-2028归母净利给约+20~25%复合增速，并要求：①新签订单回暖切实转化为收入；②投资收益/公允价值至少不再大幅负贡献(含继续的产业投资回报)；③扣非净利率由~5%向中低双位数修复。<br><br>换言之，当前价格买的是"困境反转"：PB低位(2.3x)提供安全垫，行业回暖+订单弹性支持修复，但并未为"爆发式成长"或"扣非利润率大幅跃升"定价——若扣非修复不及(价格战延续)或投资收益转负，估值将向更低PB下行。市场当前分歧核心是"这轮修复的幅度有多少"而非"景气有没有起来"。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>临床CRO规模与数据壁垒：</strong>国内临床CRO市占第一、全球前十唯一中资，临床项目数据库与SMO网络沉淀多年，规模+数据是绕不开的资源门槛。</li><li><strong>客户粘性/认证：</strong>全球前十药企深度合作，I-IV期全周期服务+FDA/NMPA/EMA合规体系，切换成本高。</li><li><strong>一体化临床服务：</strong>CTS+SMO+数据统计+实验室(方达)一站式，交叉销售与单客户价值高。</li><li><strong>海外本地化网络：</strong>42国覆盖、海外员工1964人、美国本土团队约200人——中国同行难以快速复制。</li><li><strong>投资组合协同：</strong>大量产业基金/药企股权投资提供产业生态与回报(亦为双刃剑)。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>国内临床CRO的网络、数据、SMO与全球前十药企绑定难以被新进入者快速复制；主要威胁来自药明康德(一体化临床)与全球巨头(IQVIA/ICON/精鼎)在中国+海外市场的争夺，以及诺思格/博济等价格更激进的本土竞争。泰格差异化在于"国内临床绝对规模+全球布局+数据统计与SMO综合能力"，护城河评为"中—中上"：但盈利被价格战显著侵蚀，显性护城河强、变现能力当前弱。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-29</strong> · 2026年半年度报告披露(Q2扣非能否延续双位数、新签订单增速、毛利率) — 盈利/估值</p><p><strong>2026Q3-2027</strong> · 全球创新药融资持续回暖拉动前端立项与订单 — 收入</p><p><strong>持续</strong> · 新签订单月度披露(4-5月+25~27%、海外+35%)能否维持 — 收入/预期</p><p><strong>2026H2</strong> · 汇丰(78元)/瑞银(67.4元)等外资目标价修复与评级动向 — 估值</p><p><strong>持续监控</strong> · 实控人叶小平/曹晓春证监会立案调查进展(2026-05-12立案)——治理风险是否出清 — 估值</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>扣非盈利能力弱/价格战</td><td>利润</td><td>2025扣非3.55亿(-58.5%)、毛利率27.41%，临床CRO价格竞争持续，盈利拐点或延后</td></tr><tr><td>归母依赖投资收益/公允价值</td><td>利润</td><td>2025非经常5.33亿、2026Q1归母0.49亿(-70%)——投资收益与公允价值波动直接扰动报表净利</td></tr><tr><td>实控人被证监会立案</td><td>估值+治理</td><td>叶小平/曹晓春2026-05-12因持股变动信披违法违规被立案；减持/信心/治理不确定性(5月中曾单日跌近12%)</td></tr><tr><td>商誉与整合</td><td>利润+估值</td><td>商誉35.2亿(占净资产比重较高)，收购Micron/佰诚等整合与商誉减值风险</td></tr><tr><td>全球创新药融资景气</td><td>收入+利润</td><td>研发预算收缩将迟滞订单向收入转化</td></tr><tr><td>海外地缘/BIOSECURE类法案</td><td>收入+估值</td><td>承接海外订单的地缘扰动，部分客户采购受压</td></tr><tr><td>A/H高溢价回归</td><td>估值</td><td>A股较H股溢价约37%，南向/价差回归或压制A股</td></tr><tr><td>少数股东损益/子公司</td><td>利润</td><td>方达等重点并表子少数股东损益侵蚀归母，归母增长被稀释</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>海外订单高增+国内单价回升+毛利率/扣非修复至中双位数+投资收益中性</td><td>~20亿E(归母)</td><td>~29x</td><td>~70元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>订单回暖兑现为收入、扣非温和修复、归母含稳定投资收益假设</td><td>~17.5亿E(一致EPS2.03)</td><td>~27x</td><td>~55元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>价格战持续+扣非修复不及+投资收益/公允价值缩水+信披/商誉余波</td><td>~12亿E</td><td>~24x</td><td>~33元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约54元为基准：上行到Bull约70元(+30%)、Base约55元(≈现价)，下行到Bear约33元(-39%)；收益风险比约1:1，明显逊于迈瑞/康龙等盈利更扎实的CXO。PB低位提供左侧安全垫，但"扣非盈利弱+归母依赖投资收益+实控人立案"令风报比不占优，宜等回落或盈利拐点确认再提高仓位。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026-08-29中报Q2扣非未能延续双位数、订单增速回落至15%以下；②毛利率继续下滑/扣非净利率未修复；③实控人立案进展不利或出现减持/质押压力；④投资收益与公允价值显著转负令归母低于10亿；⑤商誉/整合暴雷——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：临床CRO/CXO板块——在美国降息+全球创新药融资回暖、研发预算边际改善背景下，行业景气处于"底部修复→上行"初段；板块整体估值(尤其PB)处历史中低位，与2021年高位相比明显收敛。泰格为国内临床CRO绝对龙头，景气直接受益于订单(2026新单+25~35%)向上，属"行业底部反转前夜+个股尚在左侧"。由于扣非盈利仍在低谷，细分行业类景气度高但"增利"尚待兑现。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>8-21放量上攻(盘中最高57.97、收约54)、换手8.72%、成交约27.7亿，突破前期平台；上方58-62压力、下方51-52支撑，立案后低点约47-49</td><td><strong>短线转强但已急涨乖离，追高风险大，等回踩53/50企稳</strong></td></tr><tr><td>基本面</td><td>2026Q1营收+15.17%、扣非1.20亿(+17.65%转正回升)，但归母0.49亿(-70%)受投资收益拖累；新签订单+25~35%、待执行182亿；盈利拐点在扣非端</td><td><strong>基本面向上、盈利拐点在扣非，验证点8-29中报</strong></td></tr><tr><td>情绪面</td><td>医药/CXO板块情绪回暖、泰格放量领涨(当日+7%)，换手近9%偏高，短线情绪升温易见技术回踩</td><td><strong>情绪转热但短线追高性价比低，等情绪降温</strong></td></tr><tr><td>政策影响</td><td>国内"全链条支持创新药"政策利好临床CRO；海外BIOSECURE类法案对接单有扰动但边际缓和；实控人信披立案为治理层面压制</td><td><strong>政策中性偏正(国内)、信披立案为尾部风险，需跟踪</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(优先)：汇丰前海2026-04下调A股目标价至78元(维持买入，H股59.7港元)、瑞银(UBS)维持A股67.4元/H股56.1港元"跑赢大市"、高盛维持A股目标价约75.2元(雪球转引)；偏谨慎的为里昂H股目标48.6港元(跑赢大市)与中银国际H股48港元(盈利承压)。外资A股目标区间约67-78元，较现价+24%~+44%；H股目标较低且A/H溢价约37%。内资研报(中邮/中泰/申万/兴业/东北/国联民生等)多给"买入/推荐"，2026E EPS预测1.07~1.38元、部分目标价测算含较乐观投资收益假设，参考价值弱于外资——外资优先。大摩/美银/杰富瑞对泰格覆盖信息有限(未详查证)。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：PB(2.3x)历史低位+CRO景气回暖+订单(新签+25~35%)最领先指标强劲，是"困境反转"候选；但扣非盈利仍在低谷(净利率~5%)、归母高度依赖投资收益、实控人立案未出清、A/H溢价约37%，当前A股54元(当日已放量+7%)追高风报比不佳。判断为<b>轻仓试仓(<1-2成)或等回落分批、现价不追高</b>：回落至约50-51元立案后平台可分2成底仓；验证点2026-08-29中报——Q2扣非延续双位数+新签维持20%+则加至3成。加仓触发：中报扣非拐点确认或跌破后缩量企稳。止损：有效跌破47-48元(立案后低点)离场，不盲目抄底。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>泰格医药2025年年度报告及摘要(港交所HKEX2026-03-30披露)、2025年度业绩公告(公司IR PDF)、2026年一季报、深交所/港交所披露易公告(含实控人立案告知书2026-05-12)、公司商业化业绩说明会纪要</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(汇丰前海/瑞银/高盛/里昂/中银国际/国联民生/中泰/申万/兴业/东北/中邮等)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10、同花顺(iFind)、新浪财经、证券之星、智通财经、雪球、理杏仁(市值/PE/PB交叉验证)、Reportify财报</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>股吧/公众号(市值观察/36氪/健识局等，实控人立案相关仅作线索，财务数据未采信)</p></div>
+    <p>高信心(87%·财报口径)：营收68.33/归母8.88/扣非3.55/毛利率27.41/ROE4.29/商誉35.2/订单101.6&182亿/海外46%均回2025年报与业绩公告核对；Q1 2026营收18.01/归母0.49/扣非1.20亿回一季报。中高信心(72%·估值)：市值465-478亿、股价49-55元、PE-TTM 60-62x、PB 2.3x来自第三方(8-21)并交叉核对；EV/EBITDA/FCF为AI估。中低信心(45-55%·预测)：2026-28E一致预期EPS与Bull/Base/Bear为主观推演，且归母受投资收益扰动大、预测不确定性高；实控人立案"进展"与商誉减值前瞻为待核实；2026半年报(8-29)前后所为预测。未回源码均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>泰格医药2025年年度报告及摘要（港交所披露易2026-03-30）</li>
+        <li>泰格医药2025年度业绩公告（公司IR，tigermedgrp.com）</li>
+        <li>泰格医药2026年一季报及实控人立案公告（深交所/港交所2026-05-12）</li>
+        <li>汇丰前海·瑞银·高盛·里昂·中银国际及国联·中泰·申万等券商研报</li>
+        <li>东方财富F10 / 同花顺(iFind) 盈利预测 / 新浪财经 / 证券之星 / 理杏仁（市值、PE、PB交叉验证）</li>
+        <li>市值观察·36氪·健识局（实控人立案相关线索，财务数据不采信）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

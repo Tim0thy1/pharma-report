@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>九州通 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">九州通<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">民营医药流通龙头 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch7">回产业链报告</a></div>
+    <h1>九州通<span class="code">600998.SH</span></h1>
+    <p class="subtitle">民营医药流通龙头 · 分销1336.68亿+总代(CSO)+好药师万店加盟+REITs盘活重资产</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+    <a href="crhh.html">上一家 · 华润医药</a>
+    <a href="sinopharm-china.html">下一家 · 中国医药</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈248亿元(总市值)</div><div class="k-sub">2026-08-21(A)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈12x(TTM)/≈11x(2025A)</div><div class="k-sub">PE按归母22.55亿/20.18亿TTM(2026-08-21行情+2026Q1报)</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PE处过去5年中枢附近、PB约0.9x处历史低位、股息率约4%处历史高位</div><div class="k-sub">过去5年中位 5年中位约11-12x(估)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+3%~+10%(归母)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>九州通是A股最大民营医药流通企业(600998.SH)、全国分销老三(仅次于国药/上药/华润央企体系)，主营「三新两化」——数字化分销与供应链(约1336.68亿，占约83%)+总代品牌推广CSO(约197.77亿)+好药师"万店加盟"新零售(门店超34500家)+医药工业自产及OEM(约33.33亿)，并开创医药行业首单公募REITs+Pre-REITs盘活仓储重资产。2025营收1613.90亿(+6.31%)、归母22.55亿(-10.07%)，主因信用减值计提激增172%、且2024年含Pre-REITs首期约5.76亿一次性收益(扣非归母17.48亿、-3.63%)。归母净利率仅约1.4%、ROE约8%、经营现金流34.41亿。估值处"PB约0.9x历史低位+股息率约4%+前向PE约10x"的深度价值/防守形态，外资大摩(2026-06)目标价3.60元低于现价4.91，提示对本业应收/减值/现金流质量的疑虑——属"低估值但盈利拐点未现"的中性标的。</li>
+      <li><strong>基本面：</strong>2025营收1613.90亿(+6.31%)、归母22.55亿(-10.07%)、扣非17.48亿(-3.63%)、EPS 0.44元；毛利率约7.82%、归母净利率约1.4%、ROE约8%、经营现金流34.41亿(+11.62%)。分部(2025)：数字化分销与供应链1336.68亿(+6.80%、毛利率6.59%)；总代品牌推广CSO 197.77亿(+2.64%、毛利率11.40%、贡献毛利22.54亿占主营毛利18.03%，其中药品CSO 122.17亿+13.44%)；医药工业自产及OEM 33.33亿；好药师门店超34500家、C端会员超6000万。2026Q1营收447.83亿(+6.58%)、归母7.33亿(-24.41%)、扣非5.43亿(+7.12%)。</li>
+      <li><strong>估值：</strong>现价4.91元、总市值约248亿元(总股本约50.42亿股)、PE-TTM约12x/按2025A约11x、PE-2026E约9.8-10.8x、PB约0.85-0.90x(归母净资产约285-293亿)、股息率约4.07%(2025年度每10股派2元、分红率44.23%)、PS-TTM约0.15x。</li>
+      <li><strong>市场隐含预期：</strong>现价4.91元对应总市值约248亿元，按2028E一致预期归母约31亿(EPS约0.62)≈前向PE约7.9x、2026E约10.2x、派息率44%对应股息率约4%——市场参考"医药流通+温和成长(CSO/好药师/REITs)+股息防守"给中性偏低估值。它并未为CSO/好药师/REITs的独立成长期权给出过高溢价，也未把它打到央企流通国药那般的PB 0.54x绝对低位；隐性地保留了对应收/减值/现金流质量的担忧(外资大摩目标价3.60远低于现价)。即当前价格已把"归母下滑+应收减值+民营流通议价弱"大部分计入，但成长期权的兑现与否决定向上弹性。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08-25披露的2026年中报(Q2归母/扣非能否环比改善)+应收账款减值是否放缓、CSO与好药师增速、REITs后续扩募/Pre-REITs二期、以及"提质增效重回报2.0"下分红能否再上台阶。</li>
+      <li><strong>情景结论：</strong>Bull约8.3元(+69%)/Base约6.15元(+25%)/Bear约3.97元(-19%)，收益风险比约1.3-1.9:1偏中性，外资大摩目标价3.60元提示下行锚点，宜轻仓/等企稳而非重仓。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>A股最大民营医药流通企业、全国分销第三大平台(600998.SH)</strong>：九州通医药集团股份有限公司由刘宝林家族创立的民营医药商业集团，2010-11-02在上交所主板上市(600998.SH)，是国内规模最大的民营医药流通企业、综合流通百强前四(仅次于央企国药控股、上海医药、华润医药)。公司以医药商业批发(B2B分销)起家，历经"三新两化"(新零售/新创新/新健康+数字化/产业化)转型，形成"分销+总代(CSO)+好药师新零售+医药工业+REITs盘活"五大支柱：数字化分销与供应链2025营收1336.68亿(+6.80%)为底盘，总代品牌推广CSO 197.77亿(药品CSO收入122.17亿、+13.44%，毛利率11.40%远高于分销)，好药师"万店加盟"门店超34500家、C端会员超6000万，并落地医药行业首单公募REITs+Pre-REITs多层级不动产权益资本运作平台。2025营收1613.90亿、归母净利22.55亿。与央企国药/上药/华润差异在其"民营机制更市场化、第二增长曲线(CSO/好药师/REITs)更进取、但民营资金成本高、应收与现金质量也好但市场给折扣"。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>~1501</td><td>1518.10</td><td>1613.90</td><td>~1720E(一致)</td><td>~1830E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>21.74</td><td>25.07</td><td>22.55</td><td>~23.5E(一致)</td><td>~27E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>19.60</td><td>18.14</td><td>17.48</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~8.5(估)</td><td>7.32</td><td>7.82</td><td>~7.5E</td><td>~7.6E</td></tr>
+        <tr><td> ROE / ROIC</td><td>~8.5(估)</td><td>~9.5(估)</td><td>~8.0(估)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>47.48</td><td>30.83</td><td>34.41</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部收入(2025年报)：</strong>数字化医药分销与供应链业务收入1336.68亿(+6.80%、毛利率6.59%)；总代品牌推广业务(CSO)收入197.77亿(+2.64%、毛利率11.40%)，其中药品总代品牌推广收入122.17亿(+13.44%)，CSO合计贡献毛利约22.54亿(占主营业务毛利18.03%)；医药工业自产及OEM业务收入33.33亿(西药/中药/器械自有产品集群)。<br><br><strong>新零售/好药师：</strong>"万店加盟"门店总数超34500家、全域C端会员突破6000万，是国内规模领先的药店加盟体系；叠加O2O即时零售代运营、药品追溯码"三码合一"等数字化工具赋能门店，构成第二增长曲线——正增长、毛利高于分销但单店效益与加盟扩张ROE仍在验证期。<br><br><strong>REITs/重资产盘活(特色)：</strong>落地医药行业首单公募REITs(医药仓储物流)及Pre-REITs项目，构建"公募REITs+Pre-REITs"多层级不动产权益资本运作平台，盘活全国仓储物流重资产、回笼资金、降低资产负债率。2024年Pre-REITs首期发行增加当年归母净利约5.76亿(一次性)，2025年无此基数致归母下滑。<br><br><strong>盈利结构(关键)：</strong>归母净利率仅约1.4%、整体净利率约1.5%，典型"高周转、低毛利、低净利"流通特性；分销净利率尤其薄，任何应收减值/账期恶化/毛利率松动都对利润端高度敏感。<br><br><strong>行业地位/竞争：</strong>全国医药流通批发前三、民营第一，竞争对手=国药控股(01099)、上海医药(601607)、华润医药(3320.HK)等央企/国资龙头及区域商；公司以"民营机制+全国分销网络+电商(好药师)+总代CSO+REITs"差异化，批发份额略逊于央企三巨头但市场化更强。<br><br><strong>管理层/治理：</strong>民营家族创始(刘宝林家族实控)+职业经理人团队，"三新两化"战略与"提质增效重回报"2.0行动(2026)，2025年度分红率44.23%，近三年年均分红(含回购)占三年年均归母净利46.71%。<br><br><strong>资产负债：</strong>2025末归母净资产约292.8亿、资产负债率约69%、有息负债约151亿、账上货币资金约188亿(大体净现金/均衡)；应收账款票据合计约290-375亿(随季度波动，2026Q1约375亿)，应收周转天数约60-75天(优于国药的120+天，仍为流通共性风险)；商誉约13.5亿。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>数字化分销+6.80%、药品总代CSO+13.44%(毛利率11.40%)、好药师门店/会员持续扩张、REITs盘活重资产——收入端中个位数正增的真实经营仍在，利润弹性看高毛利第二曲线CSO/好药师的占比提升。</li><li><strong>会计/一次性拖累：</strong>2024归母25.07亿含Pre-REITs首期一次性收益约5.76亿(扣非仅18.14亿)；2025无此基数叠加信用减值计提激增172%，致归母-10.07%(扣非-3.63%)——这是"一次性退坡+基数"，而非经营质量全面恶化；毛利率由约8.5%(2023)微降至7.3-7.8%区间。</li><li><strong>一次性因素：</strong>Pre-REITs收益为明显一次性/非经常项；历史有处置收益、政府补助等非经常项；A股披露"扣非归母17.48亿(-3.63%)"为更真实的经营口径。</li><li><strong>结论：</strong>营收+6.3%、归母-10%是"一次性收益退坡+应收减值激增"下的阶段性回落；剔除一次性后扣非微降、经营基本盘稳健但无爆发力——核心矛盾在应收/减值与高毛利第二曲线能否兑现。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈4.91元</strong></td><td>2026-08-21收盘；52周区间约4.4~5.3元</td></tr><tr><td>总市值</td><td><strong>≈248亿元</strong></td><td>总股本约50.42亿股(2026Q1实缴)；2026-08-21行情</td></tr><tr><td>EV</td><td><strong>≈220-250亿元</strong></td><td>账面现金约188亿、有息负债约151亿+租赁≈净现金/均衡，EV≈市值</td></tr><tr><td>PE-TTM</td><td><strong>≈12x</strong></td><td>归母TTM约20.18亿(RMB)，市值约248亿；2026-08-21行情+2026Q1报</td></tr><tr><td>PE-2025A</td><td><strong>≈11x</strong></td><td>归母22.55亿(RMB)</td></tr><tr><td>PE-2026E</td><td><strong>≈9.8-10.8x</strong></td><td>一致预期归母23.21亿(同花顺7机构)~24.9亿(银河)</td></tr><tr><td>PE-2027E</td><td><strong>≈9.0-9.4x</strong></td><td>一致预期归母约27亿(银河27.65)</td></tr><tr><td>PE-2028E</td><td><strong>≈8.0-8.5x</strong></td><td>一致预期归母约31亿(银河31.62/东吴EPS0.60)</td></tr><tr><td>PB</td><td><strong>≈0.85-0.90x</strong></td><td>归母净资产约286-293亿(RMB)；处过去5年历史低位</td></tr><tr><td>PS(TTM)</td><td><strong>≈0.15x</strong></td><td>市值约248亿/营收1613.90亿(RMB)</td></tr><tr><td>EV/EBITDA</td><td><strong>≈10-12x(估)</strong></td><td>流通营运资金、财务费用占比高，EBITDA口径参考弱</td></tr><tr><td>股息率</td><td><strong>≈4.07%(2025年报)</strong></td><td>每10股派2元(含税)、合计约9.97亿、分红率44.23%；2026-06-08已派发</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(东方财富F10/同花顺/腾讯行情/westock 2026-08-21)市值约248亿元、股价4.91元、归母净资产/营收/净利回2025年报及2026Q1报交叉核对。关键口径提醒：①PE-TTM用归母约20.18亿(2026Q1报TTM口径)，若按2025全年归母则约11x，勿混用；②PB按归母口径约0.85-0.90x，若含少数股东权益口径更高，勿混用；③每股净资产第三方给5.46元但按归母净资产/股本约5.8元，存在口径差异，PB以归母净资产计算；④预测(2026-28E)与PE/PB均为一致预期/AI估算，须以披露为准；⑤毛利率7.32%(2024)/7.82%(2025)取自东财F10系列，分销细分毛利率差异大(分销6.59% vs CSO 11.40%)。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM(当前)</td><td><strong>≈12x</strong></td><td>过去5年PE-TTM约8-15x(估)、中位约11-12x；当前约12x处中枢偏上(因盈利基数受一次性退坡/减值压低，PE偏高属失真，宜看PB)</td></tr><tr><td>PB(当前)</td><td><strong>≈0.85-0.90x</strong></td><td>过去5年PB约0.8-2.0x、中位约1.2-1.3x；当前约0.9x处历史低位(约20-30分位)</td></tr><tr><td>股息率(当前)</td><td><strong>≈4.07%</strong></td><td>近年分红率抬升至40%+使股息率升向历史高位(早年约1-2%)</td></tr>
+      </tbody>
+    </table></div>
+    <p>资产侧(PB约0.85-0.90x)与分红侧(股息率约4%)九州通均处过去5年的偏低位/高位区，盈利侧(PE-TTM约12x)因2025年减值和一次性收益退坡压低了盈利基数而显得"不便宜"。综合看，估值处于"历史偏低但非绝对底部(尚高于央企国药PB 0.54x)"的位置，安全边际中等：股息率4%+PB 0.9x提供向下兜底，但盈利拐点未兑现、外资大摩目标价3.60低于现价提示下修风险。分歧的核心是"PB低位+成长期权(CSO/好药师/REITs)的估值回归" vs "应收/减值/现金质量恶化的价值陷阱"——当前定价偏后者占上风。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>1613.90</td><td>~1720E</td><td>~1830E</td><td>~1950E</td></tr>
+        <tr><td>毛利率</td><td>7.82%</td><td>~7.5E%</td><td>~7.6E%</td><td>~7.7E%</td></tr>
+        <tr><td>净利润</td><td>22.55</td><td>~23.5E</td><td>~27E</td><td>~31E</td></tr>
+        <tr><td>EPS</td><td>0.44</td><td>~0.47E</td><td>~0.54E</td><td>~0.62E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：无官方盈利指引；强调"三新两化战略落地、第二增长曲线成型、提质增效重回报(2026分红率有望再升、力争适度提升分红比例或总额)"；"新三年战略"以收入稳健增长+结构优化+减值可控为基准。（公司指引）/ <strong>市场一致预期(同花顺7家机构截至2026-08-20)：归母2026E 23.21亿(+2.91%)、EPS 0.46元；银河证券(2026-04-28)归母2026-28E 24.90/27.65/31.62亿(+10.4%/+11.1%/+14.3%)、对应PE 10.43/9.39/8.21x；东吴(2026-04-29)EPS 0.50/0.55/0.60；兴业0.47/0.51/0.55；中金0.45/0.47。</strong>（市场一致预期）/ <strong>AI估算：营收2026E约1700-1750亿(+5-8%)、2027E约1820-1850亿、2028E约1930-1970亿；归母2026E约23-25亿(一次性退坡+减值正常化)、2027E约26-28亿、2028E约30-32亿(增速10-14%)；毛利率约7.5%-7.8%低位企稳，ROE约8-9%。经营现金流2026年随回款与减值改善有望转正放大。CSO/好药师/REITs为结构上调节点。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>医药流通/民营平台型潜力指标</h3><ul><li><strong>总代品牌推广CSO(核心点)：</strong>2025药品CSO收入122.17亿(+13.44%)、CSO合计毛利22.54亿(占主营毛利18.03%)、毛利率11.40%远高于分销(6.59%)——随更多品牌(2026已获博黎安娜等)与药品上市放量，高毛利占比提升是最确定的利润结构性增长点。</li><li><strong>好药师"万店加盟"+电商：</strong>门店超34500家、C端会员超6000万，叠加O2O/追溯码数字化，是国内最大药店加盟网络，具备平台型流量与to-C变现潜力(加盟扩张ROE与单店效益仍待验证)。</li><li><strong>REITs盘活重资产(特色双刃剑)：</strong>医药行业首单公募REITs+Pre-REITs多层级资本平台，回笼资金、降杠杆、而当期Pre-REITs收益退坡拖累2025归母——是"资产出表增收益"的资本工具，也是基数扰动的来源。</li><li><strong>医保回款直结/零售双通道：</strong>医保基金直接结算缩短应收、DTP/院边店与特药放量，改善现金流与盈利结构(政府推动方向)。</li><li><strong>医药工业自产/高端器械：</strong>西药/中药/器械自有产品+OEM 33.33亿，向"分销+制造"一体化延伸，但同时亦是研发投入与回报不确定的来源。</li><li><strong>行业集中度：</strong>两票制后小型流通商出清、龙头集中，公司全国网络+电商+CSO构成规模与渠道壁垒。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>营收+6.31%(2025)为真实经营增长；归母-10.07%主要由两重"非经营"因素构成——2024年Pre-REITs首期一次性收益(约5.76亿)退坡(会计/一次性)+信用减值计提激增172%(经营风险项)。剔除一次性后扣非归母-3.63%反映真实经营基本盘稳健但无爆发力；CSO/好药师收入与毛利高增(经营增长)是目前最扎实的结构性亮点。真正潜在红利来自高毛利CSO占比提升+REITs持续盘活+减值改善+分红提升(结构性/资本性)，而非当期营收增速。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>总代品牌推广CSO(高毛利)</td><td><strong>+1.5~2pct</strong></td><td>2025药品CSO+13.44%、毛利率11.40%，贡献毛利占18%，占比提升最确定</td></tr><tr><td>数字化分销与供应链(量增)</td><td><strong>+2~2.5pct</strong></td><td>2025分销+6.80%，全国网络以量补价、为收入底座</td></tr><tr><td>好药师"万店加盟"+电商</td><td><strong>+0.5~1pct</strong></td><td>门店超34500家、C端会员超6000万，正增长第二曲线</td></tr><tr><td>医药工业自产/高端器械</td><td><strong>+0.5pct</strong></td><td>自有产品+OEM 33.33亿，一体化延伸(回报待验证)</td></tr><tr><td>(利润端)减值放缓+费用精益+REITs</td><td><strong>—</strong></td><td>应收账款/信用减值正常化+费用优化+资产出表为利润端隐性改善</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎以"收入中个位数(+5-8%)+利润低个位数恢复(+3-10%)"为主，靠全国分销量增托底+高毛利CSO(药品CSO+13%)/好药师量增拔升结构+REITs盘活重资产，成长弹性中等偏弱。真正的边际改善在利润结构端：CSO/好药师占比提升抬升毛利率，减值正常化+医保回款直结改善现金流，REITs降杠杆。兑现度的核心领先指标是CSO收入增速、应收账款天数/减值、经营现金流与分红率，而非营收增速——"结构升级>总量增长"，确定性中等、爆发力有限。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价4.91元对应总市值约248亿元，按2028E一致预期归母约31亿(EPS约0.62)≈前向PE约7.9x、2026E一致EPS 0.46-0.50≈PE约9.8-10.8x、派息率44%对应股息率约4%——市场按"医药流通总量温和增长+CSO/好药师结构升级+股息防守"给中性偏防守估值。<br><br>它<strong>并未给CSO/好药师/REITs这套成长期权显著溢价</strong>(横向对比市值并未跑赢收入增速)，也尚未把它打到央企流通国药PB 0.54x那样的绝对地板；同时外资大摩(2026-06)目标价3.60元显著低于现价，提示市场未完全消除对应收/减值/现金流质量的再下修担忧。当前价格大体"便宜但不算des庄底"：向下有股息率4%与PB 0.9x兜底，向上需CSO占比提升+减值改善+分红加码兑现的成长逻辑，收益风险比约1.3-1.9:1偏中性。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>全国供应链/网络规模：</strong>全国性医药分销网络、约96.34万个经营品规(中西成药品规9.5万/器械47.1万/中药23.83万)，医院+连锁+基层全覆盖的规模与物流基建是硬门槛。</li><li><strong>总代CSO渠道粘性：</strong>手握众多品牌药(药)的总代/推广权，CSO毛利率11.40%远高于分销，药企对渠道/合规推广的依赖构成客户粘性。</li><li><strong>好药师/电商平台效应：</strong>34500家加盟门店+C端6000万会员+O2O/追溯码数字化，是国内最大药店加盟与to-C触达网络。</li><li><strong>REITs资本运作先发：</strong>医药首单REITs，以较低融资成本盘活仓储重资产、增强现金与ROE。</li><li><strong>民营机制可复制性分析：</strong>全国网络/总代权/加盟体系需要资金与多年渠道沉淀，新进入者与小型流通商极难复制；但形成份额主要威胁来自央企三巨头(国药/上药/华润)与区域头部，以及集采/两票制在毛利端的行业性侵蚀。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>全国性分销+总代权需要十余年布局与数千亿资金(规模效应)，国有三巨头靠央企背景与更低融资成本在份额上更强、其PB(国药0.54x)甚至更低；九州通的差异化壁垒在"民营机制+电商/好药师+总代CSO+REITs"的组合，较易被头部同行局部模仿但全面复刻难。护城河评为"中上"：壁垒扎实，但变现能力(归母净利率仅约1.4%)当前被应收减值与溢价竞争压得很低，且应收/现金流质量是最大的软肋。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-25 </strong> · 2026年中报披露(Q2归母/扣非能否环比改善、应收账款减值是否放缓、CSO/好药师增速) — 盈利/估值</p><p><strong>2026H2</strong> · 公募REITs/Pre-REITs后续扩募或二期，盘活仓储资产、回笼资金 — 现金流/归母(亦为一次性扰动)</p><p><strong>持续</strong> · CSO新品牌上市放量(2026已获博黎安娜/BMM等总代)、药品CSO收入高增(2025+13.44%) — 收入/毛利结构</p><p><strong>持续</strong> · 好药师万店加盟与C端会员扩张、医保回款直结改善应收 — 收入/现金流</p><p><strong>2026-2027</strong> · "提质增效重回报2.0"下分红率/分红总额有望再上调(2025分红率44.23%) — 股息/估值</p><p><strong>持续</strong> · 集采/医保谈判价差降幅边际温和、减值基数走低带来的利润弹性 — 利润</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>应收账款/信用减值</td><td>现金流+利润</td><td>2025信用减值计提激增172%，应收票据及账款约290-375亿(2026Q1约375亿)，账期及独家商家回款波动直接放大减值、拖累归母(2025-10.07%主因)</td></tr><tr><td>集采/医保控费压价</td><td>收入+利润</td><td>分销毛利率仅6.59%，集采/两票制/医保控费压缩进销价差，分销净利率极薄。</td></tr><tr><td>一次性收益退坡</td><td>利润</td><td>2024归母含Pre-REITs首期约5.76亿一次性收益，2025/2026无此基数致同比下滑(非经营)</td></tr><tr><td>好药师/电商扩张ROE待验证</td><td>利润+估值</td><td>34500家门店加盟扩张带来规模但单店效益与加盟管控、补贴投入回报不确定</td></tr><tr><td>医药工业/高端器械投入</td><td>利润</td><td>自产/OEM与高端器械研发具投入大、回报不确定与失败风险</td></tr><tr><td>民营高杠杆/财务费用</td><td>利润+估值</td><td>资产负债率约69%、有息负债约151亿，民营资金成本高于央企，利率与融资环境敏感</td></tr><tr><td>商誉与并购整合</td><td>利润</td><td>商誉约13.5亿，历次并购与REITs携双关联交易整合需审慎</td></tr><tr><td>股息可持续性/资本开支</td><td>估值</td><td>分红率44.23%依赖盈利稳定，若净利润下滑或资本开支(REITs/工业)挤占可能导致分红承压</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>CSO/好药师高增+REITs持续盘活+减值大幅改善+分红提升，归母恢复增长</td><td>~35E(归母)</td><td>~12x</td><td>~8.3元(+69%)</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>分销量增、CSO/好药师结构升级、减值正常化、分红率44%</td><td>~31E(一致EPS0.62)</td><td>~10x</td><td>~6.15元(+25%)</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>集采压价+应收账款减值持续超预期+CSO/好药师增速回落+一次性退坡</td><td>~25E(归母)</td><td>~8x</td><td>~3.97元(-19%)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价4.91元为基准：上行到Bull约8.3(+69%)、Base约6.15(+25%)，下行到Bear约3.97(-19%)；收益风险比约1.3-1.9:1(中枢附近、偏中性)。上行依赖"CSO占比提升+减值改善+REITs/分红加码"兑现驱动估值回归，下行有大摩目标价3.60元的估值锚+PB约0.9x+股息率约4%兜底，整体属"低估值、盈利拐点未现"的中性标的，向下有底、向上需成长兑现，风报比一般、不适合重仓押注。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026中报(Q2)归母/扣非仍双降、应收账款减值继续激增；②CSO/好药师收入增速显著回落(药品CSO连续低于10%)；③外资大摩等进一步下调目标价低于3.5元；④分红率/分红总额下滑；⑤集采价差失速致2026归母低于20亿——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：医药流通板块——受集采/两票制/医保控费压制，行业整体处"低毛利、低净利、净利率个位数"的筑底企稳阶段，盈利弹性弱于医药创新/器械子板块；板块整体估值(尤其央企流通PB约0.5-0.7x、高股息)处历史性低位，"医保回款直结+高股息防守+国企/分红重估"是核心逻辑。九州通为民营流通龙头，PB约0.9x高于央企(因其民营资金成本高、议价弱、市场给折扣)，但注入CSO/好药师/REITs的"第二增长曲线"使其具备央企同行所缺的结构成长期权。景气度属"筑底企稳、缺乏向上弹性"。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价4.91元，52周区间约4.4~5.3元；2026-05-29触及4.48低点后反弹至4.8-5.2箱体、近月量能温和(换手率约0.6%)、未破位亦未站稳中期均线</td><td><strong>处5月低点后的低位修复，趋势仍偏弱、箱体震荡，追涨性价比低，等4.5-4.6企稳平台或放量站上5.2再看了</strong></td></tr><tr><td>基本面</td><td>2025归母-10.07%(Pre-REITs一次性退坡+减值+172%)、扣非-3.63%；2026Q1归母-24.41%但扣非+7.12%(扣非口径转好)；盈利拐点在应收减值放缓与CSO/好药师高增之间博弈，8-25中报是验证点</td><td><strong>归母口径偏弱但扣非/CSO结构在改善，盈利拐点未完全确认，看中报</strong></td></tr><tr><td>情绪面</td><td>机构评级以"买入/增持"为主(兴业2026-07增持、中信/华夏买入、银河/东吴买入)，融资余额约5.45亿(占流通市值2.07%)、融券余量低、换手率偏低(约0.6%)，情绪偏冷</td><td><strong>情绪偏冷、悲观定价较充分但有分歧(机构看多 vs 外资大摩看空)，底部钝化，属左侧偏防守配置</strong></td></tr><tr><td>政策影响</td><td>集采压价已较充分定价；"医保回款直结"(缩短应收)+分级诊疗基层放量+REITs政策支持盘活重资产偏正；"提质增效重回报2.0"分红率44.23%有望再升；CSO受益行业集中与药企渠道重塑；暂无打击性新政策</td><td><strong>政策偏中性略偏正(回款直结/REITs/分红利好)，边际改善看落地</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(优先)：摩根士丹利2026-06-16下调目标价3.90→3.60元、隐含较现价4.91约-27%，反映对其医药流通应收/减值/现金流质量与盈利再下修的担忧(评级偏减持/中性)；高盛/瑞银/杰富瑞/美银对九州通近期覆盖信息有限(未检索到公开买入目标价)。内资研报为主且偏乐观需打折(兴业2026-07增持、中信/华夏2026-06买入、银河/东吴2026-04买入、中金增持；银河2026E归母24.9亿给PE 10.4x)——内资目标价测算普遍偏na言乐观，参考价值弱于外资。外资优先提示：唯一给出公开外资大行目标价的摩根士丹利(3.60元)明显低于现价，需以谨慎心态对待本业的估值地板。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：PB约0.9x/股息率约4%处历史低位+向下有净资产与股息兜底、REITs盘活+分红率44.23%提供防守，向上靠CSO/好药师成长兑现+减值改善，但2025归母-10%、2026Q1归母-24%、外资大摩目标价3.60低于现价，盈利拐点未兑现，估值尚非绝对底部。判断为<b>轻仓试仓/等企稳(1-2成底仓，侧重股息4%防守)</b>：现价4.91元(接近5月低点上方)可作低吸底仓，莫重仓押注成长；加仓触发=2026-08-25中报归母/扣非环比改善、应收账款减值放缓、或回落至4.5-4.6元(2026-05低点区)企稳，则加至2-3成；若CSO高增+分红再上台阶亦为加仓信号。止损：有效跌破4.40元(52周/近年低点)减仓离场，价值型标的亦不盲目扛单。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>九州通2025年年度报告及摘要(上交所，2026-04-28披露)、2026年第一季度报告、2025年度/2026Q1业绩说明会与现金分红说明会公告、2026年度"提质增效重回报"2.0行动方案、2024年年度报告(历史基数)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(摩根士丹利、银河、东吴、兴业、中金、中信建投、中信、华夏等)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10(财务指标/盈利预测)、同花顺F10及牛叉诊股(机构评级/盈利预测/融资融券/每股净资产)、证券之星(2025年报MD&A、信用减值+172%)、慧博投研(研报点评)、腾讯自选股/westock(k线/三大表/现金流)、中财网</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>雪球/头条等(CSO/好药师/REITs行业脉络、主力资金报道等仅作线索，关键财务数字回财报核对后采信)</p></div>
+    <p>高信心(85%·财报口径)：2025营收1613.90/归母22.55/扣非17.48/经营现金流34.41/EPS0.44、2026Q1营收447.83/归母7.33/扣非5.43、2024营收1518.10/归母25.07/扣非18.14、2023归母21.74等回2025/2024年报与2026Q1报；分部收入(分销1336.68/CSO197.77/工业33.33/好药师34500家)回2025年报MD&A及业绩说明会。中高信心(72%·估值)：市值约248亿、股价4.91、PE/PB/股息率/分红率44.23%回行情与分红公告(2026-08-21)及披露交叉核对，PB按归母净资产口径。中低信心(45-60%·预测)：2026-28E归母为一致预期(同花顺23.21/银河24.9-27.65-31.62)并按摩根士丹利下调作参考、Bull/Base/Bear为主观推演。未回源数字均标注"估/待核实"；在2026-08-25中报披露前，涉及2026H1的数据均为预测/Q1口径，须以披露为准。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>九州通2025年年度报告及摘要（上交所披露易2026-04-28，600998.SH）</li>
+        <li>九州通2026年第一季度报告/2025年度及2026Q1业绩说明会暨现金分红说明会公告（2026-04/05）</li>
+        <li>九州通2026年度"提质增效重回报"2.0行动方案（中财网转载2026-08-20）</li>
+        <li>摩根士丹利·银河·东吴·兴业·中金·中信建投·中信·华夏 券商研报</li>
+        <li>东方财富F10 / 同花顺F10及牛叉诊股 / 证券之星 / 慧博投研 / 腾讯自选股·westock 行情与财务（交叉验证）</li>
+        <li>CSO/好药师/REITs/应收账款 行业报道（雪球/头条等，财务数据以公告为准）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

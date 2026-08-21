@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天宇股份 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">天宇股份<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">沙坦原料药 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch7">回产业链报告</a></div>
+    <h1>天宇股份<span class="code">300702.SZ</span></h1>
+    <p class="subtitle">沙坦类降压药原料药全球主要供应商 · 非沙坦+制剂+CDMO转型 · 原料药提价周期(高PE故事标的)</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+    <a href="nhuji.html">上一家 · 新和成</a>
+    <a href="menova.html">下一家 · 美诺华</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈76.7亿元(t0.957亿TTM盈利基础)</div><div class="k-sub">2026-08-21(收盘22.03元·总股本3.48亿股)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">PE-TTM≈80x(盈利基础低失真)·PE-2026E≈25x(一致0.89元)</div><div class="k-sub">PE-TTM 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB≈2.1x处近5年中低位;PE因盈利塌陷参考弱</div><div class="k-sub">过去5年中位 归母PE历史中位约30-40x(估·2021峰值年更高)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+122%(归母一致预期·低基数)·2026Q1实际-51%反复</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>全球沙坦(缬沙坦/氯沙坦/厄贝沙坦等)降压原料药主要供应商、2017年创业板上市的"沙坦双雄"之一。2021年沙坦超景气峰值归母约6亿(估)、股价上百元;随后2022-2024经历沙坦价格崩塌+集采打压的三年下行期(2022亏损、2023扭亏0.27亿、2024仅0.56亿);2025年影视业绩拐点——营收30.61亿(+16%)、归母1.40亿(+149%)、扣非1.34亿(+99%),主要靠非沙坦原料药(西格列汀/依折麦布,+54.6%)与制剂(+64%)双引擎。但2026Q1利润再度-51%(CDMO收入-50%+汇率拖累>2000万),2026年一致预期净利3.1亿(+122%)高度依赖H2放量、口径激进。当前22.03元、PE-TTM高达~80x、PB~2.1x,买的是"原料药提价周期+沙坦触底+非沙坦高增"的新一轮景气周期(故事标的),估值靠成长兑现而非当期盈利支撑。</li>
+      <li><strong>基本面：</strong>2025营收30.61亿(+16%)、归母1.40亿(+149%)、扣非1.34亿(+99.35%)、毛利率37.09%(+2.44pp)、净利率4.56%、经营现金流4.74亿(+37.41%)、EPS0.41。分部(2025)：仿制药原料药及中间体22.22亿(72.58%)、制剂4.18亿(+64%,13.66%)、CDMO约4.2亿(13.7%)。2026Q1营收8.12亿(+6.89%)、归母0.42亿(-51.04%)、扣非0.42亿(-49.48%)、毛利率32.44%、每股净资产10.53元。非沙坦原料药2025+54.6%、销量+40%、毛利率升至27%,寄样项目698个(+39%)。Q4单季亦曾亏损(-0.81亿)。</li>
+      <li><strong>估值：</strong>22.03元、总市值约76.7亿(3.48亿股)、PB约2.1x(中低位)、PE-TTM约80x(盈利基础低失真)、PE-2026E约25x、PE-2027E约17.8x、PE-2028E约14.2x(一致预期)。一致目标价约25.93元(+18%)。EV约89亿(净负债约13亿)。</li>
+      <li><strong>市场隐含预期：</strong>现价22.03元对应2026E一致EPS0.89元约25x、2027E 1.24元约17.8x,隐含市场对"归母自1.4亿低基数修复至3.1亿(+122%)"并寄望"非沙坦+制剂高增+沙坦提价周期"带来成长重估;但一致预期依赖H2大幅放量(2026Q1仅0.42亿、-51%),PE-TTM~80x说明当期盈利远未兑现未来高成长,估值高度建立在预期兑现上——属于典型的"story高估值、等待业绩证实"阶段。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026年8月末披露的半年报:Q2扣非/归母能否环比回升(2026Q1-51%)、CDMO是否企稳(2026Q1-50%)、非沙坦增速能否保持40%+、制剂集采续采放量与沙坦提价落地幅度、汇率(出口占比已由80%降至50%)。</li>
+      <li><strong>情景结论：</strong>Bull 约35-41元(+60~86%) / Base 约28元(+27%) / Bear 约17元(-23%),收益风险比至Base约1.2:1、含Bull约2.5-3:1——"提价周期+转型"逻辑在,但2026Q1利润反复、PE高、一致预期激进,宜轻仓试仓或等半年报拐点确认,不宜重仓追高。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>沙坦类降压药原料药全球主要供应商 + 非沙坦/制剂/CDMO多元化转型中的APl企业</strong>：天宇股份(浙江台州黄岩,2003年创立,2017-09-19创业板上市,IPO 22.41元,董事长屠勇军)专注中间体、原料药及制剂20余年,核心产品为沙坦类抗高血压原料药及中间体(缬沙坦/氯沙坦/厄贝沙坦/替米沙坦/坎地沙坦等),与华海药业并称国内"沙坦双雄"、面向全球海外规范市场(泛紫杉大客户出口占比高)。业务分三大块：仿制药原料药及中间体(2025占72.6%,沙坦为基本盘、非沙坦高增)、制剂(13.7%,集采续采放量)、CDMO原料药及中间体(约13.7%)；2026年通过收购上海星可高纯切入高纯溶剂/废液资源化(多肽/小核酸下游),构成第四条曲线。公司正处"沙坦价格周期修复+非沙坦/制剂放量的新一轮成长期"。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>25.27</td><td>26.31</td><td>30.61</td><td>~36.5E(一致)</td><td>~44.4E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>0.27</td><td>0.56</td><td>1.40</td><td>~3.1E(一致)</td><td>~4.3E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>0.63</td><td>~0.55E(估)</td><td>1.34</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~30%(估)</td><td>~34.7%</td><td>37.09%</td><td>~35-36E%</td><td>~36-37E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~0.8%(估)</td><td>~1.6%(估)</td><td>~4%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~5E(估)</td><td>~3.4E(估)</td><td>4.74</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(2025,据证券之星/年报口径)：</strong>仿制药原料药及中间体22.22亿元(占72.58%,核心为沙坦类+快速放量的非沙坦西格列汀/依折麦布等)；制剂4.18亿元(占13.66%,同比+64%,集采续采与高端制剂)；CDMO原料药及中间体约4.2亿元(占约13.7%,客户定制API/CDMO)。<br><br><strong>区域/客户：</strong>面向全球规范市场(法规市场/原研及大型仿制药公司)出口比例高,2024年出口收入占比约80%、2026Q1已通过锁汇+业务结构调整降至50%附近以缓释汇率风险;持续扩大与原研/高端客户合作,2025年全年寄样项目698个(+39%)。<br><br><strong>沙坦基本盘：</strong>缬沙坦/氯沙坦/厄贝沙坦等为临床一线降压药,未来营收占比将逐步下降;沙坦价格自2025Q4低端市场已明显修复、筑底企稳,伴随产能进一步出清价格有望继续修复——2025年沙坦量价均有恢复,是非沙坦+制剂之外的第三重弹性。<br><br><strong>非沙坦原料药(核心增长引擎)：</strong>2025年收入+54.6%、销量+40%以上,毛利率提升至27%;受益于西格列汀、依折麦布等专利悬崖/需求放量品种,规模效应与工艺优化带动毛利率上行。<br><br><strong>制剂：</strong>2025收入4.18亿(+64%)、2026Q1再+41%;1-8批国家集采续采合计中标20个品种、涉及约6亿片,合同自2026年4月起陆续执行,为2026下半年放量主力。<br><br><strong>新材料(星可)：</strong>2026-03公告收购上海星可高纯87.81%股权,切入高纯溶剂及废液资源化利用(多肽/小核酸下游需求),与山东昌邑产能协同,构成新增长极。<br><br><strong>资产负债(2025末)：</strong>总股本3.48亿股、归母净资产约36亿(每股净资产10.53元·2026Q1)、有息负债约17.7亿、货币资金约5.1亿(净负债约13亿)、存货约17.1亿、固定资产+在建约28.8亿——重资产、存货与固定资产占比高,折旧摊销对盈利影响大。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营(结构性景气回升)：</strong>非沙坦原料药+54.6%/制剂+64%为2025核心增量,寄样项目698个(+39%)预示后续订单;沙坦价格触底企稳。但2026Q1利润-51%(CDMO收入-50%+汇率单季拖累>2000万),盈利兑现节奏反复。</li><li><strong>会计/周期：</strong>2025毛利率37.09%(+2.44pp)系非沙坦规模效应+沙坦价格修复;2026Q1毛利率回落至32.44%(-4.94pp)主要受CDMO产品降价影响;Q4单季亏损显示利润波动大;归母口径受汇兑/资产减值等影响。</li><li><strong>一次性/非经常：</strong>2025扣非1.34亿与归母1.40亿接近(非经常影响小);但目前盈利基数极低(PE-TTM~80x),任何一次性损益(汇兑/减值)都会显著放大单季波动,2026Q1利润下滑即含汇率性钝化。</li><li><strong>结论：</strong>经营处"沙坦周期底部+非沙坦/制剂双击"、盈利弹性向上但2026上半年证伪集中期(半年报待8月末),2026年一致预期(net3.1亿)依赖H2集采放量+CDMO企稳,须以半年报扣非/归母环比回升为验证锚。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈22.03元</strong></td><td>2026-08-21收盘22.03；8月自19.6平台放量上行</td></tr><tr><td>A股总市值</td><td><strong>≈76.7亿元</strong></td><td>总股本3.48亿股(@22.03元)</td></tr><tr><td>EV</td><td><strong>≈89亿元(估)</strong></td><td>市值76.7+有息负债17.7-货币资金5.1(2025末)</td></tr><tr><td>PE-TTM</td><td><strong>≈80x</strong></td><td>TTM归母约0.96亿(2025低基数+2026Q1-51%)；盈利基础低、参考意义弱</td></tr><tr><td>PE-2026E</td><td><strong>≈24.8x</strong></td><td>一致预期EPS 0.89元、归母约3.1亿</td></tr><tr><td>PE-2027E</td><td><strong>≈17.8x</strong></td><td>一致预期EPS 1.24元、归母约4.3亿</td></tr><tr><td>PE-2028E</td><td><strong>≈14.2x</strong></td><td>一致预期EPS 1.55元、归母约5.4亿</td></tr><tr><td>PB</td><td><strong>≈2.1x</strong></td><td>每股净资产10.53元(2026Q1)；近5年中低位(估)</td></tr><tr><td>PS(2026E)</td><td><strong>≈2.1x</strong></td><td>市值76.7亿/2026E营收36.5亿</td></tr><tr><td>EV/EBITDA</td><td><strong>≈10-12x(估)</strong></td><td>EBIT 1.95亿+重资产折旧摊销约7亿估、EBITDA约9亿</td></tr><tr><td>FCF Yield</td><td><strong>≈低/负(估)</strong></td><td>OCF 4.74亿-capex(固定资产+在建约28.8亿折旧重)，FCF薄弱</td></tr><tr><td>股息率</td><td><strong>低/估</strong></td><td>盈利基数低、分红能力有限</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(东财F10/同花顺/证券之星/威牛网)市值约76.7亿、股价约22.03元(2026-08-21)、PB约2.1x、PE-TTM约80x于数据源交叉核对。关键口径提醒：①归母PE受盈利基础极低(2025年1.4亿、远低于2021峰值~6亿)+TTM含2026Q1-51%严重失真,横比PE无意义,更宜看PB(2.1x、中低位)与2026-28E成长兑现PE;②一致预期与目标价25.93元为内资券商(中泰/招商/华创等)主导,外资大行未覆盖,2026E净利3.1亿(+122%)依赖H2放量、口径激进须打折;③毛利率/ROE/PB、EV/EBITDA/FCF为AI估标"估/待核实";④2026半年报(8月末)将重塑2026E盈利假设,预测不确定性高。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PB(当前)</td><td><strong>约2.1x</strong></td><td>每股净资产10.53元；2021沙坦景气峰值约5-6x、中位约2.5-3x(估)——处近5年中低位</td></tr><tr><td>PE-TTM(当前)</td><td><strong>约80x</strong></td><td>盈利基础(2025归母1.4亿)远低于2021峰值(~6亿估)致失真；纵向估值偏高、靠成长兑现</td></tr><tr><td>历史极端</td><td><strong>2021峰值→2022-24三年下行→2025回暖</strong></td><td>2021沙坦超景气归母约6亿/股价上百元;2022-24价格崩塌+集采致亏损至微利;2025回升但仅恢复峰值三成,处周期修复初中期</td></tr>
+      </tbody>
+    </table></div>
+    <p>资产侧看(PB约2.1x)天宇处过去5年中低位,但"利润端"远未修复——归母自2021约6亿的峰值跌至2025的1.4亿(仅三成),PE-TTM因此虚高。整体属"沙坦周期底部+非沙坦/制剂打开新成长曲线"的形态：PB中低位提供资产安全垫,但价值释放完全取决于盈利能否兑现一致预期(2026E 3.1亿/H2放量)——若兑现,PE快速回落到20x内;若证伪,高PE+低PB间存在巨大估值回撤风险。当前买的是"基金拐点届待证实"的左侧估值修复。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>30.61</td><td>~36.5E(一致)</td><td>~44.4E(一致)</td><td>~53.5E(一致)</td></tr>
+        <tr><td>毛利率</td><td>37.09%</td><td>~35-36E%</td><td>~36-37E%</td><td>~37E%</td></tr>
+        <tr><td>净利润</td><td>1.40</td><td>~3.1E(一致)</td><td>~4.3E(一致)</td><td>~5.4E(一致)</td></tr>
+        <tr><td>EPS</td><td>0.41</td><td>~0.89E</td><td>~1.24E</td><td>~1.55E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：①沙坦类原料药作为"基本盘"、未来营收占比进一步下降,价格2026年趋于稳定、2025Q4低端市场价格已明显修复、产能出清下有望继续修复;②非沙坦原料药(西格列汀/依折麦布等)是核心增长动力,2026有望继续保持快速增长、毛利率有提升空间;③制剂集采1-8批续采中标20品种约6亿片、4月起执行,为H2放量主力;④CDMO 2026年增长压力较大(大客户需求与价格波动);⑤持续提升高毛利制剂占比战略;⑥出口占比已由80%降至50%附近、已套保锁汇缓释汇率风险;⑦星可高纯溶剂为新增量。(公司业绩会/调研纪要/中泰、招商转述)（公司指引）/ <strong>市场一致预期(东财/同花顺等机构共识)：营收2026E约36.5亿(+19.2%)、2027E约44.4亿(+21.6%)、2028E约53.5亿(+20.4%);归母2026E约3.1亿(+122%)、2027E约4.3亿(+33%)、2028E约5.4亿(+27.5%);EPS 2026E 0.89/2027E 1.24/2028E 1.55元;综合目标价约25.93元、PE-2026约25x。</strong>（市场一致预期）/ <strong>AI估算：营收2026E 35-37亿/2027E 42-45亿/2028E 49-54亿;归母2026E 2.2-3.2亿(非沙坦+制剂兑现度中:Q1仅0.42亿、H2需大幅放量,CDMO下滑与汇率为拖累)/2027E 3.8-4.5亿/2028E 4.5-5.5亿,弹性取决于沙坦提价周期与非沙坦增速维持40%+;毛利率35-37%随规模效应与沙坦修复缓升。无论何种口径,2026E净利的H2集中兑现是最大不确定点。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>沙坦原料药+非沙坦/制剂/CDMO+新材料型潜力指标</h3><ul><li><strong>沙坦原料药提价周期反转(基本盘弹性)：</strong>2025Q4低端价格已修复、产能出清,2026年硫磺/硫酸等化工原料涨价进一步打开提价窗口(同业美诺华2026年内暴涨、沙坦产能已不再过剩),沙坦量价双修复成为第一重弹性。</li><li><strong>非沙坦原料药(核心增长引擎)：</strong>西格列汀/依折麦布等专利悬崖品种2025+54.6%、销量+40%、毛利率升至27%,寄样项目698个(+39%)预示后续大客户导入,随规模效应毛利率仍有提升空间——高毛利增量。</li><li><strong>制剂集采扩围放量：</strong>1-8批集采续采中标20品种约6亿片、2026年4月起执行,制剂2025+64%、2026Q1+41%,以量换价+高端制剂提升占比对冲沙坦降价。</li><li><strong>CDMO(弹性但短期承压)：</strong>客户定制API/CDMO约4.2亿,2026Q1收入-50%系需求+价格,全年压力存;后续随创新药/原研需求回暖或恢复。</li><li><strong>新材料高纯溶剂(星可/第四条曲线)：</strong>收购上海星可87.81%股权切入高纯溶剂及废液资源化,卡位多肽/小核酸快速增长需求,协同山东昌邑产能,提供新增长极与估值想象空间。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2025年"业绩拐点"(归母+149%)主要由非沙坦高增+沙坦价格修复的营经营改善驱动,非经常影响小；但盈利基数极低(1.4亿),且2026Q1已现反复(归母-51%)——CDMO收入-50%与人民币升值汇兑+收入确认影响大于2000万元/季属经营性短期扰动(非一次性损益),集采续采则是以量换价。评估须以"沙坦提价+非沙坦增速+CDMO企稳+汇率"四锚锁定,勿把2025低基数反弹误读为已确立的持续高增。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>非沙坦原料药(西格列汀/依折麦布等)放量</td><td><strong>+约8-10pct</strong></td><td>2025+54.6%、销量+40%,寄样698个,高毛利增量引擎,2026-27持续</td></tr><tr><td>制剂集采续采扩围(20品种6亿片)</td><td><strong>+约6-8pct</strong></td><td>2026年4月起执行、制剂+64%,以量换价放量</td></tr><tr><td>沙坦原料药提价周期/产能出清修复</td><td><strong>+约4-6pct</strong></td><td>2025Q4触底、2026成本推动提价窗口,基本盘量价回升</td></tr><tr><td>CDMO回暖+新材料(星可高纯)新增量</td><td><strong>+约2-4pct</strong></td><td>CDMO短期承压后随创新药需求回暖;星可为增量期权</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长驱动已从"沙坦单一基本盘"切换到"非沙坦原料药+制剂集采+沙坦提价"三引擎。前沿领先指标是非沙坦增速(+54.6%、寄样698个+39%)与沙坦低端价格企稳修复;盈利兑现主要取决于2026H2(集采续采+CDMO企稳+提价)能否补回2026Q1的-51%,一致预期2026E净利3.1亿对应净利+122%依赖H2大幅放量——成长方向明确但斜率与兑现节奏存在较大不确定性,核心验证窗在2026半年报(8月末)与前3季度,属"预期先行、业绩待证实"阶段。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价22.03元对应2026E一致EPS0.89元约25x、2027E 1.24元约17.8x、2028E 1.55元约14.2x,一致目标价25.93元(+18%)。隐含市场假设：①归母自1.4亿低基数修复至3.1亿(+122%),且集中在2026H2(集采续采放量+非沙坦高增+CDMO企稳);②2027-28年延续20%+营收/净利高增;③沙坦原料药正式进入提价周期、价格持续修复提供额外弹性。<br><br>但PE-TTM高达~80x(盈利基础0.96亿),说明当期利润远未兑现所定价的高成长——估值的72%以上建立在2026-27年预期上。换言之,当前价格买的是"提价周期+非沙坦高增"的期权,而非已兑现的增长：若2026半年报/Q3验证H2放量、PE快速回落到20x内则仍偏合理;若证伪(CDMO续降、非沙坦降速、集采降价超预期),则高PE+低PB下存在向资产底(Bear~17元)回撤的空间。市场分歧核心是"2026H2反弹的兑现度"。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>全球沙坦原料药规模+法规市场认证：</strong>20余年生产经验,FDA/欧盟/各国法规市场认证体系+大规模产能,面向原研与大型仿制药客户,切入壁垒高。</li><li><strong>非沙坦专利悬崖品种工艺与导入：</strong>西格列汀/依折麦布等,寄样698个(+39%)、持续扩大原研/高端客户,切换成本与验证周期构成粘性。</li><li><strong>原料药-制剂一体化垂直协同：</strong>从中间体→API→制剂全链条,成本与供应稳定、集采以量换价协同。</li><li><strong>研发与新产品储备：</strong>2025研发费用率7.85%、研发投入约2.4亿,多管线品种梯队,非沙坦+制剂+CDMO+新材料多元布局。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>沙坦原料药的"产能+法规认证+成本"壁垒与华海等龙头类似、短期难被复制,护城河再现于"沙坦基本盘+非沙坦放量"环节。主要威胁：①印度/国内同行的原料药产能扩张与价格战(2022-24已冲击)、ESG/环保趋严下部分产能出清;②集采降价侵蚀制剂盈利;③沙坦大宗品种被仿得更快、提价持续性有限;④对美/欧盟贸易与汇率扰动。护城河评为"中上游、当前盈利变现弱"——显性基础设施壁垒中等,但价值兑现完全取决于提价周期与转型兑现,竞争烈度偏高。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026年8月末</strong> · 2026年半年报披露(Q2扣非/归母能否环比回升、CDMO企稳、非沙坦增速、集采续采放量) — 盈利/估值枢纽</p><p><strong>2026年4月起持续</strong> · 1-8批集采续采20品种约6亿片陆续执行放量 — 收入/利润</p><p><strong>2026年持续</strong> · 沙坦原料药在提价周期中进一步修复(硫磺/硫酸涨价+产能出清) — 利润/毛利率</p><p><strong>2026年持续</strong> · 非沙坦原料药保持40%+高增、寄样项目转化为大客户订单 — 收入/估值</p><p><strong>2026H2</strong> · 星可高纯溶剂/废液资源化业务并表放量、协同落地 — 新增长极/估值</p><p><strong>持续监控</strong> · 人民币汇率(已降至出口占50%+套保)、对美/欧盟贸易与合规 — 利润/风险</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>沙坦价格周期修复不及预期</td><td>利润</td><td>2026Q1毛利率32.44%(-4.94pp)主因CDMO降价;沙坦提价持续性若证伪、价格再度内卷,基本盘弹性落空</td></tr><tr><td>2026年一致预期激进/半年报低于预期</td><td>利润+估值</td><td>一致2026E净利3.1亿(+122%)高度依赖H2放量,2026Q1仅0.42亿(-51%)、Q4曾单季亏损;PE-TTM~80x下任何不及预期弹性大</td></tr><tr><td>CDMO业务持续下滑</td><td>收入+利润</td><td>2026Q1 CDMO收入-50%(6797万),客户需求+价格双降,2026全年增长压力大(公司自认)</td></tr><tr><td>汇率波动(人民币升值)</td><td>利润</td><td>2026Q1汇兑损失+收入确认影响>2000万;出口占比已由80%降至50%、套保部分缓释但仍扰</td></tr><tr><td>集采续采降价/放量不及</td><td>收入+利润</td><td>中标20品种但价格降幅与执行节奏(4月起)待跟踪,以量换价净增存不确定性</td></tr><tr><td>高估值回撤风险</td><td>估值</td><td>PB2.1x(中低)但PE-TTM~80x(盈利基础低),成长若不兑现,估值在大幅扩张与回撤间摇摆</td></tr><tr><td>新材料/并购整合风险</td><td>战略+估值</td><td>星可高纯为新业务,业务协同/业绩承诺/管理整合待验证,星可收入与利润体量、并表节奏须跟踪</td></tr><tr><td>环保/安监+国际贸易环境</td><td>成本+利润</td><td>化工与原料药生产环保安监趋严,海外对华原料药采购/关税/合规核查扰动出口</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>提价周期确立(沙坦量价齐升)+非沙坦保持+40%高增+制剂集采放量+CDMO企稳+星可并表增量</td><td>~6.0-6.5亿E(归母)</td><td>~22-25x(成长兑现)</td><td>~35-41元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>沙坦温和修复+非沙坦高增+制剂放量兑现在途、CDMO趋稳,净利沿一致预期路径</td><td>~5.2-5.4亿E(一致EPS~1.55)</td><td>~18-20x</td><td>~28元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>沙坦提价证伪+CDMO续降+非沙坦降速+集采降价超预期+汇率持续拖累,成长不兑现</td><td>~3.8-4.0亿E</td><td>~15x</td><td>~17元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约22.03元为基准:上行到Bull约35-41元(+60~86%)、Base约28元(+27%),下行到Bear约17元(-23%)。收益风险比至Base约1.2:1、含Bull情景约2.5-3:1。属"提价周期+转型"的高弹性、高波动story标的,但2026Q1利润反复、PE-TTM~80x、一致预期激进、盈利兑现待H2验证——建议轻仓试仓(1-2成)或等半年报拐点确认,不宜重仓追高。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026半年报(Q2扣非/归母)未能环比回升、非沙坦增速滑落至20%以下;②沙坦提价行情证伪、毛利率再度下穿32%;③CDMO继续大降、集采续采放量不及、汇率大幅升值;④一致预期下调、盈利拐点被证伪→估值向资产底回落。任一兑现将把Base下修向Bear。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：化学原料药/沙坦类原料药。2026年是原料药"提价周期启动"之年——上游硫磺/硫酸等化工原料大幅涨价、成本端强势上行打开提价窗口,叠加沙坦等品种产能出清(2025Q4低端价格已触底企稳、部分同业称"沙坦产能已不再过剩"),行业景气自底部回升。板块估值(尤其PB)处历史中低位、与2020-21高位明显收敛。天宇为沙坦全球主要供应商+非沙坦/制剂转型,细分景气处"底部回升初期、提价逻辑发酵"阶段——行业景气向上,但个股盈利兑现处验证期。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>8-21收22.03、站上MA5(22.36下方)/MA20(21.5)/MA60(20.7),MACD DIF0.485>DEA刚金叉,8月自19.6平台放量上行;但受250日线23.47压制、月内主净流出约0.3亿</td><td><strong>短线偏强、上方23.5附近压力;回踩20.7(MA60)获支撑则延续、破20元转弱</strong></td></tr><tr><td>基本面</td><td>2025营收+16%/归母+149%(低基数),非沙坦+54.6%/制剂+64%;但2026Q1归母-51%/扣非-49%(CDMO-50%+汇率),一致2026E净利3.1亿依赖H2</td><td><strong>基本面"筑底回升、拐点尚待半年报(8月末)验证",验证点H1业绩</strong></td></tr><tr><td>情绪面</td><td>原料药"提价周期"主题2026年升温(同业美诺华年内暴涨带动),天宇获主题资金关注;当日主净流入约194万、但10日/20日主净流出-0.11亿/-0.30亿</td><td><strong>情绪中性偏暖、主题催化下有脉冲,但主力近期偏流出、需量能配合</strong></td></tr><tr><td>政策影响</td><td>上游成本涨价推动原料药提价(政策/成本驱动)、集采为制剂"以量换价"双刃剑、医保/出口合规为扰动</td><td><strong>政策偏中性偏多(成本推动提价);沙坦提价与集采放量为2026核心变量</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>内外资券商研报(东财/新浪研报库)：中泰证券(买入,2026-05 非沙坦快速增长、汇兑阶段性承压,26-28E净利3.18/4.24/5.40亿)、招商证券(增持,2026-05 业绩拐点确立、非沙坦+新材料升级,26-28E 3.0/3.8/4.5亿)、华创证券(2026-04 收入持续增加)、国泰海通(2025-09 三大引擎齐发力)、浙商/国金关注原料药提价与"沙漠之花"。一致目标价约25.93元。外资大行对天宇覆盖有限、未详查证(ID不可核查);内资一致预期(2026E净利3.1亿/+122%)偏乐观须打折,重点提示"H2放量兑现待半年报验证"。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：沙坦提价周期启动+非沙坦(寄样698个)+制剂集采放量+星可新材料,成长方向确立;但2026Q1利润-51%、PE-TTM~80x、一致预期激进、盈利兑现待2026H2验证。判断为<b>轻仓试仓(<2成)或等半年报拐点确认、不盲目追高</b>:回落至21元附近或半年报Q2 扣非/归母环比回升后分批1-2成底仓;加仓触发=半年报扣非拐点确认或非沙坦增速保持40%+/沙坦提价落地超预期;止损:有效跌破20元(MA20/前平台)离场,不因主题盲目重仓。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>天宇股份2025年年度报告(创业板2026-04-24披露,营收30.61亿/归母1.40亿/扣非1.34亿/毛利率37.09%/OCF4.74亿/EPS0.41)、2026年一季度报告(2026-01-04,营收8.12亿/归母0.42亿/扣非0.42亿/每股净资产10.53元)、关于收购上海星可高纯87.81%股权的公告(2026-03)、沙坦/集采续采20品种6亿片相关披露与业绩会纪要</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(中泰证券买入/招商证券增持/华创/国泰海通等,2026-05及2025-09);外资大行覆盖有限、未详查证</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10/股票、同花顺(iFind)、证券之星、新浪财经、威牛网、查股网、东财研报超市(市值76.7亿/股价22.03/PB2.1/PE/PB/分部占比/一致预期交叉验证)、腾讯自选股westockdata(财务/行情/consensus/研报)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>慧博投研/东财财富号/新浪医药/医药类自媒体(美诺华与沙坦提价周期、非沙坦与CDMO业务线索,财务数据以T1回源为准)</p></div>
+    <p>中高信心(76%·财报口径):营收30.61/归母1.40/扣非1.34/毛利率37.09%/EPS0.41(2025)、2026Q1营收8.12/归母0.42/扣非0.42/每股净资产10.53、OCF4.74均回2025年报+2026一季报+券商转述核对;分部占比(原料药72.58%/制剂13.66%/CDMO13.7%)与2023(25.27亿/0.27亿)、2024(26.31亿/0.56亿)经第三方交叉核对。中低信心(58%·估值):市值76.7亿、股价22.03、PB~2.1x、PE-TTM~80x来自第三方(2026-08-21)交叉核对;一致预期/目标价25.93元为内资券商主导。低信心(45%·预测与周期):2026-28E净利/沙坦提价节奏/非沙坦增速维持/星可并表均为推理+内资研报,2026年一致3.1亿依赖H2放量未验证、外资未覆盖;毛利率/ROE/PB/EBITDA/FCF为估。未回源码均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>天宇股份2025年年度报告与2026年一季度报告(创业板2026-04/newsweek核实)</li>
+        <li>天宇股份收购上海星可高纯87.81%股权公告(2026-03)及业绩会/调研纪要(中泰/招商转述)</li>
+        <li>中泰证券(买入,2026-05)、招商证券(增持,2026-05)、华创证券、国泰海通证券研究观点(东财/新浪研报库)</li>
+        <li>东方财富F10/同花顺/证券之星/新浪财经/威牛网/查股网(市值、PE、PB、分部占比、一致预期交叉验证)</li>
+        <li>腾讯自选股westockdata(财务、K线、技术、一致预期、研报)</li>
+        <li>慧博投研/东财财富号/新浪医药/医药自媒体(沙坦提价周期与美诺华同业、非沙坦与CDMO业务线索,财务回原报告)</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

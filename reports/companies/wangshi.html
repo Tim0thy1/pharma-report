@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>望石智慧 StoneWise · 概念档案（未上市） · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+
+/* Concept banner */
+.banner { display: flex; align-items: flex-start; gap: 0.9rem; background: linear-gradient(135deg,#fef2f2,#fff7ed); border:1px solid #fecaca; border-left:6px solid var(--accent2); border-radius:8px; padding:1rem 1.3rem; margin:1.6rem 0; font-size:0.92rem; line-height:1.7; }
+.banner .bb { flex-shrink:0; font-weight:800; font-size:0.78rem; letter-spacing:.05em; color:var(--accent2); background:#fee2e2; border:1px solid #fca5a5; padding:.22rem .6rem; border-radius:5px; }
+.banner p{ color:var(--ink); }
+.banner p strong{ color:var(--accent2); }
+
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.4rem 1.7rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.4rem 0; padding-left: 1.5rem; position: relative; font-size: 0.91rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+.sec { margin: 3rem 0; scroll-margin-top: 1.2rem; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.5rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.45rem; font-size: 0.92rem; line-height: 1.8; }
+
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); }
+tr:hover td { background: #f8fafc; }
+td.hl { background: #eff6ff; }
+
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.warn .label { color: var(--warn); }
+.callout.bull .label { color: var(--accent3); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* Sidebar (matches chain-report template) */
+.sidebar-wrap{ position:fixed; left:0; top:0; z-index:1000; width:280px; height:100vh; transform:translateX(-266px); transition:transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover,.sidebar-wrap.open{ transform:translateX(0); }
+.sidebar{ position:absolute; left:0; top:0; width:280px; height:100vh; overflow-y:auto; background:linear-gradient(180deg,#0f172a,#111827 55%,#0f172a); color:#cbd5e1; border-right:1px solid #1e293b; box-shadow:6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar{ width:4px; } .sidebar::-webkit-scrollbar-thumb{ background:#334155; border-radius:2px; }
+.sidebar-head{ padding:22px 22px 16px; border-bottom:1px solid rgba(255,255,255,.08); }
+.sidebar-title{ color:#fff; font-size:1rem; font-weight:800; line-height:1.42; }
+.sidebar-sub{ color:#64748b; font-size:0.7rem; margin-top:8px; letter-spacing:.04em; }
+.sidebar-nav{ padding:14px 12px 36px; }
+.sidebar-nav a{ display:flex; align-items:baseline; color:#94a3b8; text-decoration:none; font-size:0.84rem; padding:8px 12px; border-radius:8px; margin-bottom:1px; transition:all .15s; }
+.sidebar-nav a .n{ font-size:0.66rem; color:#475569; margin-right:9px; min-width:22px; font-variant-numeric:tabular-nums; font-weight:700; }
+.sidebar-nav a:hover{ color:#fff; background:rgba(255,255,255,.06); }
+.sidebar-nav a.active{ color:#fff; background:#2563eb; font-weight:600; } .sidebar-nav a.active .n{ color:rgba(255,255,255,.85); }
+.sidebar-tab{ position:absolute; right:0; top:50%; transform:translateY(-50%); width:14px; height:128px; background:#2563eb; border-radius:8px 0 0 8px; display:flex; align-items:center; justify-content:center; writing-mode:vertical-rl; color:#fff; font-size:12px; letter-spacing:.4em; cursor:pointer; box-shadow:-2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle{ display:none; position:fixed; top:12px; left:12px; z-index:1100; width:42px; height:42px; border-radius:10px; background:#0f172a; color:#fff; border:1px solid #334155; font-size:1.25rem; cursor:pointer; align-items:center; justify-content:center; }
+.sidebar-mask{ display:none; position:fixed; inset:0; z-index:999; background:rgba(0,0,0,.4); }
+@media(max-width:900px){ .sidebar-wrap{ transform:translateX(-100%); transition:transform .28s ease; } .sidebar-wrap.open{ transform:translateX(0); } .sidebar-tab{ display:none; } .sidebar-toggle{ display:flex; } .sidebar-mask.show{ display:block; } }
+@media(max-width:768px){ .container{ padding:0 1rem; } header h1{ font-size:1.5rem; } }
+@media print{ .sidebar-wrap,.sidebar-toggle,.sidebar-mask{ display:none!important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap"><aside class="sidebar" id="sidebar">
+  <div class="sidebar-head"><div class="sidebar-title">望石智慧 StoneWise<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">概念档案 · 未上市</span></div>
+  <div class="sidebar-sub">AI制药/AIDD · 数据截至 2026.08.21</div></div>
+  <nav class="sidebar-nav" id="sidebarNav">
+    <a href="#s1"><span class="n">01</span>公司画像</a>
+    <a href="#s2"><span class="n">02</span>商业模式与变现</a>
+    <a href="#s3"><span class="n">03</span>技术与壁垒</a>
+    <a href="#s4"><span class="n">04</span>团队与股东融资</a>
+    <a href="#s5"><span class="n">05</span>代表管线与合作</a>
+    <a href="#s6"><span class="n">06</span>产业链位置</a>
+    <a href="#s7"><span class="n">07</span>未上市风险与投资视角</a>
+    <a href="#s8"><span class="n">08</span>数据来源</a>
+  </nav>
+</aside><span class="sidebar-tab">目录</span></div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button><div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">公司索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#top">回产业链报告</a></div>
+    <h1>望石智慧<span class="code">StoneWise</span></h1>
+    <p class="subtitle">AI创新药研发平台 · 多模态 AI 3D 分子研发大模型 · 小分子药物设计</p>
+    <div class="meta">
+      <span class="hl2"><span class="tag concept">未上市标的</span><span class="tag sector">AI制药/AIDD · 概念档案</span></span>
+      <span>数据截至 2026.08.21</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#top">产业链报告</a>
+    <a href="insilico.html">对比 · 英矽智能(已上市 03696.HK)</a>
+    <a href="xtalpi.html">对比 · 晶泰控股(已上市 02228.HK)</a>
+  </div>
+
+  <div class="banner"><span class="bb">未上市标的 · 概念档案</span><p><strong>本页为概念档案，而非 12 维度上市估值报告。</strong>望石智慧尚未在任何交易所挂牌，无行情/市值/股价/历史估值数据，无法套用「估值、盈利预测、Bull/Base/Bear 情景」等上市口径框架。本页仅忠实梳理其公司画像、商业模式、技术壁垒、团队股东、管线合作与产业链位置，作为产业链索引页的概念性补充；所有财务/估值类信息按公开资料标注"披露/约/未公开"，不做投资评级。</p></div>
+
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR（概念层）</h2>
+    <ul>
+      <li><strong>一句话：</strong>成立于 2018 年的北京小分子创新药 AI 平台公司，创始人周杰龙（前百度主任架构师）以自研「多模态 AI 3D 分子研发大模型」为底座，向药企提供分子生成、虚拟筛选、成药性优化等 AI 药物设计服务；已同 100+ 家国内外药企/科研机构合作，助力客户发现 20+ 个早期候选药。</li>
+      <li><strong>融资：</strong>累计披露融资超 1 亿美元（2021-04 完成 B+/B 轮共 1 亿美元为标志性节点）；投资方含高瓴创投、线性资本、长岭资本（早期），君联资本、光速中国、大湾区共同家园发展基金、鼎晖VGC、钟鼎资本等（B 轮起）；经营主体已连续多年被认定为北京市高新/一般纳税人小微企业。</li>
+      <li><strong>商业模式：</strong>「软件/平台(SaaS+工具) + AI药物发现服务 + 联合开发/里程碑」混合变现，收入端以服务与里程碑为主；对标已上市 AIDD 平台（英矽、晶泰）的"卖平台+卖管线"逻辑，但规模与公开披露显著更小。</li>
+      <li><strong>未上市属性：</strong>无公开、可靠的精确估值/营收/盈利披露；无公开明确的 IPO 时间表（截至 2026.08）。与已上市 AIDD 标的（英矽智能约 HK$250 亿市值、晶泰控股）可比性有限，估值锚只能作方向性参考。</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司画像</h2>
+    <p><strong>望石智慧（StoneWise，北京望石智慧科技有限公司）</strong>成立于 2018 年（官网口径），是一家以人工智能技术驱动创新小分子药物研发的平台型科技公司。核心自述：凭借对药物研发行业的沉淀认知、AI 药物研发底层理论突破、药物研发数据的深度治理，以及软件与工程能力，搭建了以<b>多模态 AI 3D 分子研发大模型</b>为基座的小分子药物设计平台。</p>
+    <ul>
+      <li><strong>体量/定位：</strong>注册地为北京，经营主体为小微/高企/一般纳税人，属"轻资产重研发"的 AI+创新药平台，非 Biotech 管线公司的定位。</li>
+      <li><strong>对外宣称成果（官网/媒体口径）：</strong>已与<b>100+ 家</b>海内外药企、科研机构开展多种形式合作；已助力客户发现 <b>20+ 个</b>针对差异化机制的早期候选药物，多个项目进入临床前及临床开发阶段；合作伙伴覆盖多家 Top 医药企业（媒体引述，未点名全部）。（来源：望石官网、广州日报·2026-03、摩熵医药）</li>
+      <li><strong>边界提示：</strong>以上为官网/公开报道口径，未取得独立第三方审计的分业务收入或在研管线明细，数量与含金量需以客户公告/新闻佐证为准。</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="s2"><h2><span class="num">02</span>商业模式与变现</h2>
+    <h3>落地模式（混合）</h3>
+    <ul>
+      <li><strong>AI 药物发现服务（核心收入来源）：</strong>按项目向药企/科研机构交付<b>分子生成、虚拟筛选、成药性(ADMET/DMPK)优化</b>等环节的 AI 药物设计解决方案，收取服务费。</li>
+      <li><strong>平台/工具（软件层）：</strong>以 3D 分子大模型为底座的软件平台与工具（SaaS 化方向），向合作伙伴输出能力，形成订阅型/项目型现金流。</li>
+      <li><strong>产业化延伸：</strong>与客户共建端到端 AI 药物早期研发范式（如与微芯生物的合作），覆盖从靶点到临床前的整链条，争取里程碑/联合开发分成。</li>
+    </ul>
+    <div class="callout key"><div class="label">变现定性</div>望石属典型的"AI 平台外包 + 联合研发"轻资产业务，尚未见公开披露的自研上市药物管线或大规模特许权使用费分成；商业化以<b>服务费+里程碑</b>为主。就商业模式形态而言，与已上市 AIDD 公司（英矽智能"卖管线+里程碑+分成"、晶泰控股"SaaS+研发服务+自有管线"）同属一种逻辑，但公开披露的金额、客户数量级和个人管线池均远小于上述两家。</div>
+  </section>
+
+  <section class="sec" id="s3"><h2><span class="num">03</span>技术与壁垒</h2>
+    <h3>技术底座</h3>
+    <ul>
+      <li><strong>多模态 AI 3D 分子研发大模型：</strong>以 GPT/Transformer 框架为基础，融合多模态（2D/3D 结构、序列、性质）信息的分子生成模型，支持在化学空间中高效设计/优选/优化候选分子。</li>
+      <li><strong>AI 药物研发底层理论突破 + 数据治理：</strong>创始人强调"技术底层理论"与"数据深度治理"双轮驱动——机器学习模型的可解释性、与湿实验/成药性规则的结合是其实践壁垒，而非单一算法。</li>
+      <li><strong>工程与算力合作：</strong>官网提及与多家国内外头部云算力厂商保持紧密合作，以支撑大模型训练/推理的算力需求。</li>
+    </ul>
+    <div class="callout warn"><div class="label">壁垒评估（相对同赛道）</div>在"AI+小分子发现"这一拥挤赛道（英矽、晶泰、深度智药、剂泰、以及国际 Recursion/Exscientia 等），望石的差异化在于<b>具身于 3D 分子生成大模型的工程化落地与客户交付记录</b>，但其并未像英矽那样有首个进入 III 期的自研 AI 候选药，也未像晶泰那样有大规模平台授权头部药企的外化标杆，品牌与技术声量处行业第二梯队。护城河取决于能否把<code>20+ 候选药</code>中的项目推向临床并获得客户里程碑背书。</div>
+  </section>
+
+  <section class="sec" id="s4"><h2><span class="num">04</span>核心团队与股东融资</h2>
+    <h3>创始团队</h3>
+    <ul>
+      <li><strong>周杰龙（创始人 &amp; CEO）：</strong>北京理工大学人工智能专业本硕，深耕 AI 算法 20 余年；曾任<b>百度主任架构师</b>，主导百度搜索技术的创新（媒体口径）。创立望石前具备头部互联网公司 AI 工程背景，属"算法+产业"跨界型创业者。</li>
+    </ul>
+    <h3>融资历史（公开披露）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>时间</th><th>轮次</th><th>金额</th><th>主要投资方（公开披露）</th></tr></thead>
+      <tbody>
+        <tr><td>2020-03</td><td>A 轮</td><td>近千万美元</td><td>长岭资本、线性资本（联合投资）</td></tr>
+        <tr><td>2020-09</td><td>A+ 轮</td><td>数百万美元</td><td>高瓴创投、线性资本（超额认购）</td></tr>
+        <tr><td>2021-04</td><td>B+/B 轮</td><td>共约 1 亿美元（B+、B 合并公告）</td><td>大湾区共同家园发展基金、光速中国（B+ 共同领投）；君联资本（B 轮领投）；新进鼎晖VGC、钟鼎资本；老股东高瓴等超额</td></tr>
+      </tbody>
+    </table></div>
+    <p class="callout warn"><strong>核实说明：</strong>官网自述"已完成数轮融资、累计超 1 亿美元"，与上表披露口径一致。需注意：网络上有"红杉投出望石"的揣测性说法，但本轮检索的融资公告（长岭/线性、高瓴创投、君联/光速/大湾区共同家园/鼎晖VGC/钟鼎）中<b>未出现红杉中国的直接出资记录</b>，故本页不采信"红杉投资望石"这一说法，请以公司/机构正式公告为准。</p>
+  </section>
+
+  <section class="sec" id="s5"><h2><span class="num">05</span>代表管线与合作</h2>
+    <ul>
+      <li><strong>合作广度：</strong>100+ 家海内外药企、科研机构；覆盖多种合作形式（AI 平台订阅、项目交付、联合研发、产学研课题等），宣称客户覆盖多家 Top 医药企业。</li>
+      <li><strong>产研标杆合作：</strong>与<b>微芯生物</b>宣布共建"端到端 AI 药物早期研发"新范式，将 AI 能力嵌入实际小分子创新药企业的早期研发流程（官网新闻）。</li>
+      <li><strong>产出口径：</strong>助力客户发现 <b>20+</b> 个针对差异化机制的早期候选药物，多个项目进入临床前及临床开发阶段。</li>
+      <li><strong>差异提示（诚实标注）：</strong>望石以"赋能客户管线"为主，公开可查到<b>自研标注、进入临床/上市公司公开 BD 里程碑的具体项目数较为有限</b>；与英矽（40+ 管线、13 IND、Rentro III 期）或晶泰（对外授权头部分子）相比，公开可验证的管线叙事相对单薄。</li>
+    </ul>
+  </section>
+
+  <section class="sec" id="s6"><h2><span class="num">06</span>产业链位置</h2>
+    <div class="callout key"><div class="label">价值环节定位</div><b>上游(算力/大模型基座) → 中游(数据治理 + AI 药物设计服务/软件) → 下游(药企与传统 CRO 的受让方、临床开发)</b>。望石主阵地是<b>中游"AI 模型+药物设计工具"环节</b>：向上依赖国内外云算力厂商提供训练/推理算力，向下依托自身对药物研发数据与成药性规则的深度治理，向药企交付候选分子与设计服务；其自身不产生自有临床管线为主，而是作为"分子发现外脑"嵌入客户的早期研发链。</div>
+    <p>在产业链中的相对位置与英矽（Insilico，平台+自研管线双轮，更偏"管线公司"）、晶泰（晶泰控股，偏"AI+机器人湿实验 + SaaS + 里程碑平台"）相比，望石更接近<b>纯 AI 发现工具/服务商</b>，收入主要来自上游客户（药企/CRO）的项目付费，直接暴露于行业对"AI 外包是否比自建更有价值"的认知与预算周期。</p>
+  </section>
+
+  <section class="sec" id="s7"><h2><span class="num">07</span>未上市风险与投资视角</h2>
+    <h3>为何做档案页而非 12 维度审核</h3>
+    <p>望石未在任何市场挂牌，因此没有行情、市值、股价、历史估值、一致预期等数据来源，价格/估值/盈利预测/情景测算等上市口径维度无法构成有效内容，故本页仅提供概念档案。</p>
+    <h3>未上市风险</h3>
+    <ul>
+      <li><strong>无流动性：</strong>股权仅限一级市场，普通投资者无法直接买卖，只能通过相关上市公司（投资方）或未来 IPO 间接暴露。</li>
+      <li><strong>信息披露有限：</strong>营收、盈利、管线里程碑、客户金额均无强制披露要求，公开信息碎片化且多来自官网与媒体自述。</li>
+      <li><strong>IPO/并购预期：</strong>截至 2026.08 未见公开的明确上市时间表；若未来选择被并购或赴港/上市，估值将取决于届时 AIDD 板块情绪与其管线/订单兑现。</li>
+    </ul>
+    <h3>估值锚（方向性参考，非评级）</h3>
+    <p>已上市 AIDD 可比标的提供行业估值带参考：<b>英矽智能（03696.HK）</b>市值约 HK$250 亿（≈US$3.2B，2026-08，外资 PS 口径约 24~31x 2026E）；<b>晶泰控股（02228.HK）</b>为"AIDD SaaS+研发服务+管线"平台的另一个市值锚。望石因未披露收入，无法直接套用 PS；仅可据此推测：其一级市场估值高度依赖"客户数/订单 + 管线里程碑 + 平台叙事"，<b>不应</b>将已上市龙头的市值按比例简单折算给未披露数据的望石（二者业务规模与披露透明度差异大）。</p>
+    <div class="callout bear"><div class="label">风险提示（投资视角）</div>本档案不构成投资建议。一级市场标的无流动性，估值与商业模式兑现存在重大不确定性；"20+ 候选药"的含金量、订单可持续性、算力与研发烧钱、以及同赛道的同质化竞争均是需持续跟踪的风险点。</div>
+  </section>
+
+  <section class="sec" id="s8"><h2><span class="num">08</span>数据来源</h2>
+    <p>本页全部采用公开信息，已尽力标注来源与日期；精确营收/盈利/估值未披露处一律以"披露/约/未公开"标出，避免臆造。</p>
+    <ol>
+      <li>望石智慧官网「About Us / 团队 / 合作新篇（微芯生物）/ A+ 轮融资公告」——<b>stonewise.cn</b>，访问 2026-08-21。</li>
+      <li>i黑马「望石智慧获一亿美元 B 及 B+ 轮融资，双引擎加速 AI 制药产业化落地」——2021-04-12。</li>
+      <li>大健康派/动脉网「望石智慧获得近千万美元 A 轮融资」——2020-03-17。</li>
+      <li>广州日报「望石智慧周杰龙：大投入、高风险、长周期？这恰恰是 AI+医药的长期价值所在」——2026-03。</li>
+      <li>摩熵医药「北京望石智慧科技有限公司 融资 / 研发管线信息」——企查查·启信宝企业频道，访问 2026-08-21。</li>
+      <li>腾讯新闻「对话望石智慧周杰龙：医药早研智能体，下一代 AI 制药的新基座」——2026-03-31。</li>
+      <li>上市公司/行业对比基线（英矽智能 03696.HK、晶泰控股 02228.HK）估值信息来自产业链报告 pharma-chain.html 与对应已上市公司档案，仅供方向性参考。</li>
+    </ol>
+  </section>
+
+  <div class="footer" style="text-align:center;margin:3rem 0 1rem;"><a href="companies-index.html">← 返回公司索引</a> &nbsp;·&nbsp; <a href="../pharma-chain.html#top">← 回产业链报告</a></div>
+
+</div>
+
+<footer><div class="container"><div class="sources"><h2>版权与口径</h2>
+  <p style="font-size:0.82rem;color:#6b7280;">本页为〈AI制药 · 产业链公司档案〉系列中的<b>未上市公司概念档案</b>（非上市估值报告），属研究/说明性质内容，不构成任何投资建议。所有"披露/约/未公开"字段均已在正文标注口径与来源日期。</p>
+</div>
+<div class="disclaimer">免责声明：望石智慧为未上市主体，任何估值、订单、管线数量等信息来自官网或公开报道，未经独立审计核验；读者应以公司正式披露为准。</div></div></footer>
+
+<script>(function(){
+  var toggle=document.getElementById('sidebarToggle'), wrap=document.getElementById('sidebarWrap'), mask=document.getElementById('sidebarMask');
+  if(toggle) toggle.addEventListener('click',function(e){e.stopPropagation();wrap.classList.toggle('open');mask.classList.toggle('show');});
+  if(mask) mask.addEventListener('click',function(){wrap.classList.remove('open');mask.classList.remove('show');});
+  var links=document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function(l){l.addEventListener('click',function(e){var t=document.querySelector(this.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}if(wrap.classList.contains('open')){wrap.classList.remove('open');mask.classList.remove('show');}});});
+  var secs=document.querySelectorAll('.sec'), nl=document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll',function(){var cur='';secs.forEach(function(s){if(window.scrollY>=s.offsetTop-120)cur=s.id;});nl.forEach(function(l){l.classList.remove('active');if(l.getAttribute('href')==='#'+cur)l.classList.add('active');});});
+})();</script>
+</body>
+</html>

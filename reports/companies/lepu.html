@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>乐普医疗 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">乐普医疗<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">心血管平台 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch5">回产业链报告</a></div>
+    <h1>乐普医疗<span class="code">300003.SZ</span></h1>
+    <p class="subtitle">国内心血管器械+药品双轮平台龙头 · 集采出清期转型 · AI心电全球领先</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+    <a href="microport.html">上一家 · 微创医疗</a>
+    <a href="weigao.html">下一家 · 威高股份</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈224亿元(12.17元×18.43亿股本)</div><div class="k-sub">2026-08-21</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈23.3x(基于2025归母EPS0.52)·一致预期2026E约21x·扣非口径略高</div><div class="k-sub">PE-TTM口径 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB(1.39x)处近5年底部区;PE受2024减值失真参考弱</div><div class="k-sub">过去5年中位 归母PE历史中位约30-40x(估,2021年曾达50-80x)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+8%~13%</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>国内心血管全产链平台龙头(冠脉支架/药物球囊/结构心瓣膜等器械 + 降压降脂/造影剂等药品 + AI心电/诊后医疗服务)。经历2020-2021冠脉支架集采价格冲击后剧烈转型：营收由2022年峰106亿降至2024年61亿、归母由22亿崩至2.5亿(2024大额减值)，2025年止血回升(营收64.8亿+6.2%、归母9.62亿)。2026H1净利再度下滑(归母4.99亿,-27.7%)——公司称2026为"集采全面出清年"，污染出清后结构心/药球/消费医疗与GLP-1/小核酸创新药期权成为主要看点。当前12.17元、PB1.39x处历史底部，属"困境反转+创新期权"型标的，需盯住盈利拐点。</li>
+      <li><strong>基本面：</strong>2025营收64.83亿(+6.2%)、归母9.62亿、扣非8.42亿、毛利率约64%、经营现金流15.17亿(健康)；市值约224亿、归母净资产161亿、PB约1.4x。2025分部：器械32.54亿(-2.2%，冠脉16.44亿+1.4%、结构心5.28亿+12.4%)、药品21.65亿(+23.2%)、医疗服务等约10.6亿。商誉36.2亿、现金44.3亿、有息负债63.9亿(净有息债约20亿)。研发投入15.4亿(R&D/营收~24%)。</li>
+      <li><strong>估值：</strong>股价约12.17元、市值约224亿元。PE-2025约23x、分折一致2026E约21x、2027E约17.6x、2028E约15.4x(EPS0.59/0.69/0.79)。PB约1.39x(近5年底部)。一致预期目标价约16.0元、高盛17元/东方证券16.24元。2026H1净利-27.7%，以当前run-rate隐含全年归母约9.5-11亿。</li>
+      <li><strong>市场隐含预期：</strong>现价12.17元对应2028E一致预期EPS约15.4x、2027E约17.6x、2026E约21x，隐含市场对一个的"成熟、低增长但止跌"的心血管平台给约15-21x估值，并对2026-2028归母复合约+10~14%的低增长假设基本认可；同时以一个实物看涨期权把"结构心放量+GLP-1/小核酸创新药+AI心电商业化"计入部分价内。PB1.39x意味着相当部分的资产价值(现金+器械+药品)已近乎被反映。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026H2金属封堵器集采落地产能企稳、结构心(TAVR/二尖瓣TMVr)与药球放量节奏、2026全年归母能否回到10亿+、MMWN109/GLP-1与小核酸临床、医美新品类获批；监控大股东蒲忠杰质押压力与商誉减值。</li>
+      <li><strong>情景结论：</strong>Bull 约17-18元(+45%) / Base 约13.5-14元(+12%) / Bear 约8.5元(-30%)，收益风险比约1.5:1答案——2026H1盈利仍-27.7%是最大压制，宜当"PB底部+创新期权"左侧配置、分批而非追高。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>国内心血管全产业平台龙头、集采出清后进入创新转型期</strong>：乐普医疗1999年由蒲忠杰创立、2009年创业板首批上市(300003.SZ)。业务覆盖"器械+药品+服务"三端——医疗器械(冠脉支架/药物球囊/切割球囊/可降解支架NeoVas/结构心封堵器/TAVR与二尖瓣修复TMVr等)、药品(降压/降脂仿制药+心血管创新药+造影剂)与移动医疗/AI服务(乐普云智AI-ECG、诊后康复)。历史上为国产冠脉支架绝对龙头(集采前台份额约25-30%)，2020年国家冠脉支架集采致价格由万余元降至约700元，2021-2023进入"以价换量"出血期。近年公司主动出清低毛利仿制药、押注结构心瓣膜、消费医疗(医美/神经调控)与GLP-1/小核酸创新药，并打造全球唯一同时获中国NMPA+美国FDA+欧盟CE三重认证的自研AI心电算法(诊断准确率95.2%)。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>79.80</td><td>61.03</td><td>64.83</td><td>~70.9-71E(一致)</td><td>~77.2E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>12.58</td><td>2.47</td><td>9.62</td><td>~10-10.9E(一致)</td><td>~12.5-12.7E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>~10.7(估)</td><td>~1.5(估)</td><td>8.42</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~64%</td><td>~61%(估)</td><td>~64%</td><td>~64E%</td><td>~64E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~8%(估)</td><td>~1.5%(减值拖累)</td><td>~6.0%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~13(估)</td><td>~14(估)</td><td>15.17</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(2025年报)：</strong>医疗器械板块32.54亿(-2.18%)、占50.2%——冠脉植介入16.44亿(+1.39%)、结构性心脏病5.28亿(+12.41%)、外科与介入配件等；药品板块21.65亿(+23.2%，仿制药恢复增长，其中仿制药约16亿)、医疗服务/AI/医疗器械代理配送等约10.6亿。整体毛利率约64%、研发投入15.4亿(R&D/营收~24%)。<br><br><strong>创域管线(期权)：</strong>可降解支架NeoVas(毛利70%+)、药物球囊与切割球囊(省际集采最高价中选)、结构心封堵器、TAVR与经心尖/经股二尖瓣修复TMVr(2026-2028陆续报证)；民为生物GLP-1/GCG/GIP三重激动剂MWN101完成肥胖与2型糖尿病II期临床、口服GLP-1 MWN109 I期数据优于同类(14周体重-16.67%)、小核酸(Winslow等)MWX203/401/205布局血脂/高血压；医美(交联透明质酸等)与神经调控新品类陆续获批。<br><br><strong>AI/服务(差异化)：</strong>乐普云智AI-ECG——全球唯一同时获NMPA+FDA+CE三重认证的自研心电AI算法，诊断准确率95.2%、房颤识别99.97%、覆盖约18000家医院、4亿条数据，可云平台部署并延伸诊后康复；2026心电AI国标落地+医保打通被公司视为规模化放量窗口。<br><br><strong>客户/竞争：</strong>核心客户为国内PCI与心血管诊疗科室、经销商与药店；器械竞争对手=微创医疗/先健科技(结构心)/赛诺医疗(冠脉)等，药品集采对手=恒瑞/华海等仿制与创新厂商。海外占比小(2025约10%上下)。<br><br><strong>治理/资产负债：</strong>控股股东/创始人蒲忠杰一致行动人合计质押约1.82亿股(占总股本约9.9%)，2026年6-7月多次解押+新质押用于偿还债务，质押风险需盯防；商誉36.2亿、现金44.3亿、有息负债63.9亿(净有息负债约20亿)；资产负债率约47%。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营生长(出清后回升)：</strong>2025营收+6.2%、结构心+12.4%、药品+23.2%、药球/切割球囊、封堵器在集采中以"最高价中选+出厂价不变"延续收入；公司称2026年"集采全面出清、未来三年无大集采扰动"，基础业务由底部回升构成真实经营驱动。</li><li><strong>会计/周期拖累：</strong>2024归母仅2.47亿系当年集中计提商誉/存货等一次性减值(单Q4归母-5.6亿)；冠脉支架集采(2021)与仿制药集采持续压制毛利率与单价，2023-2024为"价格冲击+减值"双杀的低谷。</li><li><strong>一次性/低质量因素：</strong>2026H1归母4.99亿(-27.71%)、扣非4.81亿(-27.40%)显著下滑，主因2026Q1经销商在封堵器集采落地(4月28日起)前观望未补货+金属封堵器受降幅影响，为阶段性能一次性、公司预计H2回稳；此外医美/GLP-1等新品放量与创新药临床尚在投入期，销售费用率上升。</li><li><strong>结论：</strong>公司总体仍处"基础出清见底+创新期权未兑现"的区间：经营侧(器械+药品企稳回升)较真实但利润率仍被集采/新品投入压制；评估以扣非+结构心/药球产品动销+创新管线里程碑为标尺，勿以单一季报净利定论。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈12.17元</strong></td><td>2026-08-21收盘(区间12.13-12.68、量能转弱)</td></tr><tr><td>A股总市值</td><td><strong>≈224亿元</strong></td><td>总股本约18.43亿股×12.17元；流通占比高</td></tr><tr><td>EV</td><td><strong>≈244亿元(估)</strong></td><td>市值224+有息负债63.9-现金44.3≈244</td></tr><tr><td>PE-TTM(2025归母)</td><td><strong>≈23.3x</strong></td><td>EPS 0.5219(EPS口径2025)；受2024减值干扰历史PE</td></tr><tr><td>PE-2026E</td><td><strong>≈20.6x</strong></td><td>一致预期EPS 0.59元(归母约10.9亿)</td></tr><tr><td>PE-2027E</td><td><strong>≈17.6x</strong></td><td>一致预期EPS 0.69元(约12.7亿)</td></tr><tr><td>PE-2028E</td><td><strong>≈15.4x</strong></td><td>一致预期EPS 0.79元(约14.5亿)</td></tr><tr><td>PB</td><td><strong>≈1.39x</strong></td><td>归母净资产161.15亿(2025末)；近5年底部区</td></tr><tr><td>PS(TTM)</td><td><strong>≈3.5x</strong></td><td>TTM营收约63亿(TTM口径，估)</td></tr><tr><td>EV/EBITDA</td><td><strong>≈16-18x(估)</strong></td><td>EBITDA以归母+折旧+利息大致推算</td></tr><tr><td>FCF Yield</td><td><strong>≈4-5%</strong></td><td>经营现金流15.2亿(2025)；扣除资本开支后较低</td></tr><tr><td>股息率</td><td><strong>≈0.5-0.8%(估)</strong></td><td>近年分红偏弱、股利支付率低</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(东财F10/同花顺/证券之星/雪球)市值约224亿、股价12.17元、PB约1.4x(2026-08-21交叉核对)；一致预期(东财/同花顺多机构)目标价约16.0元、2026-2028E归母10.87/12.68/14.53亿、EPS 0.59/0.69/0.79、PE 21.7/18.7/16.2x。口径提醒：①归母PE历史受2024集中减值严重失真、横向定位用PB更可靠；②2026H1归母实际-27.7%低于一致预期，2026E(10.9亿)依赖H2大幅修复、存在下修风险；③预测与Bull/Base/Bear均为一致预期/AI估算，须以实际披露为准。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PB(当前)</td><td><strong>约1.39x</strong></td><td>每股NAV约8.7元；历史峰值约8-10x(2020-2021)、近5年中位约2.5-3.5x(估)——处近5年底部区</td></tr><tr><td>PE-TTM(当前)</td><td><strong>约23x(2025归母)</strong></td><td>历史峰值约50-80x(2021估值高位)；但2023-2024盈利崩+减值致PE口径失真</td></tr><tr><td>历史极端</td><td><strong>2020-2021为绝对估值高点(集采税前市场给成长溢价)</strong></td><td>2021冠脉集采后估值杀+利润下修,2024触底净利润约2.5亿/PB约1x出头</td></tr>
+      </tbody>
+    </table></div>
+    <p>资产侧看(PB约1.39x)乐普处过去5年历史低位区——这是"冠脉支架集采价格冲击+2024集中减值+创新药/医美尚在投入"共振的结果。PE口径受盈利大幅波动(22亿→2.5亿→9.6亿)失真严重，不宜直接分位；PB更能反映资产-清算价值的安全边际。整体属"业绩出清后、创新期权未定价"的底部形态：财务上安全垫较厚(现金44亿、器械+药品现金牛、PB 1.4x)，但要修复估值回归中位，需盈利自10亿量级重新向上+创新管线兑现——是"低估值+期权"而非"趋势成长"。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>64.83</td><td>~70-71E(一致)</td><td>~76-78E(一致)</td><td>~83-86E(一致)</td></tr>
+        <tr><td>毛利率</td><td>~64%</td><td>~64E%</td><td>~64E%</td><td>~64-65E%</td></tr>
+        <tr><td>净利润</td><td>9.62</td><td>~10.9E(一致)</td><td>~12.7E(一致)</td><td>~14.5E(一致)</td></tr>
+        <tr><td>EPS</td><td>0.52</td><td>~0.59E</td><td>~0.69E</td><td>~0.79E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司口径(2025年报+业绩说明会/2026半年报)：2026年为"集采全面出清的一年、未来三年预计无大集采扰动"；金属封堵器集采降价在可接受范围、H2业绩预计回落稳定；减少仿制药投入、转型心血管创新药；冠脉药球最高价2678元中选获得需求量90%分配、出厂价不变，量增有望带动收入。R&D持续高投入支撑结构心/消费医疗/创新药管线。（公司指引）/ <strong>市场一致预期(东财F10/同花顺/证券之星多机构)：营收2026E 70.9-77.2亿(+9.3%)、2027E 77.2亿、2028E 84.3亿；归母2026E 10.87-12.40亿(+13%)、2027E 12.7-14.9亿、2028E 14.5亿；EPS 2026E 0.59、2027E 0.69、2028E 0.79元。东方证券(买入)目标价16.24元(2026年28xPE)。</strong>（市场一致预期）/ <strong>AI估算：营收入2026E 70-72亿、2027E 76-78亿、2028E 82-86亿；归母2026E 9.5-11亿(以H1实际4.99亿+集采企稳推演)、2027E 12-13.5亿、2028E 14-16亿(含结构心/药球放量与医美、GLP-1-小核酸期权)；毛利率维持~64%；需留意H2修复不及致一致预期下修。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>平台型心血管器械/药品+AI服务潜力指标</h3><ul><li><strong>集采出清的增量弹性：</strong>冠脉支架/药球/切割球囊与结构心封堵器集采价格在可接受范围、公司称2026为"出清年"，基础收入企稳+以价换量+金属封堵器H2回稳 → 器械板块利润弹性来自低毛利产品止跌与高价新品。</li><li><strong>结构性心脏病(高占比增量)：</strong>结构心2025收入5.28亿(+12.4%)，TAVR/经心尖-经股二尖瓣修复TMVr 2026-2028陆续报证，可降解封堵器加速商业化——TAVR/二尖瓣是国内数倍于当前规模的高景气高值耗材赛道。</li><li><strong>消费医疗与创新药期权：</strong>医美(交联透明质酸等)+神经调控+口服GLP-1(MWN109、民为生物MWN101三重激动剂II期完成)+小核酸管线(MWX203/401/205)——随进展可重估公司，属"免费看涨期权"。</li><li><strong>AI心电服务生态：</strong>AI-ECG全球唯一NMPA+FDA+CE三重认证(诊断准确率95.2%、房颤99.97%)、覆盖1.8万医院/4亿数据，叠加"国标落地+医保打通+持证上岗"——从卖硬件向"AI诊断+诊后康复"SaaS/运营模式延伸，打开服务性收入天花板。</li><li><strong>药品结构优化：</strong>减少仿制药、转向心血管创新药，逐步摆脱医保降价约束、改善毛利率。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2025归母9.62亿(+289%)≠经营大幅好转：2024基数仅2.5亿(当年集中减值)；2026H1归母-27.7%(4.99亿)系封堵器集采前Q1经销商观望+高基数，属阶段性能一次性、公司预计H2企稳。核心经营看"器械+药品企稳回升(结构心+12.4%、药品+23.2%)+经营现金流15.2亿"，但利润率仍被集采与新品投入压制；评级须以扣非+结构心/药球动销+创新管线里程碑为准，勿以单季归母定论。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>结构性心脏病(TAVR/TMVr/封堵器)</td><td><strong>+约4-5pct</strong></td><td>高值耗材放量+可降解封堵器商业化,2025结构心+12.4%</td></tr><tr><td>药品板块(仿制药企稳+创新药)</td><td><strong>+约4pct</strong></td><td>2025药品+23.2%、优化结构向创新药/减重延伸</td></tr><tr><td>冠脉介入以价换量(药球/切割球囊)</td><td><strong>+约2pct</strong></td><td>集采最高价中选、拿90%需求量、出厂价不变,量增带动</td></tr><tr><td>AI心电/诊后服务+消费医疗</td><td><strong>+约1-2pct</strong></td><td>AI-ECG认证壁垒+医美/神经调控新品,弹性但基数小</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长驱动力由"集采出清后的基础企稳(器械+药品稳健)"与"创新第二曲线(结构心/药球+消费医疗+GLP-1/小核酸期权)"双轮构成。最确定的是基础业务止跌回升(结构心+12%、药品+23%)；弹性最大的期权(TAVR/TMVr瓣膜、可降解封堵器、口服GLP-1、AI心电商业化)尚待放量与报证兑现。风险在"出清年"H2盈利能否如期回稳、以及一致预期2026E(10.9亿)对H2大幅修复的高要求——简言之：企稳是主旋律、爆发是期权，「增收入确定性中等、增利弹性看新品与费率」。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价12.17元对应2028E一致预期EPS 0.79元约15.4x、2027E约17.6x、2026E约21x。PB约1.39x(近5年底部)、PS约3.5x、股息率约0.5-0.8%。隐含市场对2026-2028归母给约+10~14%的低温和增长，并要求：①集采出清后基础业务企稳、2026H2盈利回稳；②结构心/药球/可降解封堵器等以价换量并把毛利率守住；③大股东质押与商誉减值不再大幅拖累。<br><br>换言之，当前价格买的是"PB底部+困境反转+创新期权"而非成熟成长：现价对"现金(44亿)+器械药品现金牛(PE约23x)"已接近充分反映，创新管线(尤其GLP-1/小核酸/TMVr瓣膜/AI心电)几乎是免费看涨期权。若盈利改善或任一创新兑现，估值向20x+回归弹性大；若出清不及、H2继续走弱，则向更低价与更低PB让位。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>全产业链与渠道/临床资源：</strong>冠脉支架国产龙头地位(历史份额~25-30%)沉淀的PCI科室渠道、医保准入、手术植入医生习惯与长期病例数据，是同行难以短期复制的心血管级品牌与规模壁垒。</li><li><strong>研发/注册与先发验证：</strong>可降解支架(NeoVas)国产首家、结构心瓣膜/封堵器、AI心电全球唯一NMPA+FDA+CE三重认证(准确率95.2%、1.8万医院4亿数据)——先发+多制度认证+AI数据资产构成软性壁垒。</li><li><strong>器械+药品+服务生态协同：</strong>冠脉介入+结构心+药品(降压降脂)+AI心电诊-治-管全链条，交叉销售与患者全流程管理提升单客户价值、粘性高。</li><li><strong>创新药/减重期权平台：</strong>民为生物GLP-1与口服GLP-1(I期数据优于同类)及小核酸平台，若成药为公司打开百亿级新空间。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>结构性心脏病与TAVR/二尖瓣被微创/先健/启明等激烈争夺，冠脉集采已把支架、药球、球囊打到普适化；乐普的硬技术壁垒(瓣膜/可降解材料)与AI心电认证/数据及其渠道规模，难以被新进入者快速复制。真正的护城河在于"腔道手术器械渠道+硬科技(瓣膜/可降解/神经调控)平台+AI数据"，评为"中—中上"：平台型壁垒存在，但集采已削弱单纯冠脉业务的定价权，护城河更多来自结构心/创新品/AI的组合与先发，而非单一高毛利产品垄断。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-21(已披露)</strong> · 2026年半年报发布(归母4.99亿-27.7%)：关注H2金属封堵器企稳与全年指引 — 盈利/预期</p><p><strong>2026-09-09</strong> · 2026年第二次临时股东大会 — 治理/分红</p><p><strong>2026H2</strong> · 封堵器集采(4月28日落地)后业绩回稳验证、金属封堵器及通路放量 — 收入/利润</p><p><strong>2026-2028</strong> · TMVr二尖瓣修复(经心尖2026/经股2027)、可降解封堵器、TAVR报证进展 — 收入/重估</p><p><strong>持续</strong> · 口服GLP-1 MWN109/三靶MWN101临床数据读出、小核酸MWX系列、医美新品获批 — 期权/估值</p><p><strong>2026H2-2027</strong> · 心电AI"国标落地+医保打通"驱动AI-ECG与诊后服务规模化 — 收入/重估</p><p><strong>持续监控</strong> · 大股东蒲忠杰质押/解押(2026年6-7月多次偿债性质押)与商誉减值 — 治理/估值</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>集采降价超预期</td><td>收入+利润</td><td>冠脉支架/药球/球囊/金属封堵器/仿制药集采持续，若2026H2封堵器与后续高值耗材降幅超预期或量增不及，基础收入承压</td></tr><tr><td>2026H2盈利修复不及</td><td>利润</td><td>2026H1归母-27.7%、一致预期2026E 10.9亿依赖H2大幅修复；若出清慢于预期或降价延续，盈利预测面临下修</td></tr><tr><td>次"结构心/创新品竞争"</td><td>收入+利润</td><td>TAVR/二尖瓣/封堵器被微创、先健、启明等激烈争夺，价格与份额压力挤压新品放量的毛利率</td></tr><tr><td>大股东高质押</td><td>估值+治理</td><td>控股股东蒲忠杰一致行动人质押约1.82亿股(占总股本约9.9%)，2026年多次偿债性质押，质押/减持与治理风险</td></tr><tr><td>商誉与减值</td><td>利润</td><td>商誉36.2亿(占比较高)，多起并购(含医疗各板块)整合与商誉/存货减值风险(2024已大额计提)</td></tr><tr><td>药品板块医保降价</td><td>收入</td><td>仿制药集采+医保控费，仿制药收入持续受压，转型创新药前恐拖累增速</td></tr><tr><td>创新药/临床失败</td><td>估值</td><td>GLP-1(口服MWN109/MWN101)、小核酸MWX等临床在研，III期/获批不及预期或进度延后则期权价值缩水</td></tr><tr><td>AI变现节奏</td><td>收入</td><td>AI-ECG认证领先但商业模式(软件/服务/SaaS定价)与医疗数据政策、变现节奏存在不确定性</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>集采全面出清+结构心/药球放量+TAVR.TMVr获批+消费医疗与GLP-1/小核酸兑现+质押/减值出清</td><td>~16亿E(归母,EPS~0.87)</td><td>~20x</td><td>~17-18元(+45%)</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>集采企稳+基础器械药品回升+创新品温和放量,盈利温和修复</td><td>~14-14.5亿E(一致EPS0.79)</td><td>~18x</td><td>~13.5-14元(+12%)</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>集采降价超预期+2026H2继续走弱+质押/减值/费用率压力+创新延后</td><td>~9.5-10.5亿E</td><td>~15.5x</td><td>~8.5元(-30%)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价12.17元为基准：上行到Bull约17.5元(+44%)、Base约14元(+15%)，下行到Bear约8.5元(-30%)；收益风险比约1.5:1。强于多数亏损CXO/创新药(因器械药品现金牛+现金44亿+PB1.4x提供安全垫)，但弱于盈利质量高的器械龙头——2026H1归母仍-27.7%、质押与商誉构成压制，风报比中等偏正，宜"PB底部+创新期权"分批左侧而非追高。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026年报(2027-04)全年归母未回10亿+、H2金属封堵器未企稳;②结构心/TAVR/药球放量明显低于预期或毛利率快速下滑;③大股东质押进一步恶化或发生被动减持/平仓;④商誉或存货再次大额减值、2026Q4再现亏损;⑤口服GLP-1/小核酸临床读出不及预期——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：心血管器械+药品双轮(A股医疗器械/创新药交叉)。板块整体处历史中低位景气回升初期——受冠脉/球囊/瓣膜/封堵器带量采购常态化与创新器械技术迭代双重塑造，估值(PB)由2021高位大幅收敛至历史底部区间。乐普作为"集采出清+创新转型"代表，景气处于"出清见底→重估"扵起前夜：基础业务企稳、创新期权未定价，细分景气属"左侧底部、等待盈利拐点"。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价12.17元处2026年区间下沿(近月12-13元)短触、8-21价跌量缩；上方13.4-14元为上半年平台压力、下方11.2-11.5元为阶段支撑；2024年历史底部约8-10元区间</td><td><strong>短线弱势震荡、处底部区,不追高,等11.5-12元企稳放量再介入</strong></td></tr><tr><td>基本面</td><td>2026H1归母4.99亿(-27.7%)、扣非4.81亿(-27.4%)受封堵器集采前观望影响;全年一致预期10.9亿依赖H2修复;结构心+12.4%、药品+23.2%、经营现金流健康(15.2亿/年),基础业务企稳</td><td><strong>基本面见底企稳、但盈利拐点在H2-Q4验证,验证点2026年报/三季报</strong></td></tr><tr><td>情绪面</td><td>同花顺/资金面显示机构近60个交易日关注度低、无密集评级;集采+质押等负面情绪压制,市场对"出清+创新期权"存在分歧</td><td><strong>情绪偏低迷、分歧大,左侧布局性质,等待情绪修复催化(创新品获批/盈利拐点)</strong></td></tr><tr><td>政策影响</td><td>带量采购常态化是核心变量(2026为"出清年");心电AI"国标落地+医保打通"政策正面利好AI-ECG放量;创新器械审评与医疗健康政策整体中性偏正</td><td><strong>政策为双刃(litting采压价 vs AI/创新鼓励),常态化出清后边际缓和,盯住H2集采执行</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资(优先)：高盛(Goldman)维持"中性(Neutral)"、目标价人民币17元(较此前19元下调)，理由为2026Q1集采致销售低于预期、下调盈利预测(慧博转引)。内资：东方证券维持"买入"、目标价16.24元(2026年28xPE，2026-05-29)；方正证券"买入/推荐"(基础业务筑底、看好创新驱动)；同花顺/东财一致预期综合目标价约16.0元。外资审慎中性、内资偏乐观(内资目标多基于2026年20x+PE)，参考价值外资优先——综合隐含中性偏正面目标区间约16-17元，较现价+30%上下。摩根士丹利/瑞银等对乐普末见明确覆盖信息(未详查证)。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：PB(1.39x)历史底部+现金44亿+器械药品现金牛提供安全垫，集采"出清年"后基础企稳+结构心/GLP-1/AI心电构成免费期权，是典型的"困境反转+价值重估"左侧机会；但2026H1归母仍-27.7%、大股东高质押与商誉减值悬而未决、外资态度中性，盈利拐点(2026H2-Q4)尚未确认。建议<b>轻仓试仓或分批左侧布局(1-2成)，现价12.17元不追高</b>：回落至约11.5-12元(阶段支撑)可分2成底仓，企稳放量加仓至3成。加仓触发：2026Q3-Q4封堵器企稳+结构心/药球放量、年报归母回10亿+，或GLP-1/小核酸/TAVR/TMVr里程碑兑现。止损：有效跌破11元(2026年阶段低点)减仓，若于8-9元(2024年历史底部)破位则离场，不盲目重仓抄底。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>乐普医疗2025年年度报告及摘要(深交所2026-04-23)、2026年半年度报告(2026-08-21披露,营收32.14亿/归母4.99亿/扣非4.81亿/经营现金流6.33亿)、投资者关系活动记录表(深交所2026-04-23)、控股股东股权质押及解除质押公告(2026-06/07)、冠脉药球/封堵器集采公告与业绩说明会纪要</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(高盛Goldman中性目标价17元/东方证券买入目标价16.24元/方正证券推荐/同花顺F10,证券之星等)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10/同花顺(iFind)/证券之星/雪球/新浪财经/慧博研究(市值224亿、PE/PB、一致预期EPS0.59/0.69/0.79、目标价16.0元交叉验证)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>雪球/公众号/股吧(八层框架分析、集采与出清讨论、质押线索——仅作分析线索,财务数据不低于一级/三级采信)</p></div>
+    <p>高信心(90%·财报口径)：营收64.83/归母9.62/扣非8.42/毛利率64%/经营现金流15.17/商誉36.2/现金44.3/有息负债63.9亿回2025年报核对；2026H1营收32.14/归母4.99/扣非4.81/OCF6.33亿及封堵器集采、结构心+12.4%、药品+23.2%回2026半年报核对；分部与产品线回年报MD&A。中高信心(75%·行情/估值)：市值约224亿、股价12.17元、PB约1.4x来自第三方(8-21)交叉核对；一致预期与EPS(0.59/0.69/0.79)为一致预期/AI估算并标注口径。中低信心(50%·预测与期权)：2026-28E一致预期(尤其2026E 10.9亿依赖H2修复)、Bull/Base/Bear为主观推演，2026H2盈利拐点与GLP-1/小核酸/TAVR/TMVr/AI变现为不确定期权；大股东质押与商誉减值前瞻、"待核实"项逐条标注。健康度优于多数转型标的，主不确定在盈利拐点时点而非资产负债表安全。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch5">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>乐普医疗2025年年度报告及摘要（深交所披露易2026-04-23）</li>
+        <li>乐普医疗2026年半年度报告（2026-08-21披露）</li>
+        <li>乐普医疗投资者关系活动记录表及集采/质押公告（深交所/公司IR，2026-04~2026-07）</li>
+        <li>高盛(Goldman) · 东方证券 · 方正证券等券商研报（外资目标价中性参考优先）</li>
+        <li>东方财富F10 / 同花顺(iFind) / 证券之星 / 雪球 / 新浪财经（市值、PE、PB、一致预期交叉验证）</li>
+        <li>雪球·股吧·公众号（集采与质押线索，财务数据不采信）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

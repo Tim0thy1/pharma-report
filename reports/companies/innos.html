@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>益诺思 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">益诺思<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">临床前安全性评价CRO · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch3">回产业链报告</a></div>
+    <h1>益诺思<span class="code">688710.SH</span></h1>
+    <p class="subtitle">国药系安评CRO · 恒河猴资源特色 · 中美双报GLP设施</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+    <a href="nanmo.html">上一家 · 南模生物</a>
+    <a href="harbour.html">下一家 · 和铂医药</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈135~141亿元</div><div class="k-sub">2026-08-20/21</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">TTM为负(亏损)，无意义</div><div class="k-sub">PE-TTM 2026-08</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">上市不足2年，5年分位不适用</div><div class="k-sub">过去5年中位 不适用</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+520%左右(一致)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>国药集团控股的"安评小而纯"CRO纯标（688710.SH，科创板），主营非临床安全性评价(GLP毒理+临床CRO，涉猴业务占主营约48%)，与昭衍新药、康龙化成竞争。2025年安评行业价格战把公司打成上市以来首亏，但2025新签订单11.35亿(+38%)、2026Q1新签订单7.29亿(+199%)、在手订单17.52亿创历史新高，叠加猴价回升+产能释放(南通2.4万平米中美双报设施2026Q1获NMPA GLP检查通过)，市场按"行业见底+订单反转"逻辑抢筹，近3个月股价大涨约+50%。</li>
+      <li><strong>基本面：</strong>2025营收8.11亿(-28.94%)、归母-0.31亿(上市以来首亏)、扣非-0.54亿；境外0.50亿(+102.91%)、毛利率41.25%显著高于境内。2026Q1营收2.10亿(+0.43%)、归母1220.86万(+121.23%)、扣非+376%，重回盈利。新签订单/在手订单逐季加速，是"业绩拐点前夜"的核心证据。</li>
+      <li><strong>估值：</strong>总市值约140亿、PB约6x；TTM亏损致PE-TTM无意义。按一致预期2026E归母1.31亿→PE约107x、2027E 2.65亿→约53x、2028E 4.03亿→约35x。估值已把"成功反转+2027-28高增长"基本定价，安全边际不高。</li>
+      <li><strong>市场隐含预期：</strong>现价约99元对应2028E一致净利4.03亿≈35x，隐含市场不仅要"行业出清、订单兑现"，还要"2027年净利回到并超过2.5亿、2028年上4亿、盈利持续高增"——预期较为充分。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026中报(预计8月底/9月披露，H1订单与利润能否延续Q1)、Q2新签订单增速是否维持高双位以上、实验猴价格走势、南通/黄山产能爬坡利用率、订单价格企稳情况。</li>
+      <li><strong>情景结论：</strong>Bull 148元(+50%) / Base 91元(-8%) / Bear 44元(-55%)，基于庞大反转型高波动，当前价收益风险比约0.7:1偏不利（因短期涨幅已大）。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>国药系"小而纯"的临床前安评CRO</strong>：2024-09-03科创板上市，主营药物非临床安全性评价(安评/GLP毒理)与临床CRO，涉实验猴收入约占主营48%，具备自建黄山猴场+华珍合伙/金港生物股权锁源，拥有可支持中、美双报的非临床研究设施约5.4万平米。作为国药集团(中国医药工业研究总院)控股子公司，具备GLP/NMPA/FDA/OECD/AAALAC全链条资质背书。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>10.38</td><td>11.42</td><td>8.11</td><td>~9.7E(一致)</td><td>~13.9E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>1.94</td><td>1.48</td><td>-0.31</td><td>~1.31E(一致)</td><td>~2.65E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>1.74</td><td>~1.4(估)</td><td>-0.54</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~38-39%</td><td>~31-33%</td><td>25.9%</td><td>~30%E</td><td>~33%E</td></tr>
+        <tr><td> ROE / ROIC</td><td>12.85%</td><td>~9-10%(估)</td><td>约-2%(亏损)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~1.0(估)</td><td>前三季-0.99,全年偏弱</td><td>~0.9(估)</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>业务结构(2025年报)：</strong>非临床CRO收入同比-28.32%、毛利率同比-7.31pct；临床CRO亦受订单价格下行影响。涉猴(实验用猴/安评)业务收入约占总营收48%，为最核心的收入+成因变量。<br><br><strong>海内外：</strong>境外业务2025达4980.81万元(+102.91%)、毛利率41.25%，显著高于境内；但境外占比仍仅约6%，出海刚起步。<br><br><strong>核心资产/产能：</strong>南通益诺思2.4万平米"高品质非临床创新药物综合评价平台"核心设施2026Q1通过NMPA GLP检查并获证，合计约5.4万平米可支持中美双报的非临床研究设施；黄山综合实验楼竣工。这打破了此前动物设施产能瓶颈。<br><br><strong>实验猴资源：</strong>现有实验猴存栏约2930只(全部恒河猴)，自建黄山益诺思猴场，并与华珍合伙、金港生物股权合作锁定主要猴源供给。<br><br><strong>客户/属性：</strong>服务创新药企，客户以Biotech较多；实控人为国药集团，截至2025Q3末合计持股34.41%，员工持股平台上海翱鹏持股12.35%，另有张江生物医药基地/先进制造基金等持股25.45%。<br><br><strong>竞争对手：</strong>国内安评CRO——昭衍新药(龙一)、康龙化成、药明康德、华测等行业选手；益诺思定位"国药系纯安评+猴源优势"。<br><br><strong>Balance sheet：</strong>2024-09上市募资约6.7亿元，在手现金较充裕、预计净现金约10-15亿元(估)、资产负债率中等；2025年报因订单价格下行+产能折旧致首亏。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营因素：</strong>2025营收-28.9%、毛利率-7.7pct，主因安评行业"订单价格战"（CRO供过于求、Biotech压缩预算），属行业周期/降价而非公司经营质量崩塌；新签订单2025 +38.6%、2026Q1 +199%，价格见底、量在回升。</li><li><strong>会计因素：</strong>益诺思非临床安评采用"完工进度/合同履约成本"确认收入，产能投放(南通/黄山)带来折旧与未满负荷的固定成本摊销，压制当期毛利率与净利——属会计-产能错配。</li><li><strong>一次性因素：</strong>实验用猴以消耗性生物资产计入，2025末猴价回升在原计提范围内转回跌价准备约165万元、转销27.82万元——金额小、一次性、对业绩影响有限(远小于昭衍式公允价值波动)。</li><li><strong>结论：</strong>2025亏损是"行业价格战+产能满产前折旧"所致，经营层面的订单量与在手订单已在反转向上，拐点性质强于趋势恶化。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>约95~100元</strong></td><td>2026-08-20涨停收100.10(+9.92%)、08-21盘中回落至约95</td></tr><tr><td>总市值</td><td><strong>≈135~141亿元</strong></td><td>总股本1.41亿股，流通约9069万股</td></tr><tr><td>EV</td><td><strong>≈125亿元</strong></td><td>市值-估算净现金10~15亿(估)</td></tr><tr><td>PE-TTM</td><td><strong>无意义(TTM亏损)</strong></td><td>TTM净利约-0.24亿，2026Q1刚转正</td></tr><tr><td>PE-2026E</td><td><strong>≈107x</strong></td><td>近6月6家机构一致归母1.31亿</td></tr><tr><td>PE-2027E</td><td><strong>≈53x</strong></td><td>一致净利2.65亿(EPS 1.88)</td></tr><tr><td>PE-2028E</td><td><strong>≈35x</strong></td><td>一致净利4.03亿(EPS 2.86)</td></tr><tr><td>PB</td><td><strong>≈6.0x</strong></td><td>每股净资产约16元(估)，2023末15.30元</td></tr><tr><td>PS(TTM/2025)</td><td><strong>≈17x</strong></td><td>2025营收8.11亿</td></tr><tr><td>PS-2026E</td><td><strong>≈14x</strong></td><td>营收一致约9.7亿</td></tr><tr><td>EV/EBITDA</td><td><strong>无意义</strong></td><td>2025亏损，EBITDA为负</td></tr><tr><td>PEG</td><td><strong>无意义</strong></td><td>2026扭亏低基数，PEG失真</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>2024-09才上市，第三方(东财/同花顺/雪球/新浪/企查查)的市值、股价、股本数据已尽量交叉核对（总股本约1.4-1.41亿、总市值08-20约128-141亿区间，不同时点口径有差，标注日期）。TTM为负，PE-TTM/EV-EBITDA无意义；PE-26E估值建立在扭亏低基数上，波动极大，参考价值有限，仅标注"一致预期"。截至2026-08-20近6月仅6家机构覆盖，预测样本小、离散度大。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>上市时长</td><td><strong>2024-09-03上市，<2年</strong></td><td>无5年历史，历史估值区间参考性弱</td></tr><tr><td>PB</td><td><strong>约6.0x(当前)</strong></td><td>显著高于2024年上市初期发行价对应PB(约2.5-3x)</td></tr><tr><td>股价</td><td><strong>现价约9.9元(估现价约99元口径)</strong></td><td>自上市首日市值约38亿元涨至约140亿，涨幅约2.6~3倍</td></tr><tr><td>近3个月动量</td><td><strong>+约50%</strong></td><td>2026-05~08受"猴周期"+订单反转情绪驱动快速拉升</td></tr>
+      </tbody>
+    </table></div>
+    <p>因上市不足2年，无法给出过去5年PE中位/分位。更有效的锚是PB与"上市以来走势"：当前PB约6x已较上市初期高出约1倍，叠加近3个月+50%、股价已在券商机构目标价均值(约82元)之上，估值处上市以来的偏高区域。历史参考意义有限，主要矛盾在"反转预期兑现度"而非估值分位。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>8.11</td><td>9.7E(均值)</td><td>13.9E</td><td>18E(高线/估)</td></tr>
+        <tr><td>毛利率</td><td>25.9%</td><td>~30%</td><td>~33%</td><td>~34-35%</td></tr>
+        <tr><td>净利润</td><td>-0.31</td><td>1.31E</td><td>2.65E</td><td>4.03E(一致)/4.5E高线</td></tr>
+        <tr><td>EPS</td><td>-0.22</td><td>0.93E</td><td>1.88E</td><td>2.86E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司2025年报/2026Q1报：2025新签订单11.35亿(+38.62%)、在手订单12.48亿(+28.23%)；2026Q1新签订单7.29亿(+199%)、在手订单17.52亿；2026Q1归母1220.86万(+121.23%)、扣非+376%，重回盈利（公司指引）/ <strong>市场一致预期(截至2026-08，6家：中邮/东北/长江/东方/开源/华源)：2026E归母约1.31亿(PE约106-107x)、2027E约2.65亿(约53x)、2028E约4.03亿(约35x)；营收2026E约9.7~11.7亿(机构分歧大，中邮11.69亿/其他9.7亿)</strong>（市场一致预期）/ <strong>AI估算：2026E营收9.5-11亿、归母1.2-1.5亿；2027E营收13-15亿、归母2.2-2.8亿；2028E营收17-20亿、归母3.5-4.5亿；毛利率2027-28回升至32-35%。判断偏"订单先行放量的反转成长型而非纯周期"，但兑现依赖价格企稳与产能爬坡</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>CRO/模式动物型潜力指标</h3><ul><li><strong>新签订单/在手订单(核心先行指标)：</strong>2026Q1新签订单7.29亿(+199%)、在手订单17.52亿，订单先于收入放量，是未来1-2年收入弹性的最大来源——关注Q2/Q3订单增速维持度。</li><li><strong>产能释放：</strong>南通2.4万m²中美双报设施+黄山实验楼竣工，打破动物设施产能瓶颈，支撑2026-28收入释放；关注爬坡利用率。</li><li><strong>猴价回升：</strong>涉猴收入占主营约48%，实验用猴价格企稳回升→喂养成本可控+试验单价支撑；供应端自有猴场约2930只+股权锁源。</li><li><strong>海外/高端tie：</strong>境外2025收入0.50亿(+102.91%)、毛利率41.25%，高于境内，出海/国际GLP双报是利润弹性来源。</li><li><strong>创新药融资回暖：</strong>安评需求取决于创新药企DME资金/IND申报节奏，2026全球医药融资边际改善利好新签订单持续性。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2025净利-120.65%主因是"行业订单价格战(经营)+产能满产前折旧(会计-产能错配)"，非线性崩塌；实验猴跌价准备转回仅约193万元属一次性、金额小。经营层面订单量(新签订单2026Q1 +199%)真实向上，会计/一次性因素对当前利润是拖累而非利好，用"经营量能(在手订单/收入) vs 价格与产能(利润率/折旧)"两条线分别跟踪。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>在手订单转化(收入)</td><td><strong>+约65pct(对2027)</strong></td><td>2026Q1在手订单17.5亿创历史新高，南通/黄山产能释放加速转化</td></tr><tr><td>新签订单持续(2027)</td><td><strong>+约20pct</strong></td><td>需维持年双位数以上新签订单增速，依赖创新药融资与价格企稳</td></tr><tr><td>价格/毛利率修复</td><td><strong>+约15pct</strong></td><td>行业出清+产能满产率提升，毛利率自25.9%向33-35%修复</td></tr>
+      </tbody>
+    </table></div>
+    <p>收入增长的主引擎是"订单先行放量+产能释放"（量的逻辑强），利润增长的主引擎是"价格企稳+毛利率修复+满产摊薄折旧"（价格的逻辑）。增长偏"反转成长型"：量在先、利在后，兑现度高但节奏依赖2026H2价格与产能双验证。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>以现价约99元、总市值约140亿反推：对不同情景的一致性路径，现价隐含①2027年归母净利约2.5-2.65亿(约53-56x)、2028年约4.03亿(约35x)——即"行业成功出清+订单全额兑现+盈利能力恢复"的乐观Base；<br><br>同时股价已站上券商机构目标价均值(约82元，2026-08-18)，说明<strong>现价跑在卖方一致预期之上</strong>，近3个月+50%的主因是"实验猴/猴周期"情绪题材+低价小市值弹性，而非已兑现的盈利。<br><br>换言之，市场主要在为<strong>"2027-2028年盈利复苏的预期期权"</strong>定价，尚未给当前盈利定价。若订单/利润逐季兑现则仍有空间，一旦Q3订单增速回落或价格战反复，高估值将快速回落。反转型坚决，但安全边际薄。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>资质认证全链条：</strong>通过NMPA GLP、美国FDA GLP、OECD GLP、AAALAC认证，可支持中美双报——达到国际安评CRO的合规门槛。</li><li><strong>猴源/资源属性：</strong>恒河猴存栏约2930只+自建黄山猴场+华珍/金港股权锁源，在实验猴紧张周期具备供给与成本优势。</li><li><strong>国药系背书：</strong>实控人国药集团，客户信任、监管合规、产业链协同(中国医药工业研究总院研发平台)。</li><li><strong>产能先发：</strong>5.4万m²中美双报设施+黄山产能，非临床安评设施建设周期长、资本密集，形成阶段性产能壁垒。</li><li><strong>科研平台：</strong>上海科创驱动的产学研体系+AI+自动化研发提效。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>资质(FDA/OECD/NMPA+AAALAC)与实验猴资源本身可被昭衍、康龙、药明等大厂复制，益诺思相对优势在于"国药系资源+纯安评专注度+恒河猴存栏"。行业壁垒更偏"客户积累+项目经验+监管合规"的慢变量而非易复制壁垒。真正护城河是国药系生态与中美双报产能，整体壁垒中等，保护的是"在决战中活下去"而非"垄断超额利润"。核心威胁是昭衍新药的规模与成本、以及行业价格战对毛利率的长期压制。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026年8月底/9月</strong> · 2026半年度报告披露(H1新签订单与在手订单、Q2利润能否延续扭亏) — 盈利/估值</p><p><strong>2026Q2/Q3</strong> · 新签订单/在手订单跟踪数据逐季披露，验证+199%高增的持续性 — 收入/判断反转强度</p><p><strong>持续</strong> · 南通/黄山产能爬坡利用率与NMPA GLP检查后续订单落地 — 收入/毛利率</p><p><strong>持续</strong> · 实验用猴价格走势(猴周期)与自有猴场供给 — 成本/订单单价</p><p><strong>2026-2027</strong> · 创新药企融资回暖与IND申报节奏，安评行业需求修复 — 收入</p><p><strong>2026H2</strong> · 境外/国际GLP双报项目的海外收入放量 — 收入/毛利率</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>安评行业价格战/订单价格续降</td><td>收入+利润率</td><td>2025毛利率-7.7pct是首亏主因，供过于求短期难完全逆转</td></tr><tr><td>实验猴价格波动</td><td>成本+订单单价</td><td>涉猴收入占主营约48%，猴价双刃剑(涨→成本升也支撑单价，跌→跌价计提，益诺思为历史成本计量波动小)</td></tr><tr><td>产能利用率不足/折旧</td><td>利润率</td><td>南通/黄山产能投放，满产前折旧与固定成本吞噬利润</td></tr><tr><td>客户融资/申报节奏放缓</td><td>收入+现金流</td><td>服务Biotech为主，融资景气决定IND订单启动节奏</td></tr><tr><td>订单转化/确认节奏</td><td>收入</td><td>完工进度确认收入，执行周期与尾款有扰动</td></tr><tr><td>海外占比低</td><td>收入结构</td><td>境外仅约6%，出海红利尚未兑现</td></tr><tr><td>估值高波动</td><td>仅估值</td><td>2026E约107x/现价高于机构目标价，情绪退潮回撤大</td></tr><tr><td>竞争(昭衍/康龙/药明)</td><td>收入+利润</td><td>大厂规模与降价能力挤压小厂毛利率与份额</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>实验猴大周期+订单全额兑现+产能满产+毛利率回到35%+份额提升</td><td>~5.5亿</td><td>38x</td><td>~148元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>订单正常转化、价格温和企稳、毛利率回到33%</td><td>~4.0亿(一致)</td><td>32x</td><td>~91元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>价格战反复/产能利用率低/创新药融资反复</td><td>~2.5亿</td><td>25x</td><td>~44元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约99元为基：Bull+50%、Base-8%、Bear-55%，最佳路径收益风险比约0.7:1，偏不利（因短期+50%已把反弹price in，Base中枢已下行于现价）。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026中报订单增速与利润不能延续Q1扭亏；②Q3新签订单增速回落至低个位或手订单放缓；③毛利率单季度再度下行表明价格战未止；④cycle/猴价题材降温资金撤离致估值回归——任一兑现将下修Base，向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：临床前安评/非临床CRO(模式动物安评)——2024-2025经历"创新药融资寒冬+实验猴高价回落+内部价格战"的出清，行业2025年利润普遍见底、2026年订单与价格边际修复，景气处"筑底-修复"的右侧早期。益诺思代表"小而纯"标的确定性弹性强于大厂，但细分整体估值因个别炒作股(猴周期)被抬到偏高、分化剧烈，均值意义弱。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>近期放量拉升后高位震荡，08-20涨停收100.10、08-21盘中回落至约95，短线上冲动能强劲但波动极大</td><td><strong>处于情绪主升后的高位区，追高回撤风险大，等回踩或企稳信号</strong></td></tr><tr><td>基本面</td><td>2025首亏、2026Q1扭亏+新签订单+199%、在手订单17.5亿创新高——反转拐点属性强，订单量能真、利润尚未证实</td><td><strong>基本面左侧到右侧过渡，看中报利润与订单持续性</strong></td></tr><tr><td>情绪面</td><td>受"实验猴/猴周期"题材驱动，近3个月+50%、股价已高于机构目标价均值(82元)，小额资金驱动、方向题材化</td><td><strong>情绪偏热、预期透支，追涨需高度谨慎</strong></td></tr><tr><td>政策影响</td><td>创新药支持政策边际利好IND/安评需求；GLP监管趋严利好合规龙头；对当前短期为中性偏正面</td><td><strong>政策面温和正面，但非股价短期主导变量</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行尚未覆盖益诺思（小市值科创板，高盛/大摩/瑞银等未出评，注明"外资优先，但此处无外资覆盖"）。内资研报(中邮/东北/长江/东方/开源/华源)以"买入/增持"为主，偏乐观；富途采集机构目标价均值约82.44元(2026-08-18)已低于现价，提示一致性目标价已被股价超越、需打折看待，参考价值弱于题材本身。综合：外资未覆盖+内资偏乐观+目标价被现价击穿，券商评分对现价缺乏支撑，判断更多依赖订单基本面的独立验证。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合看，这是一只"反转逻辑真实但估值已高、且现价跑在机构目标价之上"的高波动小票。判断为<b>轻仓试仓/等回落</b>：行业出清+订单反转+猴源优势确属真题材，但近3个月+50%、PB约6x、2026E约107x，追高风险大。建议仓位0~1成试仓即可；加仓触发=股价回踩至75~80元附近且情绪降温、或2026中报确认"订单增速维持+毛利环比回升"再叠加；止损=跌破上市以来趋势关键位约65-66元或估值情绪明显反转。若求稳，等回落企稳信号的分批右侧介入更佳。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>益诺思2025年年报(688710)、2025年报问询回复公告(中证报/新浪财经转载)、2026年一季报、上交所披露、国泰海通2025年度持续督导跟踪报告</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(中邮/东北/长江/东方/开源/华源)、东财盈利预测表、同花顺F10机构预测</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富、同花顺(iFind)一年报数据、富途/企查查/财报帮(市值股价PB交叉验证用)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>股吧/雪球/媒体(猴周期题材线索，未作财务依据)</p></div>
+    <p>中高信心(80%·量面)：2023-2025营收/归母/扣非、2025新签订单11.35亿(+38.6%)、2026Q1订单7.29亿(+199%)与在手订单17.52亿、2026Q1归母1220.86万(+121%)均已尽量回财报/年报问询/督导报告核对(2023归母1.94亿为东财新股覆盖口径，个别平台显示1.82亿，存在口径差±6%，标注).中低信心(40-55%·盈利预测)：一致预期仅6家机构、样本小、离散度大（2026E营收9.7~11.7亿分歧明显）；PE/PB/市值来自第三方、标注日期。低信心(估)：净现金/分项毛利率等估值为AI估算。实验猴存栏2930只、占比48%等为公司口径。未回源数字均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>益诺思2025年度报告、2026年一季报（上交所披露688710）</li>
+        <li>益诺思2025年年度报告信息披露监管问询函回复公告（中证报/新浪财经）</li>
+        <li>国泰海通证券2025年度持续督导年度跟踪报告</li>
+        <li>券商盈利预测：中邮证券(2026-05-20首次买入)、东北证券(增持)、长江、东方、开源、华源证券</li>
+        <li>东方财富/同花顺F10/新浪财经/证券时报/中国证券报（财报与订单数据交叉验证）</li>
+        <li>富途牛牛/Aniu/企查查/财报帮（市值、股价、PB、机构目标价，标注日期）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

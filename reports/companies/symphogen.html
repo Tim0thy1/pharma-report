@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三生制药 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">三生制药<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">生物药龙头 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch3">回产业链报告</a></div>
+    <h1>三生制药<span class="code">01530.HK</span></h1>
+    <p class="subtitle">生物药龙头 · 血液/肾科/自免 · 707全球合作出海</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+    <a href="kelun.html">上一家 · 科伦药业/科伦博泰</a>
+    <a href="pharmblocks.html">下一家 · 药石科技</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈450亿港元(≈415亿元)</div><div class="k-sub">2026-08-21</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈4.7x</div><div class="k-sub">PE-TTM 2026-08(受一次性授权收入放大,失真)</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">≈低位(2025.08授权行情后腰斩)</div><div class="k-sub">过去5年中位 —(一次性净利使5年中位失真)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">—</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>中国老牌生物药龙头(特比澳/促红素/益赛普/蔓迪),2025年靠向辉瑞授权PD-1/VEGF双抗707确认94.25亿元授权收入,营收/净利爆发式创新高;但剔除该一次性BD后,2025产品收入实为82.65亿元、同比-9.3%下滑,核心老品种(特比澳/益赛普/促红素)遭集采与生物类似药围剿。当前市值较2025年出海行情峰值腰斩,交易的是"707全球里程碑+新管线兑现"期权,而非现有经营。</li>
+      <li><strong>基本面：</strong>2025营收176.96亿(+94.3%,含94.25亿授权)、归母净利84.82亿(+305.8%);剔除授权后产品及服务收入仅82.65亿(-9.3%)。2026H1营收45.26亿(+3.9%,含约8.5亿BD)、经调整经营归母净利14.4亿(+26.5%),财务资源194亿。</li>
+      <li><strong>估值：</strong>PE-TTM≈4.7x由2025一次性授权净利放大、失真;剔除授权后经营净利约18-20亿,真实PE约20x。市值~/现金194亿,EV约220亿元,707+管线+老药业务合计定价偏"困境反转期权"。</li>
+      <li><strong>市场隐含预期：</strong>现价≈HK$17.6对应2028E测算净利约33亿(含里程碑)约11x;反推市场对707全球前景与中国经营修复押注"或有性"兑现,但几乎未给特比澳等存量业务持续走低以充分扣减。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看707全球III期(辉瑞)数据/里程碑付款节点、特比澳份额(66.6%→60.4%是否续跌)、新品(益赛拓/新比澳/柏瑞素/611/613)放量、蔓迪国际IPO、以及剔除授权后的经营净利能否重拾个位数以上增长。</li>
+      <li><strong>情景结论：</strong>Bull HK$33(+82%) / Base HK$19.8(+12%) / Bear HK$8.6(-51%),收益风险比约1.9:1(内部偏Bear,因增长引擎未立、存量承压)。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>中国老牌生物药龙头,血液/肾科/自免多管线+707全球出海</strong>:三生制药(3SBIO)深耕中国生物药三十余年,核心商业产品含特比澳(重组人血小板生成素rhTPO,全球唯一商业化品种)、益比奥/赛博尔(重组人促红素rhEPO,国产龙头)、益赛普(全国首个TNF-α抑制剂)及赛普汀(HER2单抗),并拥有防脱发品牌蔓迪(米诺地尔)与消费健康业务。2025年5月与辉瑞就自研PD-1/VEGF双抗707达成结构级授权(前端共15亿美元、里程碑最高约48亿美元、双位数销售分成),确认94.25亿元授权收入,营收历史首破百亿元。公司聚焦血液肿瘤、自免、肾科与代谢,研发管线27个品种,产品销往39个海外市场。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>78.15</td><td>91.08</td><td>176.96</td><td>~97E(估)</td><td>~108E(估)</td></tr>
+        <tr><td>归母净利润</td><td>15.49</td><td>20.90</td><td>84.82</td><td>~26E(估)</td><td>~33E(估)</td></tr>
+        <tr><td>扣非净利润</td><td>19.52</td><td>23.19</td><td>84.54</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~85%</td><td>~86%</td><td>~92%(授权放大)</td><td>~68%E(估)</td><td>~68%E(估)</td></tr>
+        <tr><td> ROE / ROIC</td><td>~9.7%</td><td>~12%</td><td>~35%(授权放大)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~20.8</td><td>~32.0</td><td>~96.7(授权流入)</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>收入三分(2025年报):</strong>商业化产品收入约80亿元(特比澳/益比奥·赛博尔/益赛普/赛普汀/蔓迪等)+授权收入94.25亿元(707向辉瑞)+CDMO收入2.63亿元(+46.3%);剔除授权后产品及服务收入82.65亿(-9.3%)。<br><br><strong>主力产品与市占(IQVIA):</strong>特比澳2025在中国内地血小板减少症治疗市场份额60.4%(前值66.6%,下滑);rhEPO多年国产第一,2025中国市场份额39.6%(院内30.32%)。<br><br><strong>成熟品种承压:</strong>益赛普(TNF-α,全国首个)受阿达木单抗原研降价进医保及百奥泰/海正/信达生物类似药冲击,份额由峰值40%+回落,2025年纳入区域集采省份扩至20余个、均价大降;赛普汀(HER2)受曲妥珠类似药+HER2 ADC(含DS-8201)挤压,年收入约3亿元。特比澳为独家rhTPO、具防御性但仍受TPO小分子(艾曲泊帕/阿伐曲泊帕)纳入国家集采与仿制药冲击。<br><br><strong>2019-2025业绩路径:</strong>收入63.82/68.66/78.16/91.08/176.96亿;归母净利16.5/19.2/15.5/20.9/84.8亿。2025增长几乎全部来自一次性授权。<br><br><strong>管线与新品:</strong>2025-2026获批新比澳(罗赛促红素α/国产首个长效双周EPO)、艾曲泊帕乙醇胺片、益赛拓(安沐奇塔单抗,抗IL-17A,2026.02获批治银屑病);柏瑞素(紫杉醇口服液,合作)+613(抗IL-1β,痛风)/611(抗IL-4R,AD)NDA在审;707(PD-1/VEGF)、705/706双抗、WS2403(司美格鲁肽减重,III期)、610(抗IL-5)、626/627在研。<br><br><strong>客户/渠道/管理:</strong>中国内地11000+家医院、6,109名员工、39个海外市场;另有映恩生物HER2 ADC(DB-1303)中国大陆区商业化合作。2025年两次配售+辉瑞认购新股(摊薄)。<br><br><strong>Balance sheet(2026H1):</strong>现金资源/财务资源194亿元、有息负债比率9.8%、净资产~304亿、总资产~362亿(2025年报);2025末末期股息每股HK$0.25。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长:剔除授权后的自营收入实为负增长。</strong>2025产品+CDMO收入82.65亿,-9.3%,是"真经营"表现;2026H1经营口径尚可(含BD约8.5亿,经调整经营归母净利14.4亿,+26.5%)。</li><li><strong>会计/一次性因素:707授权收入94.25亿</strong>为前端一次性、不可持续,2025年营收/净利/PE/ROE全部被其放大;剔除后经营净利约18-20亿(估)。</li><li><strong>非常项目:2026H1报表归母净利11.5亿(-15.58%)低于经调整14.4亿</strong>,差额主系非经营汇兑/公允值损失,属揶余扰动。</li><li><strong>结论:</strong>2025年"爆发"是一次性授权,剔除后公司处在"老品种被替代、新品未放量、增长引擎未立"的经营承压期,盈利质量需区分看待。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈HK$17.6</strong></td><td>2026-08-21 中报后涨逾7%,区间17.6-18.65</td></tr><tr><td>总市值</td><td><strong>≈HK$450亿(≈RMB415亿)</strong></td><td>股本约25.3亿股</td></tr><tr><td>EV</td><td><strong>≈RMB220亿(≈HK$240亿)</strong></td><td>市值-净现金(现金资源194亿)</td></tr><tr><td>PE-TTM</td><td><strong>≈4.7x</strong></td><td>基于2025一次性净利84.8亿,失真</td></tr><tr><td>剔除授权后PE</td><td><strong>≈20x(估)</strong></td><td>经营净利约18-20亿(估)</td></tr><tr><td>PE-2026E</td><td><strong>≈15x(估)</strong></td><td>2026E净利约26亿(含部分里程碑)</td></tr><tr><td>PE-2027E</td><td><strong>≈12.5x(估)</strong></td><td>2027E净利约33亿(估)</td></tr><tr><td>PE-2028E</td><td><strong>≈11x(估)</strong></td><td>2028E净利约35-38亿(估)</td></tr><tr><td>PB</td><td><strong>≈1.5x</strong></td><td>每股净资产约13.6元(净资产~304亿)</td></tr><tr><td>PS(TTM)</td><td><strong>≈2.5x</strong></td><td></td></tr><tr><td>股息率</td><td><strong>≈1.4-1.5%</strong></td><td>2025末期息HK$0.25/股(派息率低,因净利含一次性授权)</td></tr><tr><td>PEG</td><td><strong>无意义</strong></td><td>经营负增长期PEG失真</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>市值/股价/股本/净利已尽力回港交所披露与财报交叉核对(新浪/同花顺/东财/长桥交叉);估值字段(PE/PB/PS/PEG)为第三方公开数据仅辅助。核心提示:2025年一次性授权94.25亿使PE-TTM≈4.7x严重失真,必须剔除授权后看经营净利(约18-20亿)得真实PE约20x;2026E及以后预测均为AI估算并务必与实际披露核对。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>股价轨迹</td><td><strong>现价≈HK$17.6</strong></td><td>2025.08出海行情峰值约HK$31-33(辉瑞认购25.21、12月配售29.62)→2026.08腰斩至17.6,距峰值约-45%</td></tr><tr><td>PE-TTM</td><td><strong>≈4.7x(现)</strong></td><td>被一次性授权净利压缩;2025年净利84.8亿使分位/中枢失真</td></tr><tr><td>市值</td><td><strong>≈HK$450亿</strong></td><td>较2025峰值约HK$800-850亿明显回吐,资金/情绪面大幅出清</td></tr>
+      </tbody>
+    </table></div>
+    <p>经历2025年"709出海+辉瑞交易"情绪高峰后,2026年持续遭做空与回落,当前处于过去一年股价低位、周期与情绪低位区。市场分歧核心不在估值表观(PE仍被一次性净利压低),而在"707全球能否兑现 + 中国存量老品种能否被新产品接棒"。当前定价更像"困境反转期权",而非确定性成长。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>176.96</td><td>~97E</td><td>~108E</td><td>~120E</td></tr>
+        <tr><td>毛利率</td><td>~92%</td><td>~68%E</td><td>~68%E</td><td>~68%E</td></tr>
+        <tr><td>净利润</td><td>84.82</td><td>~26E</td><td>~33E</td><td>~36E</td></tr>
+        <tr><td>EPS</td><td>3.51</td><td>~1.03E</td><td>~1.30E</td><td>~1.42E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司2026H1已披露(2026-08-20):营收45.26亿(+3.9%,含BD约8.5亿)、报表归母净利11.5亿(-15.58%)、经调整经营归母净利14.4亿(+26.5%)、研发6.8亿(+24.9%)。（公司指引）/ <strong>券商共识(以长桥/富途/东财为主,多为内资,偏乐观):目标价均值HK$34.87、区间23-43,评级多"买入";该目标基于707全球III期叠加中国经营修复,须打折看待。</strong>（市场一致预期）/ <strong>AI估算:经营口径估计2026产品/服务收入约85-90亿(在2025年82.65亿上温和修复),一次性里程碑/分成2026约10-15亿;2026E营收约95-100亿(同比大降因无前端授权)、净利约25-28亿;2027E营收约105-115亿、净利约32-35亿;2028E营收约115-125亿、净利约35-40亿。毛利率随授权占比下降回落至~70%(估算)。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>创新药/生物药潜力指标</h3><ul><li><strong>707(PD-1/VEGF双抗)全球期权:</strong>已授权辉瑞(全球除中国大陆,含中国选择权),前端$1.4bn+$0.1bn购股、里程碑最高~$4.8bn、双位数分成;辉瑞计划2026年起启动5项III期MRCT(NSCLC/CRC/SCLC等),全球III期进展即里程碑节点。若成全球竞速,授权金/Tiered分成具巨大向上空间。</li><li><strong>海外销售+23国许可:</strong>2026H1海外产品销售+43%,核心品种获全球23个国家上市许可,rhEPO/益赛普等走出国门放量。</li><li><strong>全新一代产品兑现:</strong>益赛拓(抗IL-17A,2026.02获批)复制益赛普自免赛道;新比澳(长效双周EPO,国产首个)边际改善;柏瑞素(紫杉醇口服,进医保)肿瘤放量;611(IL-4R)/613(IL-1β)/626/627等自免+生物类似物推进NDA。</li><li><strong>蔓迪/消费健康:</strong>蔓迪国际2025收入7.43亿、净利1.74亿,拟独立港股上市,估值释放+变现。</li><li><strong>CDMO+全球化产能:</strong>沈阳/上海等6地+意大利基地,生物药DS产能75,000L+,707量产承担辉瑞供应,承接产能利用率向上。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>增长必须切分为:一次性授权(2025年94.25亿,2026不可复制,明面上2026营收将现"大幅下滑"但系基数效应非经营恶化)/会计与公允值扰动(2026H1报表净利11.5亿&lt;经调整14.4亿,差额为汇兑·公允值)/真经营(剔除授权后82.65亿,-9.3%负增长为主要矛盾;新品2026起爬坡)。用"剔除授权后的经营净利"而非表观PE评估公司真实盈利。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>707授权里程碑/分期确认</td><td><strong>+3~5pct(估)</strong></td><td>辉瑞707全球III期推进触发里程碑,2027年或有节点</td></tr><tr><td>新管线放量(益赛拓/新比澳/柏瑞素/611)</td><td><strong>+5pct(估)</strong></td><td>新产品2026-2027爬坡,部分对冲老品种下滑</td></tr><tr><td>存量老品种企稳+海外(23国+rHEPO外销)</td><td><strong>+0~2pct(估)</strong></td><td>特比澳/EPO以价换量企稳、海外+43%</td></tr><tr><td>CDMO(+46%)+蔓迪消费健康</td><td><strong>+2pct(估)</strong></td><td>CDMO收入及产能利用率提升、蔓迪独立化</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎正从"内生成熟品种(特比澳/EPO/益赛普)+一次性BD"切换为"一次性守望(707全球)+新管线兑现(益赛拓等)+出海(EPO/单抗23国)",但存量以价换量仍在侵蚀基本盘、增量高度依赖临床转化与707/辉瑞进度,增长质量中等偏弱、兑现不确定性高。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推:当前价格隐含了什么</div>现价HK$17.6/市值HK$450亿(≈RMB415亿),扣除现金资源约194亿后EV约RMB220亿。表观PE-TTM 4.7x建立在2025一次性授权净利84.8亿之上(失真);以剔除授权后的经营净利约18-20亿计,真实EV/经营净利约11-12x;对2028E测算净利约33亿(含里程碑),对应约11x。<br><br>换言之,市场<strong>仅按"一次性BP落袋+管线/全球或有价值"定价</strong>:相对2025峰值腰斩后,当前市值基本未为707来日全球分成/里程碑充分计价,也未对特比澳等存量持续走低做过高倍率扣减——是一个"低估值+高不确定性期权"组合。若707全球III期兑现+新品接棒,有望戴维斯双击;若里程碑一再延后、存量续滑,则当前"便宜"可能是价值陷阱。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>独家与龙头地位:</strong>特比澳为全球唯一商业化rhTPO,2025中国血小板减少症市场60.4%份额;rHEPO国产龙头39.6%;益赛普为全国首个TNF-α抑制剂的渠道/品牌先发。</li><li><strong>销售网络:</strong>中国内地11000+家医院覆盖、6109名员工、39个海外市场的全球化布局,新进入者短期难复制。</li><li><strong>生产与质量:</strong>6地+意大利基地、75,000L生物药DS产能、承担707全球GMP供应(辉瑞DS指定供应),产能与质量门槛高。</li><li><strong>研发平台与现金:</strong>CLF2平台、27个在研品种(19抗体/融合蛋白)、10+ FDA IND、194亿财务资源,可持续投入。</li><li><strong>替代难度与品牌:</strong>特比澳独家适应症黏性、蔓迪防脱发消费心智、707在辉瑞手中具全球规模优势。</li></ul><div class="callout key"><div class="label">竞争对手能否复制</div>存量护城河"真但老":独家与渠道壁垒可复制性低,但正被仿制药/生物类似药(阿达木类似药、TPO小分子、促红素16家)、集采与生物类似药挤占,市占率已在滑落;未来壁垒更多寄望于707全球(已由辉瑞主导,单体风险集中)与新一代自免/代谢管线(益赛拓/611/WS2403)。总体护城河:存量薄而陈旧,增量取决于临床与全球执行能力。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-20</strong> · 2026中期业绩(已出:营收45.26亿/+3.9%,经调整经营净利14.4亿/+26.5%,股价+7%) — 盈利/情绪</p><p><strong>2026H2-2027</strong> · 707全球III期(NSCLC/CRC等)启动与数据读出(辉瑞执行)触发里程碑付款 — 收入/估值</p><p><strong>2026-2027</strong> · 611(IL-4R AD)/613(IL-1β痛风)NDA获批放量、益赛拓/新比澳/柏瑞素放量爬坡 — 收入</p><p><strong>2026-2027</strong> · 蔓迪国际港股上市推进、映恩HER2 ADC DB-1303中国商业化 — 估值/变现</p><p><strong>持续</strong> · rHEPO/益赛普等海外23国销售+43%放量 — 收入</p><p><strong>2026H2-2027</strong> · WS2403(司美格鲁肽)减重III期进展 — 期权/估值</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>核心产品生命周期(特比澳)</td><td>收入+利润</td><td>独家rhTPO份额由66.6%降至60.4%,TPO小分子(艾曲泊帕/阿伐曲泊帕)进国家集采、罗普司亭仿制放量持续挤压</td></tr><tr><td>生物类似药/仿制竞争</td><td>收入+利润</td><td>益赛普遭阿达木类似药(百奥泰/海正/信达)挤压,份额由40%峰值回落;赛普汀遭曲妥珠类似药+DS-8201等HER2 ADC冲击,年收入仅~3亿</td></tr><tr><td>集采/医保以价换量</td><td>收入+毛利率</td><td>促红素16家企业混战,山东集采3000IU规格中选价19.91元/支;2025益赛普区域集采扩至20余省</td></tr><tr><td>高度依赖一次性BD收入</td><td>收入+净利</td><td>2025授权94.25亿占营收54%,2026无前端重复致表观营收"大降",盈利可持续性存质疑、遭持续做空</td></tr><tr><td>707全球研发/里程碑在辉瑞</td><td>估值+或有收入</td><td>未来分成与里程碑依赖辉瑞III期成败,失败则兑现落空;研发费2026H1+24.9%↑</td></tr><tr><td>单一市场依赖中国+政策</td><td>收入+经营</td><td>中国内地收入占比约75%,集采/医保支付改革/学术合规挤占院内老品种</td></tr><tr><td>摊薄(配售+购股权)</td><td>估值</td><td>2025年两次配售+辉瑞认购新股,发行股数升至约25.3亿,持续融资摊薄压力</td></tr><tr><td>非经营(汇兑/公允值)扰动</td><td>报表净利</td><td>2026H1报表净利-15.58%与经调整+26.5%背离,汇率/公允值损失反复释放</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>707全球III期兑现+里程碑+中国新品接棒旧药+海外放量</td><td>~48亿</td><td>16x</td><td>~HK$33(+82%)</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>剔除授权后经营温和修复、里程碑部分落袋,存量企稳、增量爬坡</td><td>~33亿</td><td>14x</td><td>~HK$19.8(+12%)</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>707延后/失败,存量(特比澳)加速下滑,新品转化不利,持续做空/摊薄</td><td>~20亿</td><td>10x</td><td>~HK$8.6(-51%)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价HK$17.6、Base为中枢:上行到Bull+82%/Base+12%,下行到Bear-51%,收益风险比约1.9:1(内部偏在Bear端,因增长引擎未立、存量承压、估值含一次性噪音)。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2027年剔除授权的经营净利未能重新转正并重返两位数;②707全球III期数据不利或里程碑一再延后;③特比澳市占率加速下滑(<55%);④新品(益赛拓/新比澳/柏瑞素/611)放量低于预期、蔓迪IPO停滞——任一兑现将下修Base、向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分:港股创新药/生物药。2025年"出海授权"主题爆发(授权行情)后,2026年阶段性回调、板块估值回落至低位,资金情绪趋于谨慎;生物药政策面受"新兴支柱产业"定调支撑,但集采对成熟品种持续压制。707已入辉瑞体系中国内地,板块情绪更靠全球临床节奏牵引。景气度:存量品种处周期下行,增量管线处于"临床阶段至早期商业化"的黎明期,整体偏底部左侧。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价HK$17.6较2025峰值HK$31-33腰斩,2026-08-21中报后放量+7%,短期止跌企稳、日线反弹</td><td><strong>低位企稳但尚未走出趋势,未站上年线前重仓风险高</strong></td></tr><tr><td>基本面</td><td>2025爆发系一次性授权;剔除后续盈利约18-20亿且存量-9.3%下滑,经调整经营净利2026H1+26.5%初现企稳</td><td><strong>经营"真增长"能否持续是核心变盘点,看新品/707兑现</strong></td></tr><tr><td>情绪面</td><td>出海行情后遭持续做空,筹码/市值大幅出清,中报+美股买入带动情绪修复</td><td><strong>情绪由冷转温,逆向但需右侧确认</strong></td></tr><tr><td>政策影响</td><td>特比澳/EPO/益赛普遭集采扩面与医保支付改革,成熟品种长期承压;生物药被列"新兴支柱产业"提供政策托底</td><td><strong>负面集采与正面定调并存,净效应温和偏负</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资优先:美银证券(BofA)近期予"买入"并看好(带动板块情绪);多数外资/内资目标价远端参考在HK$23-43(均值~HK$34.9,多为内资、偏乐观需打折)。707全球价值与一次性/经营扭曲使目标价分歧大,建议以"剔除授权后经营净利+707期权"双口径自行测算,勿盲从高端目标。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合:估值处历史低位(较峰值腰斩、现金充裕EV低、表观PE仍被一次性净利压低)+中报经调整经营净利企稳(+26.5%),具"低估值+高弹性期权"属性;但增长引擎未立、存量承压、Bear下行-51%空间不可小觑。判断为<b>轻仓试仓/等企稳信号</b>:现价可先建1-2成仓位左侧布局,核心验证点为2026H2新品放量+707全球III期/里程碑节点与特比澳份额企稳→兑现则加至3-4成;若跌破HK$14或经营增速再度转负,减仓离场,不追高、不加杠杆。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>三生制药2025年度報告/中期业绩公告(港交所披露)、707-辉瑞许可·认购·选择权公告(2025.05/07.24)、2026中期业绩公告(2026.08)、业绩会纪要/路演(2026.03)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(爱建首次覆盖、美银证券买入;内资目标价存疑打折)、东财/同花顺盈利预测</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>新浪财经/同花顺/东财/长桥/霸财/富途(股价市值PE/PB交叉验证)、IQVIA份额数据(佐证特比澳/EPO市占)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>网易·健识局、期权看市等自媒体(仅线索,作经营/份额交叉印证,不作财务唯一依据)</p></div>
+    <p>中高信心(80%·财报口径):营收/归母/调整后经营净利/OCF/ROE/毛利率/现金资源均回2025年报+2026中期公告核对一致;707授权金额/条款回公告核对。中高信心(75%·估值):市值/股价/股本回港交所/Sina/同花顺交叉;PE-PB为第三方辅助,PB较可靠、PE因一次性净利失真已注明。中低信心(40-55%·预测):2026-28E营收净利、剔除授权后经营净利18-20亿、Bull/Base/Bear均为AI估算(2026H1为已披露实际);特比澳/EPO份额来自IQVIA(2025年报引用)。未回源数字已标"估"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>三生制药 2025年度报告 / 2026中期业绩公告(港交所披露易/公司官网)</li>
+        <li>三生制药 公告:707对辉瑞许可/期权/认购协议(2025.05.20、2025.07.24、2025.08.01)</li>
+        <li>三生制药2025年度业绩路演/业绩说明会纪要(2026.03)</li>
+        <li>爱建证券首次覆盖、美银证券(BofA)买入、内资券商盈利预测</li>
+        <li>新浪财经 / 同花顺 / 东方财富 / 长桥 / 富途 行情与估值(交叉验证)</li>
+        <li>IQVIA市场数据(特比澳60.4% / rhEPO 39.6%份额)、健识局/期权看市等行业媒体</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

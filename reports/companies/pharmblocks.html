@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>药石科技 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">药石科技<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">分子砌块/CDMO · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch3">回产业链报告</a></div>
+    <h1>药石科技<span class="code">300725.SZ</span></h1>
+    <p class="subtitle">分子砌块全球龙头 · 前端砌块→后端CDMO一体化 · 新分子实体(OPC)第二曲线</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+    <a href="symphogen.html">上一家 · 三生制药</a>
+    <a href="bide-pharm.html">下一家 · 毕得医药</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈122亿元(区间120-127亿)</div><div class="k-sub">2026-08-21(A股, 总股本2.34亿)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈55-60x(归母PE-TTM)·扣非端~71x</div><div class="k-sub">PE-TTM 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">处近5年中高区:盈利仍在底部+估值先知先行扩张</div><div class="k-sub">过去5年中位 归母PE历史中位约55-70x(估,小盘高成长股)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+~32%</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>全球分子砌块(药物研发上游"乐高")龙头，以20万+自主新颖分子砌块库为流量入口，向CDMO/新分子实体一体化延伸的稀缺小盘CXO。经历2023-2025CDMO价格竞争+产能爬坡+汇兑致毛利率由~42%大降到30.8%、2025归母1.84亿(-16%)的行业底部后，2026H1净利+37%、毛利率环比回升、CDMO在手订单+20%+、OPC新分子业务高增，进入"订单驱动+盈利拐点"的右侧修复初段。但截至2026-08-21两个月从~36元快速拉升至51.46元(+约40%)、PE-TTM~57x(盈利仍在低位)、现价≈一致预期目标价(50元)，短期已透支，追高性价比不佳；价值兑现需等2027盈利释放。</li>
+      <li><strong>基本面：</strong>2025营收19.74亿(+16.93%)、归母1.84亿(-16.31%)、毛利率30.82%(-7.24pct)。后端业务16.59亿(+22.5%)占84%(CDMO服务11.24亿+30.2%、用于开发生产砌块5.35亿+9%)，前端砌块3.09亿(-6.8%)，OPC新分子0.84亿(+50%+)。海外收入14.34亿(占72.66%)、MNC大客户6.56亿(+41%)、欧洲4.22亿(+119%)。2026H1营收10.59亿(+15.19%)、归母0.99亿(+37.17%)、毛利率32.49%(+1.44pct)，盈利修复拐点初现。</li>
+      <li><strong>估值：</strong>A股约51.46元、总市值约122亿元，PE-TTM约55-60x、扣非端约71x、PB约2.5-2.8x、PS约5.8-6.0x。PE-2026E约49x、2027E约37x、2028E约29x。估值处"盈利底部+估值先知扩张"的中高区，PB历史中低区。</li>
+      <li><strong>市场隐含预期：</strong>现价51.46元对应2028E一致预期EPS约1.78元≈29x，隐含市场对2026-2028归母净利约+30%复合、并预期毛利率由~31%向~35%修复、CDMO商业化(含MNC/TOP10药企API)持续放量、OPC新分子翻倍增长兑现。市场并未为超预期的"CE/CDMO爆发"或"毛利率大幅跃升"定价，当前买的是"盈利修复确定性"，需盈利兑现来消化高PE。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026Q3/全年：单季归母增速能否维持30%+、毛利率能否续升向33%+、CDMO在手订单(+20%)与新增PPQ(8个)能否转商业化兑现、MNC/TOP10药企API与OPC(寡核苷酸GalNAc/多肽UAA)放量、浙江晖石503车间产能利用率爬坡、以及地缘(海外收入72%)。</li>
+      <li><strong>情景结论：</strong>Bull 约65元(+26%) / Base 约52元(≈现价) / Bear 约32元(-38%)，收益风险比约0.7:1——短期涨幅大、盈利基数低致估值不低，宜等回落分批而非追高。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>全球分子砌块(药物发现上游核心素材)龙头、稀缺的小分子一体化CXO</strong>：药石科技2006年由杨民民创立、2017年11月创业板上市(SZ300725)。以"20万+种自主新颖分子砌块库"(约40%拥有独立专利、覆盖超过85%的临床药物化学骨架)为根基，构建从前端分子砌块销售(药物发现入口)导流到后端CDMO(工艺开发、临床及商业化生产)的一体化闭环，进出"先导优化→工艺放大→商业化中间体"全流程，2025年起向新分子实体(OPC：寡核苷酸、多肽、偶联等)拓展第二曲线。全球分子砌块市占率约12%(估)、全球前20大药企超八成为其客户，海外收入2025年14.34亿元、占比72.66%，是创新药研发链条的上游材料+服务供应商。2025年营收19.74亿元、归母1.84亿元。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>17.25</td><td>16.89</td><td>19.74</td><td>~23.5E(一致)</td><td>~28.2E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>1.97</td><td>2.20</td><td>1.84</td><td>~2.42E(一致)</td><td>~3.24E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>~1.6(估)</td><td>~2.0(估)</td><td>~1.4(估)</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>42.5%</td><td>~38.1%</td><td>30.82%</td><td>~32.5-33E%</td><td>~34-35E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~6%(估)</td><td>~6%(估)</td><td>~3.3%(估)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~5.5(估)</td><td>3.03</td><td>6.67</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(2025年报)：</strong>后端业务(开发及生产)16.59亿(+22.51%，占总营收84%)，其中CDMO服务收入11.24亿(+30.19%)、用于开发与生产的分子砌块5.35亿(+9.00%)；前端业务(药物发现阶段砌块销售)3.09亿(-6.78%)；新分子实体OPC业务0.84亿(+50%+、新引入订单+100%+)，寡核苷酸实现公斤级修饰GalNAc生产交付、多肽UAA现货扩容至1600余种。<br><br><strong>区域(2025)：</strong>海外收入14.34亿(占总营收72.66%)；其中来自MNC跨国药企收入6.56亿(+41.35%)、CDMO重点客户占比提升至75%；欧洲市场4.22亿(+118.76%)。<br><br><strong>订单/项目(前瞻)：</strong>2026H1 CDMO在手订单同比+20%+、季度呈逐步恢复态势；2025 GMP项目数量+16%、新增PPQ(工艺性能确证)项目8个，为后续收入弹性支撑；首个MNC注册批API项目交付、总产值超5000万元，并首次拿下全球TOP10药企后期API项目。<br><br><strong>产能：</strong>浙江晖石503商业化GMP车间2025年2月正式启用、处于产能爬坡阶段，2026年产能利用率有望进一步提升；通过连续流等创新技术提升现有产能综合利用效率。<br><br><strong>能力/技术：</strong>超20万砌块库+AIDD智能研发平台+"靶点→苗头→先导→候选"全链路一体化干湿实验交付+绿色化学/连续流工艺。<br><br><strong>客户/竞争：</strong>全球分子砌块龙头(约12%市占估)、全球前20大药企超八成客户；竞争对手=海外Sigma-Aldrich(默克)、Fluorochem等砌块商，及前端药明康德/凯莱英/皓元医药(345688.SH)等，后端与凯莱英/博腾/药明康德小分子CDMO正面竞争。<br><br><strong>管理层/治理：</strong>创始人/董事长杨民民技术出身；2025-2026有股东周全等减持(2025-12减持完毕约40万股)属常规股权变动；2025年完成资本充实(定增/权益，资本公积由~11亿升至~23亿)。<br><br><strong>资产负债(2025末)：</strong>资产负债率偏低、货币资金约5.3亿+交易性金融资产~5.9亿(合计净现金较充裕)，商誉3.56亿。2025归母1.84亿处底部、ROE偏弱(~3%)，2026年进入修复期。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>CDMO服务+30.2%、后端占84%、OPC新分子+50%+、H1 2026归母+37%、毛利率回升——后端与新分子驱动为真实经营增长，前端砌块(2025 -6.8%)处阶段性调整。</li><li><strong>周期/高基数拖累：</strong>2023-2025CDMO价格竞争+全球创新药融资偏冷+早期导入型项目规模效应未形成，致后端毛利率偏低、整体毛利率由~42%降至30.8%；2025归母-16%系毛利率/汇兑/爬坡费用共同所致，属周期底部而非经营质量恶化。</li><li><strong>一次性因素：</strong>2025存在汇兑净损失；前端砌块与后端CDMO之间内部转化调整；产能爬坡期折旧摊销快速上升(浙江晖石503车间)。</li><li><strong>结论：</strong>真实增长在后端CDMO服务+OPC新分子+海外MNC渗透，2026H1毛利率与净利同步改善验证"盈利拐点初现"；看经营侧须盯后端订单/毛利率，勿以上市公司报表单一年份归母差异为准绳。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈51.46元</strong></td><td>2026-08-21收51.46(当日-5.37%)；8月20盘中高点57.35</td></tr><tr><td>A股总市值</td><td><strong>≈122亿元</strong></td><td>2.34亿总股本；区间120-127亿(东财-富途口径)，流通市值约110亿</td></tr><tr><td>EV</td><td><strong>≈110-115亿元(估)</strong></td><td>市值扣净现金(现金+交易性金融资产约12亿)</td></tr><tr><td>PE-TTM</td><td><strong>≈55-60x</strong></td><td>归母TTM约2.1亿；富途57.11x/东财60.35x(8-21)</td></tr><tr><td>PE扣非-TTM</td><td><strong>≈71x</strong></td><td>扣非TTM摊薄口径(中财网8-21, 参考弱)</td></tr><tr><td>PE-2026E</td><td><strong>≈49x</strong></td><td>一致预期EPS 1.04元</td></tr><tr><td>PE-2027E</td><td><strong>≈37x</strong></td><td>一致预期EPS 1.39元</td></tr><tr><td>PE-2028E</td><td><strong>≈29x</strong></td><td>一致预期EPS 1.78元</td></tr><tr><td>PB</td><td><strong>≈2.5-2.8x</strong></td><td>理杏仁2.54、东财2.78(8-21)，处历史中低区</td></tr><tr><td>PS-TTM</td><td><strong>≈5.8-6.0x</strong></td><td>市值~122亿/TTM营收~21亿</td></tr><tr><td>FCF Yield</td><td><strong>难高(~1%估)</strong></td><td>经营现金流6.7亿但产能资本开支大、FCF薄</td></tr><tr><td>股息率</td><td><strong>≈0.76%</strong></td><td>低分红；PEG失真(盈利基数低)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>市值/股价/股本/PE-TTM/PB/PS由第三方(东方财富/富途/理杏仁/中财网/证券之星)于2026-08-21交叉核对，口径存在约8%区间差(富途120亿/东财127亿，依价格时点差异)。归母PE因盈利仍处底部(2025归母1.84亿 vs 2022峰值~4.1亿时代)偏高、扣非端更为苛刻，横向比PE意义有限；PB更能反映资产侧、处历史中低区。预测(2026-28E)为一致预期(westockdata/开源等内资)、注明口径；外资目标价未检索到明确覆盖(见sources)。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM(当前)</td><td><strong>≈55-60x</strong></td><td>盈利处底部致PE偏高；理杏仁54.9/中财网57.1/东财60.4(8-21)</td></tr><tr><td>PE历史中位/区间</td><td><strong>≈55-70x(估)</strong></td><td>小盘高成长CXO时代PE长期高企；2020-2021峰值曾超100x，2024大底后随股价与盈利重估</td></tr><tr><td>PB(当前)</td><td><strong>≈2.5-2.8x</strong></td><td>每股净资产随2025定增充实而下降，处历史中低区</td></tr><tr><td>股价位置(近2年)</td><td><strong>≈51.46元</strong></td><td>距2024年9月大底(~23元)已翻倍有余、贴近2026年8月高点57.35，处过去2年上沿</td></tr>
+      </tbody>
+    </table></div>
+    <p>当前处"盈利仍在底部(2025归母1.84亿)+估值已先行走强的戴维斯双击上半场"：PE-TTM约57x处近5年中高区(分母盈利未起)、PB约2.5-2.8x处历史中低区。股价从2024年大底~23元一路修复至~51元(近2年上沿、贴近今年新高)，2026年约+40%主要由"盈利拐点预期+创新药/CXO情绪回暖"驱动而非盈利本身兑现。这是典型的"MA利差+先于盈利的估值扩张"，右侧修复初段——安全垫来自PB与资产侧，弹性与风险都在"盈利修复是否如期落地"这一枢纽上。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>19.74</td><td>~23.5E</td><td>~28.2E</td><td>~34.1E</td></tr>
+        <tr><td>毛利率</td><td>30.82%</td><td>~32.5-33E%</td><td>~34-35E%</td><td>~35-36E%</td></tr>
+        <tr><td>净利润</td><td>1.84</td><td>~2.42E</td><td>~3.24E</td><td>~4.15E</td></tr>
+        <tr><td>EPS</td><td>0.88</td><td>~1.04E</td><td>~1.39E</td><td>~1.78E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：2026H1 CDMO在手订单同比+20%+、季度呈逐步恢复态势；2025 GMP项目+16%、新增PPQ 8个；首个MNC注册批API项目交付(总产值5000万+)；OPC新引入订单+100%+、寡核苷酸GalNAc公斤级交付、多肽UAA1600余种。浙江晖石503商业化车间2026产能利用率有望进一步提升；连续流技术提升现有产能效率。(2026年半年报/业绩交流纪要)（公司指引）/ <strong>一致预期(westockdata汇总裁量/开源证券等内资)：营收2026E 23.5亿(+19%)、2027E 28.2亿、2028E 34.1亿；归母2026E约2.42亿(+32%)、2027E约3.24亿、2028E约4.15亿；EPS 2026E 1.04/2027E 1.39/2028E 1.78。开源：2026-28归母2.49/3.34/4.12亿,EPS1.07/1.43/1.76，一致预期目标价约50元。</strong>（市场一致预期）/ <strong>AI估算：营收2026E 23-24亿(+18~20%)、2027E 27-29亿(+18%)、2028E 33-35亿；归母2026E 2.4-2.5亿、2027E 3.2-3.4亿、2028E 4.1-4.5亿；毛利率自2026年起随商业化产能爬坡由~32%逐步向34-35%修复。OPC/寡核苷酸/多肽为最高弹性、占利润贡献比例持续提升。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>分子砌块/CDMO/新分子型潜力指标</h3><ul><li><strong>CDMO在手订单(前瞻)：</strong>2026H1同比+20%+、季度逐步恢复——锁定未来收入弹性(后端占84%)。</li><li><strong>前端砌块→后端CDMO闭环转化：</strong>客户先用砌块筛苗头化合物→先导优化→工艺放大→商业化中间体天然切换药石CDMO，前端导流后端高毛利，形成高粘性闭环。</li><li><strong>新分子实体(OPC)第二曲线：</strong>OPC 2025 +50%+、新引入订单+100%+；寡核苷酸公斤级GalNAc交付、多肽平台UAA 1600余种，打开长期天花板。</li><li><strong>MNC/全球TOP10药企渗透：</strong>MNC收入+41%、CDMO重点客户占75%，首次拿下全球TOP10药企后期API项目——顶级药企认可带来更稳订单与更高毛利。</li><li><strong>产能利用率/毛利率修复：</strong>浙江晖石503商业化车间2025年启用、2026产能爬坡，低价早期订单出清+临床III期/商业化占比提升→毛利率中枢上移(2026H1已回升)。</li><li><strong>赛道景气：</strong>全球创新药融资回暖+AI制药(自建20万砌块标注数据为AI训练稀缺底座)+创新药海外授权产业链，上游分子砌块为刚性耗材。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>盈利增长三分：①真实经营=后端CDMO(+30%)+OPC新分子(+50%)+MNC/欧洲订单，H1 2026归母+37%为拐点证据；②周期底=2023递2025CDMO价格竞争+爬坡费用致毛利率~42%→30.8%、2025归母-16%，系行业底部而非恶化；③一次性=2025汇兑净损失、前端砌块阶段性调整、产能折旧摊销上升。评估须盯"后端订单+毛利率+OPC放量"这一经营主轴，而非单一年份报表归母。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>CDMO服务后端(+30.2%,在手+20%+)</td><td><strong>+约8pct</strong></td><td>CDMO服务11.24亿是最大引擎，商业化项目+GPM车间爬坡</td></tr><tr><td>新分子OPC(+50%~100%订单)</td><td><strong>+约4pct</strong></td><td>寡核苷酸/多肽/偶联放量，基数低弹性大</td></tr><tr><td>海外MNC/欧洲扩张(+41%/+119%)</td><td><strong>+约4pct</strong></td><td>海外占72.66%，TOP10药企API突破，毛利率高于国内</td></tr><tr><td>分子砌块前端企稳+产能利用率</td><td><strong>+约3pct</strong></td><td>前端经调整后回稳，产能利用率提升带毛利率</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎由"后端CDMO(+30%)+新分子OPC(+50%)+海外MNC/欧洲渗透"三驾马车驱动，以前端分子砌块为引流入口、以前临床III期/商业化产能爬坡为放量枢纽。领先指标=CDMO在手订单(+20%+)+新增PPQ(8个)+毛利率(2026H1回升1.44pct至32.49%)，共同支撑2026-2028归母约+30%复合——"订单先行→收入→盈利"的传导自上而下兑现。主要风险在商业产能爬坡节奏与全球下游需求，若在手订单或毛利率上行趋势掉头，则增速预测需下修。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价51.46元对应2028E一致预期EPS 1.78元≈29x、2027E约37x、2026E约49x(归母口径)。隐含市场对2026-2028归母净利约+30%复合，并要求：①毛利率由~31%向~35%修复；②CDMO(含MNC/TOP10药企API+PPQ项目)如期转商业化放量；③OPC新分子(寡核苷酸/多肽)实现高增长兑现。<br><br>换言之，当前价格买的是"盈利修复确定性"：PB(2.5-2.8x)提供资产侧安全垫，前端砌块龙头+后端CDMO一体化+新分子第二曲线的稀缺性是估值溢价来源。但PE-TTM~57x、扣非~71x意味着并未为"短期爆发式超预期"留太多空间，且现价≈市场一致目标价(50元)、近2月已+40%——若毛利率修复或商业化兑现不及，高PE会先承压、估值向低PB回落。市场分歧核心是"修复速度与幅度"，而非"方向"。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>分子砌块库数据/研发壁垒：</strong>20万+自主新颖砌块、40%独立专利、覆盖85%以上临床化学骨架，全球12%市占龙一——药企药物发现的刚性耗材，天然AI训练数据护城河。</li><li><strong>前端引流→后端变现闭环：</strong>"先用砌块→再切CDMO"的高粘性转换路径，客户流失成本高。</li><li><strong>全链路一体化交付：</strong>靶点→苗头→先导→候选→工艺→商业化GMP，AIDD+干湿实验，CRO+CDMO全链条。</li><li><strong>顶级客户与认证：</strong>全球前20大药企超八成客户、MNC/TOP10药企API项目、74个地区交付的GMP合规能力。</li><li><strong>新分子先发：</strong>寡核苷酸GalNAc公斤级交付、多肽UAA1600余种，OPC第二曲线布局靠前。</li><li><strong>绿色化学/连续流工艺：</strong>在高端复杂/手性/稠环砌块与小分子工艺的know-how沉淀。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>砌块库的"数量+新颖度+专利"与AI训练数据底座难以被新进入者短期复制，前端旗舰地位国内唯一；但后端CDMO段仍面临凯莱英/药明康德/博腾/皓元医药和海外Lonza/Catalent的正面竞争，分子砌块中低端亦承Sigma-Aldrich等价格压力。护城河评为"前端强、后端中上"：差异化在砌块生态闭环与OPC先发，但整体规模化变现能力当前偏弱(盈利仍低)。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026Q3-年报</strong> · 单季归母能否维持30%+、毛利率续升向33%+、CDMO在手订单维持+20% — 盈利/估值</p><p><strong>2026H2-2027</strong> · 首个MNC注册批API与TOP10药企后期API项目向商业化交付、新增PPQ(8个)转商业化 — 收入</p><p><strong>持续</strong> · OPC新分子(寡核苷酸GalNAc/多肽UAA)新引入订单(2025+100%)放量 — 第二曲线</p><p><strong>2026-2027</strong> · 浙江晖石503商业化车间产能利用率爬坡、毛利率中枢上移 — 毛利率</p><p><strong>持续</strong> · 全球创新药融资+AI制药景气+创新药出海(海外授权)对上游市场情绪 — 估值</p><p><strong>监控</strong> · 股东(周全等)是否继续减持、定增后股本结构 — 筹码面</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>CDMO行业周期/价格竞争</td><td>利润+毛利率</td><td>2023-2025后端CDMO价格战+导入型项目规模效应未形成，毛利率由~42%→30.8%；若商业竞争延续，毛利率修复或慢于预期</td></tr><tr><td>盈利基数低致估值失真</td><td>估值</td><td>2025归母仅1.84亿，PE-TTM~57x、扣非~71x处高位，短期估值对业绩敏感</td></tr><tr><td>海外采购/地缘(BIOSECURE类)</td><td>收入+估值</td><td>海外收入占比72.66%、美国大客户占比较高，供应链审查与地缘政策对接单和估值有压制</td></tr><tr><td>产能爬坡不达</td><td>利润+毛利率</td><td>浙江晖石503商业化车间爬坡期折旧摊销高、产能利用率若低则摊薄毛利率，2026年利用率是关键</td></tr><tr><td>前端分子砌块调整</td><td>收入</td><td>2025前端业务-6.78%、阶段性调整，若前端景气未回稳影响引流与转化</td></tr><tr><td>客户集中/大订单波动</td><td>收入+现金流</td><td>CDMO重点客户(MNC)集中度75%，单一商业化大项目交付节奏影响年度确认</td></tr><tr><td>汇率波动</td><td>利润</td><td>海外收入占比高，2025即因汇兑净损失拖累利润</td></tr><tr><td>股东减持/商誉</td><td>估值+利润</td><td>股东综合小规模减持(2025-12周全减持完毕)；商誉3.56亿减值风险</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>海外大客户+OPC放量快+毛利率快速修复至35%+、商业化项目集中兑现</td><td>~4.6亿E(归母)</td><td>~33x</td><td>~65元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>订单回暖如期兑现为收入、毛利率自~32%向34%修复、OPC温和高增</td><td>~4.15亿E(一致EPS1.78)</td><td>~29x</td><td>~52元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>CDMO价格竞争持续+产能爬坡慢+地缘压制海外订单+前端景气未回稳</td><td>~3.0亿E</td><td>~25x</td><td>~32元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价约51.46元为基准：上行到Bull约65元(+26%)、Base约52元(≈现价)，下行到Bear约32元(-38%)；收益风险比约0.7:1——较凯莱英/康龙等盈利更扎实的CXO不占优，主因"盈利基数低(PE-TTM57x)但股价已先行走强(近2月+40%)"。PB低+前端龙头提供左侧安全垫，但"当下贵+盈利需兑现"，追高性价比不高，宜等回落分批。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026Q3单季归母增速回落至个位数、毛利率再度掉头向下；②CDMO在手订单增速跌破15%；③OPC/商业化(PPQ/MNC API)交付延迟或取消；④跌破~45-46元关键平台转弱、或下行击穿43元(2026年6月平台)；⑤海外地缘政策导致订单骤降——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：分子砌块+小分子CDMO(上游材料与服务)——2023-2025处行业底部(CDMO价格竞争+下游融资偏冷)，2025-2026随全球创新药融资回暖、AI制药与创新药出海景气进入"复苏修复"阶段，CDMO及分子砌块板块订单与毛利均环比改善(行业周报口径"CDMO和分子砌块持续复苏")。药石为分子砌块龙一、处"右侧修复初段"，景气领先信号=CDMO在手订单+20%与毛利率回升；板块整体估值已从大底修复至中高位，尚未全面过热但个股短期涨幅大。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价~51.46元，8月13-20冲高至57.35后回落至51-53；换手率高达15-24%、成交放量，短期振幅大(日幅4-6%)；8-21收-5.37%</td><td><strong>短线由强转震荡、乖离仍大，追高风险高，等回踩48/45企稳</strong></td></tr><tr><td>基本面</td><td>2026H1营收+15.19%、归母+37.17%(扣非+40.70%)、毛利率32.49%(+1.44pct)，CDMO在手订单+20%、OPC高增——盈利拐点初现、逐季改善</td><td><strong>基本面向上(订单+毛利率修复双驱动)，验证点在Q3季报与年报</strong></td></tr><tr><td>情绪面</td><td>中报后情绪高涨、换手率15-24%、成交额放大，股价近2月+40%——短线情绪偏热易剧烈波动</td><td><strong>情绪已热、短线易洗盘，宜等情绪降温/回踩</strong></td></tr><tr><td>政策影响</td><td>国内"全链条支持创新药"与AI制药/AI+政策利好分子砌块上游、创新药出海获益；但海外收入72.66%使BIOSECURE类法案与美国供应链审查对接单有扰动</td><td><strong>政策国内中性偏正、海外为尾部风险，需持续跟踪地缘</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行：对药石科技(小型A股CXO)覆盖信息有限，未检索到高盛/摩根士丹利/瑞银等明确的A股目标价(标注：外资覆盖有限)。券商覆盖以<b>内资</b>为主、多给"买入/增持"：开源证券(买入，2026H1盈利拐点验证、2026-28归母2.49/3.34/4.12亿、EPS1.07/1.43/1.76)、中泰(买入，CDMO在手订单+20%)、浙商(买入，订单维持高增)、东方财富证券(增持，新分子第二曲线)、国泰海通、平安、兴业均偏乐观；一致预期目标价约50元≈现价(约51.46元)。内资研报预测与目标价普遍偏乐观(盈利拐点逻辑)，参考时按内资打折，外资覆盖缺口是估值参考的一个空白。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：分子砌块全球龙头+后端CDMO一体化+OPC第二曲线的稀缺小盘CXO，盈利拐点(H1净利+37%、毛利率回升)与订单回暖(+20%)构成右侧修复逻辑、PB(2.5-2.8x)提供资产侧安全垫，但现价51.46元已较2026年6月低点+约40%、PE-TTM~57x(盈利基数低)、一致预期目标价≈现价，追高风报比不佳。判断为<b>等回落分批建仓、现价不追高</b>：现价可建0.5-1成观察仓；回落至47-48元(对应2027E约34x)可加至2成；43-45元(2026年6月平台、对应2027E约31-32x)属较舒适的左侧底仓区。加仓触发：Q3季报毛利维持回升+在手订单增速≥20%、或OPC/商业化项目落地。止损：有效跌破~43元减仓/离场，等待企稳信号，避免在盈利兑现前的高PE下追涨。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>药石科技2026年中期报告(深交所2026-08-11披露)、2025年年度报告、2025年度及2026Q1业绩交流纪要、公司投资者关系活动记录表、财务数据回原始财报核对(营收/归母/扣非/毛利率)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报：开源/中泰/浙商/东方财富证券/国泰海通/平安/兴业证券等(内资为主、外资覆盖有限，盈利预测已打折参考)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富/富途/理杏仁/中财网/证券之星/慧博/腾讯自选股(市值、PE-TTM、PB、PS、一致预期交叉验证，2026-08-21)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>雪球/界面/新浪财经/今日头条深度文(分子砌块市占12%为线索估算、AI/砌块库叙事参考，财务数据未采信)</p></div>
+    <p>高信心(90%·财报口径)：2025营收19.74/归母1.84/毛利率30.82、2026H1营收10.59/归母0.99/扣非0.84/毛利率32.49%、2024营收16.89/归母2.20、2023营收17.25/归母1.97、OCF(2025 6.67/2024 3.03)均回深交所定期报告与westockdata核对；分部/区域/订单(后端16.59/CDMO11.24/OPC0.84/海外14.34占72.66%/MNC6.56/欧洲4.22)回2025年报核对。中高信心(75%·估值)：市值120-127亿、PE-TTM55-60x、PB2.5-2.8x来自第三方(2026-08-21)交叉验证；2026-28E为一致预期(内资为主)。中低信心(45-55%·预测)：2026-28E净利/EPS与Bull/Base/Bear为主观推演(基于一致预期)；分子砌块全球市占~12%、2023/2024年扣非为估；外资目标价明确覆盖未检索到(标注待核实)。未回源码均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch3">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>药石科技2026年中期报告及2025年年度报告（深交所披露，2026-08-11 / 财务回原始财报核对）</li>
+        <li>药石科技2025年度及2026Q1业绩交流、投资者关系活动记录表（公司IR PDF）</li>
+        <li>开源证券、中泰证券、浙商证券、东方财富证券、国泰海通、平安、兴业证券研报</li>
+        <li>东方财富 / 富途 / 理杏仁 / 中财网 / 证券之星 / 慧博（市值、PE-TTM、PB、PS、一致预期交叉验证 2026-08-21）</li>
+        <li>腾讯自选股(westockdata)批次行情/财务/一致预期</li>
+        <li>雪球 / 界面 / 新浪财经（分子砌块市占~12%为线索估算，财务数据未采信）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

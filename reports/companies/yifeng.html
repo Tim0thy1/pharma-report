@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>益丰药房 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">益丰药房<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">连锁药店龙头 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch7">回产业链报告</a></div>
+    <h1>益丰药房<span class="code">603939.SH</span></h1>
+    <p class="subtitle">连锁药店龙头(全国市占第2)· 湖南第1 · 华中/华东+全国布局 · 精细化运营标杆</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+    <a href="lbx.html">上一家 · 老百姓</a>
+    <a href="yixintang.html">下一家 · 一心堂</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈290亿元(总市值)</div><div class="k-sub">2026-08-21(A股·总股本约12.12亿股)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈16.8x(TTM)/≈17.3x(静态)</div><div class="k-sub">PE按归母爱16.78亿2025A+TTM约17.29亿(2026-08-21雪球/weBStock行情)</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">近5年PE约19~30%分位(偏低)、PB约2.4x处低位、股息率约2.9%</div><div class="k-sub">过去5年中位 5年PE中位约35-40x(估,2021年曾至~60-70x)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+10%~13%(归母)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>益丰药房是国内连锁药店综合竞争力龙头(全国药品零售市占率约5.2%第2、湖南约18.5%第1)，以湖南湖北湖南苏江西浙江沪上起家、并购切入河北/广东，靠"自建+并购+加盟"三驾马车+六大精细化运营体系成为精细化标杆。行业进入存量竞争，公司主动"关低效店、重单店质量"、由"跑马圈地"转向"存量提效"，2025营收244.33亿(+1.54%增速放缓)但归母16.78亿(+9.81%)、扣非16.12亿(+7.65%)盈利逆势改善(毛利率40.3%)。当前PE-TTM约16.8x处近5年约20-30%低位、PB约2.4x、股息率约2.9%，估值已反映"行业增速放缓+医保控费"担忧，盈利质量(归母增速>营收增速)与处方外流/门诊统筹长逻辑是其向上弹性来源。</li>
+      <li><strong>基本面：</strong>2025营收244.33亿(+1.54%)、归母净利16.78亿(+9.81%)、扣非16.12亿(+7.65%)、EPS 1.38、加权ROE 14.98%、经营现金流33.58亿；毛利率约40.3%(东财口径~40%)。门店14,831家(含加盟4,313家)净增147家，2025新增694家(自建193+加盟501)/关闭547家。2026Q1营收60.85亿(+1.26%)、归母4.995亿(+11.14%)、扣非4.93亿(+12.57%)、毛利率40.04%、资产负债率51.86%。</li>
+      <li><strong>估值：</strong>现价23.93元、总市值约290亿，PE-TTM约16.8x、PB约2.4x、PS约1.2x、股息率约2.9%；对应PE-2026E约15.3x、2027E约13.3x、2028E约11.6x(东财机构EPS 1.59/1.82/2.06)。</li>
+      <li><strong>市场隐含预期：</strong>现价23.93元对应总市值约290亿，按2028E一致预期归母约25.6亿(EPS 2.06)≈前向PE约11.6x、2026E一致EPS 1.59≈PE约15x——市场参考"连锁药店总量低增速+盈利质量改善(毛利率/ROE稳)+股息防守"给历史偏低位，并未为"处方外流/门诊统筹/新零售"的成长期权给出显著溢价。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08-28披露的2026年中报(Q2同店销售/营收能否转正、归母双位数能否持续、门店净增与加盟占比)，以及各省门诊统筹/双通道资质落地节奏、处方外流承接转化率、回购进展(2026-08-06公告)、益丰转债转股与摊薄。</li>
+      <li><strong>情景结论：</strong>Bull 约41元(+72%)/Base 约31.5元(+32%)/Bear 约21.8元(-9%)，收益风险比约2.5-4:1(内部偏Bull)，高盛目标价32元约+34%，盈利拐点确认中，宜分批/等企稳而非追高。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>连锁药店精细化运营标杆、全国药品零售综合竞争力龙头(603939.SH)</strong>：益丰大药房连锁股份有限公司2001年由高毅创立于湖南长沙，2015-02在上交所主板上市，总部长沙，以"区域聚焦+全国扩张"为战略，聚焦华中(湖南/湖北/河南)与华东(江苏/上海/江西/浙江)高密度区域并并购切入河北/北京/天津/广东，业务覆盖医药零售、医药批发、中药饮片生产销售、慢病管理、互联网医院等大健康业态。截至2025年末门店14,831家(含加盟4,313家)、覆盖11省市53个城市、全国市占率约5.2%位列药品零售第2(仅次大参林在部分口径)、湖南省内市占率约18.5%第1，是A股连锁药店板块规模最大之一。公司以自营精细化运营著称："六大精细化管理体系"(商品/供应链/门店/财务/信息化/人力资源)，严格执行亏损门店优化与"三驾马车"扩张，单店管理与坪效在大连锁中领先。2025年主动关闭547家低效门店、净增仅147家，进入"重质量不重数量"的存量提效阶段。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>225.88</td><td>240.62</td><td>244.33</td><td>~253E(一致)</td><td>~266E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>14.12</td><td>15.29</td><td>16.78</td><td>~18.9E(一致)</td><td>~21.8E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>13.62</td><td>14.97</td><td>16.12</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~38.2%</td><td>40.12%</td><td>~40.3%</td><td>~40E%</td><td>~40E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~15.4%</td><td>14.67%</td><td>14.98%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>46.24</td><td>42.21</td><td>33.58</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>品类结构(2025年报)：</strong>中西成药(占比约70%)为主、中药饮片(约9%，浅深提升并以子公司恒修堂自产保障供应+质量)、保健食品与医疗器械等；2024年毛利率40.12%中主要受益中药等高毛利品类占比提升(中药增速快于整体)。<br><br><strong>分区域/经营：</strong>以中南(湖南/湖北，2026Q1中南毛利率约43.29%)、华东(江苏/上海/江西/浙江)、华北(河北/北京/天津)、华南(广东)为重点；全国门店14,831家(2025末，含加盟4,313)、覆盖11省市53城；2026Q1末14,943家(加盟4,427，加盟占比约30%且持续提升)。<br><br><strong>线上/新零售：</strong>2025线上(含税)销售收入约29.93亿，其中O2O约20亿级+B2C，O2O直营门店超10,000家；构建"互联网问诊+医保报销+送药上门"闭环，对应医保/商保的医患药险闭环服务体系。<br><br><strong>并购与扩张史：</strong>2018年以13.84亿收购河北新兴药房86.31%(当时药店并购第一大单)切入华北；并购切入广东；江苏益丰为江苏省最大连锁药房之一；2023年收购常州人民百姓药房(37家)、宜春/喝你等区域小连锁——"自建+并购+加盟"三驾马车是扩张引擎。<br><br><strong>客户/竞争：</strong>终端C端个人消费者+B2B批发+慢病管理/处方外流承接医院处方；竞争对手=大参林(603233,华南/营收约275亿)、老百姓(603883,全国/社区药店)、一心堂(002727,西南)、漱玉平民(301017)、健之佳等上市连锁。<br><br><strong>管理层/治理：</strong>创始人/董事长高毅；职业经理人团队，"六大精细化管理体系"，注重门店回报与供应链数字化(商品质量/疗效/性价比三重评估优化上游供应商)。<br><br><strong>资产负债/估值关注：</strong>2026Q1商誉约47.66亿(占净资产约39%，并购累积)、有息负债约42.76亿(含益丰转债可转债)、货币资金约30.2亿+交易性金融资产约63.4亿(净现金略正)、资产负债率51.86%、经营现金流2025年33.58亿(较2024年42.21下降，主因扩张放缓+应收账款/存货).</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长(盈利质量改善)：</strong>营收+1.54%但归母+9.81%、扣非+7.65%，靠"品结构(中药等)+供应链优化毛利率(40.3%)+关闭低效店控费"驱动——是存量提效带来的真实盈利改善，而非跑马圈地的规模增长。</li><li><strong>经营/周期性拖累(行业共性)：</strong>营收增速大降(2021~2023为+13~20%/店面年增数千家→2025净增仅147家、2026Q1净增112家)，主因药店行业进入存量竞争、客单价/客流承压、处方药集采与药店比价制度压价——属行业周期而非益丰经营恶化(益丰为同业中少数归母正增长)。</li><li><strong>一次性因素：</strong>①商誉约47.66亿——并购标的存在减值风险(2023年以来未见大额计提，但扩张放缓后需关注)；②可转债(益丰转债)相关财务费用与转股摊薄；③政府补助等小额非经常项；④2025年门店关闭547家系主动结构性调整(一次性关店损失)。</li><li><strong>结论：</strong>归母增速(9.81%)跑赢营收(1.54%)、扣非两位数，是"主动降速提质"下的毛利率与利润率回升，经营基本面在修复；核心矛盾已从"规模扩张速度"切换为"存量单店效率+处方外流增量能否持续兑现"。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈23.93元</strong></td><td>2026-08-21收盘；52周区间约21.8~32元(估)</td></tr><tr><td>总市值</td><td><strong>≈290亿元</strong></td><td>总股本约12.12亿股(2026Q1)；2026-08-21行情</td></tr><tr><td>EV</td><td><strong>≈245-255亿元</strong></td><td>市值约290亿-净现金约45亿+（现约30.2亿、交易性资产约63.4亿、有息负债约42.76亿含可转债）≈净现金约45亿</td></tr><tr><td>PE-TTM</td><td><strong>≈16.8x</strong></td><td>TTM归母约17.29亿(2026Q1)；2026-08-21雪球16.78x</td></tr><tr><td>PE-2025A</td><td><strong>≈17.3x</strong></td><td>归母16.78亿(静态)</td></tr><tr><td>PE-2026E</td><td><strong>≈15.3x</strong></td><td>一致预期归母约18.9亿(EPS 1.59)</td></tr><tr><td>PE-2027E</td><td><strong>≈13.3x</strong></td><td>一致预期归母约21.8亿(EPS 1.82)</td></tr><tr><td>PE-2028E</td><td><strong>≈11.6x</strong></td><td>一致预期归母约25.6亿(EPS 2.06)</td></tr><tr><td>PB</td><td><strong>≈2.4x</strong></td><td>归母净资产约121.3亿(2026Q1)、每股约10元；2026-08-21</td></tr><tr><td>PS(TTM)</td><td><strong>≈1.2x</strong></td><td>市值约290亿/营收244.33亿(2025A)</td></tr><tr><td>股息率</td><td><strong>≈2.9%(东财口径)</strong></td><td>2024年度10派4.0元(分红率31.73%)；2025中期10派3.0元；2025年度分红待年报</td></tr><tr><td>EV/EBITDA</td><td><strong>≈9-10x(估)</strong></td><td>连锁药店EBITDA口径、参考弱</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(雪球/东财/同花顺/weBStock 2026-08-21)市值约290亿、股价23.93元，关键归母/净资产/营收/现金流回2025年报及2026Q1报交叉核对。口径提醒：①PE-TTM约16.8x按TTM归母17.29亿，若按2025全年归母则静态约17.3x，勿混用；②PB按归母净资产约2.4x，若含少数股东权益口径略高；③5年PE分位(约19-30%分位、当前值16.85)取自理杏仁2026-08-14(±5pct)；④2026H1数据(中报8-28披露)涉2026H1均为预测/Q1口径，须以披露为准；⑤预测(2026-28E)与PE/PB为一致预期/AI估算，勿当事实。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM(当前)</td><td><strong>≈16.8x</strong></td><td>过去5年连锁药店估值高在2021年(龙头曾至60-70x)、中位约35-40x；当前约16.8x处近5年约19~30%分位(理杏仁16.85/19.56%)，偏历史低位</td></tr><tr><td>PB(当前)</td><td><strong>≈2.4x</strong></td><td>过去5年连锁药店PB中高位约5-6x(2021)、当前约2.4x处历史低位区</td></tr><tr><td>股息率(当前)</td><td><strong>≈2.9%</strong></td><td>随分红率抬升(2024年31.73%、2025中期10派3)股息率升向近年高位</td></tr>
+      </tbody>
+    </table></div>
+    <p>当前PE-TTM约16.8x、PB约2.4x分别处于过去5年约20%与低位区——对应"行业从高增长(2021年PE60-70x)回落到存量竞争+医保控费"的估值中枢系统性下移后的历史性偏低位置。市场定价偏悲观面：营收增速放缓、客单承压、处方药价格受集采/比价压制。但益丰是连锁药店中极少数"归母增速>营收增速、ROE维持15%、毛利率40%+"的盈利质量标的，估值已较充分地计入行业悲观预期，向上弹性更多来自"处方外流/门诊统筹增量+门店结构优化兑现"。处在"估值历史低位+盈利改善延续"的右侧修复初段，安全边际中等偏优。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>244.33</td><td>~253E</td><td>~266E</td><td>~280E</td></tr>
+        <tr><td>毛利率</td><td>~40.3%</td><td>~40E%</td><td>~40E%</td><td>~40E%</td></tr>
+        <tr><td>净利润</td><td>16.78</td><td>~18.9E</td><td>~21.8E</td><td>~25.6E</td></tr>
+        <tr><td>EPS</td><td>1.38</td><td>~1.59E</td><td>~1.82E</td><td>~2.06E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：无明确官方盈利数字指引；强调"精细化运营、全渠道响应消费者、商品结构与供应链优化、主动优化门店结构"，高盛纪要显示公司目标FY26同店销售(SSSG)回升至约5%；扩张转向"重质量"(自建中大型+加盟+并购精选)，分红意愿提升。（公司指引）/ <strong>市场一致预期(东财近6月机构均值截至2026-08-20)：EPS 2026E 1.59/2027E 1.82/2028E 2.06、对应PE约15.12/13.29/11.73x；内资研报(2026-05前后)归母2026-28E约18.96/21.84/25.57亿(PE约14.6/12.7/10.9)。</strong>（市场一致预期）/ <strong>AI估算：营收2026E约252-255亿(+3-4%)、2027E约263-268亿、2028E约275-282亿(门店净增放缓+同店企稳)；归母2026E约18.5-19.2亿(+10-13%)、2027E约21.5-22.5亿(+13-16%)、2028E约25-26亿(+14-16%)；毛利率约40%企稳，ROE约15-16%。增长驱动=存量初步提效+处方外流增量+加盟/线上低资本保质扩张。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>连锁药店/处方外流型潜力指标</h3><ul><li><strong>处方外流/门诊统筹(最大长逻辑)：</strong>DRG/DIP与门诊统筹推开推动处方从医院外流到院外药店，益丰院边店/双通道/新特药适龄承接；高毅公司持续升级电子处方流转并建"医患药险"闭环，甘肃/湖北等省统筹+双通道资质陆续落地——是未来3-5年最确定的行业级量增来源。</li><li><strong>线上/O2O放量：</strong>2025线上(含税)收入约29.93亿、O2O直营门店超1万家，受"送药上门+即时服务"驱动线上增速远高于线下，是门店客流下滑的对冲与增量引擎。</li><li><strong>精细化运营/单店效率：</strong>"六大精细化管理体系"+主动关闭低效店(2025关547家)推升单店坪效与毛利率(40.3%)——存量提效是最扎实的利润弹性来源，行业无第二家能系统性复制其精细化管理规模。</li><li><strong>品类结构升级：</strong>中药饮片(恒修堂自产)等高毛利品类占比提升、集采品种引入，支撑毛利率持续上行(2024年40.12%主要受益于此)。</li><li><strong>并购整合异地扩张：</strong>以并购切入广东/河北/江苏-湖北等区域、整合能力强(2018年收购河北新兴药房已验证)，区域集中度提升与全国网络扩张空间仍在。</li><li><strong>加盟/轻资产扩张：</strong>加盟店占比升至约30%(2026Q1末加盟4,427家)，"总部管运营+加盟商出资"的低资本支出扩张模式摊薄自建资本开支、提升ROE。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>归母增速(9.81%)>营收增速(1.54%)系真实经营(毛利率提升+控费+门店结构优化)而非会计项；营收低增为行业存量竞争/客流承压的周期性因素；一次性扰动主要在商誉(约47.66亿)潜在减值、可转债费用/摊薄与2025年主动关闭547家门店的一次性关店损失——剔除一次性后扣非+7.65%仍是盈利质量改善，增长重心是"存量提效+处方外流增量"而非规模扩张。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>存量店内力增长/同店企稳</td><td><strong>+4~5pct</strong></td><td>高盛目标FY26 SSSG约5%；毛利率/客单提升、关低效店后单店质量改善</td></tr><tr><td>线上/O2O(高增)</td><td><strong>+2~2.5pct</strong></td><td>2025线上含税约29.93亿、O2O直营超1万店，线上增速远高线下</td></tr><tr><td>门店扩张(自建+并购+加盟)</td><td><strong>+2~3pct</strong></td><td>2025净增147/2026Q1净增112，加盟占比升至30%、重质量慢扩张</td></tr><tr><td>处方外流/门诊统筹增量</td><td><strong>+1.5~2pct</strong></td><td>院边店/双通道/新特药承接处方外流，逐省统筹落地</td></tr><tr><td>(利润端)品类结构+控费</td><td><strong>—</strong></td><td>中药等高毛利占比提升+供应链优化+关低效店，推升毛利率/黄利率</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎由"门店数量扩张(2021-2023年净增数千家)"切换为"存量单店提效+线上高增+处方外流增量+轻资产加盟"的复合驱动，营收增速中枢由过去双位数降至低个位数(+3-5%)，但利润端因毛利率/ROE改善而弹性更高(归母+10%以上)。增长更偏"经营提效与结构性增量"、可追踪性强(同店/线上/处方/门店数)，确定性中等偏上、爆发力有限——核心看同店企稳与处方外流转化速率。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价23.93元、总市值约290亿，对应2028E一致预期归母约25.6亿(EPS 2.06)≈前向PE约11.6x、2026E一致EPS 1.59≈PE约15x——市场按"连锁药店总量低个位数增长+产业质量(毛利率40%/ROE15%)企稳+股息防守"给历史偏低位，隐含对2026-2028归母仅给约+12~14%的复合增速预期。<br><br>换言之，当前价格<strong>并未为"处方外流/门诊统筹/新零售"的成长期权给出显著溢价</strong>，交易逻辑是"行业悲观充分定价+盈利质量龙头低位配置"；同店若如期回升至5%+、处方外流放量兑现，估值有自低位修复的戴维斯双击空间；反之若同店持续疲弱/客流再下台阶，则低位估值难再提供更多安全边际，股价仍可能向Bear靠拢。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>区域密度+全国网络数据/物流：</strong>中南/华东高密度+并购切入华北/华南，全国11省53城14,831店，物流仓/中心仓与院边店立体履约体系，规模与网络是硬门槛。</li><li><strong>精细化运营/单店成本：</strong>"六大精细化管理体系"(商品/供应链/门店/财务/信息化/人力)，同业(大参林/老百姓/一心堂)多数以规模加盟扩张为主，难以系统复刻其精细单店模型——这是差异化壁垒。</li><li><strong>供应链/商品力：</strong>以"质量/疗效/性价比"三重评估优化上游、引入集采品种、恒修堂中药自产，支撑毛利率40%+与坪效领先。</li><li><strong>处方外流承接能力：</strong>电子处方流转+医保/商保"医患药险闭环"+O2O直营超1万店+院边店，承接处方外流的渠道/资质/系统壁垒领先。</li><li><strong>并购整合能力：</strong>自2018年收购河北新兴药房(Ky商会第一大单)到江苏/广东/江西多笔整合，已证明"并购-整合-提效"的闭环能力。</li><li><strong>品牌/牌照/管理纵深：</strong>药店牌照、医保资质、互联网医院/双通道资质具有区域行政属性；跨省精细化管理能力需多年沉淀。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>产品与门店层面(大参林/老百姓/一心堂)可模仿其品类与扩张，但难以复制"规模+精细化单店管理+供应链+处方承接+整合能力"的系统性组合；行业层面真正威胁是：①医保控费/药店比价制度对处方药毛利的系统性侵蚀(全行业)、②互联网平台(京东健康/阿里健康/美团买药)对OTC与线上的分流、③同省头部龙头的区域正面对抗。护城河评为"偏厚"——益丰在A股连锁药店中精细化与盈利质量最强，最具抗周期与议价能力。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-28</strong> · 2026年半年报披露(Q2营收/归母能否延续、同店SSSG是否回升、门店净增与加盟占比、商誉/关店) — 盈利/估值</p><p><strong>2026H2-2027</strong> · 各省门诊统筹/双通道/定点零售药店资质持续落地，处方外流放量 — 收入</p><p><strong>持续</strong> · 线上O2O直营店扩展(超1万家)+B2C，线上收入高增速维持 — 收入</p><p><strong>2026-08-06已公告</strong> · 股票回购(不超过30.56元/股回购654.45万~981.68万股)推进 — 股本/情绪</p><p><strong>持续</strong> · 加盟店净增+轻资产扩张、门店结构优化(关低效/开新版) — 收入/ROE</p><p><strong>2026-2027</strong> · 中药饮片(恒修堂)与高毛利品类占比提升、供应链集采品种引入 — 毛利率</p><p><strong>持续</strong> · 益丰转债转股节奏 — 股本/摊薄</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>医保控费/药店比价/集采压价</td><td>收入+利润</td><td>处方药价格受"零售药店价格治理/比价制度+集采"压制，全行业毛利率承压，客单价与处方毛利下行</td></tr><tr><td>客流量/同店下滑</td><td>收入</td><td>医院回流、线上分流、出生率/人口结构致进店客流承压，同店销售依赖客单与品类提效对冲(高盛目标FY26 SSSG约5%)</td></tr><tr><td>商誉减值</td><td>利润</td><td>商誉约47.66亿(2026Q1)占净资产约39%，历次并购标的作用业绩不及预期或可计提减值，2025关店去库存后标的盈利存在波动</td></tr><tr><td>门店扩张放缓</td><td>收入</td><td>净增门店由数千家(2021-23)降至147家(2025)/112家(Q1)，区域渗透与新增量贡献收缩，增长依赖同店与线上</td></tr><tr><td>线上/同业竞争</td><td>收入+利润</td><td>京东健康/阿里健康/美团买药等互联网大健康平台对OTC/线上分流，固化率竞争加剧</td></tr><tr><td>可转债摊薄/融资</td><td>估值+EPS</td><td>益丰转债约百亿级(129.59元、转股溢价率高)转股摊薄与财务费用，再融资若早亦摊薄</td></tr><tr><td>人力/租金成本</td><td>利润</td><td>房租/人工刚性上涨挤压净利率，2025经营现金流33.58亿较2024年42.21亿下降主因扩张+营运资本</td></tr><tr><td>政策/医保基金监管</td><td>收入+估值</td><td>医保基金违规监管趋严(涉医保门店定点资格)、违规处罚风险；门诊统筹政策各地执行节奏不确定</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>同店回升5%+、处方外流/门诊统筹放量、毛利率40%+、线上高增+UE转正</td><td>~28E(归母)</td><td>~18x</td><td>~41.6元(+72%)</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>同店企稳+归母两位数、毛利率40%、门店慢扩张+线上稳增、商誉无大额减值</td><td>~25.6E(一致EPS2.06)</td><td>~15x</td><td>~31.5元(+32%)</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>医保控费超预期/同店再疲弱、商誉减值、线上分流加剧、扩张停滞</td><td>~22E(归母)</td><td>~12x</td><td>~21.8元(-9%)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价23.93元为基准：上行到Bull约41.6(+72%)、Base约31.5(+32%)，下行到Bear约21.8(-9%)；收益风险比约1:x-4:1(以Base中枢约3.6:1、含Bull约6:1，偏中性偏好)。上行依赖"同店企稳+处方外流放量+盈利质量延续"，下行有ROE15%/毛利率40%/PE约20%分位与高盛目标价32元的支撑锚，属"估值低+盈利质量优但行业beta弱"的底部配置标的。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026-08-28中报归母/扣非增速大幅回落至个位数以下、同店仍负增长；②毛利率跌破39%且持续走低(医保控费超预期)；③商誉出现大额减值；④线上/O2O增速显著失速或流量被平台虹吸；⑤门店净增持续停滞且同店无改善——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：连锁药店板块——处于"处方外流+门诊统筹深化+行业出清集中度提升"的早期右侧/底部修复阶段，但受"医保控费/药店比价制度/客流下滑"压制，零售药店整体景气度偏弱、行业处底部企稳(非过熱)，板块整体估值处历史中低位(龙头PE多数10-20x、PB约2-4x)。益丰为板块内"盈利质量最强、ROE最高、逆势归母正增长"的龙头，景气度属"行业悲观充分定价+龙头底部修复中"，优于大参林/老百姓/一心堂(后者2025盈利下滑或亏损)。判断为底部左侧偏右、估值修复前夜。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价23.93元，8/10日低点21.83后反弹至8/11冲高25.77回落，近两周在22-25.8区间放量震荡(换手0.53-2.65%)，处于2025年以来下行通道后的底部箱体、暂未跌破近期低点21.8</td><td><strong>底部箱体运行、量能放大、未破前低，趋势偏企稳但未确认站稳中期均线(24.5-25)，追涨需谨慎，等放量站上25.8或回踩21.8-22企稳再增</strong></td></tr><tr><td>基本面</td><td>2025营收+1.54%/归母+9.81%/扣非+7.65%、ROE 14.98%、毛利率40.3%；2026Q1归母+11.14%/扣非+12.57%，归母增速跑赢营收，盈利改善延续；同店企稳(高盛目标FY26 SSSG约5%)是核心验证点，8-28中报验证</td><td><strong>基本面处"存量提效"拐点确认期，盈利质量优、增速低基数修复，看8-28中报确认同店与归母持续性后再顺势加仓</strong></td></tr><tr><td>情绪面</td><td>PE约20%分位(5年低)、PB约2.4x、股息率约2.9%；机构评级以"买入/增持"为主(国信买入、兴业增持等)，近月放量反弹(8/10-8/11单日成交放大)，高盛纪要提示外资看多，情绪从冰点回暖、分歧仍在(内资多空均存)</td><td><strong>情绪由底回暖但未过度，龙头低估值+回购(8-06公告)托底，右侧放量确认前适度参与</strong></td></tr><tr><td>政策影响</td><td>门诊统筹/处方外流/双通道是中长期正向(处方从医院外溢到药店)，定点零售药店纳入统筹支付范围扩大处方承接量；但医保控费/零售药店价格治理/比价制度短期压制处方毛利；医保基金监管趋严影响部分合规门店；整体政策"长期利好(处方外流)、短期中性略压(控费)"</td><td><strong>政策长期偏正面(处方外流+统筹)、短期压制毛利率，边际负面已大体定价，跟踪门诊统筹各省落地放量节奏</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(优先)：高盛(Goldman Sachs)2026-04-23维持"买入(Convict推荐/买入)"、12个月目标价维持32元(较现价23.93约+34%)，认可"行业触底反弹期龙头收入/净利增速超行业、FY26同店回升至约5%"逻辑；其余外资(摩根士丹利/瑞银/美银/花旗/杰富瑞)对益丰近期公开目标价覆盖信息有限(未检索到明确买入/目标价，属"未能确认覆盖"而不盲目给价)。内资研报为主且偏乐观需打折(国信2026-08-13买入、兴业2026-07-26增持、浙商2026-05关注、另华兴/中信建投买入)目标价多按2026E PE约15-18x测算约25-30元——内资目标价普遍保守/跟单、对行业beta偏悲观，参考价值弱于外资——外资优先提示：高盛32元目标价(+34%)高于现价，为估值提供向上参考锚。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：PE约5年20%分位低+PB约2.4x+股息率约2.9%+ROE15%/毛利率40%盈利质量优+归母增速跑赢营收+高盛目标价32元(+34%)，行业悲观已较充分定价而龙头盈利在改善，属"估值低+盈利拐点确认中"的底部配置标的，但行业beta(客单/医保控费)与同店弹性仍是软肋。判断为<b>分批建仓/等企稳(1-2成底仓，不追高)</b>：现价23.93元(底部箱体)可先建1-2成底仓；加仓触发=①2026-08-28中报归母/扣非双位数、同店转正，或②放量站上25.8元前高；回踩21.8-22元(8/10低点区)企稳亦可金字塔加码至3成。止损：有效跌破21.5元(近期/52周低点附近)减仓离场，属价值型标的亦不盲目扛单，仓位上限暂不宜超3成以防行业beta延续弱势。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>益丰药房2025年年度报告及摘要(上交所2026-04-23)、2026年第一季度报告及主要经营数据公告、2024/2023年年度报告(历史基数)、2026Q1投资者关系活动会议纪要(2026-04-25)、O2O/新零售与门店数据公告</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(高盛、国信、兴业、浙商、华兴、中信建投等)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>东方财富F10(盈利预测EPS 1.59/1.82/2.06、经营分析)、同花顺F10及牛叉诊股、理杏仁(PE分位16.85/19.56%截至2026-08-14)、雪球/腾讯weBStock行情与三大表、证券之星/新浪财经(2025年报/2026Q1深度)、每日经济新闻</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>雪球/头条/相关自媒体(连锁药店行业脉络、医保控费/处方外流legislation趋势等仅作线索，关键财务数字回财报核对后采信)</p></div>
+    <p>高信心(88%·财报口径)：2025营收244.33/归母16.78/扣非16.12/EPS1.38/ROE14.98%、2026Q1营收60.85/归母4.995/扣非4.93/毛利率40.04%、门店(2025末14,831/2026Q1末14,943及自建/加盟/关店)、2023营收225.88/归母14.12/扣非13.62、2024营收240.62/归母15.29/扣非14.97、经营现金流(2023 46.24/2024 42.21/2025 33.58)均回财报与涉透。中高信心(72%·估值)：市值约290亿、股价23.93、PE/PB/股息率、5年PE分位(理杏仁16.85/19.56%)、2026-08-06回购公告等回行情与披露交叉核对。中低信心(45-60%·预测)：2026-28E归母为一致预期(东财EPS 1.59/1.82/2.06、内资研报18.96/21.84/25.57亿)并参考高盛目标价32元(外资)，Bull/Base/Bear为主观推演。未回源数字均标注"估/待核实"；2026-08-28中报披露前涉2026H1均为Q1口径/预测，须以披露为准。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>益丰药房2025年年度报告及摘要（上交所，2026-04-23，603939.SH）</li>
+        <li>益丰药房2026年第一季度报告及主要经营数据公告 / 2026Q1投资者关系活动会议纪要（2026-04-23/25）</li>
+        <li>益丰药房2024年/2023年年度报告（历史基数，上交所披露）</li>
+        <li>高盛（2026-04-23维持买入、目标价32元）· 国信证券 · 兴业证券 · 浙商证券 · 华兴证券 · 中信建投 券商研报</li>
+        <li>东方财富F10 / 同花顺F10及牛叉诊股 / 理杏仁(PE分位) / 雪球·weBStock 行情与财务（交叉验证）</li>
+        <li>连锁药店行业/医保控费/处方外流 公开报道（每日经济新闻、证券之星、新浪财经等，财务数据以公告为准）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

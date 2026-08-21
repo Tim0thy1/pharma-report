@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中国医药 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">中国医药<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">央企医药平台 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch7">回产业链报告</a></div>
+    <h1>中国医药<span class="code">600056.SH</span></h1>
+    <p class="subtitle">通用技术集团旗下医药上市平台 · 医药工业+商业分销+国际贸易三位一体</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+    <a href="jointown.html">上一家 · 九州通</a>
+    <a href="dashenlin.html">下一家 · 大参林</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈137.6亿元</div><div class="k-sub">2026-08-21(A股/腾讯自选股行情)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈28.5x(TTM)·静态约29x</div><div class="k-sub">PE 2026-08-21(雪球/同花顺/腾讯)</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB约1.16x处近5年低位区;PE因归母被减值压至低谷而失真偏高</div><div class="k-sub">过去5年中位 历史PE中位约15-20x(估)、2021高峰约2.5-3x PB</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+约5%~6%</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>中国医药是中央企业通用技术集团(国务院国资委实控)旗下的医药上市平台，业务"医药商业+医药工业+国际贸易"三位一体。2025营收353.62亿(基本持平)、归母净利4.73亿(-11.6%)、扣非3.76亿(+16.5%)——归母连续三年下滑(2023 10.48亿→2025 4.73亿)，主因高毛利医药工业板块因集采降价等大降(-15.88%，制剂+原料药承压)、资产减值与应收拖累；但商业(占约69%)央企份额稳、"国际贸易(+11.8%)"与费用管控(2026Q1销售/财务费用双降)边际改善。当前现价9.20元：PB仅约1.16x(处近5年低位)、归母净利率约1.3%、ROE约4%的"低盈利宝流通+零成长"，但市场真正定价的是其对"通用技术集团医药资产整合/资产注入+收购上海则正70%布局创新药"的央企改革期权。机构覆盖极稀疏(近60交易日无评级)，海外大行未覆盖。</li>
+      <li><strong>基本面：</strong>2025营收353.62亿(+0.34%)、归母净利4.73亿(-11.6%)、扣非3.76亿(+16.5%)、EPS 0.3164元；主营毛利率10.40%、归母净利率约1.34%、ROE约4.0%。分部(2025)：医药商业261.59亿(占约69%、毛利7.78%)、国际贸易54.79亿(+11.8%、毛利11.43%)、医药工业25.04亿(-15.88%、毛利35.21%)——工业高毛利却规模收缩，商业低毛利撑营收。经营现金流2025年14.26亿(+40.9%)持续改善；应收账款157亿偏高、货币资金24亿、有息负债约71亿、商誉8.78亿。</li>
+      <li><strong>估值：</strong>现价9.20元、总市值约137.6亿元(总股本14.96亿股)、PE-TTM约28.5x、静态PE约29x、PB约1.16x(归母净资产约118.4亿)、股息率约1.0%(FY25每10股派0.9491元、分红率30%)。PB处近5年低位、PE因盈利低谷而失真偏高。</li>
+      <li><strong>市场隐含预期：</strong>现价9.20元对应当前市值约137.6亿，若给央企平台前向PE约20x，需2028年归母约6.9亿(较2025的4.73亿+46%)才能支撑现价；即市场已把"通用技术集团医药资产注入/整合增厚 + 医药工业企稳 + 上海则正创新药研发布局贡献 + 商业份额集中"中的大部分期权提前定价，仅隐含约小个位数的实际经营成长。当前价格买的不是当期基本面(盈利已连续下滑)，而是一张"央企医药平台重估/资产整合"的事件期权，安全边际靠PB约1.16x(资产侧、含较多应收)托底。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看(1)通用技术集团医药资产整合/注入方案(历史承诺含江药集团/海南康力/武汉鑫益/通用电商/上海新兴/长城制药)是否落地；(2)2026-08中下旬半年报医药工业能否止跌企稳、应收/减值是否收敛；(3)上海则正70%并表(2026-04完成交割)带来的研发与产品管线催化；(4)应收账款与经营现金流的可持续性。</li>
+      <li><strong>情景结论：</strong>Bull约11.8元(+28%)/ Base约7.0元(-24%)/ Bear约3.8元(-59%)，当期基本面支撑不足、主要靠央企改革期权，收益风险比约1:2偏不利——轻仓搏壳/期权，勿重仓。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>通用技术集团旗下医药央企平台、"工商贸三位一体"</strong>：中国医药(600056.SH)前身为成立于1983年的中国医药对外贸易总公司，2004年重组后整体上市，现控股股东为中国通用技术(集团)控股有限责任公司(持股约31.92%)、实际控制人为国务院国资委，是通用技术集团(央企)旗下医药健康板块的上市旗舰。业务横跨医药工业(特色原料药+化学制剂，天方药业/上海通用等)+ 医药商业分销(全国医院与零售网络)+ 国际贸易(医药/器械进出口)，"医药工业高毛利+商业分销规模+国际贸易出海"协同。2025年入选"中国化药研发实力排行榜TOP100"，并完成对上海则正医药科技70%股权并购(2026-04交割，5.25亿元)以补齐创新药/改良型新药研发短板。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>388.24</td><td>352.43</td><td>353.62</td><td>~355-358E(估)</td><td>~358-363E(估)</td></tr>
+        <tr><td>归母净利润</td><td>10.48</td><td>~5.3-5.8(调整口径差异)</td><td>4.73</td><td>~5.0E(估)</td><td>~5.3-5.5E(估)</td></tr>
+        <tr><td>扣非净利润</td><td>6.14</td><td>3.23</td><td>3.76</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~10.3%(估)</td><td>~10.65%(估)</td><td>10.40%</td><td>~10E%</td><td>~10E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>9.35%</td><td>~4.9%E(估)</td><td>~4.0%E(估)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>8.59</td><td>10.12</td><td>14.26</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(2025年报、致同审计、标准无保留)：</strong>医药商业分销261.59亿(占约68.9%、毛利率7.78%)；国际贸易54.79亿(+11.81%、毛利率11.43%)；医药工业25.04亿(-15.88%、毛利率35.21%)——其中制剂药13.73亿(毛利46.45%)、原料药8.21亿(-13.56%、毛利26.03%)、中药材加工及饮片3.11亿(毛利9.90%)；备口径(EastMoney)以主营/并口径列商业约262亿、贸易约55亿、工业约25.4亿。<br><br><strong>医药工业(转型关键)：</strong>天方药业(特色原料药+化学制剂)为核心，制剂毛利率高达46%是公司盈利质量最高的板块，但2025因集采降价+部分产品销量收缩、收入同比-15.88%、原料药-13.56%，是全集团盈利下滑主因；公司在抗感染(艾滋病/抗病毒感染及慢病)领域有深厚基础。<br><br><strong>商业+贸易：</strong>医药商业覆盖全国医药物流配送与医院/零售终端，毛利低(7.78%)但规模与央企资质构成准入壁垒；国际贸易出口+11.8%、毛利11.43%，是2025难得增长的分部。<br><br><strong>并购/研发：</strong>2026-04完成收购上海则正医药科技70%股权(5.25亿元)，从仿制药研究、改良型新药到创新药布局，围绕抗感染、精神神经系统及其他慢病领域构筑产品管线，打通"研发-生产-销售"全产业链。<br><br><strong>资产负债(2026Q1末)：</strong>总资产约375亿、总负债约229亿(资产负债率约61%)、归母净资产约118.4亿(每股约9.15元/股本14.96亿股)；货币资金24.1亿、应收账款156.6亿(偏高、同比增长9.5%快于营收、需警惕回款)、有息负债约71.4亿(同比下降10.9%)、商誉8.78亿。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>国际贸易+11.8%、医药商业以量补价保持份额、费用管控见效(2026Q1销售费用-19.7%、财务费用-25.8%)、经营现金流连续改善(8.59→10.12→14.26亿)——真实经营边际在修复。</li><li><strong>会计/周期性拖累：</strong>归母由2023的10.48亿降至2025的4.73亿，主因高毛利医药工业(-15.88%)量价齐跌+资产减值+集采压价，反映产业逆风而非资产质量崩塌；毛利率10.40%(主营)仅小幅波动，扣非2025已+16.5%转正。</li><li><strong>一次性因素：</strong>2023归母10.48亿含较大非经常性收益(约4.3亿，资产处置等)；2024/2025存在追溯调整口径差异(westockdata原口径2024归母5.83亿 vs 公司同比-11.6%倒推约5.35亿)，年报列示调整后/调整前行。2025分红率30%、FY25每10股派0.9491元。</li><li><strong>结论：</strong>基本面"营收停滞+归母连降但扣非与现金流边际改善"，工业是最大拖累与未来变量；估值核心不在当期盈利(PE失真)而在PB低位+央企重组期权。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈9.20元</strong></td><td>2026-08-21收盘；250日线约10.36(中长期下行)、60日线约9.31</td></tr><tr><td>总市值</td><td><strong>≈137.6亿元</strong></td><td>总股本14.958亿股；流通占比高</td></tr><tr><td>EV</td><td><strong>≈150-165亿元(估)</strong></td><td>市值137.6亿+有息负债约71亿-货币资金约24亿=约185亿，扣应收质押/口径差异后约150-165亿，参考</td></tr><tr><td>PE-TTM</td><td><strong>≈28.5x</strong></td><td>归母TTM约4.83亿、市值约137.6亿元(雪球28.50/腾讯)；归母连降致PE失真偏高</td></tr><tr><td>静态PE(2025)</td><td><strong>≈29.1x</strong></td><td>EPS 0.3164(2025)，9.2/0.3164≈29.1x</td></tr><tr><td>PE-2026E(估)</td><td><strong>≈27x</strong></td><td>AI估算2026归母约5亿(无机构一致预期)</td></tr><tr><td>PE-2027E(估)</td><td><strong>≈25x</strong></td><td>AI估算2027归母约5.4亿</td></tr><tr><td>PB</td><td><strong>≈1.16x</strong></td><td>归母净资产约118.4亿(2025末)，雪球1.15/腾讯1.21；处近5年低位区</td></tr><tr><td>PS(TTM)</td><td><strong>≈0.39x</strong></td><td>市值137.6亿/营收353.6亿</td></tr><tr><td>EV/EBITDA</td><td><strong>失真(估8-12x)</strong></td><td>流通平台营运资本与财务费用大、归母薄，EBITDA口径参考弱</td></tr><tr><td>FCF Yield</td><td><strong>估8-10%(季度波动大)</strong></td><td>2025经营现金流14.26亿但季度Q1为负(-14亿)、资本开支与并购资本支出高，不具稳定参考</td></tr><tr><td>股息率</td><td><strong>≈1.0%</strong></td><td>FY25全年每10股派0.9491元(含中期0.1966)、分红率30%，无高股息属性</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(雪球/同花顺/证券之星/腾讯自选股)市值约137.6亿、股价9.20元、PE-TTM 28.5x、静态PE 29-33x、Pbt 1.15-1.3x均于2026-08-21交叉核对；归母净资产/营收/净利/扣非/现金流回2025年报及2026Q1报告。关键口径提醒：①归母连续三年下滑致PE失真偏高、横向比意义弱，PB(约1.16x)更能反映资产侧并处历史低位；②2024归母存在追溯调整口径差异(原口径5.83亿 vs 公司-11.6%倒推约5.35亿)，本文件以年报列示为主、原始westockdata注明；③全部预测(2026-28E、Bull/Base/Bear)均为AI估算——该股投研覆盖极稀疏(近60交易日无机构评级、无一致预期)；③EV/FCF因流通营运资金结构特殊而质保较低；④股息率约1%为低息股，非红利标的。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PB(当前)</td><td><strong>≈1.16x</strong></td><td>归母净资产约118.4亿；历史中位约1.8-2.2x、2021高峰约2.5-3x、2023起回落——处近5年低位区(约10%分位)</td></tr><tr><td>PE-TTM(当前)</td><td><strong>≈28.5x(失真偏高)</strong></td><td>归母由2023的10.48亿跌至2025的4.73亿压低分母所致；2019-2023归母6.5-10.5亿时PE中位约15-20x(估)，当前PE因盈利低谷不可直接比较</td></tr><tr><td>板块参照</td><td><strong>医药商业PB 1.26x/8.7%分位</strong></td><td>申万二级医药商业2026-08-21整体PB处历史低位8.7%分位、PE 26.5%分位、股息率TTM 86.6%高位(低估值+高股息行业背景)</td></tr>
+      </tbody>
+    </table></div>
+    <p>资产侧看(PB约1.16x)中国医药处于过去5年的历史低位区(约10%分位)，属"央企医药流通低估值"定位；但PE约28.5x却因归母被集采+减值压至低谷而失真偏高，反映的是"盈利下滑缺席成长+估值靠PB托底"。整体是"深度价值/事件驱动"形态：安全边际来自PB低位(约10%分位)与央企重组/资产注入期权，而非当期盈利；判断当前处"底部偏左、估值收敛"阶段，重估依赖外部事件(资产整合/工业企稳)，而非内生成长。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>353.62</td><td>~356E</td><td>~360E</td><td>~365E</td></tr>
+        <tr><td>毛利率</td><td>10.40%</td><td>~10E%</td><td>~10E%</td><td>~10.2E%</td></tr>
+        <tr><td>净利润</td><td>4.73</td><td>~5.0E</td><td>~5.4E</td><td>~5.9E</td></tr>
+        <tr><td>EPS</td><td>0.3164</td><td>~0.33E</td><td>~0.36E</td><td>~0.39E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：无量化盈利指引；强调"深耕医药健康、推进动能转换、创新驱动+多元布局"，2025技改/研发投入、2026-04并购上海则正补齐创新药研发、强化工业转型与商业规模；管理层对外表述偏"稳中有进、盈利质量改善(扣非+现金流)"。(2025年报与2026Q1报告)（公司指引）/ <strong>市场一致预期：极稀疏，近60交易日无机构评级，暂无一致预期EPS/归母预测；阿牛/同花顺仅给出逐年实际及弱预测(历年EPS约0.316-0.39元)。故2026E不依赖机构一致预期，以AI估算口径单列并明示。</strong>（市场一致预期）/ <strong>AI估算：营收2026E约355-358亿(基本持平比)、2027E约358-363亿；归母2026E约5.0亿(+约6%)、2027E约5.3-5.5亿、2028E约5.8-6亿(含工业企稳+商业稳定+少被接入则正贡献)；毛利率约10%并低位企稳、ROE约4-4.5%。建立在"集采对工业的压制边际缓和、商业以量补价、费用持续精益"之上，属中性偏保守的推算。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>央企医药平台/重组转型型潜力指标</h3><ul><li><strong>通用技术集团资产整合/注入期权(核心)：</strong>公司作为集团医药健康上市旗舰，历史上有未注入资产承诺(江药集团、海南康力、武汉鑫益、通用电商、上海新兴、长城制药等)，在国资央企医药资产整合大背景下，"并购重组/资产注入增厚优质资产"是估值中最实质的期权价值。</li><li><strong>收购上海则正70%(2026-04交割)：</strong>5.25亿元控股国内改良型新药/仿制药特色企业，为其补研发短板、打开"防→改良→创新药"+全产业链产品管线，围绕抗感染/精神神经/慢病布局，是工业转型的真实抓手。</li><li><strong>医药工业转型：</strong>制剂毛利率高达46.45%，公司正由普药向特色原料药+高毛利制剂升级；2025工业虽-15.88%但综上，如集采降幅收敛+则正产品导入，工业有望企稳回升。</li><li><strong>商业以量补价+国际贸易回暖：</strong>央企资质+全国分销网络是准入壁垒，商业份额保持；国际贸易+11.8%、出海高毛利，提供稳定增量。</li><li><strong>国企改革/降本增效：</strong>央企市值管理与"一利五率"考核，2026Q1销售费用-19.7%、财务费用-25.8%，费用与财务成本改善直接增厚利润。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>2023归母10.48亿含约4.3亿非经常收益(资产处置等)，非经营常态；2024-2025归母连降源于集采压价+资产减值+工业量价齐跌的产业逆风(经营拖累)；2025扣非3.76亿(+16.5%)与经营现金流14.26亿(+40.9%)改善为真实经营转好；2024归母存在追溯调整口径差异。真正的潜在增量来自"通用技术集团资产注入+上海则正创新药布局+工业企稳"，属外部事件/资产注入期权而非当期可确认经营——兑现依赖事件落地，短期EPS贡献有限。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>医药工业企稳/则正并表</td><td><strong>+约3~4pct(利润弹性大)</strong></td><td>工业若止跌企稳(2025 -15.88%收缩)，短弹性最大；则正70%并表带来改良型新药/制剂增量</td></tr><tr><td>国际贸易出海</td><td><strong>+约1.5~2pct</strong></td><td>2025出口+11.8%、毛利11.43%，出海高毛利延续</td></tr><tr><td>商业以量补价+份额集中</td><td><strong>+约1pct</strong></td><td>央企资质+全国分销网络，商业以量补价、市场份额集中</td></tr><tr><td>(利润端)费用管控+财务优化</td><td><strong>—</strong></td><td>2026Q1销售/财务费用双降、现金流改善为利润端隐性边际改善</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎以"收入小个位数+利润靠费用/结构修复"为主，真正的弹性在利润端而非收入端：医药工业若由-15.88%转正+上海则正并表带来高毛利制剂增量=最大向上弹性；国际贸易+商业以量补价提供稳定底盘；费用管控(2026Q1省下销售/财务费用)与现金流改善直接增厚净利率。但兑现的成败系于集采降幅能否收敛与资产注入能否落地，内生成长弹性有限、事件驱动属性强。兑现度领先指标=医药工业季度收入增速、应收账款/现金流、集团资产整合进度。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价9.20元对应当前市值约137.6亿元。以央企医药平台合理前向PE约20x测算，要支撑现价需2028年归母约6.9亿元(较2025的4.73亿+46%)；即便按PB约1.16x+净资产兜底，也需产业/事件端给出显著改善。<br><br>换言之，当前价格<strong>主要交易的是一张"央企医药平台重估/资产整合"的事件期权</strong>：市场已把"通用技术集团资产注入/整合增厚、医药工业企稳、上海则正创新药管线贡献、商业份额集中"中的大部分提前定价，而对当期"(归母连续下滑、ROE约4%、股息率仅约1%)的真实基本面只给了较低权重。<br><br>安全边际来自PB约1.16x(处5年低位)与央企重组外生期权的向上期权价值；若资产整合迟迟不落地或工业继续下滑，则现价对应估值(前向PE偏高)缺乏当期业绩支撑，下行风险显著。(数据截至2026-08-21)</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>央企背景/牌照/资质：</strong>通用技术集团(国资委实控)旗下医药上市旗舰、持股31.92%，医药进出口与配送资质、医院准入、融资/信用优势非民企可复制——央企重组/资产整合主体的稀缺性正是估值期权来源。</li><li><strong>"工商贸"协同/规模：</strong>医药商业分销规模(占约69%)+高毛利医药工业(天方原料药/上海通用制剂、制剂毛利46%)+国际贸易出海，一体化协同与全产业链覆盖。</li><li><strong>特色原料药/制剂用药领域：</strong>天方药业在抗感染(艾滋病治疗)、特色原料药领域有历史积累，制剂高毛利具备差异性与客户粘性。</li><li><strong>研发短板补齐：</strong>并购上海则正(2026-04)获改良型新药/创新药研发平台，利于从低毛利向高毛利升级。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>央企医药流通资质、集团资产整合主体地位与全国分销网络是其最难复制的准入壁垒——该"位置"本身稀缺。但注意两个缺口：①医药工业(天方)对抗国药/华润/上药等头部工业及仿制药集采竞争，同质化高、凭此较难赢；②商业分销面对国药控股/华润医药/上海医药/九州通等规模更大或更纯的巨头，规模与效率不占优。护城河评为"中下—中"：央企地位/重组期权壁垒真实但变现能力弱(ROE约4%、归母净利率约1.3%被产业逆风压低)。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08中下旬</strong> · 2026年半年度报告：医药工业能否止跌、归母/扣非/应收减值、经营现金流 — 盈利/估值</p><p><strong>持续(事件端)</strong> · 通用技术集团医药资产整合/注入：历史未注入资产(江药集团/海南康力/武汉鑫益/通用电商/上海新兴/长城制药)重组落地 — 估值/盈利(最大期权)</p><p><strong>2026H2起</strong> · 上海则正(70%)并表后的创新药/改良型新药管线临床推进与产品导入、抗感染/精神神经/慢病布局 — 工业转型/盈利</p><p><strong>持续</strong> · 集采降价幅度边际温和(公司2026-08公告子公司天方/三洋/康力/科益多个产品拟中选多批次全国集采，以价换量) — 工业量价与利润</p><p><strong>持续</strong> · 国际贸易(+11.8%)出海与国企改革市值管理/降本增效(销售/财务费用双降) — 利润/估值</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>集采/医保持续压价、医药工业下滑</td><td>利润</td><td>高毛利工业2025 -15.88%(制剂/原料药)、归母连续三年下滑、毛利率低位，工业若续跌将进一步侵蚀盈利</td></tr><tr><td>应收账款高企/现金流波动</td><td>现金流+利润</td><td>应收约157亿、同比增9.5%快于营收、回款周期长，减值与营运资本占用高；季度经营现金流常为负(Q1 -14亿)</td></tr><tr><td>资产注入/重组延后或不及预期</td><td>估值(核心)</td><td>当前股价的央企重组期权依赖集团资产整合落地，若长期搁置则估值失去向上催化、向当期基本面回归</td></tr><tr><td>并购整合(上海则正)风险</td><td>利润</td><td>5.25亿收购70%，整合、商誉(合计8.78亿)与标的兑现风险，高溢价并购曾引监管问询</td></tr><tr><td>竞争格局</td><td>收入+利润</td><td>商业面对国药/华润/上药/九州通等巨头与价格战；工业仿制药同质化竞争</td></tr><tr><td>低盈利/ROE</td><td>估值</td><td>ROE约4%、归母净利率约1.3%，股权回报率低，估值靠PB与期权而非盈利支撑</td></tr><tr><td>投研覆盖极稀疏</td><td>估值</td><td>近60交易日无机构评级、无一致预期，定价效率低、缺乏专业定价锚，波动或放大</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>通用技术集团资产注入/整合落地增厚优质资产+医药工业企稳回升+上海则正创新药管线兑现+集采降幅温和</td><td>~7.5-8E(归母)</td><td>~22x</td><td>~11.8元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>营收持平、工业止跌企稳、商业稳份额、费用精益、无重大资产注入</td><td>~5.5-5.9E(归母EPS约0.39)</td><td>~18x</td><td>~7.0元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>工业继续下滑+集采失速+应收减值暴雷+资产注入再度延后</td><td>~3.5-4E(归母)</td><td>~15x</td><td>~3.8元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价9.20元为基准：上行到Bull约11.8元(+28%)、Base约7.0元(-24%)、下行到Bear约3.8元(-59%)；收益风险比约1:2偏不利。当期基本面(归母连降、ROE约4%、股息率约1%、PE失真30x)不足以支撑现价，现价主要由"央企医药平台资产注入/重估"事件期权支撑——期权一旦落地向上弹性大，反之缺乏当期业绩锚、向下回归空间大。适合小仓位搏壳/期权，不重仓。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026半年报医药工业环比仍大降、归母继续下滑且经营现金流转负；②应收账款大幅急增/减值超预期致净利润低于4亿；③通用技术集团资产注入/整合方案再度长期搁置且无新进展；④集采降幅超预期令毛利率显著下移——任一兑现将证伪Base、现价向Bear回归。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：医药商业板块(申万二级)2026-08-21整体PB(LF)1.26x处历史低位8.7%分位、PE-TTM 18.7x处26.5%分位、股息率TTM 2.38%处86.6%分位——行业处于"集采/两票制压制后的筑底企稳、低估值+高股息"阶段，景气度无向上弹性但向下也相对充分。中国医药在该板块中PB最低之一但盈利最弱(工业也拖累)，估值处自身与板块双历史低位；真正区别于同业(四川药材/上海医药等)的，是其央企通用技术集团下的"医药资产整合/重组"期权，属事件驱动品种而非纯粹商业流通红利股。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价9.20元，低于MA5(9.42)/MA10(9.48)/MA20(9.45)/MA60(9.31)/MA120(9.82)/MA250(10.36)，中长期空头排列、处于趋势下行段；近月约9.1-9.8窄幅震荡、量能温和缩量</td><td><strong>低位弱势整理，未站上任何均线、无右侧信号，追涨性价比低；等站回60日线(约9.3)并放量或待半年报催化</strong></td></tr><tr><td>基本面</td><td>2026Q1营收-3.97%、归母+5.58%，销售/财务费用双降、现金流较上年同期改善；但工业仍待企稳、应收偏高、归母三年连降；盈利拐点未确认(工业是变量)</td><td><strong>基本面"弱企稳但盈利拐点未现"，半年报(8月下旬)是工业止跌与应收的关键验证点</strong></td></tr><tr><td>情绪面</td><td>机构覆盖极稀疏(近60日无评级)、成交低迷、换手率约1.9%、主力资金近20日小幅净流出，市场关注度极低、缺乏专业定价锚</td><td><strong>情绪冷清、筹码沉淀，属左侧价值/事件型，非人气标的，催化需外部事件</strong></td></tr><tr><td>政策影响</td><td>集采降价已充分定价且工业承压(负面已现)；医保回款直结/国企改革"一利五率"+央企医药资产整合为潜在正催化(公司为集团上市旗舰直接受益)；暂无新打击性政策</td><td><strong>政策中性略偏正(央企整合受益方向)，边际改善看集团资产注入进度</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(高盛/摩根士丹利/瑞银/美银/花旗/杰富瑞等)对"中国医药(600056.SH)"均为覆盖信息有限/未覆盖(注明)——该股为A股中盘央企流通平台、海外/外资报告稀缺。内资研报关注亦极稀疏：近60交易日无机构评级(同花顺/东财)，故"外资优先"在本例退化为"无可用外资目标价、以PB估值+事件期权为主观判据"；个别内资观点(证券之星等)认可"央企并购重组/资产注入期权+低成本估值修复"但同样承认盈利与应收风险，目标价测算参考价值一般。整体：无外资与主流机构定价锚，定价效率低，属事件驱动型的"期权+左侧"品种，需自行以PB底仓+事件催化叠加判断。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：PB约1.16x(5年低位)、板块筑底、央企通用技术集团"资产注入/重估"期权为最大向上看点；但当期基本面弱(归母连降、ROE约4%、股息率仅约1%、PE失真高)、技术面空头、投研覆盖空白，现价主要由重组预期而非当期业绩支撑。判断为<b>轻仓试仓搏"央企医药重组/资产注入"期权(1成仓)</b>：现价9.2附近以PB低位作安全垫、小仓位左侧潜伏，侧重资产整合与工业企稳的事件弹性而非当期业绩；加仓触发=①通用技术集团医药资产注入/整合方案落地公布，或②2026半年报医药工业止跌企稳、归母与应收账款/现金流确认改善、股价放量站回60日线，则加至2-3成。止损：有效跌破8.85-9.00元(近月低点9.1下方)，事件逻辑未证实时亦严格止损离场，不重仓、不因"央企"标签盲目扛单。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>中国医药2025年年度报告及摘基于上交所(2026-04-25披露、致同审计标准无保留)、2025年半年报、2026年一季度报告及合并/母公司财务报表(上交所2026-04-29)、2025年度利润分配预案(每10股派0.9491元、分红率30%)、通用技术集团及公司官微(上海则正科技收购交割2026-04-11)、收购上海则正医药70%股权公告(5.25亿元)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(覆盖极稀疏)：近60交易日无机构评级；历史有少数内资(如2017/2018华泰/华安医药流通转型评述)，2025-2026年基本无新增深度覆盖，目标价与一致预期缺失</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>腾讯自选股(westockdata接口：行情/财务/kline/资金流/机构覆盖)、雪球(PE 28.5/PB 1.15)、同花顺F10(动态/静态PE、机构评级)、证券之星(千股千评/财务解析)、东方财富F10(主营构成)、Sina(2025年报业绩快报)、申万二级医药商业估值(westockdata sector)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>股吧/公众号/雪球讨论(央企资产注入/重组预期、上海则正高溢价收购问询、工业下滑担忧等仅作线索，财务数据未采信)</p></div>
+    <p>高信心(85%·财报口径)：营收353.62/归母4.73/扣非3.76/毛利率(主营)10.40/经营现金流14.26、EPS 0.3164、总股本14.96亿股、2025分红率30%(每10股派0.9491元)、分部收入(商业261.59/工业25.04-15.88%/贸易54.79+11.8%)、收购则正70%(5.25亿)、2026Q1(营收81.89-3.97%/归母1.82+5.58%)均回2025年报、2025半年报、2026Q1报告及公告核对。中高信心(70%·估值)：市值137.6亿、PE-TTM 28.5x、静态29x、PB 1.15-1.16x来自第三方(2026-08-21)并回净资产核对；EV/FCF主要AI估。中低信心(35-55%·预测)：2026-28E归母/营收为AI估算(该股无机构一致预期、近60日无评级)、Bull/Base/Bear为主观推演且高度依赖资产注入这一外生事件；2024归母存在追溯调整口径差异(原口径5.83 vs 调整后约5.35)已注明；"资产注入进度/海外外资覆盖"为待核实。预测类与事件类均标注"估算/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>中国医药2025年年度报告及摘要（上交所披露2026-04-25，致同会计师事务所标准无保留审计意见）</li>
+        <li>中国医药2025年半年度报告（meheco.com，2025-08）</li>
+        <li>中国医药2026年第一季度报告及母公司/合并财务报表（上交所2026-04-29）</li>
+        <li>中国医药2025年度利润分配预案（每10股派0.9491元·股息率约1%·分红率30%）</li>
+        <li>中国医药收购上海则正医药科技70%股权公告（5.25亿元，2026-04-11完成交割）</li>
+        <li>腾讯自选股(westockdata)行情/财务/资金流 / 雪球 / 同花顺F10 / 证券之星 / 东方财富F10 / 新浪财经（估值与行情交叉验证）</li>
+        <li>申万二级：医药商业板块估值（westockdata sector，2026-08-21）</li>
+        <li>券商研报及股吧/公众号（央企资产注入预期·则正收购问询·集采等仅作线索，财务数据不采信）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

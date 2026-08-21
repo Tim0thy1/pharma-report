@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国药控股 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">国药控股<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">医药流通龙头 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch7">回产业链报告</a></div>
+    <h1>国药控股<span class="code">01099.HK</span></h1>
+    <p class="subtitle">全国医药流通绝对龙头 · 分销+器械+零售一体化 · 央企国企平台</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+    <a href="linuo.html">上一家 · 力诺药包</a>
+    <a href="sp-pharma.html">下一家 · 上海医药</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈520亿港元(≈480亿元人民币)</div><div class="k-sub">2026-08-21(H)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈6.5x(TTM)</div><div class="k-sub">PE-TTM 2026-08-21(富途/理杏仁)</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PB/PE均处上市以来绝对低位区</div><div class="k-sub">过去5年中位 历史中位约8-10x(估)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+6%~8%(归母)</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>国药控股是中国医药流通绝对龙头、中央企业(中国医药集团旗下)H股上市平台，主营药品分销(约占73%)+器械分销(约19%)+医药零售(约7%)一体化，2025年营收5751.68亿元、归母净利71.55亿元。行业受集采/两票制持续压缩进销价差，归母净利率仅约1.24%、ROE由2023的12.6%降至8.9%，处"低增长+低毛利+高应收"的深度价值形态；但PB约0.54x、PE-TTM约6.5x、股息率约4.7%均处上市近17年绝对低位，叠加"国企改革+医保回款直结"潜在催化，属典型的"深度价值/红利防守 vs 价值陷阱"分歧标的。</li>
+      <li><strong>基本面：</strong>2025营收5751.68亿(-1.6%)、归母净利71.55亿(+1.5%)、EPS 2.29元；毛利率约7.24%、归母净利率约1.24%、ROE 8.89%。分部(2025)：药品分销约4350亿(-2%、占73%)、器械分销约1155亿(-2%)、医药零售约384亿(+6.7%)。H股持有子公司2026H1普遍下滑(国药股份归母8.80亿-7.25%、国药一致6.06亿-8.97%、国药器械营业利润5.99亿-12.34%)。</li>
+      <li><strong>估值：</strong>现价16.65港元、总市值约520亿港元(≈480亿元人民币)、PE-TTM约6.5x、PB约0.54x(归母净资产约860亿)、股息率约4.7%(FY25末期息0.69元人民币)。三者均处上市以来历史低位区。</li>
+      <li><strong>市场隐含预期：</strong>现价对应2028E一致预期EPS约2.72元≈5.7x前向、股息率约4.7%，隐含市场将其定价为"类债券的红利替身"——对归母增长仅给约5-6%的长期复合假设，并默认集采继续缓慢侵蚀毛利率，未为任何"国企改革重估(市值管理/分红/回款直结)"或"毛利率企稳/经营杠杆"给予估值溢价。即当前价格已把"低增长+高应收风险"打到接近极致悲观，安全垫来自PB/PE绝对低位与股息，而非成长。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看2026-08-28前后2026中期业绩(Q2母公司收入能否企稳转正、分部盈利、经营现金流是否仍负)、医保回款直结合同省市落地节奏、国企改革/市值管理与分红提升、以及集采价差收窄是否触底。</li>
+      <li><strong>情景结论：</strong>Bull约24.5港元(+47%)/ Base约19.5港元(+17%)/ Bear约13.7港元(-18%)，收益风险比约2:1偏可，作红利防守可选。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>中国医药流通绝对龙头、央企一体化平台</strong>：国药控股2003年由中国医药集团核心流通业务重组成立、2009-09-23登陆港交所(01099.HK)，是"中国医药集团(国务院国资委下属中央企业)"旗下最重要的H股上市流通平台。业务覆盖药品分销(全国网、占约73%)、医疗器械分销(约19%)、医药零售(专业药房/国大药房，约7%)三大板块，横跨药械流通全场景，并延伸药械制造、化学试剂、SPD医院供应链等增值服务。2023年起连续多年位列中国医药流通百强榜首(2023营收5966亿元，远超上海医药2603亿)。2025全国两票制+集采常态化背景下营收5751.68亿、归母净利71.55亿。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>5965.70</td><td>5845.08</td><td>5751.68</td><td>~5960E(一致)</td><td>~6180E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>90.54</td><td>70.50</td><td>71.55</td><td>~76E(一致)</td><td>~80E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>8.13%</td><td>7.57%</td><td>7.24%</td><td>~7.0-7.2E%</td><td>~7.0E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>12.60%</td><td>9.09%</td><td>8.89%</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~160(估)</td><td>~140(估)</td><td>~145(估)</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部收入(2025年报)：</strong>药品分销约4353.92亿(-2.02%、占72.79%)；器械分销约1155.38亿(-2.02%、占19.32%、经营溢利约25.72亿-3%)；医药零售约383.83亿(+6.67%、占6.6%、经营溢利约6亿+85.7%)；其他约74.6亿。<br><br><strong>零售拆解：</strong>国大药房系统2025年销售收入约209.81亿元(因市场环境/竞争/门店结构优化而下滑)，医药专业药房(DTP)延续20%+高增——零售板块是三大业务中唯一正增、且经营溢利大幅扭升(+85.7%)的板块。<br><br><strong>盈利结构(关键)：</strong>归母净利率仅约1.24%、整体净利率(含少数)约1.9-2.1%，是典型"高周转、低毛利、低净利"的流通特性；主业药品分销净利率尤其薄(约1%量级)，任何集采压价/应收减值/费用波动都对利润端高度敏感。<br><br><strong>行业地位/竞争：</strong>全国医药流通/药品分销份额第一(大于上海医药、华润医药、九州通)，央企背景+全国省市区配送网络+医院终端覆盖构成规模壁垒；竞争对手=上海医药(2607.HK/601607)、华润医药(3320.HK)、九州通(600998)、中国医药，子公司国药一致(000028)、国药股份(600511)、国药器械亦并表。<br><br><strong>管理层/治理：</strong>母公司中国医药集团(央企)、一般由集团派驻管理层；短期看国企改革"一利五率/市值管理+分红提升"考核提升落地意愿。<br><br><strong>资产负债：</strong>高杠杆高周转——2025末资产负债率约65.6%、归母净资产约860亿元、商誉约65亿元(历年并购国药器械等积累)；应收账款极大(2026Q1约2206亿元，应收天数120-135天)，为分销行业共性风险，靠医院回款+应收保理/医保直结消化；货币资金约500亿元、有息负债规模与现金大体匹配。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长：</strong>零售/专业药房(DTP)+6.7%且经营溢利+85.7%、器械SPD与高值耗材结构升级、药品分销"量增补价"、全国份额集中——收入端小个位数正增的真实经营仍在。</li><li><strong>会计/周期性拖累：</strong>2024归母-22.14%主因集采/两票制价差压缩+应收减值+基数扰动；2025归母+1.5%为"以量补价+费用精益+减值减少"后的弱企稳，毛利率仍由8.59%(2022)降至7.24%(2025)——属行业性逆风而非经营质量恶化。</li><li><strong>一次性因素：</strong>分销行业历史上有季末集中确认回款/政府补助/处置收益等非经常项，H股平台不披露A股式"扣非"，归母波动以正常经营口径解读即可。</li><li><strong>结论：</strong>营收停滞、归母小个位数增长是"集采压价+低毛利+高应收"三大产业逆风下的常态，经营基本面"稳但几乎无增长弹性"——看的是估值底+股息+国企改革红利，而非成长。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈16.65港元(≈15.4元)</strong></td><td>2026-08-21收盘；52周区间约15.2~21.55</td></tr><tr><td>H股市值</td><td><strong>≈520亿港元(≈480亿元)</strong></td><td>总股本31.21亿股(H+A/内资)</td></tr><tr><td>EV</td><td><strong>≈2000-2300亿元(估)</strong></td><td>含庞大营运资金/有息负债，无净现金中性，口径仅供参考</td></tr><tr><td>PE-TTM</td><td><strong>≈6.5x</strong></td><td>归母TTM约74亿(RMB)、市值约480亿RMB；富途6.45/理杏仁6.53</td></tr><tr><td>PE-2026E</td><td><strong>≈6.3x</strong></td><td>一致预期归母约76亿(股价之星75.95/etnet75.26)</td></tr><tr><td>PE-2027E</td><td><strong>≈6.0x</strong></td><td>一致预期归母约80亿(80.23)</td></tr><tr><td>PE-2028E</td><td><strong>≈5.7x</strong></td><td>一致预期归母约85亿(84.96)，隐含~5-6%复合</td></tr><tr><td>PB</td><td><strong>≈0.54x</strong></td><td>归母净资产约860亿元(RMB)；上市以来绝对低位区</td></tr><tr><td>PS(TTM)</td><td><strong>≈0.083x</strong></td><td>市值约480亿RMB/营收5752亿</td></tr><tr><td>EV/EBITDA</td><td><strong>失真</strong></td><td>分销营运资金庞大、财务费用高，EBITDA口径参考弱</td></tr><tr><td>FCF Yield</td><td><strong>失真/双位数(估)</strong></td><td>OCF约145亿但季度波动大(H1常为负)，不具稳定参考</td></tr><tr><td>股息率</td><td><strong>≈4.7%(静4.6%)</strong></td><td>FY25末期息0.69元人民币(约0.79港元)，派息率约30.1%</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(富途/理杏仁/东财/股价之星/证券之星)市值约517-520亿港元、股价16.6-16.9港元、PE-TTM 6.45-6.53x、PB 0.53-0.54x、股息率4.69%均于2026-08-21交叉核对；归母净资产/营收/净利回2025年报。关键口径提醒：①EV/FCF因分销行业"高营运资本+高财务费用+OCF季度波动大(H1常为负)"而严重失真，不作为估值依据；②PB用归母口径约0.54x，若含少数股东权益口径约0.7-0.9x，勿混用；③预测(2026-28E)与PE/PB均为一致预期/AI估算，须以披露为准；④6.44%的毛利某观点为分部/特定口径，整体合并毛利率取约7.24%系列值。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM(当前)</td><td><strong>≈6.5x</strong></td><td>历史中位约8-10x(估)、2020-2021高位约12-15x；当前处上市以来绝对低位区</td></tr><tr><td>PB(当前)</td><td><strong>≈0.54x</strong></td><td>2015-2020常年1.5-3x、2021-2023回落至约0.9-1.5x、现约0.5x=近17年极低位</td></tr><tr><td>股息率(当前)</td><td><strong>≈4.7%</strong></td><td>早年约1-2%(成长期)，近年分红率30%+使股息率升至历史高位</td></tr>
+      </tbody>
+    </table></div>
+    <p>资产侧(PB约0.54x)与盈利侧(PE约6.5x)国药控股均处上市以来的历史绝对低位区，股息率(约4.7%)处历史高位。这意味着市场已把"集采持续压价+低增长+高应收回款风险"打到接近极致的悲观定价，安全边际很厚：用股息率和PB兜底，向下空间有限。分歧的核心是"这是深度价值的黄金坑(国企改革/回款直结/分红提升带来重估)，还是价值陷阱(利润逐年被动侵蚀而无弹性)"——当前定价隐含的是后者占主导。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>5751.68</td><td>~5960E</td><td>~6180E</td><td>~6340E</td></tr>
+        <tr><td>毛利率</td><td>7.24%</td><td>~7.0-7.2E%</td><td>~7.0E%</td><td>~7.0E%</td></tr>
+        <tr><td>净利润</td><td>71.55</td><td>~75.5E</td><td>~80E</td><td>~85E</td></tr>
+        <tr><td>EPS</td><td>2.29</td><td>~2.43E</td><td>~2.57E</td><td>~2.72E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/管理层口径：无官方盈利指引；强调"稳中求进、精益管理、数字化转型"，管理层指引偏"收入企稳、毛利率缓降、费用优化、现金流改善"，2026年收入目标以个位数增长为基准(集采价差仍施压)。（公司指引）/ <strong>市场一致预期(股价之星/etnet多机构)：归母净利2026E 75.26-75.95亿(+6-8%)、2027E 79.6-80.2亿、2028E 84.96亿(+5.9%)；营收2026E约5960亿(+3.7%)、2027E 6187亿、2028E 6340亿；大和预期偏保守(2026-28年EPS+4.5%/+5.6%/+8.5%，低于市场3-6%)，高盛下调26-28年盈测3.8%/4.6%。</strong>（市场一致预期）/ <strong>AI估算：营收2026E约5900-5960亿(+2-4%)、2027E约6150-6190亿、2028E约6320-6340亿；归母2026E约75-76亿、2027E约80亿、2028E约84-86亿(增速5-8%)；毛利率约7.0-7.2%并低位企稳，ROE约8.9-9.2%。经营现金流2026年随回款改善有望转正放大。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>医药流通/国企红利型潜力指标</h3><ul><li><strong>医保回款直结(核心点)：</strong>国家医保局推动医保基金直接结算(推向医院回款/非集采药品)，若全面落地将系统性缩短应收天数、减少减值、改善经营现金流——这是最实质的"利润外收窄"对冲，亦是估值重估的最大潜在催化(2026起多地试行)。</li><li><strong>国企改革/市值管理：</strong>央企"一利五率"考核+市值管理要求，国药系存在增持/回购/提高分红率、专业化整合(全国配送网络集团化)以提质增效的空间——分红率30%若能向40-50%抬升，股息率性价比显著增强。</li><li><strong>零售/专业药房(DTP)：</strong>创新药、特药(DTP药房)放量，2025零售+6.7%且经营溢利+85.7%，是最确定的第二曲线；对标国大药房门店结构优化+院边店/医保双通道。</li><li><strong>器械SPD+高值耗材：</strong>器械分销向SPD供应链和医院院内物流渗透、集采下以量补价，盈利质量优于传统配送。</li><li><strong>行业集中度/规模壁垒：</strong>两票制后小型流通商出清、龙头集中，全国配送网络与医院终端覆盖率构成准入门槛——规模是活下来的根本。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>归母+1.5%(2025)≠经营改善显著：主因是费用精益+减值基数减少，而非毛利上行(毛利率仍8.59%→7.24%下行)；零售经营溢利+85.7%与器械盈利改善属真实经营(经营增长)，集采价差压缩为持续的经营逆风，历史上有季末回款集中确认等非经常项(港股不披露A股式扣非)。真正的潜在红利来自"医保回款直结+国企改革+分红提升"，属政策/治理驱动(潜在催化)而非当期基本面。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>零售/专业药房(DTP)</td><td><strong>+1.5~2pct</strong></td><td>2025零售+6.7%、DTP 20%+高增，创新特药放量</td></tr><tr><td>器械SPD/高值耗材结构</td><td><strong>+1~1.5pct</strong></td><td>器械以量补价、SPD与医院供应链升级，毛利占比较高</td></tr><tr><td>药品分销量增+份额集中</td><td><strong>+0.5~1pct</strong></td><td>以量补价、全国龙头份额提升、区域集中化</td></tr><tr><td>(利润端)回款直结+费用精益</td><td><strong>—</strong></td><td>应收减值减少+费用优化为利润端的隐性边际改善</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎以"收入小个位数(+3-4%)+利润中个位数(+5-8%)"为主，靠医药零售(DTP)量增+器械SPD结构+药品分销份额集中"以量补价"支撑，成长弹性有限。真正的边际改善不在收入端而在利润端：医保回款直结缩短应收、国企改革提分红旗、费用与控制减值，使"利润略快于收入"。对这类公司，兑现度的核心领先指标是应收天数/现金流与分红率，而非营收增速——增长确定性高、爆发力低。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价16.65港元(≈15.4元RMB)对应当前市值约520亿港元，按2028E一致预期EPS约2.72元≈前向PE约5.7x、派息率30%对应股息率约4.7%——市场基本按"类债券的红利替身(债券等价物)"定价：隐含对未来归母给予约5-6%的长期复合增速，并强调须满足"集采继续缓慢侵蚀毛利但不再失速、回款/减值保持可控、分红率不降"。<br><br>换言之，当前价格<strong>并未为任何成长或重估期权定价</strong>：国企改革/市值管理/分红提升/医保回款直结这些潜在催化一旦兑现即构成向上重估(戴维斯双击方向)，反之若集采价差失速或应收减值暴雷则向下寻底也有股息与PB兜底。当前交易的纯粹是"历史级低估值+高股息"的防守价值，收益风险比约为2:1。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>全国网络/规模壁垒：</strong>中国医药流通百强榜首(2023营收5966亿)，全国省市区医药物流配送网络+医院终端覆盖率第一，规模与基础设施是硬门槛。</li><li><strong>央企背景/资质：</strong>国务院国资委央企中国医药集团旗下，牌照、集采配送资格、医院准入与融资/评级优势非民企可复制。</li><li><strong>一体化布局：</strong>分销+器械+零售+SPD+制造+试剂全链路，交叉协同与客户(医院/药企)粘性高。</li><li><strong>客户/渠道：</strong>覆盖全国主要医院与连锁/专业药房，DTP专业药房承接创新药特药放量。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>全国性网络与医院配送覆盖需要数千亿营收与十余年并购/布局沉淀，新进入者与小型流通商极难复制；主要威胁来自同业头部(上海医药/华润医药/九州通)的份额争夺，以及集采/两票制在价格与毛利端的行业性侵蚀(不是壁垒失效，而是行业蛋糕在变薄)。护城河评为"中上"：壁垒扎实但变现能力(净利率仅约1%)当前被产业逆风压得很低。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-28前后</strong> · 2026年度中期业绩(Q2母公司收入能否企稳转正、经营现金流、分部盈利) — 盈利/估值</p><p><strong>2026H2-2027</strong> · 医保基金直接结算(回款直结)扩大省市落地，缩短应收、减少减值 — 现金流/利润/估值</p><p><strong>持续</strong> · 国企改革/市值管理：增持回购、分红率提升、国药系专业化整合 — 估值/分红</p><p><strong>持续</strong> · 专业药房(DTP)/创新药特药放量、器械SPD高值耗材升级 — 收入/盈利结构</p><p><strong>2026-2027</strong> · 集采/医保谈判价差降幅边际温和、基数走低带来的利润弹性 — 利润</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>集采/医保谈判持续压价</td><td>收入+利润</td><td>毛利率由8.59%(2022)降至7.24%(2025)，药品分销净利率仅约1%，价差失速直接侵蚀归母</td></tr><tr><td>应收账款/医院回款难</td><td>现金流+利润</td><td>应收约2206亿(2026Q1)、天数120-135天，减值与营运资金占用高；H1经营现金流常为负，靠保理/直结消化</td></tr><tr><td>低增长/ROE下行</td><td>估值</td><td>ROE由12.6%(2023)降至8.89%(2025)，成长性弱，重估依赖政策/治理催化</td></tr><tr><td>国大药房零售门店亏损</td><td>利润</td><td>门店结构优化期部分门店亏损，拖累零售板块利润</td></tr><tr><td>商誉与并购整合</td><td>利润</td><td>商誉约65亿元，历次并购(国药器械等)整合与减值风险</td></tr><tr><td>国企机制/治理效率</td><td>利润+估值</td><td>央企考核与经营自由度、市场化激励相对有限影响转型落地</td></tr><tr><td>负债/财务费用</td><td>利润+估值</td><td>高杠杆高周转、有息负债规模大，财务费用拖累净利率</td></tr><tr><td>港股流动性/折价</td><td>估值</td><td>南向资金配置偏好变化影响流动性溢价，深度价值标的易被长期低估</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>医保回款直结+国企改革(分红/回购/整合)+零售DTP放量+集采价差触底企稳</td><td>~90亿E(归母)</td><td>~8.5x</td><td>~24.5港元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>收入个位数增长、毛利低位企稳、回款/减值可控、分红率30%</td><td>~85亿E(一致EPS2.72)</td><td>~6.8x</td><td>~19.5港元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>集采价差失速+应收减值超预期+国大零售亏损扩大+分红率不升</td><td>~72亿E</td><td>~5.8x</td><td>~13.7港元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价16.65港元为基准：上行到Bull约24.5(+47%)、Base约19.5(+17%)，下行到Bear约13.7(-18%)；收益风险比约2:1(略偏占优)。上行依赖"国企改革/回款直结/分红提升"任一兑现驱动重估，下行有PB约0.54+股息率约4.7%兜底，整体属"低赔率向下有底、向上靠政策催化"的深度价值红利型标的，风报比可接受但不激进。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①2026中报(Q2)母公司利润增速仍为负、经营现金流持续大额为负；②集采价差失速致2026净利率继续下行、全年归母低于70亿；③应收减值/医院回款显著恶化；④股息率未能维持(分红额下降)；⑤国企改革/回款直综上量不及——任一兑现将下修Base向Bear靠拢。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：医药流通板块——受集采/两票制持续压缩进销价差，行业整体处于"低增长、低毛利、净利率个位数"的筑底阶段，盈利弹性弱于医药其他子板块；板块整体估值(尤其港股流通股PE约6-8x、PB约0.5-0.7x、高股息)处历史性低位，"国企改革+医保回款直结+高股息防守"是其核心逻辑。景气度属"筑底企稳、缺乏向上弹性"。国药控股为板块绝对龙头，估值处板块与自身双历史低位，属红利防守品种而非成长股。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>现价16.65港元，52周区间约15.2~21.55；2026/4高点约21.3后回落、6月触及约15.2低点，近2月反弹至16.6-17.7箱体，量能温和</td><td><strong>处于6月低点后的低位修复，趋势仍偏弱、未站上中期均线，追涨性价比低，等15.2-15.6企稳平台</strong></td></tr><tr><td>基本面</td><td>2025归母+1.5%弱企稳、毛利率持续下滑、ROE 8.89%；H股持有子公司2026H1普遍下滑(国药股份-7.25%、国药一致-8.97%、国药器械营业利润-12.34%)，母公司中报(8月底)是关键验证点</td><td><strong>基本面稳但无成长弹性，盈利拐点未现，看中报与回款直结节奏</strong></td></tr><tr><td>情绪面</td><td>深度价值/高股息(4.7%)吸引险资/南向配置与防守资金，估值处历史低位、卖压相对充分</td><td><strong>情绪偏冷、悲观定价较充分，底部钝化，属左侧配置而非右侧</strong></td></tr><tr><td>政策影响</td><td>集采压价已充分定价；医保回款直结(缩短应收)与国企改革市值管理/分红提升构成潜在正催化(央企受益方向)；暂无打击性新政策</td><td><strong>政策偏中性略偏正(回款直结/国企改革利好)，边际改善看落地</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行(优先)：高盛2026-04下调目标价至19.07港元、评级"中性"(预计未来数季收入逐步复苏、盈利预测下调)；花旗2026-03下调目标价至22.8港元、维持"买入"(看好现金流与管理层指引)；大和下调目标价至18港元、评级由"跑赢大市"降至"持有"(收入企稳但反弹时间表不明)。外资目标价区间约18-22.8港元，较现价16.65约+8%~+37%，评级以"中性-买入"为主，偏防守。大摩/瑞银/美银/杰富瑞对国药控股覆盖信息有限(未详查证)。内资研报(华泰等)认可"零售领衔、药械分销结构优化"，但目标价测算普遍偏乐观、参考价值弱于外资——外资优先。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：PE约6.5x/PB约0.54x/股息率约4.7%均处历史绝对低位、向下有股息与净资产兜底、向上靠国企改革+医保回款直结+分红提升催化，是典型的"高股息深度价值防守"标的；但归母仅小个位数增长、H1子板块利润普遍下滑、无成长弹性，估值重估取决于政策/治理催化落地。判断为<b>轻仓试仓/红利防守配置(1-2成)</b>：现价16.65(接近6月低点上方)可作低吸底仓，侧重股息而非价差；加仓触发=2026中报(Q2)利润转正/医保回款直结省市放量/国企改革提高分红或增持回购落地，则加至3成；等回落至15.5-15.8(6月低点区)可加大配置。止损：有效跌破15.2元(6月低点/52周下沿)减仓离场，价值型标的亦不盲目扛单。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>国药控股2025年年度报告及业绩公告(港交所披露易2026-03-23)、2026年一季度报、2026-06-18股东周年大会决议(派2025末期息0.69元)、H股子公司国药股份/国药一致/国药器械2026年半年度业绩公告及快报(2026-08-17/19/20)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(高盛/花旗/大和/华泰/中泰等)</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>富途/理杏仁(市值/PE/PB/股息率)、东方财富F10、同花顺(分红/卖空)、证券之星·股价之星(盈利预测/盈利指标系列)、etnet(盈利预测 2026E 75.26亿/2027E 79.64亿)、财报帮(市净率历史)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>股吧/公众号(两票制/应收回款/回款直结行业报道等仅作线索，未作财务依据)</p></div>
+    <p>高信心(85%·财报口径)：营收5751.68/归母71.55/净利率/ROE 8.89/毛利率7.24/股息0.69元及分部收入均回2025年报与业绩公告；子板块2026H1数据回国药股份/国药一致/国药器械半年报。中高信心(74%·估值)：市值517-520亿港元、PE-TTM 6.45-6.53、PB 0.53-0.54、股息率4.69%来自第三方(2026-08-21)并交叉核对；52周区间/股价回行情(westock/富途)。中低信心(40-55%·预测)：2026-28E归母为一致预期(etnet/股价之星)并按大和/高盛下修作参考、Bull/Base/Bear为主观推演；biock：2026中报(8月底披露)前涉2026H1母公司数均为预测。未回源数字均标注"估/待核实"；EV/FCF因分销行业结构特殊而质保较低。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>国药控股2025年年度报告及业绩公告（港交所披露易2026-03-23，H股01099）</li>
+        <li>国药控股2026年一季度报/2026-06-18股东周年大会决议（派2025末期息每股0.69元人民币）</li>
+        <li>国药股份(600511)/国药一致(000028)/国药器械2026年半年度业绩公告及快报（2026-08）</li>
+        <li>高盛·花旗·大和·华泰·中泰 券商研报</li>
+        <li>富途 / 理杏仁 / 东方财富F10 / 同花顺 / 证券之星·股价之星 / etnet 盈利预测与估值（交叉验证）</li>
+        <li>两票制·应收回款·医保基金直接结算 行业报道（相关线索，财务数据不采信）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

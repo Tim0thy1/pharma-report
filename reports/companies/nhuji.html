@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新和成 · 12维度深度分析 · 2026.08</title>
+<style>
+:root {
+  --bg: #f7f8fa; --bg2: #ffffff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb;
+  --accent: #2563eb; --accent2: #dc2626; --accent3: #059669; --warn: #d97706;
+  --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* Header */
+header { background: var(--bg2); border-bottom: 1px solid var(--rule); padding: 3rem 0 2rem; }
+header .crumb { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+header .crumb a { color: var(--accent); text-decoration: none; }
+header .crumb a:hover { text-decoration: underline; }
+header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+header h1 .code { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-left: 0.5rem; }
+header .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+header .meta { display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--muted); flex-wrap: wrap; }
+header .meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 4px; margin-right: 0.4rem; letter-spacing: 0.04em; }
+.tag.real { background: #dcfce7; color: #166534; }
+.tag.story { background: #fef3c7; color: #92400e; }
+.tag.concept { background: #fef2f2; color: #991b1b; }
+.tag.sector { background: #dbeafe; color: #1e40af; }
+tag-hk, tag-a { font-weight: 700; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 1.6rem 0; }
+.kpi { background: var(--bg2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1rem; }
+.kpi .k-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+.kpi .k-value { font-size: 1.15rem; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi .k-sub { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.kpi.up .k-value { color: var(--accent3); }
+.kpi.down .k-value { color: var(--accent2); }
+
+/* TLDR */
+.tldr { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #dbeafe; border-radius: 10px; padding: 1.5rem 1.8rem; margin: 2rem 0; }
+.tldr h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+.tldr ul { list-style: none; }
+.tldr li { padding: 0.45rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; line-height: 1.7; }
+.tldr li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.tldr strong { color: var(--ink); }
+
+/* Chapter blocks (the 11 dimensions) */
+.sec { margin: 3rem 0; }
+.sec h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+.sec h2 .num { display: inline-block; background: var(--accent); color: #fff; border-radius: 6px; padding: 0.05rem 0.55rem; font-size: 0.82rem; margin-right: 0.6rem; vertical-align: 0.12rem; }
+.sec h3 { font-size: 1.05rem; font-weight: 700; margin: 1.6rem 0 0.7rem; color: var(--ink); }
+.sec h4 { font-size: 0.93rem; font-weight: 700; margin: 1.1rem 0 0.45rem; color: var(--ink); }
+.sec p { margin-bottom: 0.75rem; font-size: 0.95rem; line-height: 1.85; }
+.sec p strong { color: var(--ink); }
+.sec ul { margin: 0.4rem 0 0.9rem 1.4rem; }
+.sec li { margin-bottom: 0.4rem; font-size: 0.92rem; line-height: 1.75; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 6px; border: 1px solid var(--rule); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+th { background: #f1f5f9; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--rule); white-space: nowrap; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+tr:hover td { background: #f8fafc; }
+td.up { color: var(--accent3); font-weight: 600; }
+td.down { color: var(--accent2); font-weight: 600; }
+td.hl { background: #eff6ff; }
+
+/* Callout */
+.callout { background: var(--bg2); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.3rem; margin: 1.2rem 0; font-size: 0.92rem; }
+.callout.warn { border-left-color: var(--warn); background: #fffbeb; }
+.callout.bull { border-left-color: var(--accent3); background: #f0fdf4; }
+.callout.bear { border-left-color: var(--accent2); background: #fef2f2; }
+.callout.key { border-left-color: var(--accent); background: #eff6ff; }
+.callout .label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.35rem; }
+.callout.bull .label { color: var(--accent3); }
+.callout.warn .label { color: var(--warn); }
+.callout.bear .label { color: var(--accent2); }
+.callout.key .label { color: var(--accent); }
+
+/* Verdict table (Bull/Base/Bear) */
+.verdict-table { margin: 1.4rem 0; }
+.verdict-table th { }
+.scenario-bull { border-left: 5px solid var(--accent3); background: #f0fdf4; }
+.scenario-base { border-left: 5px solid var(--accent); background: #fff; }
+.scenario-bear { border-left: 5px solid var(--accent2); background: #fef2f2; }
+
+/* Source pyramid */
+.src-tier { margin: 0.8rem 0; }
+.src-tier .t-name { font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem; }
+.src-tier.t1 .t-name { color: var(--accent3); }
+.src-tier.t2 .t-name { color: var(--accent); }
+.src-tier.t3 .t-name { color: var(--warn); }
+.src-tier.t4 .t-name { color: var(--accent2); }
+.src-tier p { font-size: 0.85rem; color: var(--muted); }
+
+/* Cross links */
+.xlinks { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.xlinks a { display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--rule); background: var(--bg2); color: var(--accent); transition: all .15s; }
+.xlinks a:hover { border-color: var(--accent); background: #eff6ff; }
+
+/* Source / footer */
+footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--rule); }
+footer .sources h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.4rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources a { color: var(--accent); word-break: break-all; }
+footer .disclaimer { margin-top: 1.5rem; padding: 0.8rem 1rem; background: #fff7ed; border-left: 3px solid var(--warn); border-radius: 4px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ==== Left collapsible sidebar (hover expand) ==== */
+.sidebar-wrap { position: fixed; left: 0; top: 0; z-index: 1000; width: 280px; height: 100vh; transform: translateX(-266px); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+.sidebar-wrap:hover, .sidebar-wrap.open { transform: translateX(0); }
+.sidebar { position: absolute; left: 0; top: 0; width: 280px; height: 100vh; overflow-y: auto; background: linear-gradient(180deg,#0f172a 0%,#111827 55%,#0f172a 100%); color: #cbd5e1; border-right: 1px solid #1e293b; box-shadow: 6px 0 30px rgba(0,0,0,.18); }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-head { padding: 22px 22px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sidebar-title { color: #fff; font-size: 1rem; font-weight: 800; line-height: 1.42; }
+.sidebar-sub { color: #64748b; font-size: 0.7rem; margin-top: 8px; letter-spacing: .04em; }
+.sidebar-nav { padding: 14px 12px 36px; }
+.sidebar-nav a { display: flex; align-items: baseline; color: #94a3b8; text-decoration: none; font-size: 0.84rem; padding: 8px 12px; border-radius: 8px; margin-bottom: 1px; transition: all .15s; line-height: 1.35; }
+.sidebar-nav a .n { font-size: 0.66rem; color: #475569; margin-right: 9px; min-width: 22px; font-variant-numeric: tabular-nums; font-weight: 700; }
+.sidebar-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sidebar-nav a.active { color: #fff; background: #2563eb; font-weight: 600; }
+.sidebar-nav a.active .n { color: rgba(255,255,255,.85); }
+.sidebar-tab { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 14px; height: 128px; background: #2563eb; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; color: #fff; font-size: 12px; letter-spacing: .4em; cursor: pointer; user-select: none; box-shadow: -2px 0 8px rgba(0,0,0,.2); }
+.sidebar-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 1100; width: 42px; height: 42px; border-radius: 10px; background: #0f172a; color: #fff; border: 1px solid #334155; font-size: 1.25rem; cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-mask { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.4); }
+@media (max-width: 900px) {
+  .sidebar-wrap { transform: translateX(-100%); transition: transform .28s ease; }
+  .sidebar-wrap.open { transform: translateX(0); }
+  .sidebar-tab { display: none; }
+  .sidebar-toggle { display: flex; }
+  .sidebar-mask.show { display: block; }
+}
+@media (max-width: 768px) { .container { padding: 0 1rem; } header h1 { font-size: 1.5rem; } }
+@media print { .sidebar-wrap, .sidebar-toggle, .sidebar-mask { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="sidebar-wrap" id="sidebarWrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">新和成<br><span style="font-size:0.78rem;font-weight:600;color:#cbd5e1;">12 维度深度分析</span></div>
+      <div class="sidebar-sub">维生素/蛋氨酸龙头 · 数据截至2026.08.21</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <a href="#tldr" data-target="tldr"><span class="n">00</span>结论速览</a>
+      <a href="#s1" data-target="s1"><span class="n">01</span>公司基本面</a>
+      <a href="#s2" data-target="s2"><span class="n">02</span>当前估值</a>
+      <a href="#s3" data-target="s3"><span class="n">03</span>历史估值</a>
+      <a href="#s4" data-target="s4"><span class="n">04</span>未来盈利预测</a>
+      <a href="#s5" data-target="s5"><span class="n">05</span>业务潜力</a>
+      <a href="#s6" data-target="s6"><span class="n">06</span>增长来源拆解</a>
+      <a href="#s7" data-target="s7"><span class="n">07</span>市场在交易什么</a>
+      <a href="#s8" data-target="s8"><span class="n">08</span>竞争壁垒</a>
+      <a href="#s9" data-target="s9"><span class="n">09</span>催化剂</a>
+      <a href="#s10" data-target="s10"><span class="n">10</span>风险</a>
+      <a href="#s11" data-target="s11"><span class="n">11</span>Bull/Base/Bear</a>
+      <a href="#s12" data-target="s12"><span class="n">12</span>投资时机评估</a>
+    </nav>
+  </aside>
+  <span class="sidebar-tab">目录</span>
+</div>
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="目录">☰</button>
+<div class="sidebar-mask" id="sidebarMask"></div>
+
+<header>
+  <div class="container">
+    <div class="crumb">← <a href="companies-index.html">11维度公司深度分析 · 索引</a> &nbsp;|&nbsp; <a href="../pharma-chain.html#ch7">回产业链报告</a></div>
+    <h1>新和成<span class="code">002001.SZ</span></h1>
+    <p class="subtitle">全球营养品(维生素A/E+蛋氨酸)龙头 · 香精香原料+高分子新材料第二曲线 · 原料药/API为细分板块归属</p>
+    <div class="meta">
+      <span>数据截至 2026.08.20</span>
+      <span>口径：公司指引 / 市场一致预期 / AI估算 已分别标注</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="xlinks" style="margin-top:1.5rem;">
+    <a href="companies-index.html">← 返回索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+    <a href="hisun.html">上一家 · 海正药业</a>
+    <a href="tianyu.html">下一家 · 天宇股份</a>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi" title="市值快照"><div class="k-label">总市值</div><div class="k-value">≈855亿元</div><div class="k-sub">2026-08-21(总股本30.73亿股)</div></div>
+    <div class="kpi" title="当前PE-TTM"><div class="k-label">PE-TTM</div><div class="k-value">≈11.9-12.1x(PE-TTM归母)·PE静约12.8x</div><div class="k-sub">PE-TTM 2026-08-21</div></div>
+    <div class="kpi" title="历史分位数"><div class="k-label">当前PE分位(近5年)</div><div class="k-value">PE-TTM处近5年约15-16%低分位(亿牛:近5年15.6%、近3年25.9%)；低PE源于盈利处周期高位</div><div class="k-sub">过去5年中位 近5年PE中位约30-34x(估·历史均值约36x)</div></div>
+    <div class="kpi" title="2026E净利增速"><div class="k-label">2026E净利同比</div><div class="k-value">+24%(一致)·H1实际仍+11%</div><div class="k-sub">经营/会计口径见正文</div></div>
+  </div>
+
+  <!-- TLDR -->
+  <section class="tldr" id="tldr">
+    <h2>结论速览 TL;DR</h2>
+    <ul>
+      <li><strong>一句话：</strong>全球精细化工/营养品绝对龙头：维生素A/E+蛋氨酸+香精香原料+高分子新材料+原料药。2024-2026核心矛盾是"维生素A/E价格周期见顶回落，而蛋氨酸量价齐升+新材料放量补位"。2026上半年蛋氨酸走出独立景气象(赢创/住友海外装置不可抗力停产，占全球~20%产能，固体蛋氨酸均价同比+59%)，驱动营收+18%、归母+11%创新高；维生素价格则同比大幅回落(2026Q1 VA均价-38%、VE均价-51.9%)，8月莱茵河枯水+巴斯夫不可抗力再度带来维生素/蛋氨酸涨价弹性。投资逻辑=蛋氨酸第二曲线放量+新材料(尼龙66/PA12/PPA)成长+维生素周期的弹性与风险并存。</li>
+      <li><strong>基本面：</strong>2025营收222.51亿(+2.97%)、归母67.64亿(+15.26%创新高)、扣非67.38亿；毛利率44.67%(+2.9pct)。2026H1营收131.29亿(+18.28%)、归母40.11亿(+11.3%)、扣非39.19亿(+7.1%)、毛利率44.22%。分部2025：营养品147.84亿(毛利率47.77%)、香精香料38.66亿(毛利率53.14%)、新材料21.15亿(+26.1%)、其他14.87亿；海外129.31亿(占58%)。蛋氨酸子公司2026H1净利20.13亿(达2025全年67.7%)。ROE约20%、经营现金流2025约88亿。2025年度10派8元(每股0.8元)。</li>
+      <li><strong>估值：</strong>股价约27.82元、总市值约855亿元(总股本30.73亿股)，PE-TTM约11.9-12.1x、PB约2.5x、PS静约3.8x。PE-TTM处近5年约15-16%低分位，但这是盈利周期高位的产物——"低PE"含周期回落风险。维生素申万板块整体PE 20.8x处历史26.6%分位、PS处87.5%高分位。现价对应2026E一致EPS 2.73元约10.2x。</li>
+      <li><strong>市场隐含预期：</strong>现价27.82元对应2026E一致EPS 2.73元约10.2x、2027E约9.7x、2028E约8.6x。隐含市场对2026归母约+24%、2027基本持平(+5%)、2028约+12%的预测，即普遍接受"维生素价格周期见顶回落、盈利靠蛋氨酸+新材料维持高位的平台型"预期。现价买的不是"低估值成长"，而是"盈利高位横盘+第二曲线兑现"的相对稳定票——市场未为维生素价格再度大涨(莱茵河/地缘)充分定价，也未为VA/VE大幅走弱后的盈利双杀充分定价，波动两端都不对称。</li>
+      <li><strong>核心矛盾/看点：</strong>核心看季度营养品价格(VA/VE/蛋氨酸)与蛋氨酸子公司净利贡献、天津尼龙66(2027投产)进度、18万吨液体蛋氨酸复产爬坡、新材料(PPA/PA12)放量、2026-10三季报。8月莱茵河枯水+巴斯夫不可抗力下维生素涨价能否兑现为Q3业绩弹性是近期焦点。</li>
+      <li><strong>情景结论：</strong>Bull 约41元(+47%) / Base 约32元(+15%) / Bear 约25元(-10%)，收益风险比约2:1略偏多；但盈利处周期高位、低PE非"便宜票"，需以"盈利平台能否维持+第二曲线兑现"验证。</li>
+    </ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="sec" id="s1"><h2><span class="num">01</span>公司基本面</h2>
+    <div class="callout key"><div class="label">公司画像</div><strong>全球营养品(维生素A/E、蛋氨酸)龙头、及香精香原料+高分子新材料成长的精细化工平台</strong>：新和成2004年深市主板上市(SZ002001)，实控人胡柏藩，总部浙江新昌，主营"营养品(维生素A/E、蛋氨酸)、香精香料、高分子新材料和原料药"的生产销售(公司官网:cnhu.com)，申万行业归基础化工。公司是全球维生素A/E、蛋氨酸龙头，蛋氨酸2025年总产能约55万吨(37万吨固体+18万吨液体，中石化合资)跃居全球第三，仅次于赢创新加坡+住友化学地位(后两者2026年初因不可抗力停产，占全球~20%产能)；PPS产能国内第一，天津尼龙66全产业链(己二腈-己二胺-尼龙66)预计2027年投产，潍坊PA12特种尼龙、PPA等布局高端新材料。</div>
+    <h3>财务全景（近3~5年）</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>FY2023</th><th>FY2024</th><th>FY2025</th><th>2026E</th><th>2027E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>151.17</td><td>216.10</td><td>222.51</td><td>~264.3E(一致+18.8%)</td><td>~281.7E(一致)</td></tr>
+        <tr><td>归母净利润</td><td>27.04</td><td>58.69</td><td>67.64</td><td>~83.9E(一致)</td><td>~88.3E(一致)</td></tr>
+        <tr><td>扣非净利润</td><td>~24(估)</td><td>~56(估)</td><td>67.38</td><td>—</td><td>—</td></tr>
+        <tr><td>毛利率</td><td>~34%(估)</td><td>~41.8%</td><td>44.67%</td><td>~43-44E%</td><td>~42E%</td></tr>
+        <tr><td> ROE / ROIC</td><td>~9%(估)</td><td>~19.5%(估)</td><td>~20.6%(期末)</td><td>—</td><td>—</td></tr>
+        <tr><td>经营现金流</td><td>~46(估)</td><td>70.73</td><td>87.97</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <h3>业务结构 &amp; 其他基本面</h3>
+    <p><strong>分部(2025年报)：</strong>营养品147.84亿(-1.79%、毛利率47.77%↑4.59pct)；香精香料38.66亿(-1.29%、毛利率53.14%↑1.31pct)；新材料21.15亿(+26.17%)；其他14.87亿——整体毛利率44.67%↑2.9pct。海外收入129.31亿(占58.11%)、海外毛利率51.6%。<br><br><strong>蛋氨酸(第二增长曲线·最大增量)：</strong>2025年产能约55万吨(37万吨固体+18万吨液体中石化合资)全球第三；山东新和成氨基酸公司(固体蛋氨酸主体)2025净利润29.72亿(+31.10%)，2026H1营收48.26亿、净利润20.13亿(达2025全年67.7%)。2026H1驱动=赢创新加坡34万吨+住友化学18万吨装置不可抗力停产(占全球~20%)，固体蛋氨酸均价34.3元/kg(同比+59%)、液体24.8元/kg(同比+48%)。独立期时：7万吨固体扩产已获能评批复、18万吨液体复产爬坡。机构测算2026年蛋氨酸净利润贡献或超40亿(占公司总利润60%+)。<br><br><strong>维生素A/E(基本盘·弹性与风险并存)：</strong>VA/VE全球龙头。2024-2025经历价格大涨，2026Q1 VA均价69.5元/kg(同比-38%)、VE 65.1元/kg(同比-51.9%)——价格同比回到下行通道，但H1环比波动剧烈(3月触底、4月中东供给冲击反弹、8月莱茵河枯水+巴斯夫不可抗力再度冲高)。价格周期驱动盈利，弹性大、波动大。<br><br><strong>香精香料(高毛利基本盘)：</strong>全球香精市场成长，2025毛利率53.14%最高，2026H1营收20.2亿(同比-3.9%)，提供稳定高毛利现金流。<br><br><strong>新材料(第三曲线)：</strong>PPS产能国内第一；天津尼龙66项目总投资约100亿(己二腈10万吨+己二胺10万吨+尼龙66 14万吨)，2025年9月桩基、预计2027年投产，实现全产业链一体化；潍坊PA12特种尼龙千吨级工艺定型打破赢创垄断(通过一汽解放燃油管路认证)；PPA千吨中试→2万吨；HDI/IPDI共4000吨、IPDA 2万吨，锚定新能源/具身智能/精密电子。<br><br><strong>原料药(/API)：</strong>公司经营范围含原料药生产销售，作为营养品/精细化工龙头的辅助细分，非利润主体，本报告财务以营养品/香精/新材料为主口径。<br><br><strong>管理层/治理：</strong>董事长胡柏藩，公司坚持"化工+"与"生物+"战略主航道；5年ROE均值约18.3%，分红为累计募资的2.88倍，回报股东积极。<br><br><strong>资产负债/资本开支：</strong>总股本30.73亿股；2026H1归属股东净资产约348.8亿、资产负债率约33%；商誉近乎为零(仅约0.04亿)；在建工程约10.07亿+无形资产36.27亿，2025投资净流出约20.4亿；经营现金流2025约88亿强劲，天津尼龙等重资产项目基本可自我融资；2025年度每股派0.8元(10派8)。</p>
+    <h3>关键信号：经营/会计/一次性因素切分</h3>
+    <ul><li><strong>经营增长(实质性)：</strong>蛋氨酸量价齐升(2026H1子公司净利20.13亿、达全年67.7%)+新材料放量(2025新材料+26.17%，2026H1营收11.7亿)+香精高毛利(毛利率53.14%)——是真实量增与利润引擎。</li><li><strong>会计/周期性：</strong>营收/归母增长高度受维生素A/E及蛋氨酸价格周期驱动——2026H1营养品+22.3%(主因蛋氨酸+维生素涨价)，但维生素A/E价格同比回落(VA-38%、VE-51.9%)为周期性压力，营养品毛利率已由高位小幅回落(H1整体毛利率44.22%、同比-1.67pct)。</li><li><strong>一次性因素：</strong>赢创新加坡/住友化学/巴斯夫等竞争装置不可抗力停产+莱茵河枯水为供给端一次性冲击，带来价格弹性但也具不可持续性；汇兑与海外占比(58%)致财务费用波动。</li><li><strong>结论：</strong>增长引擎已从"维生素周期"切换为"蛋氨酸放量+新材料成长+维生素弹性"三腿；盈利处周期高位、表观高增含大量价格弹性，看"蛋氨酸子公司净利+新材料营收+维生素价格中枢"三重验证，勿以单个季度归母增速线性外推。</li></ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2"><h2><span class="num">02</span>当前估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>数值</th><th>说明/日期口径</th></tr></thead>
+      <tbody>
+        <tr><td>股价</td><td><strong>≈27.82元</strong></td><td>2026-08-21收盘；近一月自7月高点~31.8元回调约13%，自3月高点~39元回落约28%</td></tr><tr><td>总市值</td><td><strong>≈855亿元</strong></td><td>总股本30.73亿股(@27.82元)；流通市值约845亿</td></tr><tr><td>EV</td><td><strong>≈620-640亿元(估)</strong></td><td>市值855亿-货币资金74.6亿+有息负债68.8亿等(估)</td></tr><tr><td>PE-TTM</td><td><strong>≈11.9-12.1x</strong></td><td>TTM归母约71.72亿；静态PE(2025净利67.64亿)约12.8x</td></tr><tr><td>PE-2026E</td><td><strong>≈10.2x</strong></td><td>一致预期EPS 2.73元(归母约83.9亿)</td></tr><tr><td>PE-2027E</td><td><strong>≈9.7x</strong></td><td>一致预期EPS 2.87元(归母约88.3亿；东方证券2.34元偏保守)</td></tr><tr><td>PE-2028E</td><td><strong>≈8.6x</strong></td><td>一致预期EPS 3.23元(归母约99.3亿)</td></tr><tr><td>PB</td><td><strong>≈2.45-2.5x</strong></td><td>每股净资产约11.5元(2026H1归属)，处近5年中位下方</td></tr><tr><td>PS-TTM</td><td><strong>≈3.5-3.8x</strong></td><td>市值855亿/TTM营收约243亿；销售口径偏高</td></tr><tr><td>EV/EBITDA</td><td><strong>≈7-8x(估)</strong></td><td>EBITDA含高折旧与高毛利，估</td></tr><tr><td>FCF/Payout</td><td><strong>OCF 2025约88亿</strong></td><td>经营现金流强劲+资本开支约20亿/yr，自由现金流健康</td></tr><tr><td>股息率</td><td><strong>约2.9-3.5%(估)</strong></td><td>2025年度10派8元(每股0.8元)；历史分红率约30-40%</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><div class="label">估值注意事项</div>第三方(新浪财经/东方财富F10/证券之星/全景网/财报帮)于2026-08-21交叉核对：总市值855-868亿、股价27.82-28.4元、PE-TTM约11.9-12.1x、PB约2.45-2.7x、市净率7亿持股一致(总股本30.73亿股)；2026年度10派8元、每股净资产约11.5元。口径提醒：①"低PE"来自盈利处周期高位，PE-TTM分位(近5年约15-16%)反而提示周期顶部风险，须结合盈利质量看；②净利润高增含大量价格弹性(维生素/蛋氨酸)，预测(2026-2028E及盈利分拆)为一者一致/AI估算，券商间分歧大(华泰90亿/开源81.6亿/泛化113亿)，以实际披露为准；③海外占比58%，估值与汇兑共同波动。</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3"><h2><span class="num">03</span>历史估值</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>分位数维度</th><th>数值</th><th>位置判断</th></tr></thead>
+      <tbody>
+        <tr><td>PE-TTM(当前)</td><td><strong>约11.9-12.1x</strong></td><td>近5年中位约30-34x、历史均值约36x；当前处近5年约15.6%(亿牛)、近3年约25.9%的低分位——盈利处周期高位的"假便宜"</td></tr><tr><td>PB(当前)</td><td><strong>约2.45-2.5x</strong></td><td>近5年峰值(2021)约6-8x、中位约4x；当前处中位下方，更接近周期顶部回落段的资产估值</td></tr><tr><td>维生素板块(参照)</td><td><strong>PE 20.8x·26.6%分位/PS 87.5%分位</strong></td><td>申万维生素板块PE处约26%低分位但PS处约87%高分位——市场"按销售付价"而盈利尚未完全兑现，与个股高盈利低PE逻辑相反</td></tr>
+      </tbody>
+    </table></div>
+    <p>新和成是典型"周期成长股"，估值随盈利周期大摆荡：盈利谷底(2023归母仅27亿)时PE回到30-40x高位；盈利高峰(2025-2026归母67-72亿)时PE被打到约12x低分位。当前约12x/2.5x处于近5年低分位，本质上反映市场已把"维生素价格周期见顶、盈利高点难以持续"定价到位。因此不能把当前低PE简单当"便宜"——这是一只强周期股在盈利顶部的估值形态。真正的投资价值取决于"盈利平台能否靠蛋氨酸放量+新材料成长在维生素回落时维持高位横盘"，若VA/VE大幅回落而蛋氨酸/新材料无法对冲，则面临盈利与估值"双杀"的价值陷阱风险；反之若第二曲线兑现，则重化工龙头可获"类成长"重估。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4"><h2><span class="num">04</span>未来三年盈利预测</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>指标</th><th>2025A</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
+      <tbody>
+        <tr><td>营业收入</td><td>222.51</td><td>~264E(一致)</td><td>~282E(一致)</td><td>~307E(一致)</td></tr>
+        <tr><td>毛利率</td><td>44.67%</td><td>~43-44E%</td><td>~42-43E%</td><td>~41-43E%</td></tr>
+        <tr><td>净利润</td><td>67.64</td><td>~83.9E(一致)</td><td>~88.3E(一致)</td><td>~99E(AI估)</td></tr>
+        <tr><td>EPS</td><td>2.21</td><td>~2.73E</td><td>~2.87E</td><td>~3.23E</td></tr>
+      </tbody>
+    </table></div>
+    <h3>口径说明</h3>
+    <p>公司/中报口径：2026H1营收131.29亿(+18.28%)、归母40.11亿(+11.3%)、扣非39.19亿、毛利率44.22%；蛋氨酸量价齐升(子公司H1净利20.13亿)、营养品+22.3%、新材料营收11.7亿；7万吨固体蛋氨酸扩产已获能评批复、18万吨液体蛋氨酸(中石化)复产爬坡、天津尼龙66预计2027投产。(2025年报及2026半年报、机构调研纪要)（公司指引）/ <strong>市场一致预期(westock数据/华泰/开源/东方/中信等)：2026E归母约81.6-90亿(一致约83.9亿、EPS 2.73)、2027E约88.3亿(一致)、2028E约94-99亿(一致约99.3亿)；东方证券2026-2028 EPS 2.60/2.34/2.40元偏保守、目标价33.75元；华泰EPS 2.93元(归母90亿)；westock一致目标价36.55元。券商对盈利分歧主要来自维生素/蛋氨酸价格假设。</strong>（市场一致预期）/ <strong>AI估算：营收2026E 255-268亿(±5%，视维生素/蛋氨酸价格)、2027E 278-286亿、2028E 298-310亿；归母2026E 80-92亿、2027E 82-96亿、2028E 90-108亿；毛利率2026-2028年约44%→42-43%→41-43%(维生素回落拖累、蛋氨酸/新材料冲抵)。</strong>（AI估算）。历史数据采用实际财报。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5"><h2><span class="num">05</span>业务潜力</h2>
+    <h3>营养品+新材料型潜力指标</h3><ul><li><strong>蛋氨酸子公司净利(前瞻核心)：</strong>山东新和成氨基酸2026H1净利20.13亿(达2025全年67.7%)，若全年维持高景气或达30亿+占公司利润大头——是"第二增长曲线放量"最直接的领先/验证指标。</li><li><strong>蛋氨酸产能/格局：</strong>总产能55万吨全球第三、7万吨固体扩产获能评、18万吨液体复产爬坡；赢创/住友海外装置不可抗力+莱茵河枯水使全球供给偏紧，价格中枢上移。</li><li><strong>天津尼龙66万亿级赛道(2027)：</strong>总投资约100亿元，己二腈-己二胺-尼龙66全产业链一体化，2025年9月桩基、2027投产，一期己二腈10万吨+己二胺10万吨+尼龙66 14万吨，是"买在行业成长期最左侧"的成长期权。</li><li><strong>高端特种材料(PA12/PPA/PPS)：</strong>PA12特种尼龙千吨级工艺定型打破赢创垄断(通过一汽解放燃油管认证)，PPA千吨中试→2万吨，PPS产能国内第一——锚定新能源/具身智能/精密电子高毛利赛道。</li><li><strong>维生素价格弹性：</strong>供给端黑天鹅(巴斯夫/莱茵河/地缘)可带来VA/VE短期涨价弹性，8月VA已由53-60元/kg涨至65-75元/kg，弹性巨大但不可持续。</li></ul><div class="callout warn"><div class="label">经营/会计/一次性切分</div>新和成表观高增(2026H1营收+18%、归母+11%)≠可持续成长：蛋氨酸量价齐升(经营)与新材料放量(经营)为真实量增，但含大量"供给端不可抗力停产/莱茵河枯水/巴斯夫不可抗力"的一次性涨价弹性(周期性+一次件，VA/VE同比已大幅回落即证)。评估应以"蛋氨酸子公司净利+新材料营收+维生素价格中枢的持续性"为准，勿以单季归母增速线性外推。</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6"><h2><span class="num">06</span>增长来源拆解</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>增长驱动</th><th>对2027年收入增长贡献</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>蛋氨酸放量(营养品主体)</td><td><strong>+约8-10pct(2026H1营养品+22.3%)</strong></td><td>子公司H1净利20.13亿、产能55万吨全球第三+扩产，量价齐升,确定性与弹性最强</td></tr><tr><td>维生素A/E价格周期(弹性)</td><td><strong>±5-15pct(双向)</strong></td><td>2026Q1 VA/VE同比-38%/-51.9%回落，但8月莱茵河+巴斯夫不可抗力再度冲高——周期波动剧烈</td></tr><tr><td>香精香料(高毛利基本盘)</td><td><strong>+约1-2pct</strong></td><td>2025毛利率53.14%最高，全球香精市场成长，提供稳定现金</td></tr><tr><td>高分子新材料(尼龙66/PA12/PPA)</td><td><strong>+约2-3pct</strong></td><td>2025新材料+26.17%、2026H1营收11.7亿；天津尼龙66(2027)+PA12+PPA贡献中长期增量</td></tr>
+      </tbody>
+    </table></div>
+    <p>增长引擎已从"维生素纯周期"切换为"蛋氨酸量价齐升+新材料成长+维生素弹性"的三角组合。蛋氨酸是最确定且居主导的量增与利润来源(子公司净利占比过半+产能扩张+全球供给偏紧)，新材料(尼龙66/PA12/PPA)是中长期向上期权，维生素提供双向弹性(上行惊喜与下行风险兼备)。这类增长"质量高但经不起周期反转"，盈利平台能否在VA/VE回落时靠蛋氨酸+新材料维持高位横盘，是判断新和成能否从"周期股"向"成长股"重估的核心，用"蛋氨酸子公司净利+新材料营收+维生素价格中枢"三重验证。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7"><h2><span class="num">07</span>市场到底在交易什么</h2>
+    <div class="callout key"><div class="label">反推：当前价格隐含了什么</div>现价27.82元对应2026E一致EPS 2.73元约10.2x、2027E约9.7x、2028E约8.6x。基于一致归母2026E约83.9亿/2027E约88.3亿/2028E约99.3亿(+24%/+5%/+12%)，市场隐含观点是：<b>①维生素价格虽见顶回落但能维持高位平台；②蛋氨酸放量足以在维生素走弱时对冲盈利；③新材料(尼龙66等)逐步贡献。</b><br><br>换言之，现价买的是"盈利高位横盘的稳定平台型公司"，rather than"低估值成长"。市场未充分定价维生素价格再度大涨(莱茵河/巴斯夫/地缘带来的Q3-Q4弹性)——这部分是潜在上行；市场也未充分定价维生素大幅走弱后的盈利双杀与尼龙66(100亿资本开支庞大)投产初期折旧与消化风险——这部分是潜在下行。价格处于"周期中段、波动两端都不对称"的位置。</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8"><h2><span class="num">08</span>竞争壁垒</h2>
+    <ul><li><strong>全球营养品寡头地位：</strong>维生素A/E全球龙头，蛋氨酸总产能55万吨全球第三、固体为主，规模+成本和认证壁垒高。</li><li><strong>一体化/生物+化工双路径：</strong>"化工+""生物+"双轮，蛋氨酸-维生素-香精-新材料共用化工平台与废副循环，成本与工艺领先(竞争对手难复制)。</li><li><strong>香精香原料高毛利品牌粘性：</strong>毛利率53%+，全球香精客户对接与配方粘性。</li><li><strong>新材料专利与国产替代：</strong>PPS国内第一、PA12打破赢创垄断并获车规认证、尼龙66全产业链自建己二腈——高端材料技术+客户认证壁垒。</li><li><strong>治理与现金：</strong>5年ROE均值约18%、经营现金流约88亿、分红为募资2.88倍，财务与回报纪律好。</li></ul><div class="callout key"><div class="label">竞争对手能否复制？</div>新和成的"全球营养品寡头+蛋氨酸全球前三+香精高毛利+新材料国产替代"组合难以被快速复制：维生素/蛋氨酸行业集中度高、成本曲线陡峭，后进入者面临价格战与资本开支重压(如内蒙古灵圣新产能爬坡慢即为例证)。但蛋氨酸方面赢创/安迪苏实力强、未来新增产能(国内灵圣/海外复产)是潜在供给扰动；维生素强周期、价格由供给冲击与供需缺口主导，护城河在"成本+一体化"而非"定价"——综合护城河评为"中—中档偏高"，变现能力受营养品强周期牵制。</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9"><h2><span class="num">09</span>催化剂（未来12个月）</h2>
+    <div class="timeline-ish"><p><strong>2026-08-20/21</strong> · 2026年半年报(已披露：营收+18.28%、蛋氨酸子公司净利20.13亿创新高)——盈利兑现</p><p><strong>2026年8-9月</strong> · 莱茵河枯水历史极值+巴斯夫不可抗力→VA/VE/蛋氨酸涨价弹性(VA已由53-60涨至65-75元/kg)——盈利/价格</p><p><strong>2026-10月底</strong> · 2026年三季报(Q3维生素/蛋氨酸价格与净利兑现、发酵确认)——盈利/估值</p><p><strong>2026-2027持续</strong> · 7万吨固体蛋氨酸扩产投放、18万吨液体蛋氨酸(中石化)复产爬坡放量——收入/产能</p><p><strong>2027</strong> · 天津尼龙66全产业链投产(己二腈-己二胺-尼龙66，总投资约100亿)——新材料/第二曲线</p><p><strong>持续</strong> · PA12特种尼龙/PPA放量、车规认证与新客户导入——新材料/估值</p></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10"><h2><span class="num">10</span>风险</h2>
+    <table><thead><tr><th>风险</th><th>影响口径</th><th>说明</th></tr></thead><tbody><tr><td>维生素A/E价格周期回落</td><td>收入+利润</td><td>2026Q1 VA/VE均价同比-38%/-51.9%，若供给端冲击消退价格大幅走弱，盈利与估值双杀(低PE的价值陷阱风险)</td></tr><tr><td>蛋氨酸供给增加/价格回落</td><td>收入+利润</td><td>竞争装置复产(赢创新加坡/住友化学)、国内灵圣等新产能投放，若供给宽松则量价齐升证伪</td></tr><tr><td>原料/能源成本上行</td><td>利润</td><td>中东地缘使化工原料供应不稳、莱茵河枯水推升欧洲原料与运费，原料端成本抬升(2026H1毛利率已同比-1.67pct)</td></tr><tr><td>环保/安全生产</td><td>收入+利润</td><td>重化工高排放，环保限产与安全事件影响开工与产能利用率</td></tr><tr><td>汇率/海外占比58%</td><td>利润</td><td>海外收入为主，人民币汇率波动及海外运费/地缘扰动影响利润与汇兑损益</td></tr><tr><td>尼龙66/新材料大额资本开支爬坡</td><td>利润</td><td>天津尼龙总投资约100亿、2027投产初期折旧与市场消化不及或延后，拖累利润与自由现金流</td></tr><tr><td>新产能投放/复产不及预期</td><td>收入</td><td>7万吨固体扩产、18万吨液体复产、PA12/PPA放量节奏迟缓</td></tr><tr><td>供给端黑天鹅退潮</td><td>估值/利润</td><td>一次性涨价弹性(巴斯夫不可抗力/莱茵河)消退后价格中枢回落，市场按周期回落重置估值</td></tr></tbody></table>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11"><h2><span class="num">11</span>Bull / Base / Bear 情景定价</h2>
+    <div class="table-wrap verdict-table"><table>
+      <thead><tr><th>情景</th><th>核心假设</th><th>2028年净利</th><th>合理估值</th><th>对应股价</th></tr></thead>
+      <tbody>
+        <tr class="verdict-row scenario-bull"><td><strong>Bull</strong></td><td>维生素/蛋氨酸价格高位持续+蛋氨酸量价双升+新材料(尼龙66/PA12/PPA)如期放量</td><td>~115亿E(EPS~3.74)</td><td>~11x</td><td>~41元</td></tr>
+        <tr class="verdict-row scenario-base"><td><strong>Base</strong></td><td>维生素价格温和回落但蛋氨酸放量+新材料对冲,盈利平台高位横盘</td><td>~98亿E(EPS~3.19)</td><td>~10x</td><td>~32元</td></tr>
+        <tr class="verdict-row scenario-bear"><td><strong>Bear</strong></td><td>维生素大幅回落+蛋氨酸供给宽松量价齐跌+新材料爬坡不及、折旧拖累</td><td>~80亿E(EPS~2.60)</td><td>~9.5x</td><td>~25元</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">当前价格对应的收益风险比</div>以现价27.82元为基准：上行至Base约32元(+15%)、Bull约41元(+47%)，下行至Bear约25元(-10%)；收益风险比约2:1略偏多。但盈利处周期高位、低PE非"便宜票"，弹性高度依赖营养品价格中枢与第二曲线兑现；若维生素大幅走弱而蛋氨酸无法对冲，则bear情景下估值与盈利双杀风险显著，需控制仓位。</div>
+    <div class="callout bear"><div class="label">下行保护 / 什么会证伪Base</div>①维生素A/E价格大幅回落且新产能投放/海外复产致价格中枢下移、蛋氨酸量价齐升证伪；②蛋氨酸子公司在维生素回落时无法对冲盈利下滑(2027归母明显负增)；③天津尼龙66/新材料 2027投产延迟或投产初期大额亏损；④毛利率连续走低、经营现金流恶化——任一兑现将使Base向Bear靠拢(反之价格高位持稳+新材料放量则向上)。</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12"><h2><span class="num">12</span>投资时机评估（是否介入的好时机）</h2>
+    <div class="callout warn"><div class="label">行业细分估值 &amp; 景气度</div>细分：营养品/维生素申万板块——板块整体PE 20.8x处历史约26.6%低分位、PS处约87.5%高分位(营收端向好、盈利端尚未完全兑现)，景气度处"盈利修复+供给偏紧"的中高位阶段。新和成作为龙头(维生素A/E全球龙头+蛋氨酸全球前三)，个股PE-TTM约12x、PB约2.5x，处板块内相对不贵位置。行业处"维生素顶部波动+蛋氨酸高景气+新材料成长期"的组合区，景气度整体处周期中段偏上，需防维生素回落。</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>股价维度</th><th>当前信号</th><th>择时判断</th></tr></thead>
+      <tbody>
+        <tr><td>技术面</td><td>8-21收约27.82，近一月自7月高点~31.8回调约13%、自3月高点~39元回落约28%；成交温和(换手约1.2%)、主力近5日净流出约0.25亿</td><td><strong>处回调途中的中长线支撑区(前低约24-25元),短线不追高,等止跌企稳再介入</strong></td></tr><tr><td>基本面</td><td>2026H1营收+18.28%/归母+11.3%/扣非+7.1%创新高，蛋氨酸子公司净利20.13亿、新材料11.7亿；盈利处周期高位、靠蛋氨酸+新材料维持平台</td><td><strong>基本面强但盈利具周期峰值属性，拐点/持续看Q3价格兑现与蛋氨酸/新材料</strong></td></tr><tr><td>情绪面</td><td>维生素/蛋氨酸涨价情绪热(8月莱茵河+巴斯夫事件)、但股价自高位回落、主力资金流出，情绪与基本料部分背离</td><td><strong>情绪偏热但已回调,应等退潮后的企稳点分批布局,不宜追高</strong></td></tr><tr><td>政策影响</td><td>环保限产(重化工)、出口监管、国内饲料/食品监管中性;海外地缘(中东)与莱茵河运力为供给端双刃(涨价利好/成本上行);尼龙等新材料国产替代受益政策支持</td><td><strong>政策中性偏正面,供给端黑天鹅为双向变量</strong></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout key"><div class="label">券商评价（外资优先，内资存疑）</div>外资大行面：摩根士丹利(Morgan Stanley)覆盖——2026-01-25报告曾因"股价背离基本面"下调评级提示估值风险，2026-04-30维持现状、目标价31元(较当时27元约+2.5%)，偏中性谨慎；其余外资大行(高盛/美银/瑞银/花旗)覆盖信息有限未详查(外资优先未尽处如实说明)。内资券商(华泰/开源/东方/中信/泛化等)普遍给"买入"，目标价由东方33.75元、westock一致36.55元等(较现价约+21%~+31%偏乐观)；内资对盈利预测分歧大(2026E归母81.6亿~113亿)，主因维生素/蛋氨酸价格假设差异,需打折看待。</div>
+    <div class="callout bull"><div class="label">介入结论</div>综合：蛋氨酸第二曲线放量+新材料成长确定性较高、维生素提供弹性，盈利平台有望高位维持；但当前盈利处周期高位、PE-TTM约12x处近5年低分位、低PE含周期回落风险，股份自高位回落、盈利短期看三季报价格兑现。判断为<b>等回落后分批建仓(2-3成)</b>：现价27.82元不追高，回落至约25-26元(对应PE约9-9.5x、前低上沿)分批建2成底仓；若2026Q3维生素/蛋氨酸价格高位持稳+蛋氨酸子公司净利延续高增(发酵确认)再加至3成。加仓触发：Q3净利环比继续改善+8月涨价兑现为Q3业绩+新材料尼龙66进度如期。止损：有效跌破约24元(前低/平台下沿)离场，不盲目抄周期。</div>
+  </section>
+
+  <!-- 数据来源层级 -->
+  <section class="sec" id="s13"><h2><span class="num">附</span>数据来源与信心层级</h2>
+    <div class="src-tier t1"><span class="t-name">一级来源（优先）</span><p>新和成2025年年度报告及摘要(深交所披露，2026-04-16)、2026年半年度报告(2026-08-20披露)、2026年一季报、机构调研纪要/业绩说明会(7万吨扩产、天津尼龙2027投产、18万吨液体复产)</p></div>
+    <div class="src-tier t2"><span class="t-name">二级来源（辅助）</span><p>券商研报(华泰/开源/东方/中信/泛化等内资为主、目标价普遍偏乐观需打折；外资摩根士丹利2026-01/04覆盖、目标价31元偏谨慎)、westock/证券之星机构一致预期</p></div>
+    <div class="src-tier t3"><span class="t-name">三级来源（交叉验证）</span><p>新浪财经/东方财富F10/证券之星/全景网/财报帮/亿牛网(市值855-868亿、PE-TTM约12x、PB约2.5x、股息率)交叉验证；v维生素申万板块估值分位(westockdata)</p></div>
+    <div class="src-tier t4"><span class="t-name">线索来源（不作财务依据）</span><p>雪球/股吧/公众号(蛋氨酸子公司净利、维生素/莱茵河涨价、尼龙项目线索；财务数字不采信)</p></div>
+    <p>高信心(90%·财报口径)：2025营收222.51/归母67.64/扣非67.38亿、毛利率44.67%、分部(营养品147.84/香精38.66/新材料21.15/其他14.87)与蛋氨酸子公司净利(2025 29.72亿、2026H1 20.13亿)回年报/中报核验；2026H1营收131.29/归母40.11/扣非39.19、毛利率44.22%回中报。高信心(88%·估值)：市值855-868亿、股价27.82元、PE-TTM约12x、PB约2.5x、总股本30.73亿股来自新浪/东财/全景/亿牛多源交叉核对一致；PE近5年分位(约15.6%)来自亿牛网。中低信心(45-60%·预测)：2026-2028E一致预期与Bull/Base/Bear为一致/AI估算推演、券商间分歧大(华泰90亿 vs 开源81.6亿 vs 泛化113亿)、关键在维生素/蛋氨酸价格假设,不确定性高；外资覆盖(大摩~31元)已回源、其余外资未覆盖如实说明。未回源价格数据均标"估/待核实"。</p>
+  </section>
+
+  <div class="xlinks">
+    <a href="companies-index.html">← 返回11维度索引</a>
+    <a href="../pharma-chain.html#ch7">产业链报告 · 该环节</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="sources">
+      <h2>数据来源</h2>
+      <ol>
+        <li>新和成2025年年度报告及摘要（深交所披露，2026-04-16）</li>
+        <li>新和成2026年半年度报告（2026-08-20披露）</li>
+        <li>新和成2026年一季报及定期业绩说明会/机构调研纪要（深交所互动易）</li>
+        <li>券商研报：华泰/开源/东方/中信/泛化等（买入评级；华泰EPS 2.93、开源EPS 2.65、东方EPS 2.60/目标价33.75元）；摩根士丹利(Morgan Stanley，目标价31元)</li>
+        <li>新浪财经/东方财富F10/证券之星/全景网/财报帮/亿牛网（市值、PE-TTM、PB、股息率、PE分位交叉验证）</li>
+        <li>腾讯自选股westockdata（营业收入/归母/现金流/分部TTM、日K周K、一致预期、维生素申万板块估值分位）</li>
+        <li>博亚和讯/饲料行业信息网/慧通数据/开源证券报告（维生素A/E/蛋氨酸价格周度、莱茵河枯水、巴斯夫不可抗力数据）</li>
+      </ol>
+    </div>
+    <div class="disclaimer">本报告观点基于公开资料整理，仅供研究参考，不构成投资建议。所有估值与情景为 AI 基于给定假设的估算，存在大幅偏离风险；投资决策请以公司原始财报与公告为准。</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.getElementById('sidebarToggle');
+  var wrap = document.getElementById('sidebarWrap');
+  var mask = document.getElementById('sidebarMask');
+  if (toggle) toggle.addEventListener('click', function (e) { e.stopPropagation(); wrap.classList.toggle('open'); mask.classList.toggle('show'); });
+  if (mask) mask.addEventListener('click', function () { wrap.classList.remove('open'); mask.classList.remove('show'); });
+
+  var links = document.querySelectorAll('.sidebar-nav a');
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (wrap.classList.contains('open')) { wrap.classList.remove('open'); mask.classList.remove('show'); }
+    });
+  });
+
+  var sections = document.querySelectorAll('.sec, .tldr');
+  var navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', function () {
+    var current = '';
+    sections.forEach(function (section) {
+      var top = section.offsetTop - 120;
+      if (window.scrollY >= top) current = section.id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.remove('active');
+      if (link.getAttribute('data-target') === current) link.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>医药行业研究报告 · 入口</title>
+<link rel="stylesheet" href="design-system.css">
 <style>
-:root { --bg: #f5f6fa; --bg2: #fff; --ink: #1a1a2e; --muted: #6b7280; --rule: #e5e7eb; --accent: #2563eb; --accent2: #059669; --accent3: #7c3aed; --font: -apple-system, BlinkMacSystemFont, 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+:root { --font: var(--font-sans); }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.75; }
 .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
@@ -17,14 +18,14 @@ header p { color: var(--muted); font-size: 0.95rem; }
 .repo-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); border-color: var(--accent); }
 .repo-card .repo-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.3rem; }
 .repo-card .repo-desc { font-size: 0.88rem; color: #4b5563; margin-bottom: 0.6rem; }
-.repo-card .repo-meta { font-size: 0.78rem; color: var(--muted); }
+.repo-card .repo-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.6rem; }
 .repo-card .repo-tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 8px; margin-right: 0.4rem; }
-.tag-pharma { background: #dbeafe; color: #1d4ed8; }
-.tag-onc { background: #fce7f3; color: #be185d; }
-.tag-met { background: #fef3c7; color: #b45309; }
-.tag-neuro { background: #fff7ed; color: #c2410c; }
-.tag-auto { background: #fef2f2; color: #dc2626; }
-.tag-eye { background: #f3e8ff; color: #7c3aed; }
+.tag-pharma { background: var(--accent-soft); color: var(--accent); }
+.tag-onc { background: var(--accent2-soft); color: var(--accent2); }
+.tag-met { background: var(--amber-dim); color: var(--accent2); }
+.tag-neuro { background: var(--accent2-soft); color: var(--accent2); }
+.tag-auto { background: var(--red-dim); color: var(--red); }
+.tag-eye { background: var(--accent-soft); color: var(--accent3); }
 .report-list { margin-top: 2rem; }
 .report-list h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); }
 .report-item { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 0; border-bottom: 1px solid var(--rule); }
@@ -35,6 +36,18 @@ header p { color: var(--muted); font-size: 0.95rem; }
 .report-item .ri-link:hover { text-decoration: underline; }
 footer { text-align: center; padding: 2rem 0; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--rule); margin-top: 2rem; }
 </style>
+<script>
+/* 主题跟随：读取工作台 localStorage 的 wb_theme_v1，同 origin 共享 */
+(function(){
+  try{
+    var t = localStorage.getItem('wb_theme_v1') || 'light';
+    document.documentElement.setAttribute('data-theme', t);
+    window.addEventListener('storage', function(e){
+      if(e.key === 'wb_theme_v1') document.documentElement.setAttribute('data-theme', e.newValue || 'light');
+    });
+  }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div class="container">
